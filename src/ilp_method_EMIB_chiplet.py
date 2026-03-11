@@ -1053,7 +1053,7 @@ def build_placement_ilp_model(
 
     
     # TODO: add English comment
-    power_aware_enabled = False # TODO: add English comment
+    power_aware_enabled = True # TODO: add English comment
     power_aware_penalty = None
     if power_aware_enabled:
         power_aware_penalty = model.addVar(
