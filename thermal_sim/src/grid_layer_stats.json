@@ -1,0 +1,574 @@
+{
+  "config_sum_dir": "E:\\chip\\iamge\\output\\test\\thermal-placement-main\\thermal_sim\\config_sum",
+  "layer": 2,
+  "unit": "°C",
+  "results": [
+    {
+      "config_name": "config_5_6_01_0",
+      "chip_name": "acend910",
+      "layer": 2,
+      "max_temp_C": 68.89000000000004,
+      "avg_temp_C": 58.62917724609355,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_0\\acend910_config\\output\\acend910.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_0",
+      "chip_name": "cpu-dram",
+      "layer": 2,
+      "max_temp_C": 116.90000000000003,
+      "avg_temp_C": 75.62992675781223,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_0\\cpu-dram_config\\output\\cpu-dram.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_0",
+      "chip_name": "hp11_m",
+      "layer": 2,
+      "max_temp_C": 97.93,
+      "avg_temp_C": 67.37949951171865,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_0\\hp11_m_config\\output\\hp11_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_0",
+      "chip_name": "hp6_m",
+      "layer": 2,
+      "max_temp_C": 93.49000000000001,
+      "avg_temp_C": 58.827373046874925,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_0\\hp6_m_config\\output\\hp6_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_0",
+      "chip_name": "hp8_m",
+      "layer": 2,
+      "max_temp_C": 91.71000000000004,
+      "avg_temp_C": 57.79516601562499,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_0\\hp8_m_config\\output\\hp8_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_0",
+      "chip_name": "multigpu",
+      "layer": 2,
+      "max_temp_C": 87.54000000000002,
+      "avg_temp_C": 72.69873291015617,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_0\\multigpu_config\\output\\multigpu.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_0",
+      "chip_name": "syn1",
+      "layer": 2,
+      "max_temp_C": 90.03000000000003,
+      "avg_temp_C": 71.55413574218738,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_0\\syn1_config\\output\\syn1.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_0",
+      "chip_name": "syn5",
+      "layer": 2,
+      "max_temp_C": 87.67000000000002,
+      "avg_temp_C": 72.95884033203122,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_0\\syn5_config\\output\\syn5.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_0",
+      "chip_name": "sys_micro150",
+      "layer": 2,
+      "max_temp_C": 116.90000000000003,
+      "avg_temp_C": 75.62992675781223,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_0\\sys_micro150_config\\output\\sys_micro150.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_025",
+      "chip_name": "acend910",
+      "layer": 2,
+      "max_temp_C": 69.08000000000004,
+      "avg_temp_C": 57.18788818359378,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_025\\acend910_config\\output\\acend910.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_025",
+      "chip_name": "cpu-dram",
+      "layer": 2,
+      "max_temp_C": 114.45000000000005,
+      "avg_temp_C": 84.56597412109356,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_025\\cpu-dram_config\\output\\cpu-dram.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_025",
+      "chip_name": "hp11_m",
+      "layer": 2,
+      "max_temp_C": 91.97000000000003,
+      "avg_temp_C": 62.00250488281223,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_025\\hp11_m_config\\output\\hp11_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_025",
+      "chip_name": "hp6_m",
+      "layer": 2,
+      "max_temp_C": 93.49000000000001,
+      "avg_temp_C": 58.82737304687502,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_025\\hp6_m_config\\output\\hp6_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_025",
+      "chip_name": "hp8_m",
+      "layer": 2,
+      "max_temp_C": 91.70000000000005,
+      "avg_temp_C": 57.7950537109374,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_025\\hp8_m_config\\output\\hp8_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_025",
+      "chip_name": "multigpu",
+      "layer": 2,
+      "max_temp_C": 87.54000000000002,
+      "avg_temp_C": 72.69873291015617,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_025\\multigpu_config\\output\\multigpu.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_025",
+      "chip_name": "syn1",
+      "layer": 2,
+      "max_temp_C": 84.73000000000002,
+      "avg_temp_C": 70.96427978515607,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_025\\syn1_config\\output\\syn1.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_025",
+      "chip_name": "syn5",
+      "layer": 2,
+      "max_temp_C": 87.41000000000003,
+      "avg_temp_C": 71.61685546874995,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_025\\syn5_config\\output\\syn5.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_025",
+      "chip_name": "sys_micro150",
+      "layer": 2,
+      "max_temp_C": 114.45000000000005,
+      "avg_temp_C": 84.56597412109356,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_025\\sys_micro150_config\\output\\sys_micro150.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_04",
+      "chip_name": "acend910",
+      "layer": 2,
+      "max_temp_C": 69.08000000000004,
+      "avg_temp_C": 57.18786132812505,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_04\\acend910_config\\output\\acend910.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_04",
+      "chip_name": "cpu-dram",
+      "layer": 2,
+      "max_temp_C": 102.40000000000003,
+      "avg_temp_C": 84.68866943359383,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_04\\cpu-dram_config\\output\\cpu-dram.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_04",
+      "chip_name": "hp11_m",
+      "layer": 2,
+      "max_temp_C": 92.11000000000001,
+      "avg_temp_C": 61.88468017578143,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_04\\hp11_m_config\\output\\hp11_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_04",
+      "chip_name": "hp6_m",
+      "layer": 2,
+      "max_temp_C": 92.75,
+      "avg_temp_C": 58.752597656249975,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_04\\hp6_m_config\\output\\hp6_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_04",
+      "chip_name": "hp8_m",
+      "layer": 2,
+      "max_temp_C": 86.96000000000004,
+      "avg_temp_C": 58.51670166015618,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_04\\hp8_m_config\\output\\hp8_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_04",
+      "chip_name": "multigpu",
+      "layer": 2,
+      "max_temp_C": 87.54000000000002,
+      "avg_temp_C": 72.69873291015617,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_04\\multigpu_config\\output\\multigpu.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_04",
+      "chip_name": "syn1",
+      "layer": 2,
+      "max_temp_C": 89.30000000000001,
+      "avg_temp_C": 66.0435961914062,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_04\\syn1_config\\output\\syn1.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_04",
+      "chip_name": "syn5",
+      "layer": 2,
+      "max_temp_C": 86.61000000000001,
+      "avg_temp_C": 69.40750488281252,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_04\\syn5_config\\output\\syn5.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_04",
+      "chip_name": "sys_micro150",
+      "layer": 2,
+      "max_temp_C": 102.40000000000003,
+      "avg_temp_C": 84.68866943359383,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_04\\sys_micro150_config\\output\\sys_micro150.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_05",
+      "chip_name": "acend910",
+      "layer": 2,
+      "max_temp_C": 69.08000000000004,
+      "avg_temp_C": 57.18789306640626,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_05\\acend910_config\\output\\acend910.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_05",
+      "chip_name": "cpu-dram",
+      "layer": 2,
+      "max_temp_C": 102.40000000000003,
+      "avg_temp_C": 84.68866943359386,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_05\\cpu-dram_config\\output\\cpu-dram.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_05",
+      "chip_name": "hp11_m",
+      "layer": 2,
+      "max_temp_C": 85.11000000000001,
+      "avg_temp_C": 62.426906738281154,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_05\\hp11_m_config\\output\\hp11_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_05",
+      "chip_name": "hp6_m",
+      "layer": 2,
+      "max_temp_C": 93.49000000000001,
+      "avg_temp_C": 58.82737304687496,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_05\\hp6_m_config\\output\\hp6_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_05",
+      "chip_name": "hp8_m",
+      "layer": 2,
+      "max_temp_C": 86.96000000000004,
+      "avg_temp_C": 58.51670166015641,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_05\\hp8_m_config\\output\\hp8_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_05",
+      "chip_name": "multigpu",
+      "layer": 2,
+      "max_temp_C": 87.54000000000002,
+      "avg_temp_C": 72.69873291015617,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_05\\multigpu_config\\output\\multigpu.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_05",
+      "chip_name": "syn1",
+      "layer": 2,
+      "max_temp_C": 88.29000000000002,
+      "avg_temp_C": 70.4375488281251,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_05\\syn1_config\\output\\syn1.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_05",
+      "chip_name": "syn5",
+      "layer": 2,
+      "max_temp_C": 83.39000000000004,
+      "avg_temp_C": 70.31177490234366,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_05\\syn5_config\\output\\syn5.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_05",
+      "chip_name": "sys_micro150",
+      "layer": 2,
+      "max_temp_C": 102.40000000000003,
+      "avg_temp_C": 84.68866943359386,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_05\\sys_micro150_config\\output\\sys_micro150.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_06",
+      "chip_name": "acend910",
+      "layer": 2,
+      "max_temp_C": 69.08000000000004,
+      "avg_temp_C": 57.187861328124924,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_06\\acend910_config\\output\\acend910.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_06",
+      "chip_name": "cpu-dram",
+      "layer": 2,
+      "max_temp_C": 102.40000000000003,
+      "avg_temp_C": 84.68804687500011,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_06\\cpu-dram_config\\output\\cpu-dram.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_06",
+      "chip_name": "hp11_m",
+      "layer": 2,
+      "max_temp_C": 85.54000000000002,
+      "avg_temp_C": 63.08358642578119,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_06\\hp11_m_config\\output\\hp11_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_06",
+      "chip_name": "hp6_m",
+      "layer": 2,
+      "max_temp_C": 92.75,
+      "avg_temp_C": 58.75259765625001,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_06\\hp6_m_config\\output\\hp6_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_06",
+      "chip_name": "hp8_m",
+      "layer": 2,
+      "max_temp_C": 86.96000000000004,
+      "avg_temp_C": 58.51670166015623,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_06\\hp8_m_config\\output\\hp8_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_06",
+      "chip_name": "multigpu",
+      "layer": 2,
+      "max_temp_C": 87.54000000000002,
+      "avg_temp_C": 72.69873291015617,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_06\\multigpu_config\\output\\multigpu.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_06",
+      "chip_name": "syn1",
+      "layer": 2,
+      "max_temp_C": 88.20000000000005,
+      "avg_temp_C": 68.46996826171872,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_06\\syn1_config\\output\\syn1.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_06",
+      "chip_name": "syn5",
+      "layer": 2,
+      "max_temp_C": 85.78000000000003,
+      "avg_temp_C": 67.76374267578107,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_06\\syn5_config\\output\\syn5.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_06",
+      "chip_name": "sys_micro150",
+      "layer": 2,
+      "max_temp_C": 102.40000000000003,
+      "avg_temp_C": 84.68804687500011,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_06\\sys_micro150_config\\output\\sys_micro150.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_075",
+      "chip_name": "acend910",
+      "layer": 2,
+      "max_temp_C": 69.08000000000004,
+      "avg_temp_C": 57.18785888671874,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_075\\acend910_config\\output\\acend910.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_075",
+      "chip_name": "cpu-dram",
+      "layer": 2,
+      "max_temp_C": 102.40000000000003,
+      "avg_temp_C": 84.67224853515624,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_075\\cpu-dram_config\\output\\cpu-dram.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_075",
+      "chip_name": "hp11_m",
+      "layer": 2,
+      "max_temp_C": 84.98000000000002,
+      "avg_temp_C": 62.12981201171866,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_075\\hp11_m_config\\output\\hp11_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_075",
+      "chip_name": "hp6_m",
+      "layer": 2,
+      "max_temp_C": 92.91000000000003,
+      "avg_temp_C": 58.439890136718674,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_075\\hp6_m_config\\output\\hp6_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_075",
+      "chip_name": "hp8_m",
+      "layer": 2,
+      "max_temp_C": 86.96000000000004,
+      "avg_temp_C": 58.51670166015641,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_075\\hp8_m_config\\output\\hp8_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_075",
+      "chip_name": "multigpu",
+      "layer": 2,
+      "max_temp_C": 87.54000000000002,
+      "avg_temp_C": 72.69873291015617,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_075\\multigpu_config\\output\\multigpu.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_075",
+      "chip_name": "syn1",
+      "layer": 2,
+      "max_temp_C": 85.95000000000005,
+      "avg_temp_C": 68.5290283203127,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_075\\syn1_config\\output\\syn1.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_075",
+      "chip_name": "syn5",
+      "layer": 2,
+      "max_temp_C": 83.91000000000003,
+      "avg_temp_C": 69.14640624999996,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_075\\syn5_config\\output\\syn5.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_075",
+      "chip_name": "sys_micro150",
+      "layer": 2,
+      "max_temp_C": 102.40000000000003,
+      "avg_temp_C": 84.67224853515624,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_075\\sys_micro150_config\\output\\sys_micro150.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_08",
+      "chip_name": "acend910",
+      "layer": 2,
+      "max_temp_C": 69.08000000000004,
+      "avg_temp_C": 57.18785888671874,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_08\\acend910_config\\output\\acend910.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_08",
+      "chip_name": "cpu-dram",
+      "layer": 2,
+      "max_temp_C": 102.40000000000003,
+      "avg_temp_C": 84.67225585937521,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_08\\cpu-dram_config\\output\\cpu-dram.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_08",
+      "chip_name": "hp11_m",
+      "layer": 2,
+      "max_temp_C": 84.98000000000002,
+      "avg_temp_C": 62.12981201171866,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_08\\hp11_m_config\\output\\hp11_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_08",
+      "chip_name": "hp6_m",
+      "layer": 2,
+      "max_temp_C": 92.91000000000003,
+      "avg_temp_C": 58.43989257812508,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_08\\hp6_m_config\\output\\hp6_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_08",
+      "chip_name": "hp8_m",
+      "layer": 2,
+      "max_temp_C": 86.96000000000004,
+      "avg_temp_C": 58.51670166015623,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_08\\hp8_m_config\\output\\hp8_m.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_08",
+      "chip_name": "multigpu",
+      "layer": 2,
+      "max_temp_C": 87.54000000000002,
+      "avg_temp_C": 72.69873291015617,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_08\\multigpu_config\\output\\multigpu.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_08",
+      "chip_name": "syn1",
+      "layer": 2,
+      "max_temp_C": 85.90000000000003,
+      "avg_temp_C": 68.09013183593753,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_08\\syn1_config\\output\\syn1.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_08",
+      "chip_name": "syn5",
+      "layer": 2,
+      "max_temp_C": 83.65000000000003,
+      "avg_temp_C": 66.78375732421878,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_08\\syn5_config\\output\\syn5.grid.steady"
+    },
+    {
+      "config_name": "config_5_6_01_08",
+      "chip_name": "sys_micro150",
+      "layer": 2,
+      "max_temp_C": 102.40000000000003,
+      "avg_temp_C": 84.67225585937521,
+      "num_points": 4096,
+      "grid_file": "config_5_6_01_08\\sys_micro150_config\\output\\sys_micro150.grid.steady"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/root/placement/EMIB_MP_thermal_placement/tests/batch_test_solutions_EMIB_chiplet.py", line 35, in <module>
+    from ilp_EMIB_search_EMIB_chiplet import search_multiple_solutions as solve_emib
+  File "/root/placement/EMIB_MP_thermal_placement/src/ilp_EMIB_search_EMIB_chiplet.py", line 18, in <module>
+    from ilp_method_EMIB_chiplet import (
+  File "/root/placement/EMIB_MP_thermal_placement/src/ilp_method_EMIB_chiplet.py", line 332
+    f"power_penalty(power)={val_pwr:.4f}, aspect_penalty(aspect)={val_asp:.4f}")
+IndentationError: unexpected indent

@@ -1,0 +1,349 @@
+{
+  "case_name": "hp6_m",
+  "timestamp": "2026-03-04T01:40:39.149001",
+  "total_runs": 20,
+  "num_chiplets": 6,
+  "num_connections": 3,
+  "time_limit_seconds": 3600,
+  "total_time_seconds": 1572.0282065868378,
+  "statistics": {
+    "success_count": 20,
+    "failed_count": 0,
+    "cost": {
+      "best": 59.31493381151791,
+      "worst": 63.96475387741326,
+      "average": 60.483591505671384,
+      "std_dev": 1.5034371945262157
+    },
+    "time": {
+      "avg_found_time": 3.938451087474823,
+      "avg_total_time": 7.587545228004456,
+      "min_found_time": 0.10861706733703613,
+      "max_found_time": 6.003140449523926
+    }
+  },
+  "run_details": [
+    {
+      "run_id": 1,
+      "seed": 67120,
+      "status": "success",
+      "cost": 61.892066628130394,
+      "found_time": 5.605332851409912,
+      "total_time": 9.345212459564209,
+      "absolute_time": 82.68573594093323,
+      "num_chiplets": 6,
+      "start_offset": 77.08040308952332
+    },
+    {
+      "run_id": 2,
+      "seed": 53547,
+      "status": "success",
+      "cost": 60.05153431026022,
+      "found_time": 4.793607473373413,
+      "total_time": 8.442009925842285,
+      "absolute_time": 163.2978003025055,
+      "num_chiplets": 6,
+      "start_offset": 158.50419282913208
+    },
+    {
+      "run_id": 3,
+      "seed": 34069,
+      "status": "success",
+      "cost": 63.037871715619175,
+      "found_time": 0.4170660972595215,
+      "total_time": 4.062021732330322,
+      "absolute_time": 228.65334844589233,
+      "num_chiplets": 6,
+      "start_offset": 228.2362823486328
+    },
+    {
+      "run_id": 4,
+      "seed": 99422,
+      "status": "success",
+      "cost": 59.359476784251406,
+      "found_time": 6.003140449523926,
+      "total_time": 9.644685983657837,
+      "absolute_time": 304.8429129123688,
+      "num_chiplets": 6,
+      "start_offset": 298.83977246284485
+    },
+    {
+      "run_id": 5,
+      "seed": 75609,
+      "status": "success",
+      "cost": 59.36700708187782,
+      "found_time": 4.197352647781372,
+      "total_time": 7.840035915374756,
+      "absolute_time": 385.19315481185913,
+      "num_chiplets": 6,
+      "start_offset": 380.99580216407776
+    },
+    {
+      "run_id": 6,
+      "seed": 55961,
+      "status": "success",
+      "cost": 59.472588459520836,
+      "found_time": 4.976969957351685,
+      "total_time": 8.63740062713623,
+      "absolute_time": 467.6013255119324,
+      "num_chiplets": 6,
+      "start_offset": 462.6243555545807
+    },
+    {
+      "run_id": 7,
+      "seed": 38388,
+      "status": "success",
+      "cost": 59.43332056276001,
+      "found_time": 5.266119480133057,
+      "total_time": 8.92217493057251,
+      "absolute_time": 543.8800566196442,
+      "num_chiplets": 6,
+      "start_offset": 538.6139371395111
+    },
+    {
+      "run_id": 8,
+      "seed": 14664,
+      "status": "success",
+      "cost": 59.737121526312976,
+      "found_time": 4.374254941940308,
+      "total_time": 8.029040813446045,
+      "absolute_time": 631.4882128238678,
+      "num_chiplets": 6,
+      "start_offset": 627.1139578819275
+    },
+    {
+      "run_id": 9,
+      "seed": 2271,
+      "status": "success",
+      "cost": 59.38746000906337,
+      "found_time": 4.750710487365723,
+      "total_time": 8.39446234703064,
+      "absolute_time": 710.3883302211761,
+      "num_chiplets": 6,
+      "start_offset": 705.6376197338104
+    },
+    {
+      "run_id": 10,
+      "seed": 81161,
+      "status": "success",
+      "cost": 60.0028726939083,
+      "found_time": 5.820222854614258,
+      "total_time": 9.445020198822021,
+      "absolute_time": 794.6004815101624,
+      "num_chiplets": 6,
+      "start_offset": 788.7802586555481
+    },
+    {
+      "run_id": 11,
+      "seed": 65356,
+      "status": "success",
+      "cost": 59.31493381151791,
+      "found_time": 5.299806118011475,
+      "total_time": 8.946822166442871,
+      "absolute_time": 874.6623272895813,
+      "num_chiplets": 6,
+      "start_offset": 869.3625211715698
+    },
+    {
+      "run_id": 12,
+      "seed": 45441,
+      "status": "success",
+      "cost": 59.92729618312723,
+      "found_time": 4.398381471633911,
+      "total_time": 8.030426502227783,
+      "absolute_time": 954.631249666214,
+      "num_chiplets": 6,
+      "start_offset": 950.2328681945801
+    },
+    {
+      "run_id": 13,
+      "seed": 25396,
+      "status": "success",
+      "cost": 60.504178657069275,
+      "found_time": 4.771183729171753,
+      "total_time": 8.429045915603638,
+      "absolute_time": 1032.308329820633,
+      "num_chiplets": 6,
+      "start_offset": 1027.5371460914612
+    },
+    {
+      "run_id": 14,
+      "seed": 3100,
+      "status": "success",
+      "cost": 63.96475387741326,
+      "found_time": 0.10861706733703613,
+      "total_time": 3.7555480003356934,
+      "absolute_time": 1108.552749633789,
+      "num_chiplets": 6,
+      "start_offset": 1108.444132566452
+    },
+    {
+      "run_id": 15,
+      "seed": 79334,
+      "status": "success",
+      "cost": 59.370679860813,
+      "found_time": 3.491299629211426,
+      "total_time": 7.119621992111206,
+      "absolute_time": 1187.7834672927856,
+      "num_chiplets": 6,
+      "start_offset": 1184.2921676635742
+    },
+    {
+      "run_id": 16,
+      "seed": 58547,
+      "status": "success",
+      "cost": 60.04237180236586,
+      "found_time": 0.11022758483886719,
+      "total_time": 3.7446420192718506,
+      "absolute_time": 1263.5027441978455,
+      "num_chiplets": 6,
+      "start_offset": 1263.3925166130066
+    },
+    {
+      "run_id": 17,
+      "seed": 34274,
+      "status": "success",
+      "cost": 59.43006930510958,
+      "found_time": 5.292760848999023,
+      "total_time": 8.941483736038208,
+      "absolute_time": 1340.5845382213593,
+      "num_chiplets": 6,
+      "start_offset": 1335.2917773723602
+    },
+    {
+      "run_id": 18,
+      "seed": 11371,
+      "status": "success",
+      "cost": 63.6444775063549,
+      "found_time": 3.7549331188201904,
+      "total_time": 7.402810096740723,
+      "absolute_time": 1418.8112456798553,
+      "num_chiplets": 6,
+      "start_offset": 1415.0563125610352
+    },
+    {
+      "run_id": 19,
+      "seed": 89598,
+      "status": "success",
+      "cost": 59.58809066735935,
+      "found_time": 0.5047399997711182,
+      "total_time": 4.138978481292725,
+      "absolute_time": 1492.229941368103,
+      "num_chiplets": 6,
+      "start_offset": 1491.725201368332
+    },
+    {
+      "run_id": 20,
+      "seed": 63004,
+      "status": "success",
+      "cost": 62.14365867059268,
+      "found_time": 4.832294940948486,
+      "total_time": 8.479460716247559,
+      "absolute_time": 1566.3785769939423,
+      "num_chiplets": 6,
+      "start_offset": 1561.5462820529938
+    }
+  ],
+  "solutions": [
+    {
+      "solution_idx": 1,
+      "cost": 59.31493381151791,
+      "utilization": 53.03508080409933,
+      "solve_time": 874.6623272895813,
+      "iteration": 50000,
+      "json_file": "solution_1_cost_59.314934.json",
+      "image_file": "solution_1_cost_59.314934.png",
+      "run_idx": 11
+    },
+    {
+      "solution_idx": 2,
+      "cost": 59.359476784251406,
+      "utilization": 53.03508080409933,
+      "solve_time": 304.8429129123688,
+      "iteration": 50000,
+      "json_file": "solution_2_cost_59.359477.json",
+      "image_file": "solution_2_cost_59.359477.png",
+      "run_idx": 4
+    },
+    {
+      "solution_idx": 3,
+      "cost": 59.36700708187782,
+      "utilization": 53.03508080409932,
+      "solve_time": 385.19315481185913,
+      "iteration": 50000,
+      "json_file": "solution_3_cost_59.367007.json",
+      "image_file": "solution_3_cost_59.367007.png",
+      "run_idx": 5
+    },
+    {
+      "solution_idx": 4,
+      "cost": 59.370679860813,
+      "utilization": 53.03508080409933,
+      "solve_time": 1187.7834672927856,
+      "iteration": 50000,
+      "json_file": "solution_4_cost_59.370680.json",
+      "image_file": "solution_4_cost_59.370680.png",
+      "run_idx": 15
+    },
+    {
+      "solution_idx": 5,
+      "cost": 59.38746000906337,
+      "utilization": 53.03508080409933,
+      "solve_time": 710.3883302211761,
+      "iteration": 50000,
+      "json_file": "solution_5_cost_59.387460.json",
+      "image_file": "solution_5_cost_59.387460.png",
+      "run_idx": 9
+    },
+    {
+      "solution_idx": 6,
+      "cost": 59.43006930510958,
+      "utilization": 53.03508080409933,
+      "solve_time": 1340.5845382213593,
+      "iteration": 50000,
+      "json_file": "solution_6_cost_59.430069.json",
+      "image_file": "solution_6_cost_59.430069.png",
+      "run_idx": 17
+    },
+    {
+      "solution_idx": 7,
+      "cost": 59.43332056276001,
+      "utilization": 53.03508080409932,
+      "solve_time": 543.8800566196442,
+      "iteration": 50000,
+      "json_file": "solution_7_cost_59.433321.json",
+      "image_file": "solution_7_cost_59.433321.png",
+      "run_idx": 7
+    },
+    {
+      "solution_idx": 8,
+      "cost": 59.472588459520836,
+      "utilization": 53.03508080409933,
+      "solve_time": 467.6013255119324,
+      "iteration": 50000,
+      "json_file": "solution_8_cost_59.472588.json",
+      "image_file": "solution_8_cost_59.472588.png",
+      "run_idx": 6
+    },
+    {
+      "solution_idx": 9,
+      "cost": 59.58809066735935,
+      "utilization": 53.03508080409933,
+      "solve_time": 1492.229941368103,
+      "iteration": 50000,
+      "json_file": "solution_9_cost_59.588091.json",
+      "image_file": "solution_9_cost_59.588091.png",
+      "run_idx": 19
+    },
+    {
+      "solution_idx": 10,
+      "cost": 59.737121526312976,
+      "utilization": 53.03508080409933,
+      "solve_time": 631.4882128238678,
+      "iteration": 50000,
+      "json_file": "solution_10_cost_59.737122.json",
+      "image_file": "solution_10_cost_59.737122.png",
+      "run_idx": 8
+    }
+  ]
+}

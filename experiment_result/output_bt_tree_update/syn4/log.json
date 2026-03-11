@@ -1,0 +1,667 @@
+{
+  "case_name": "syn4",
+  "timestamp": "2026-03-06T09:57:11.927317",
+  "total_runs": 0,
+  "num_chiplets": 13,
+  "num_connections": 15,
+  "time_limit_seconds": 3600,
+  "total_time_seconds": 3632.276059627533,
+  "statistics": {
+    "success_count": 0,
+    "failed_count": 93
+  },
+  "run_details": [
+    {
+      "run_id": 1,
+      "seed": 99652,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 2,
+      "seed": 38566,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 3,
+      "seed": 77768,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 4,
+      "seed": 16922,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 5,
+      "seed": 56081,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 6,
+      "seed": 95072,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 7,
+      "seed": 34293,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 8,
+      "seed": 73430,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 9,
+      "seed": 12463,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 10,
+      "seed": 51496,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 11,
+      "seed": 90528,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 12,
+      "seed": 29620,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 13,
+      "seed": 68722,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 14,
+      "seed": 7916,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 15,
+      "seed": 46953,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 16,
+      "seed": 85915,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 17,
+      "seed": 25094,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 18,
+      "seed": 64302,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 19,
+      "seed": 3362,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 20,
+      "seed": 42733,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 21,
+      "seed": 81711,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 22,
+      "seed": 20901,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 23,
+      "seed": 60113,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 24,
+      "seed": 99259,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 25,
+      "seed": 38268,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 26,
+      "seed": 77480,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 27,
+      "seed": 16722,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 28,
+      "seed": 55929,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 29,
+      "seed": 95001,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 30,
+      "seed": 34297,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 31,
+      "seed": 73371,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 32,
+      "seed": 12294,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 33,
+      "seed": 51281,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 34,
+      "seed": 90021,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 35,
+      "seed": 29174,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 36,
+      "seed": 68083,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 37,
+      "seed": 7121,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 38,
+      "seed": 45967,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 39,
+      "seed": 84796,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 40,
+      "seed": 23883,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 41,
+      "seed": 63051,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 42,
+      "seed": 2061,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 43,
+      "seed": 41124,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 44,
+      "seed": 80258,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 45,
+      "seed": 19321,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 46,
+      "seed": 58341,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 47,
+      "seed": 97327,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 48,
+      "seed": 36388,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 49,
+      "seed": 75331,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 50,
+      "seed": 14286,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 51,
+      "seed": 53162,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 52,
+      "seed": 92116,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 53,
+      "seed": 31200,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 54,
+      "seed": 70268,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 55,
+      "seed": 9352,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 56,
+      "seed": 48342,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 57,
+      "seed": 87434,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 58,
+      "seed": 26548,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 59,
+      "seed": 65392,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 60,
+      "seed": 4315,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 61,
+      "seed": 43284,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 62,
+      "seed": 82193,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 63,
+      "seed": 21177,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 64,
+      "seed": 59930,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 65,
+      "seed": 98900,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 66,
+      "seed": 37891,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 67,
+      "seed": 77213,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 68,
+      "seed": 16179,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 69,
+      "seed": 55205,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 70,
+      "seed": 94430,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 71,
+      "seed": 33440,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 72,
+      "seed": 72613,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 73,
+      "seed": 11825,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 74,
+      "seed": 50833,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 75,
+      "seed": 89956,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 76,
+      "seed": 28931,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 77,
+      "seed": 67739,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 78,
+      "seed": 6854,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 79,
+      "seed": 45963,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 80,
+      "seed": 85110,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 81,
+      "seed": 24284,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 82,
+      "seed": 63260,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 83,
+      "seed": 2168,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 84,
+      "seed": 41296,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 85,
+      "seed": 80269,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 86,
+      "seed": 19493,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 87,
+      "seed": 58627,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 88,
+      "seed": 97637,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 89,
+      "seed": 36760,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 90,
+      "seed": 75796,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 91,
+      "seed": 14939,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 92,
+      "seed": 54070,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 93,
+      "seed": 92880,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    }
+  ],
+  "solutions": []
+}

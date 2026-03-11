@@ -1,0 +1,470 @@
+{
+  "case_name": "acend910",
+  "timestamp": "2026-03-05T23:48:19.865538",
+  "total_runs": 21,
+  "num_chiplets": 6,
+  "num_connections": 4,
+  "time_limit_seconds": 3600,
+  "total_time_seconds": 3632.311981201172,
+  "statistics": {
+    "success_count": 21,
+    "failed_count": 0,
+    "cost": {
+      "best": 78.01123766054313,
+      "worst": 78.01123766054313,
+      "average": 78.01123766054313,
+      "std_dev": 0.0
+    },
+    "time": {
+      "avg_found_time": 0.3153994083404541,
+      "avg_total_time": 4.315566278639293,
+      "min_found_time": 0.02568650245666504,
+      "max_found_time": 1.3417303562164307
+    }
+  },
+  "run_details": [
+    {
+      "run_id": 1,
+      "seed": 67554,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.7335951328277588,
+      "total_time": 4.728209495544434,
+      "absolute_time": 161.5863139629364,
+      "num_chiplets": 6,
+      "start_offset": 160.85271883010864
+    },
+    {
+      "run_id": 2,
+      "seed": 33136,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.6639142036437988,
+      "total_time": 4.67035436630249,
+      "absolute_time": 383.8347499370575,
+      "num_chiplets": 6,
+      "start_offset": 383.1708357334137
+    },
+    {
+      "run_id": 3,
+      "seed": 55397,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 1.3417303562164307,
+      "total_time": 5.351328134536743,
+      "absolute_time": 574.9518921375275,
+      "num_chiplets": 6,
+      "start_offset": 573.610161781311
+    },
+    {
+      "run_id": 4,
+      "seed": 46519,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.7757916450500488,
+      "total_time": 4.775930881500244,
+      "absolute_time": 818.7704503536224,
+      "num_chiplets": 6,
+      "start_offset": 817.9946587085724
+    },
+    {
+      "run_id": 5,
+      "seed": 90329,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.37152647972106934,
+      "total_time": 4.354546546936035,
+      "absolute_time": 936.7726330757141,
+      "num_chiplets": 6,
+      "start_offset": 936.401106595993
+    },
+    {
+      "run_id": 6,
+      "seed": 8315,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.4130723476409912,
+      "total_time": 4.415004730224609,
+      "absolute_time": 1166.4171323776245,
+      "num_chiplets": 6,
+      "start_offset": 1166.0040600299835
+    },
+    {
+      "run_id": 7,
+      "seed": 37979,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.07769083976745605,
+      "total_time": 4.078472137451172,
+      "absolute_time": 1368.8895449638367,
+      "num_chiplets": 6,
+      "start_offset": 1368.8118541240692
+    },
+    {
+      "run_id": 8,
+      "seed": 40451,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.3201758861541748,
+      "total_time": 4.322631597518921,
+      "absolute_time": 1577.1384167671204,
+      "num_chiplets": 6,
+      "start_offset": 1576.8182408809662
+    },
+    {
+      "run_id": 9,
+      "seed": 48703,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.16316628456115723,
+      "total_time": 4.169894695281982,
+      "absolute_time": 1752.16854763031,
+      "num_chiplets": 6,
+      "start_offset": 1752.005381345749
+    },
+    {
+      "run_id": 10,
+      "seed": 23738,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.5375573635101318,
+      "total_time": 4.55451512336731,
+      "absolute_time": 1947.3192312717438,
+      "num_chiplets": 6,
+      "start_offset": 1946.7816739082336
+    },
+    {
+      "run_id": 11,
+      "seed": 18900,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.02568650245666504,
+      "total_time": 4.01557469367981,
+      "absolute_time": 2094.342951774597,
+      "num_chiplets": 6,
+      "start_offset": 2094.3172652721405
+    },
+    {
+      "run_id": 12,
+      "seed": 65898,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.053134918212890625,
+      "total_time": 4.035355806350708,
+      "absolute_time": 2260.8846278190613,
+      "num_chiplets": 6,
+      "start_offset": 2260.8314929008484
+    },
+    {
+      "run_id": 13,
+      "seed": 32433,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.03379535675048828,
+      "total_time": 4.029656887054443,
+      "absolute_time": 2453.8549797534943,
+      "num_chiplets": 6,
+      "start_offset": 2453.821184396744
+    },
+    {
+      "run_id": 14,
+      "seed": 25418,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.2142353057861328,
+      "total_time": 4.222264528274536,
+      "absolute_time": 2558.0849401950836,
+      "num_chiplets": 6,
+      "start_offset": 2557.8707048892975
+    },
+    {
+      "run_id": 15,
+      "seed": 29661,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.1022498607635498,
+      "total_time": 4.093207597732544,
+      "absolute_time": 2712.397364139557,
+      "num_chiplets": 6,
+      "start_offset": 2712.2951142787933
+    },
+    {
+      "run_id": 16,
+      "seed": 83957,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.03821134567260742,
+      "total_time": 4.036928653717041,
+      "absolute_time": 2928.563491344452,
+      "num_chiplets": 6,
+      "start_offset": 2928.5252799987793
+    },
+    {
+      "run_id": 17,
+      "seed": 132,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.0552065372467041,
+      "total_time": 4.055361032485962,
+      "absolute_time": 3002.264279603958,
+      "num_chiplets": 6,
+      "start_offset": 3002.2090730667114
+    },
+    {
+      "run_id": 18,
+      "seed": 73836,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.34251904487609863,
+      "total_time": 4.341292142868042,
+      "absolute_time": 3075.4851546287537,
+      "num_chiplets": 6,
+      "start_offset": 3075.1426355838776
+    },
+    {
+      "run_id": 19,
+      "seed": 47056,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.2911496162414551,
+      "total_time": 4.302212238311768,
+      "absolute_time": 3267.2040317058563,
+      "num_chiplets": 6,
+      "start_offset": 3266.912882089615
+    },
+    {
+      "run_id": 20,
+      "seed": 38788,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.032891273498535156,
+      "total_time": 4.044238090515137,
+      "absolute_time": 3455.4327874183655,
+      "num_chiplets": 6,
+      "start_offset": 3455.399896144867
+    },
+    {
+      "run_id": 21,
+      "seed": 27018,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.0360872745513916,
+      "total_time": 4.02991247177124,
+      "absolute_time": 3622.5056800842285,
+      "num_chiplets": 6,
+      "start_offset": 3622.469592809677
+    }
+  ],
+  "solutions": [
+    {
+      "solution_idx": 1,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 161.5863139629364,
+      "iteration": 50000,
+      "json_file": "solution_1_cost_78.011238.json",
+      "image_file": "solution_1_cost_78.011238.png",
+      "run_idx": 1
+    },
+    {
+      "solution_idx": 2,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 383.8347499370575,
+      "iteration": 50000,
+      "json_file": "solution_2_cost_78.011238.json",
+      "image_file": "solution_2_cost_78.011238.png",
+      "run_idx": 2
+    },
+    {
+      "solution_idx": 3,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 574.9518921375275,
+      "iteration": 50000,
+      "json_file": "solution_3_cost_78.011238.json",
+      "image_file": "solution_3_cost_78.011238.png",
+      "run_idx": 3
+    },
+    {
+      "solution_idx": 4,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 818.7704503536224,
+      "iteration": 50000,
+      "json_file": "solution_4_cost_78.011238.json",
+      "image_file": "solution_4_cost_78.011238.png",
+      "run_idx": 4
+    },
+    {
+      "solution_idx": 5,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 936.7726330757141,
+      "iteration": 50000,
+      "json_file": "solution_5_cost_78.011238.json",
+      "image_file": "solution_5_cost_78.011238.png",
+      "run_idx": 5
+    },
+    {
+      "solution_idx": 6,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 1166.4171323776245,
+      "iteration": 50000,
+      "json_file": "solution_6_cost_78.011238.json",
+      "image_file": "solution_6_cost_78.011238.png",
+      "run_idx": 6
+    },
+    {
+      "solution_idx": 7,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 1368.8895449638367,
+      "iteration": 50000,
+      "json_file": "solution_7_cost_78.011238.json",
+      "image_file": "solution_7_cost_78.011238.png",
+      "run_idx": 7
+    },
+    {
+      "solution_idx": 8,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 1577.1384167671204,
+      "iteration": 50000,
+      "json_file": "solution_8_cost_78.011238.json",
+      "image_file": "solution_8_cost_78.011238.png",
+      "run_idx": 8
+    },
+    {
+      "solution_idx": 9,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 1752.16854763031,
+      "iteration": 50000,
+      "json_file": "solution_9_cost_78.011238.json",
+      "image_file": "solution_9_cost_78.011238.png",
+      "run_idx": 9
+    },
+    {
+      "solution_idx": 10,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 1947.3192312717438,
+      "iteration": 50000,
+      "json_file": "solution_10_cost_78.011238.json",
+      "image_file": "solution_10_cost_78.011238.png",
+      "run_idx": 10
+    },
+    {
+      "solution_idx": 11,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 2094.342951774597,
+      "iteration": 50000,
+      "json_file": "solution_11_cost_78.011238.json",
+      "image_file": "solution_11_cost_78.011238.png",
+      "run_idx": 11
+    },
+    {
+      "solution_idx": 12,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 2260.8846278190613,
+      "iteration": 50000,
+      "json_file": "solution_12_cost_78.011238.json",
+      "image_file": "solution_12_cost_78.011238.png",
+      "run_idx": 12
+    },
+    {
+      "solution_idx": 13,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 2453.8549797534943,
+      "iteration": 50000,
+      "json_file": "solution_13_cost_78.011238.json",
+      "image_file": "solution_13_cost_78.011238.png",
+      "run_idx": 13
+    },
+    {
+      "solution_idx": 14,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 2558.0849401950836,
+      "iteration": 50000,
+      "json_file": "solution_14_cost_78.011238.json",
+      "image_file": "solution_14_cost_78.011238.png",
+      "run_idx": 14
+    },
+    {
+      "solution_idx": 15,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 2712.397364139557,
+      "iteration": 50000,
+      "json_file": "solution_15_cost_78.011238.json",
+      "image_file": "solution_15_cost_78.011238.png",
+      "run_idx": 15
+    },
+    {
+      "solution_idx": 16,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 2928.563491344452,
+      "iteration": 50000,
+      "json_file": "solution_16_cost_78.011238.json",
+      "image_file": "solution_16_cost_78.011238.png",
+      "run_idx": 16
+    },
+    {
+      "solution_idx": 17,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 3002.264279603958,
+      "iteration": 50000,
+      "json_file": "solution_17_cost_78.011238.json",
+      "image_file": "solution_17_cost_78.011238.png",
+      "run_idx": 17
+    },
+    {
+      "solution_idx": 18,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 3075.4851546287537,
+      "iteration": 50000,
+      "json_file": "solution_18_cost_78.011238.json",
+      "image_file": "solution_18_cost_78.011238.png",
+      "run_idx": 18
+    },
+    {
+      "solution_idx": 19,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 3267.2040317058563,
+      "iteration": 50000,
+      "json_file": "solution_19_cost_78.011238.json",
+      "image_file": "solution_19_cost_78.011238.png",
+      "run_idx": 19
+    },
+    {
+      "solution_idx": 20,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 3455.4327874183655,
+      "iteration": 50000,
+      "json_file": "solution_20_cost_78.011238.json",
+      "image_file": "solution_20_cost_78.011238.png",
+      "run_idx": 20
+    },
+    {
+      "solution_idx": 21,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 3622.5056800842285,
+      "iteration": 50000,
+      "json_file": "solution_21_cost_78.011238.json",
+      "image_file": "solution_21_cost_78.011238.png",
+      "run_idx": 21
+    }
+  ]
+}

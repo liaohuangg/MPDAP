@@ -1,0 +1,349 @@
+{
+  "case_name": "acend910",
+  "timestamp": "2026-03-04T00:00:10.299165",
+  "total_runs": 20,
+  "num_chiplets": 6,
+  "num_connections": 4,
+  "time_limit_seconds": 3600,
+  "total_time_seconds": 2921.6106748580933,
+  "statistics": {
+    "success_count": 20,
+    "failed_count": 0,
+    "cost": {
+      "best": 78.01123766054313,
+      "worst": 78.01123766054313,
+      "average": 78.01123766054313,
+      "std_dev": 0.0
+    },
+    "time": {
+      "avg_found_time": 0.2982430934906006,
+      "avg_total_time": 4.261728429794312,
+      "min_found_time": 0.005593538284301758,
+      "max_found_time": 0.8846142292022705
+    }
+  },
+  "run_details": [
+    {
+      "run_id": 1,
+      "seed": 88688,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.7400407791137695,
+      "total_time": 4.715764284133911,
+      "absolute_time": 91.4047019481659,
+      "num_chiplets": 6,
+      "start_offset": 90.66466116905212
+    },
+    {
+      "run_id": 2,
+      "seed": 84070,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.21906709671020508,
+      "total_time": 4.182844161987305,
+      "absolute_time": 252.2653615474701,
+      "num_chiplets": 6,
+      "start_offset": 252.0462944507599
+    },
+    {
+      "run_id": 3,
+      "seed": 44919,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.019371747970581055,
+      "total_time": 3.9853806495666504,
+      "absolute_time": 340.8242268562317,
+      "num_chiplets": 6,
+      "start_offset": 340.8048551082611
+    },
+    {
+      "run_id": 4,
+      "seed": 33481,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.005593538284301758,
+      "total_time": 3.9726626873016357,
+      "absolute_time": 480.6031367778778,
+      "num_chiplets": 6,
+      "start_offset": 480.5975432395935
+    },
+    {
+      "run_id": 5,
+      "seed": 73262,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.06157422065734863,
+      "total_time": 4.013223886489868,
+      "absolute_time": 603.9803335666656,
+      "num_chiplets": 6,
+      "start_offset": 603.9187593460083
+    },
+    {
+      "run_id": 6,
+      "seed": 96625,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.21137094497680664,
+      "total_time": 4.178681135177612,
+      "absolute_time": 877.872073173523,
+      "num_chiplets": 6,
+      "start_offset": 877.6607022285461
+    },
+    {
+      "run_id": 7,
+      "seed": 70533,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.3087902069091797,
+      "total_time": 4.265597581863403,
+      "absolute_time": 1144.0022246837616,
+      "num_chiplets": 6,
+      "start_offset": 1143.6934344768524
+    },
+    {
+      "run_id": 8,
+      "seed": 36654,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.22885894775390625,
+      "total_time": 4.19401741027832,
+      "absolute_time": 1324.611478805542,
+      "num_chiplets": 6,
+      "start_offset": 1324.382619857788
+    },
+    {
+      "run_id": 9,
+      "seed": 17273,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.46436047554016113,
+      "total_time": 4.429133653640747,
+      "absolute_time": 1435.7387156486511,
+      "num_chiplets": 6,
+      "start_offset": 1435.274355173111
+    },
+    {
+      "run_id": 10,
+      "seed": 28401,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.08617782592773438,
+      "total_time": 4.0782310962677,
+      "absolute_time": 1544.1806058883667,
+      "num_chiplets": 6,
+      "start_offset": 1544.094428062439
+    },
+    {
+      "run_id": 11,
+      "seed": 36871,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.017047643661499023,
+      "total_time": 3.9774439334869385,
+      "absolute_time": 1699.952576160431,
+      "num_chiplets": 6,
+      "start_offset": 1699.9355285167694
+    },
+    {
+      "run_id": 12,
+      "seed": 92612,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.23705768585205078,
+      "total_time": 4.22033166885376,
+      "absolute_time": 1830.0077843666077,
+      "num_chiplets": 6,
+      "start_offset": 1829.7707266807556
+    },
+    {
+      "run_id": 13,
+      "seed": 22691,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.788449764251709,
+      "total_time": 4.770387172698975,
+      "absolute_time": 1977.191713809967,
+      "num_chiplets": 6,
+      "start_offset": 1976.4032640457153
+    },
+    {
+      "run_id": 14,
+      "seed": 69875,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.8846142292022705,
+      "total_time": 4.827101707458496,
+      "absolute_time": 2129.098217010498,
+      "num_chiplets": 6,
+      "start_offset": 2128.213602781296
+    },
+    {
+      "run_id": 15,
+      "seed": 21743,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.16022825241088867,
+      "total_time": 4.1299591064453125,
+      "absolute_time": 2239.9867146015167,
+      "num_chiplets": 6,
+      "start_offset": 2239.826486349106
+    },
+    {
+      "run_id": 16,
+      "seed": 32660,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.5188779830932617,
+      "total_time": 4.486674070358276,
+      "absolute_time": 2352.4129967689514,
+      "num_chiplets": 6,
+      "start_offset": 2351.894118785858
+    },
+    {
+      "run_id": 17,
+      "seed": 45085,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.04983329772949219,
+      "total_time": 4.005000114440918,
+      "absolute_time": 2502.869655609131,
+      "num_chiplets": 6,
+      "start_offset": 2502.8198223114014
+    },
+    {
+      "run_id": 18,
+      "seed": 95530,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.13584256172180176,
+      "total_time": 4.083116054534912,
+      "absolute_time": 2650.535840988159,
+      "num_chiplets": 6,
+      "start_offset": 2650.3999984264374
+    },
+    {
+      "run_id": 19,
+      "seed": 43189,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.03490185737609863,
+      "total_time": 3.979182481765747,
+      "absolute_time": 2721.283585548401,
+      "num_chiplets": 6,
+      "start_offset": 2721.248683691025
+    },
+    {
+      "run_id": 20,
+      "seed": 13935,
+      "status": "success",
+      "cost": 78.01123766054313,
+      "found_time": 0.7928028106689453,
+      "total_time": 4.739835739135742,
+      "absolute_time": 2915.0096118450165,
+      "num_chiplets": 6,
+      "start_offset": 2914.2168090343475
+    }
+  ],
+  "solutions": [
+    {
+      "solution_idx": 1,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 91.4047019481659,
+      "iteration": 50000,
+      "json_file": "solution_1_cost_78.011238.json",
+      "image_file": "solution_1_cost_78.011238.png",
+      "run_idx": 1
+    },
+    {
+      "solution_idx": 2,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 252.2653615474701,
+      "iteration": 50000,
+      "json_file": "solution_2_cost_78.011238.json",
+      "image_file": "solution_2_cost_78.011238.png",
+      "run_idx": 2
+    },
+    {
+      "solution_idx": 3,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 340.8242268562317,
+      "iteration": 50000,
+      "json_file": "solution_3_cost_78.011238.json",
+      "image_file": "solution_3_cost_78.011238.png",
+      "run_idx": 3
+    },
+    {
+      "solution_idx": 4,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 480.6031367778778,
+      "iteration": 50000,
+      "json_file": "solution_4_cost_78.011238.json",
+      "image_file": "solution_4_cost_78.011238.png",
+      "run_idx": 4
+    },
+    {
+      "solution_idx": 5,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 603.9803335666656,
+      "iteration": 50000,
+      "json_file": "solution_5_cost_78.011238.json",
+      "image_file": "solution_5_cost_78.011238.png",
+      "run_idx": 5
+    },
+    {
+      "solution_idx": 6,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 877.872073173523,
+      "iteration": 50000,
+      "json_file": "solution_6_cost_78.011238.json",
+      "image_file": "solution_6_cost_78.011238.png",
+      "run_idx": 6
+    },
+    {
+      "solution_idx": 7,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 1144.0022246837616,
+      "iteration": 50000,
+      "json_file": "solution_7_cost_78.011238.json",
+      "image_file": "solution_7_cost_78.011238.png",
+      "run_idx": 7
+    },
+    {
+      "solution_idx": 8,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 1324.611478805542,
+      "iteration": 50000,
+      "json_file": "solution_8_cost_78.011238.json",
+      "image_file": "solution_8_cost_78.011238.png",
+      "run_idx": 8
+    },
+    {
+      "solution_idx": 9,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 1435.7387156486511,
+      "iteration": 50000,
+      "json_file": "solution_9_cost_78.011238.json",
+      "image_file": "solution_9_cost_78.011238.png",
+      "run_idx": 9
+    },
+    {
+      "solution_idx": 10,
+      "cost": 78.01123766054313,
+      "utilization": 78.85998408910103,
+      "solve_time": 1544.1806058883667,
+      "iteration": 50000,
+      "json_file": "solution_10_cost_78.011238.json",
+      "image_file": "solution_10_cost_78.011238.png",
+      "run_idx": 10
+    }
+  ]
+}

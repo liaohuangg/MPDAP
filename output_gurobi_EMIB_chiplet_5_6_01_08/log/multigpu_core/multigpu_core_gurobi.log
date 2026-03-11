@@ -1,0 +1,115 @@
+node 0 w: 12.0, h: 12.0
+node 1 w: 18.2, h: 18.2
+node 2 w: 18.2, h: 18.2
+node 3 w: 7.75, h: 11.87
+node 4 w: 7.75, h: 11.87
+node 5 w: 7.75, h: 11.87
+DEBUG
+DEBUG
+  (A,B): node1=A, node2=B, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (A,C): node1=A, node2=C, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (A,D): node1=A, node2=D, wireCount=1024, EMIBType=interfaceB, EMIB_length=3.4133, EMIB_max_width=3.0, width=2.0, height=3.4133, bump_width=1.0000
+  (B,C): node1=B, node2=C, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (B,E): node1=B, node2=E, wireCount=1024, EMIBType=interfaceB, EMIB_length=3.4133, EMIB_max_width=3.0, width=2.0, height=3.4133, bump_width=1.0000
+  (C,F): node1=C, node2=F, wireCount=1024, EMIBType=interfaceB, EMIB_length=3.4133, EMIB_max_width=3.0, width=2.0, height=3.4133, bump_width=1.0000
+DEBUG
+DEBUG
+DEBUG
+  (0,1): [A, B, 128, interfaceC, 3.2, 99.0]
+  (0,2): [A, C, 128, interf2026-03-11 19:47:31 - INFO - Set parameter WLSAccessID
+2026-03-11 19:47:31 - INFO - Set parameter WLSSecret
+2026-03-11 19:47:31 - INFO - Set parameter LicenseID to value 2756663
+2026-03-11 19:47:31 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+2026-03-11 19:47:31 - INFO - Set parameter TimeLimit to value 300
+2026-03-11 19:47:31 - INFO - Set parameter MIPGap to value 0
+2026-03-11 19:47:31 - INFO - Set parameter MIPFocus to value 3
+2026-03-11 19:47:31 - INFO - Set parameter Heuristics to value 0.5
+2026-03-11 19:47:31 - INFO - Set parameter LogToConsole to value 1
+2026-03-11 19:47:31 - INFO - Gurobi Optimizer version 13.0.0 build v13.0.0rc1 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-03-11 19:47:31 - INFO - 
+2026-03-11 19:47:31 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-03-11 19:47:31 - INFO - Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
+2026-03-11 19:47:31 - INFO - 
+2026-03-11 19:47:31 - INFO - Non-default parameters:
+2026-03-11 19:47:31 - INFO - TimeLimit  300
+2026-03-11 19:47:31 - INFO - MIPGap  0
+2026-03-11 19:47:31 - INFO - Heuristics  0.5
+2026-03-11 19:47:31 - INFO - MIPFocus  3
+2026-03-11 19:47:31 - INFO - 
+2026-03-11 19:47:31 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+2026-03-11 19:47:31 - INFO - Optimize a model with 419 rows, 206 columns and 1372 nonzeros (Min)
+2026-03-11 19:47:31 - INFO - Model fingerprint: 0x6f10919e
+2026-03-11 19:47:31 - INFO - Model has 3 linear objective coefficients
+2026-03-11 19:47:31 - INFO - Variable types: 101 continuous, 105 integer (105 binary)
+2026-03-11 19:47:31 - INFO - Coefficient statistics:
+2026-03-11 19:47:31 - INFO -   Matrix range     [5e-01, 1e+03]
+2026-03-11 19:47:31 - INFO -   Objective range  [9e-05, 9e-02]
+2026-03-11 19:47:31 - INFO -   Bounds range     [1e+00, 7e+06]
+2026-03-11 19:47:31 - INFO -   RHS range        [1e+00, 3e+02]
+2026-03-11 19:47:31 - INFO - Presolve removed 58 rows and 49 columns
+2026-03-11 19:47:31 - INFO - Presolve time: 0.00s
+2026-03-11 19:47:31 - INFO - Presolved: 361 rows, 157 columns, 1158 nonzeros
+2026-03-11 19:47:31 - INFO - Variable types: 61 continuous, 96 integer (96 binary)
+2026-03-11 19:47:31 - INFO - Root relaxation presolve removed 3 rows and 0 columns
+2026-03-11 19:47:31 - INFO - Root relaxation presolved: 358 rows, 160 columns, 1155 nonzeros
+2026-03-11 19:47:31 - INFO - 
+2026-03-11 19:47:31 - INFO - 
+2026-03-11 19:47:31 - INFO - Root relaxation: objective 3.200110e+00, 107 iterations, 0.00 seconds (0.00 work units)
+2026-03-11 19:47:31 - INFO - 
+2026-03-11 19:47:31 - INFO -     Nodes    |    Current Node    |     Objective Bounds      |     Work
+2026-03-11 19:47:31 - INFO -  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+2026-03-11 19:47:31 - INFO - 
+2026-03-11 19:47:31 - INFO -      0     0    3.20011    0   39          -    3.20011      -     -    0s
+2026-03-11 19:47:31 - INFO - H    0     0                      10.8643791    3.20011  70.5%     -    0s
+2026-03-11 19:47:31 - INFO - H    0     0                      10.6102812    4.67499  55.9%     -    0s
+2026-03-11 19:47:31 - INFO -      0     0    4.67499    0   40   10.61028    4.67499  55.9%     -     0 2026-03-11 19:47:31 - INFO -      0     0    4.67499    0   40   10.     0     0    4.67499    0   40   2026-03-11 19:47:31 - INFO -      0         0     0    4.70989    0   40   10.61028    4.70989  55.6%   2026-03-11     0     0    4.87987    0   52   10.61028    4.87987  54.0%     -    0s
+     0     0    4.87987    0   52   10.61028    4.87987  54.0%     -    0s
+     0     0    4.87987    0   52   10.61028    4.87987  54.0%     -    0s
+H    0     0                      10.3076218    5.15212  50.0%     -    0s
+H    0     0                      10.0460698    5.78252  42.4%     -    0s
+     0     0    5.92415    0   60   10.04607    5.92415  41.0%     -    0s
+     0     0    5.92415    0   59   10.04607    5.92415  41.0%     -    0s
+     0     0    5.92415    0   56   10.04607    5.92415  41.0%     -    0s
+     0     0    5.92415    0   57   10.04607    5.92415  41.0%     -    0s
+H    0     0                       9.5127036    6.19600  34.9%     -    0s
+     0     0    6.19600    0   60    9.51270    6.19600  34.9%     -    0s
+     0     0    6.19600    0   60    9.51270    6.19600  34.9%     -    0s
+     0     0    6.82664    0   49    9.51270    6.82664  28.2%     -    0s
+     0     0    6.82664    0   59    9.51270    6.82664  28.2%     -    0s
+     0     0    6.82664    0   59    9.51270    6.82664  28.2%     -    0s
+     0     0    6.82664    0   57    9.51270    6.82664  28.2%     -    0s
+     0     0    6.82664    0   63    9.51270    6.82664  28.2%     -    0s
+     0     0    7.27673    0   54    9.51270    7.27673  23.5%     -    0s
+     0     0    7.27673    0   54    9.51270    7.27673  23.5%     -    0s
+     0     0    7.27673    0   54    9.51270    7.27673  23.5%     -    0s
+     0     0    7.35416    0   56    9.51270    7.35416  22.7%     -    0s
+     0     0    7.35416    0   57    9.51270    7.35416  22.7%     -    0s
+     0     0    7.72721    0   49    9.51270    7.72721  18.8%     -    0s
+     0     0    7.72721    0   49    9.51270    7.72721  18.8%     -    0s
+     0     0    7.72721    0   45    9.51270    7.72721  18.8%     -    0s
+     0     0    7.76779    0   50    9.51270    7.76779  18.3%     -    0s
+     0     0    7.77019    0   49    9.51270    7.77019  18.3%     -    0s
+     0     0    7.77019    0   55    9.51270    7.77019  18.3%     -    0s
+     0     0    7.91718    0   48    9.51270    7.91718  16.8%     -    0s
+     0     0    7.91718    0   48    9.51270    7.91718  16.8%     -    0s
+     0     0    7.91718    0   39    9.51270    7.91718  16.8%     -    0s
+     0     0    7.91735    0   56    9.51270    7.91735  16.8%     -    0s
+     0     0    7.91791    0   50    9.51270    7.91791  16.8%     -    0s
+     0     0    7.91791    0   50    9.51270    7.91791  16.8%     -    0s
+     0     0    7.91791    0   50    9.51270    7.91791  16.8%     -    0s
+     0     0    7.91797    0   50    9.51270    7.91797  16.8%     -    0s
+     0     0    7.91797    0   41    9.51270    7.91797  16.8%     -    0s
+     0     2    7.91961    0   41    9.51270    7.91961  16.7%     -    0s
+H  132   140                       9.4121766    8.02463  14.7%  76.5    0s
+NFO -      0     0    7.77019    0   55    9.51270    7.77019  18.3%     -    0s
+2026-03-11 19:47:31 - INFO -      0     0    7.91718    0   48    9.51270    7.91718  16.8%     -    0s
+2026-03-11 19:47:31 - INFO -      0     0    7.91718    0   48    9.51270    7.91718  16.8%     -    0s
+2026-03-11 19:47:31 - INFO -      0     0    7.91718    0   39    9.51270    7.91718  16.8%     -    0s
+2026-03-11 19:47:31 - INFO -      0     0    7.91735    0   56    9.51270    7.91735  16.8%     -    0s
+2026-03-11 19:47:31 - INFO -      0     0    7.91791    0   50    9.51270    7.91791  16.8%     -    0s
+2026-03-11 19:47:31 - INFO -      0     0    7.91791    0   50    9.51270    7.91791  16.8%     -    0s
+2026-03-11 19:47:31 - INFO -      0     0    7.91791    0   50    9.51270    7.91791  16.8%     -    0s
+2026-03-11 19:47:31 - INFO -      0     0    7.91797    0   50    9.51270    7.91797  16.8%     -    0s
+2026-03-11 19:47:32 - INFO -      0     0    7.91797    0   41    9.51270    7.91797  16.8%     -    0s
+2026-03-11 19:47:32 - INFO -      0     2    7.91961    0   41    9.51270    7.91961  16.7%     -    0s
+2026-03-11 19:47:32 - INFO - H  132   140                       9.4121766    8.02463  14.7%  76.5    0s

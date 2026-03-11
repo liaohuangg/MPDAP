@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/root/placement/EMIB_MP_thermal_placement/tests/batch_test_solutions_EMIB_chiplet.py", line 38, in <module>
+    from ilp_EMIB_search_EMIB_chiplet import search_multiple_solutions as solve_emib
+  File "/root/placement/EMIB_MP_thermal_placement/src/ilp_EMIB_search_EMIB_chiplet.py", line 9, in <module>
+    import gurobipy as gp
+ModuleNotFoundError: No module named 'gurobipy'

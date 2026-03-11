@@ -1,0 +1,317 @@
+{
+  "case_name": "hp8_m",
+  "timestamp": "2026-03-04T01:50:44.856442",
+  "total_runs": 12,
+  "num_chiplets": 8,
+  "num_connections": 7,
+  "time_limit_seconds": 3600,
+  "total_time_seconds": 605.6965434551239,
+  "statistics": {
+    "success_count": 12,
+    "failed_count": 8,
+    "cost": {
+      "best": 225.03759100638058,
+      "worst": 233.8137242324996,
+      "average": 227.36326447288585,
+      "std_dev": 2.558713419929579
+    },
+    "time": {
+      "avg_found_time": 1.62774391969045,
+      "avg_total_time": 9.960737029711405,
+      "min_found_time": 0.10504460334777832,
+      "max_found_time": 6.834204435348511
+    }
+  },
+  "run_details": [
+    {
+      "run_id": 1,
+      "seed": 39159,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 2,
+      "seed": 61077,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 3,
+      "seed": 82963,
+      "status": "success",
+      "cost": 225.13221667717485,
+      "found_time": 0.5237646102905273,
+      "total_time": 8.853704690933228,
+      "absolute_time": 69.17710995674133,
+      "num_chiplets": 8,
+      "start_offset": 68.6533453464508
+    },
+    {
+      "run_id": 4,
+      "seed": 16670,
+      "status": "success",
+      "cost": 225.69247810744173,
+      "found_time": 2.1699159145355225,
+      "total_time": 10.526129007339478,
+      "absolute_time": 104.14351916313171,
+      "num_chiplets": 8,
+      "start_offset": 101.97360324859619
+    },
+    {
+      "run_id": 5,
+      "seed": 51663,
+      "status": "success",
+      "cost": 230.6724982495726,
+      "found_time": 0.1341841220855713,
+      "total_time": 8.458905220031738,
+      "absolute_time": 137.40077757835388,
+      "num_chiplets": 8,
+      "start_offset": 137.2665934562683
+    },
+    {
+      "run_id": 6,
+      "seed": 84890,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 30.359955310821533
+    },
+    {
+      "run_id": 7,
+      "seed": 6792,
+      "status": "success",
+      "cost": 227.72940108471005,
+      "found_time": 1.9030416011810303,
+      "total_time": 10.223027467727661,
+      "absolute_time": 197.70510506629944,
+      "num_chiplets": 8,
+      "start_offset": 195.8020634651184
+    },
+    {
+      "run_id": 8,
+      "seed": 45192,
+      "status": "success",
+      "cost": 225.03759100638058,
+      "found_time": 0.7814486026763916,
+      "total_time": 9.130925416946411,
+      "absolute_time": 231.44407200813293,
+      "num_chiplets": 8,
+      "start_offset": 230.66262340545654
+    },
+    {
+      "run_id": 9,
+      "seed": 78961,
+      "status": "success",
+      "cost": 228.08094243737335,
+      "found_time": 0.18124127388000488,
+      "total_time": 8.516834259033203,
+      "absolute_time": 268.83003783226013,
+      "num_chiplets": 8,
+      "start_offset": 268.6487965583801
+    },
+    {
+      "run_id": 10,
+      "seed": 16334,
+      "status": "success",
+      "cost": 225.12843418015544,
+      "found_time": 5.907958984375,
+      "total_time": 14.271674871444702,
+      "absolute_time": 307.1453368663788,
+      "num_chiplets": 8,
+      "start_offset": 301.2373778820038
+    },
+    {
+      "run_id": 11,
+      "seed": 54679,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 36.21119284629822
+    },
+    {
+      "run_id": 12,
+      "seed": 76619,
+      "status": "success",
+      "cost": 233.8137242324996,
+      "found_time": 0.5778439044952393,
+      "total_time": 8.93076205253601,
+      "absolute_time": 364.3085358142853,
+      "num_chiplets": 8,
+      "start_offset": 363.73069190979004
+    },
+    {
+      "run_id": 13,
+      "seed": 11833,
+      "status": "success",
+      "cost": 226.18653980572566,
+      "found_time": 0.10504460334777832,
+      "total_time": 8.414015531539917,
+      "absolute_time": 397.8849890232086,
+      "num_chiplets": 8,
+      "start_offset": 397.77994441986084
+    },
+    {
+      "run_id": 14,
+      "seed": 45366,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 30.331291437149048
+    },
+    {
+      "run_id": 15,
+      "seed": 67285,
+      "status": "success",
+      "cost": 227.35780933980286,
+      "found_time": 6.834204435348511,
+      "total_time": 15.154547214508057,
+      "absolute_time": 460.1520097255707,
+      "num_chiplets": 8,
+      "start_offset": 453.31780529022217
+    },
+    {
+      "run_id": 16,
+      "seed": 7647,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 37.05485773086548
+    },
+    {
+      "run_id": 17,
+      "seed": 29548,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 58.87491273880005
+    },
+    {
+      "run_id": 18,
+      "seed": 51369,
+      "status": "success",
+      "cost": 225.1700674746575,
+      "found_time": 0.2827889919281006,
+      "total_time": 8.59661078453064,
+      "absolute_time": 537.710410118103,
+      "num_chiplets": 8,
+      "start_offset": 537.4276211261749
+    },
+    {
+      "run_id": 19,
+      "seed": 85202,
+      "status": "success",
+      "cost": 228.35747107913616,
+      "found_time": 0.13148999214172363,
+      "total_time": 8.45170783996582,
+      "absolute_time": 571.8953256607056,
+      "num_chiplets": 8,
+      "start_offset": 571.7638356685638
+    },
+    {
+      "run_id": 20,
+      "seed": 19394,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 30.28204345703125
+    }
+  ],
+  "solutions": [
+    {
+      "solution_idx": 1,
+      "cost": 225.03759100638058,
+      "utilization": 35.34277763723754,
+      "solve_time": 231.44407200813293,
+      "iteration": 50000,
+      "json_file": "solution_1_cost_225.037591.json",
+      "image_file": "solution_1_cost_225.037591.png",
+      "run_idx": 8
+    },
+    {
+      "solution_idx": 2,
+      "cost": 225.12843418015544,
+      "utilization": 35.34277763723754,
+      "solve_time": 307.1453368663788,
+      "iteration": 50000,
+      "json_file": "solution_2_cost_225.128434.json",
+      "image_file": "solution_2_cost_225.128434.png",
+      "run_idx": 10
+    },
+    {
+      "solution_idx": 3,
+      "cost": 225.13221667717485,
+      "utilization": 35.34277763723754,
+      "solve_time": 69.17710995674133,
+      "iteration": 50000,
+      "json_file": "solution_3_cost_225.132217.json",
+      "image_file": "solution_3_cost_225.132217.png",
+      "run_idx": 3
+    },
+    {
+      "solution_idx": 4,
+      "cost": 225.1700674746575,
+      "utilization": 35.34277763723754,
+      "solve_time": 537.710410118103,
+      "iteration": 50000,
+      "json_file": "solution_4_cost_225.170067.json",
+      "image_file": "solution_4_cost_225.170067.png",
+      "run_idx": 18
+    },
+    {
+      "solution_idx": 5,
+      "cost": 225.69247810744173,
+      "utilization": 35.34277763723754,
+      "solve_time": 104.14351916313171,
+      "iteration": 50000,
+      "json_file": "solution_5_cost_225.692478.json",
+      "image_file": "solution_5_cost_225.692478.png",
+      "run_idx": 4
+    },
+    {
+      "solution_idx": 6,
+      "cost": 226.18653980572566,
+      "utilization": 35.34277763723754,
+      "solve_time": 397.8849890232086,
+      "iteration": 50000,
+      "json_file": "solution_6_cost_226.186540.json",
+      "image_file": "solution_6_cost_226.186540.png",
+      "run_idx": 13
+    },
+    {
+      "solution_idx": 7,
+      "cost": 227.35780933980286,
+      "utilization": 35.34277763723755,
+      "solve_time": 460.1520097255707,
+      "iteration": 50000,
+      "json_file": "solution_7_cost_227.357809.json",
+      "image_file": "solution_7_cost_227.357809.png",
+      "run_idx": 15
+    },
+    {
+      "solution_idx": 8,
+      "cost": 227.72940108471005,
+      "utilization": 34.170743519169896,
+      "solve_time": 197.70510506629944,
+      "iteration": 50000,
+      "json_file": "solution_8_cost_227.729401.json",
+      "image_file": "solution_8_cost_227.729401.png",
+      "run_idx": 7
+    },
+    {
+      "solution_idx": 9,
+      "cost": 228.08094243737335,
+      "utilization": 35.34277763723754,
+      "solve_time": 268.83003783226013,
+      "iteration": 50000,
+      "json_file": "solution_9_cost_228.080942.json",
+      "image_file": "solution_9_cost_228.080942.png",
+      "run_idx": 9
+    },
+    {
+      "solution_idx": 10,
+      "cost": 228.35747107913616,
+      "utilization": 35.34277763723754,
+      "solve_time": 571.8953256607056,
+      "iteration": 50000,
+      "json_file": "solution_10_cost_228.357471.json",
+      "image_file": "solution_10_cost_228.357471.png",
+      "run_idx": 19
+    }
+  ]
+}

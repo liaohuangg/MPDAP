@@ -1,0 +1,646 @@
+
+================================================================================
+原始命令行参数:
+  sys.argv: ['batch_test_solutions_EMIB_chiplet.py', '--min-shared-length', '1.5', '--files', 'syn1.json']
+================================================================================
+
+
+================================================================================
+命令行参数解析结果:
+  - min_shared_length: 1.5 (类型: float)
+  - fixed_chiplet_idx: 0 (类型: int)
+  - min_pair_dist_diff: 7.0 (类型: float)
+  - time_limit: 600 (类型: int)
+  - files: ['syn1.json']
+  - test_input_dir: None
+  - output_dir: None
+================================================================================
+
+所有解析后的参数:
+  min_shared_length: 1.5 (类型: float)
+  fixed_chiplet_idx: 0 (类型: int)
+  min_pair_dist_diff: 7.0 (类型: float)
+  time_limit: 600 (类型: int)
+  test_input_dir: None (类型: NoneType)
+  output_dir: None (类型: NoneType)
+  files: ['syn1.json'] (类型: list)
+================================================================================
+
+
+================================================================================
+批量测试开始 (Gurobi版本)
+================================================================================
+测试输入目录: /root/placement/thermal-placement/benchmark/test_input
+输出基础目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08
+找到 1 个测试文件
+指定处理的文件: syn1.json
+
+参数配置:
+  - min_shared_length: 1.5
+  - fixed_chiplet_idx: 0
+  - min_pair_dist_diff: 7.0
+  - time_limit: 600 秒 (10.0 分钟)
+================================================================================
+
+
+[1/1] 处理文件: syn1.json
+  核心名称: syn1_core
+  Log目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/log/syn1_core
+  LP目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/lp/syn1_core
+  Fig目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/fig/syn1_core
+  Placement文件: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/placement/syn1.json
+  删除旧的输出目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/log/syn1_core
+  删除旧的输出目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/lp/syn1_core
+  删除旧的输出目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/fig/syn1_core
+2026-03-05 14:15:14 - INFO - ================================================================================
+2026-03-05 14:15:14 - INFO - 开始处理: syn1.json (Gurobi版本)
+2026-03-05 14:15:14 - INFO - 核心名称: syn1_core
+2026-03-05 14:15:14 - INFO - Log目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/log/syn1_core
+2026-03-05 14:15:14 - INFO - LP目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/lp/syn1_core
+2026-03-05 14:15:14 - INFO - Fig目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/fig/syn1_core
+2026-03-05 14:15:14 - INFO - 参数配置:
+2026-03-05 14:15:14 - INFO -   - min_shared_length: 1.5
+2026-03-05 14:15:14 - INFO -   - fixed_chiplet_idx: 0
+2026-03-05 14:15:14 - INFO -   - min_pair_dist_diff: 7.0
+2026-03-05 14:15:14 - INFO -   - time_limit: 600 秒 (10.0 分钟)
+2026-03-05 14:15:14 - INFO - ================================================================================
+2026-03-05 14:15:14 - INFO - 调用 EMIB reduce solver (Gurobi版本)...
+2026-03-05 14:15:14 - INFO - ================================================================================
+2026-03-05 14:15:14 - INFO - 求解参数确认（在调用 EMIB reduce solver 之前）:
+2026-03-05 14:15:14 - INFO -   - min_shared_length: 1.5 (类型: float)
+2026-03-05 14:15:14 - INFO -   - fixed_chiplet_idx: 0 (类型: int)
+2026-03-05 14:15:14 - INFO -   - min_pair_dist_diff: 7.0 (类型: float)
+2026-03-05 14:15:14 - INFO -   - time_limit: 600 (类型: int)
+2026-03-05 14:15:14 - INFO -   - input_json_path: /root/placement/thermal-placement/benchmark/test_input/syn1.json
+2026-03-05 14:15:14 - INFO -   - output_dir: output_gurobi_EMIB_chiplet_5_6_01_08/lp/syn1_core
+2026-03-05 14:15:14 - INFO -   - image_output_dir: output_gurobi_EMIB_chiplet_5_6_01_08/fig/syn1_core
+2026-03-05 14:15:14 - INFO -   - placement_output_path: output_gurobi_EMIB_chiplet_5_6_01_08/placement/syn1.json
+2026-03-05 14:15:14 - INFO - ================================================================================
+2026-03-05 14:15:14 - INFO - 开始调用 EMIB reduce solver...
+node 0 w: 11.0, h: 10.0
+node 1 w: 12.0, h: 10.0
+node 2 w: 6.0, h: 15.0
+node 3 w: 13.0, h: 6.0
+node 4 w: 11.0, h: 5.0
+node 5 w: 15.0, h: 6.0
+node 6 w: 5.0, h: 5.0
+node 7 w: 6.0, h: 14.0
+node 8 w: 6.0, h: 12.0
+node 9 w: 13.0, h: 6.0
+连接统计: 总计 17 对
+连接关系（EMIBNode 内容）:
+  (A,E): node1=A, node2=E, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (A,H): node1=A, node2=H, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (B,E): node1=B, node2=E, wireCount=512, EMIBType=interfaceB, EMIB_length=1.7067, EMIB_max_width=3.0, width=2.0, height=1.7067, bump_width=1.0000
+  (B,H): node1=B, node2=H, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (B,I): node1=B, node2=I, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (B,J): node1=B, node2=J, wireCount=512, EMIBType=interfaceB, EMIB_length=1.7067, EMIB_max_width=3.0, width=2.0, height=1.7067, bump_width=1.0000
+  (C,D): node1=C, node2=D, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (C,E): node1=C, node2=E, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (C,G): node1=C, node2=G, wireCount=512, EMIBType=interfaceB, EMIB_length=1.7067, EMIB_max_width=3.0, width=2.0, height=1.7067, bump_width=1.0000
+  (E,F): node1=E, node2=F, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (E,G): node1=E, node2=G, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (E,H): node1=E, node2=H, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (F,I): node1=F, node2=I, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (G,H): node1=G, node2=H, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (G,I): node1=G, node2=I, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (G,J): node1=G, node2=J, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (I,J): node1=I, node2=J, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+连续布局: W=123, H=123
+问题规模: 10 个模块, 17 对连接
+连接关系 [node1, node2, wireCount, EMIBType, EMIB_length, EMIB_max_width]:
+  (0,4): [A, E, 128, interfaceC, 3.2, 99.0]
+  (0,7): [A, H, 256, interfaceB, 0.8533, 3.0]
+  (1,4): [B, E, 512, interfaceB, 1.7067, 3.0]
+  (1,7): [B, H, 128, interfaceC, 3.2, 99.0]
+  (1,8): [B, I, 256, interfaceB, 0.8533, 3.0]
+  (1,9): [B, J, 512, interfaceB, 1.7067, 3.0]
+  (2,3): [C, D, 128, interfaceC, 3.2, 99.0]
+  (2,4): [C, E, 128, interfaceC, 3.2, 99.0]
+  (2,6): [C, G, 512, interfaceB, 1.7067, 3.0]
+  (4,5): [E, F, 128, interfaceC, 3.2, 99.0]
+  (4,6): [E, G, 256, interfaceB, 0.8533, 3.0]
+  (4,7): [E, H, 128, interfaceC, 3.2, 99.0]
+  (5,8): [F, I, 128, interfaceC, 3.2, 99.0]
+  (6,7): [G, H, 128, interfaceC, 3.2, 99.0]
+  (6,8): [G, I, 128, interfaceC, 3.2, 99.0]
+  (6,9): [G, J, 128, interfaceC, 3.2, 99.0]
+  (8,9): [I, J, 256, interfaceB, 0.8533, 3.0]
+Set parameter WLSAccessID
+2026-03-05 14:15:14 - INFO - Set parameter WLSAccessID
+Set parameter WLSSecret
+2026-03-05 14:15:14 - INFO - Set parameter WLSSecret
+Set parameter LicenseID to value 2756663
+2026-03-05 14:15:14 - INFO - Set parameter LicenseID to value 2756663
+Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+2026-03-05 14:15:14 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+EMIB_w_var: {(0, 7): <gurobi.Var *Awaiting Model Update*>, (1, 4): <gurobi.Var *Awaiting Model Update*>, (1, 8): <gurobi.Var *Awaiting Model Update*>, (1, 9): <gurobi.Var *Awaiting Model Update*>, (2, 6): <gurobi.Var *Awaiting Model Update*>, (4, 6): <gurobi.Var *Awaiting Model Update*>, (8, 9): <gurobi.Var *Awaiting Model Update*>}
+EMIB_h_var: {(0, 7): <gurobi.Var *Awaiting Model Update*>, (1, 4): <gurobi.Var *Awaiting Model Update*>, (1, 8): <gurobi.Var *Awaiting Model Update*>, (1, 9): <gurobi.Var *Awaiting Model Update*>, (2, 6): <gurobi.Var *Awaiting Model Update*>, (4, 6): <gurobi.Var *Awaiting Model Update*>, (8, 9): <gurobi.Var *Awaiting Model Update*>}
+EMIB_connected_pairs: {(0, 7): EMIBNode(node1='A', node2='H', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (1, 4): EMIBNode(node1='B', node2='E', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (1, 8): EMIBNode(node1='B', node2='I', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (1, 9): EMIBNode(node1='B', node2='J', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (2, 6): EMIBNode(node1='C', node2='G', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (4, 6): EMIBNode(node1='E', node2='G', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (8, 9): EMIBNode(node1='I', node2='J', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533)}
+[DEBUG] 高功耗芯粒互相远离: 3 对
+[DEBUG] 处理 10 个chiplet，用于功耗感知优化（远离中心）
+[DEBUG] chiplet 6 属于单位面积功耗前30%，添加远离中心约束
+[DEBUG] chiplet 7 属于单位面积功耗前30%，添加远离中心约束
+[DEBUG] chiplet 9 属于单位面积功耗前30%，添加远离中心约束
+[DEBUG] 共筛选出 3 个高功耗芯粒（前30%），完成远离中心约束添加
+[DEBUG] L_avg: 28.319604517012593
+[DEBUG] total_area: 802.0
+[DEBUG] ref_wirelength: 54373.64067266418
+[DEBUG] ref_t: 56.639209034025185
+[DEBUG] ref_power: 93077.10017924804
+[DEBUG] ref_aspect: 55.0
+
+[Normalization Info]
+  Ref Wirelength: 54373.64
+  Ref Area Proxy (t): 56.64
+  Ref Power Term: 93077.10
+  Ref Aspect: 55.00
+目标函数: Min beta_wire(5.0)*wirelength/ref + beta_area(6.0)*t/ref + beta_aspect(0.1)*aspect_ratio/ref + - beta_power(0.8)*power/ref
+Set parameter TimeLimit to value 300
+2026-03-05 14:15:14 - INFO - Set parameter TimeLimit to value 300
+Set parameter MIPGap to value 0
+2026-03-05 14:15:14 - INFO - Set parameter MIPGap to value 0
+Set parameter MIPFocus to value 3
+2026-03-05 14:15:14 - INFO - Set parameter MIPFocus to value 3
+Set parameter Heuristics to value 0.5
+2026-03-05 14:15:14 - INFO - Set parameter Heuristics to value 0.5
+Set parameter LogToConsole to value 1
+2026-03-05 14:15:14 - INFO - Set parameter LogToConsole to value 1
+Gurobi Optimizer version 13.0.0 build v13.0.0rc1 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-03-05 14:15:14 - INFO - Gurobi Optimizer version 13.0.0 build v13.0.0rc1 (linux64 - "Ubuntu 20.04.6 LTS")
+
+2026-03-05 14:15:14 - INFO - 
+CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-03-05 14:15:14 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
+2026-03-05 14:15:14 - INFO - Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
+
+2026-03-05 14:15:14 - INFO - 
+Non-default parameters:
+2026-03-05 14:15:14 - INFO - Non-default parameters:
+TimeLimit  300
+2026-03-05 14:15:14 - INFO - TimeLimit  300
+MIPGap  0
+2026-03-05 14:15:14 - INFO - MIPGap  0
+Heuristics  0.5
+2026-03-05 14:15:14 - INFO - Heuristics  0.5
+MIPFocus  3
+2026-03-05 14:15:14 - INFO - MIPFocus  3
+
+2026-03-05 14:15:14 - INFO - 
+Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+2026-03-05 14:15:14 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+Optimize a model with 1213 rows, 567 columns and 4073 nonzeros (Min)
+2026-03-05 14:15:14 - INFO - Optimize a model with 1213 rows, 567 columns and 4073 nonzeros (Min)
+Model fingerprint: 0x10afd637
+2026-03-05 14:15:14 - INFO - Model fingerprint: 0x10afd637
+Model has 4 linear objective coefficients
+2026-03-05 14:15:14 - INFO - Model has 4 linear objective coefficients
+Variable types: 240 continuous, 327 integer (327 binary)
+2026-03-05 14:15:14 - INFO - Variable types: 240 continuous, 327 integer (327 binary)
+Coefficient statistics:
+2026-03-05 14:15:14 - INFO - Coefficient statistics:
+  Matrix range     [3e-01, 6e+03]
+2026-03-05 14:15:14 - INFO -   Matrix range     [3e-01, 6e+03]
+  Objective range  [9e-06, 1e-01]
+2026-03-05 14:15:14 - INFO -   Objective range  [9e-06, 1e-01]
+  Bounds range     [9e-01, 2e+07]
+2026-03-05 14:15:14 - INFO -   Bounds range     [9e-01, 2e+07]
+  RHS range        [9e-01, 2e+02]
+2026-03-05 14:15:14 - INFO -   RHS range        [9e-01, 2e+02]
+Presolve removed 107 rows and 88 columns
+2026-03-05 14:15:14 - INFO - Presolve removed 107 rows and 88 columns
+Presolve time: 0.01s
+2026-03-05 14:15:14 - INFO - Presolve time: 0.01s
+Presolved: 1106 rows, 479 columns, 3714 nonzeros
+2026-03-05 14:15:14 - INFO - Presolved: 1106 rows, 479 columns, 3714 nonzeros
+Variable types: 167 continuous, 312 integer (312 binary)
+2026-03-05 14:15:14 - INFO - Variable types: 167 continuous, 312 integer (312 binary)
+Root relaxation presolve removed 204 rows and 60 columns
+2026-03-05 14:15:14 - INFO - Root relaxation presolve removed 204 rows and 60 columns
+Root relaxation presolved: 902 rows, 431 columns, 3224 nonzeros
+2026-03-05 14:15:14 - INFO - Root relaxation presolved: 902 rows, 431 columns, 3224 nonzeros
+
+2026-03-05 14:15:14 - INFO - 
+
+2026-03-05 14:15:14 - INFO - 
+Root relaxation: objective -4.734240e+01, 244 iterations, 0.00 seconds (0.01 work units)
+2026-03-05 14:15:14 - INFO - Root relaxation: objective -4.734240e+01, 244 iterations, 0.00 seconds (0.01 work units)
+
+2026-03-05 14:15:14 - INFO - 
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+2026-03-05 14:15:14 - INFO -     Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+2026-03-05 14:15:14 - INFO -  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+2026-03-05 14:15:14 - INFO - 
+     0     0  -47.34240    0  137          -  -47.34240      -     -    0s
+2026-03-05 14:15:14 - INFO -      0     0  -47.34240    0  137          -  -47.34240      -     -    0s
+H    0     0                      12.8138608  -47.34240   469%     -    0s
+2026-03-05 14:15:14 - INFO - H    0     0                      12.8138608  -47.34240   469%     -    0s
+     0     0  -41.17402    0  146   12.81386  -41.17402   421%     -    0s
+2026-03-05 14:15:14 - INFO -      0     0  -41.17402    0  146   12.81386  -41.17402   421%     -    0s
+     0     0  -41.17402    0  146   12.81386  -41.17402   421%     -    0s
+2026-03-05 14:15:14 - INFO -      0     0  -41.17402    0  146   12.81386  -41.17402   421%     -    0s
+     0     0  -28.88174    0  153   12.81386  -28.88174   325%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0  -28.88174    0  153   12.81386  -28.88174   325%     -    0s
+     0     0  -28.88174    0  168   12.81386  -28.88174   325%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0  -28.88174    0  168   12.81386  -28.88174   325%     -    0s
+     0     0  -28.88174    0  174   12.81386  -28.88174   325%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0  -28.88174    0  174   12.81386  -28.88174   325%     -    0s
+     0     0  -23.39259    0  157   12.81386  -23.39259   283%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0  -23.39259    0  157   12.81386  -23.39259   283%     -    0s
+     0     0  -23.39259    0  152   12.81386  -23.39259   283%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0  -23.39259    0  152   12.81386  -23.39259   283%     -    0s
+H    0     0                      11.3970744  -15.48174   236%     -    0s
+2026-03-05 14:15:15 - INFO - H    0     0                      11.3970744  -15.48174   236%     -    0s
+H    0     0                      11.2693266  -15.48174   237%     -    0s
+2026-03-05 14:15:15 - INFO - H    0     0                      11.2693266  -15.48174   237%     -    0s
+     0     0  -15.48174    0  154   11.26933  -15.48174   237%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0  -15.48174    0  154   11.26933  -15.48174   237%     -    0s
+     0     0  -15.42632    0  159   11.26933  -15.42632   237%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0  -15.42632    0  159   11.26933  -15.42632   237%     -    0s
+     0     0  -15.34084    0  159   11.26933  -15.34084   236%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0  -15.34084    0  159   11.26933  -15.34084   236%     -    0s
+     0     0  -15.34084    0  163   11.26933  -15.34084   236%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0  -15.34084    0  163   11.26933  -15.34084   236%     -    0s
+     0     0  -15.34084    0  164   11.26933  -15.34084   236%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0  -15.34084    0  164   11.26933  -15.34084   236%     -    0s
+     0     0  -15.34084    0  166   11.26933  -15.34084   236%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0  -15.34084    0  166   11.26933  -15.34084   236%     -    0s
+H    0     0                       9.8286048   -8.89136   190%     -    0s
+2026-03-05 14:15:15 - INFO - H    0     0                       9.8286048   -8.89136   190%     -    0s
+     0     0   -8.57468    0  156    9.82860   -8.57468   187%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0   -8.57468    0  156    9.82860   -8.57468   187%     -    0s
+     0     0   -8.57468    0  155    9.82860   -8.57468   187%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0   -8.57468    0  155    9.82860   -8.57468   187%     -    0s
+     0     0   -8.57468    0  151    9.82860   -8.57468   187%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0   -8.57468    0  151    9.82860   -8.57468   187%     -    0s
+H    0     0                       9.5182411   -4.47366   147%     -    0s
+2026-03-05 14:15:15 - INFO - H    0     0                       9.5182411   -4.47366   147%     -    0s
+H    0     0                       9.4912468   -4.47366   147%     -    0s
+2026-03-05 14:15:15 - INFO - H    0     0                       9.4912468   -4.47366   147%     -    0s
+H    0     0                       9.1534816   -4.47366   149%     -    0s
+2026-03-05 14:15:15 - INFO - H    0     0                       9.1534816   -4.47366   149%     -    0s
+     0     0   -4.47366    0  145    9.15348   -4.47366   149%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0   -4.47366    0  145    9.15348   -4.47366   149%     -    0s
+     0     0   -3.45147    0  146    9.15348   -3.45147   138%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0   -3.45147    0  146    9.15348   -3.45147   138%     -    0s
+     0     0   -3.45147    0  143    9.15348   -3.45147   138%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0   -3.45147    0  143    9.15348   -3.45147   138%     -    0s
+     0     0   -3.45147    0  139    9.15348   -3.45147   138%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0   -3.45147    0  139    9.15348   -3.45147   138%     -    0s
+     0     0   -3.18087    0  151    9.15348   -3.18087   135%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0   -3.18087    0  151    9.15348   -3.18087   135%     -    0s
+     0     0   -3.18087    0  154    9.15348   -3.18087   135%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0   -3.18087    0  154    9.15348   -3.18087   135%     -    0s
+     0     0   -3.18087    0  159    9.15348   -3.18087   135%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0   -3.18087    0  159    9.15348   -3.18087   135%     -    0s
+H    0     0                       8.9501285   -2.89144   132%     -    0s
+2026-03-05 14:15:15 - INFO - H    0     0                       8.9501285   -2.89144   132%     -    0s
+     0     0   -2.65802    0  140    8.95013   -2.65802   130%     -    0s
+2026-03-05 14:15:15 - INFO -      0     0   -2.65802    0  140    8.95013   -2.65802   130%     -    0s
+     0     0   -2.65802    0  128    8.95013   -2.65802   130%     -    1s
+2026-03-05 14:15:15 - INFO -      0     0   -2.65802    0  128    8.95013   -2.65802   130%     -    1s
+H    0     0                       8.8930166   -2.45706   128%     -    1s
+2026-03-05 14:15:15 - INFO - H    0     0                       8.8930166   -2.45706   128%     -    1s
+     0     0   -2.45706    0  144    8.89302   -2.45706   128%     -    1s
+2026-03-05 14:15:15 - INFO -      0     0   -2.45706    0  144    8.89302   -2.45706   128%     -    1s
+     0     0   -2.45706    0  143    8.89302   -2.45706   128%     -    1s
+2026-03-05 14:15:15 - INFO -      0     0   -2.45706    0  143    8.89302   -2.45706   128%     -    1s
+     0     0   -2.40038    0  138    8.89302   -2.40038   127%     -    1s
+2026-03-05 14:15:15 - INFO -      0     0   -2.40038    0  138    8.89302   -2.40038   127%     -    1s
+     0     0   -2.40038    0  128    8.89302   -2.40038   127%     -    1s
+2026-03-05 14:15:16 - INFO -      0     0   -2.40038    0  128    8.89302   -2.40038   127%     -    1s
+H    0     0                       8.7354189   -2.40038   127%     -    1s
+2026-03-05 14:15:16 - INFO - H    0     0                       8.7354189   -2.40038   127%     -    1s
+     0     0   -1.93502    0  151    8.73542   -1.93502   122%     -    1s
+2026-03-05 14:15:16 - INFO -      0     0   -1.93502    0  151    8.73542   -1.93502   122%     -    1s
+     0     0   -1.93502    0  158    8.73542   -1.93502   122%     -    1s
+2026-03-05 14:15:16 - INFO -      0     0   -1.93502    0  158    8.73542   -1.93502   122%     -    1s
+H    0     0                       8.6658020   -1.63527   119%     -    1s
+2026-03-05 14:15:16 - INFO - H    0     0                       8.6658020   -1.63527   119%     -    1s
+H    0     0                       8.6631383   -1.63527   119%     -    1s
+2026-03-05 14:15:16 - INFO - H    0     0                       8.6631383   -1.63527   119%     -    1s
+     0     0   -1.61965    0  162    8.66314   -1.61965   119%     -    1s
+2026-03-05 14:15:16 - INFO -      0     0   -1.61965    0  162    8.66314   -1.61965   119%     -    1s
+     0     0   -1.61965    0  160    8.66314   -1.61965   119%     -    1s
+2026-03-05 14:15:16 - INFO -      0     0   -1.61965    0  160    8.66314   -1.61965   119%     -    1s
+     0     0   -1.61965    0  155    8.66314   -1.61965   119%     -    1s
+2026-03-05 14:15:16 - INFO -      0     0   -1.61965    0  155    8.66314   -1.61965   119%     -    1s
+     0     0   -1.53217    0  148    8.66314   -1.53217   118%     -    1s
+2026-03-05 14:15:16 - INFO -      0     0   -1.53217    0  148    8.66314   -1.53217   118%     -    1s
+H    0     0                       8.5374557   -1.51566   118%     -    1s
+2026-03-05 14:15:16 - INFO - H    0     0                       8.5374557   -1.51566   118%     -    1s
+     0     0   -1.51069    0  136    8.53746   -1.51069   118%     -    1s
+2026-03-05 14:15:16 - INFO -      0     0   -1.51069    0  136    8.53746   -1.51069   118%     -    1s
+     0     0   -1.51069    0  136    8.53746   -1.51069   118%     -    1s
+2026-03-05 14:15:16 - INFO -      0     0   -1.51069    0  136    8.53746   -1.51069   118%     -    1s
+H    0     0                       8.4123205   -1.48987   118%     -    1s
+2026-03-05 14:15:16 - INFO - H    0     0                       8.4123205   -1.48987   118%     -    1s
+H    0     0                       8.3953532   -1.48987   118%     -    1s
+2026-03-05 14:15:16 - INFO - H    0     0                       8.3953532   -1.48987   118%     -    1s
+     0     0   -1.48987    0  136    8.39535   -1.48987   118%     -    1s
+2026-03-05 14:15:16 - INFO -      0     0   -1.48987    0  136    8.39535   -1.48987   118%     -    1s
+     0     0   -1.48987    0  124    8.39535   -1.48987   118%     -    1s
+2026-03-05 14:15:16 - INFO -      0     0   -1.48987    0  124    8.39535   -1.48987   118%     -    1s
+     0     2   -1.48987    0  117    8.39535   -1.48987   118%     -    1s
+2026-03-05 14:15:16 - INFO -      0     2   -1.48987    0  117    8.39535   -1.48987   118%     -    1s
+H   59    66                       8.3423863   -1.48987   118%   580    2s
+2026-03-05 14:15:17 - INFO - H   59    66                       8.3423863   -1.48987   118%   580    2s
+H   65    80                       7.9993292   -1.48987   119%   572    3s
+2026-03-05 14:15:17 - INFO - H   65    80                       7.9993292   -1.48987   119%   572    3s
+H   67    80                       7.7571782   -1.48987   119%   567    3s
+2026-03-05 14:15:17 - INFO - H   67    80                       7.7571782   -1.48987   119%   567    3s
+H   70    80                       7.4732905   -1.48987   120%   566    3s
+2026-03-05 14:15:17 - INFO - H   70    80                       7.4732905   -1.48987   120%   566    3s
+H   75    80                       6.5181477   -1.48987   123%   568    3s
+2026-03-05 14:15:17 - INFO - H   75    80                       6.5181477   -1.48987   123%   568    3s
+H   79    92                       5.7494088   -1.48987   126%   552    3s
+2026-03-05 14:15:17 - INFO - H   79    92                       5.7494088   -1.48987   126%   552    3s
+H   95    98                       5.4374906   -1.48987   127%   543    3s
+2026-03-05 14:15:18 - INFO - H   95    98                       5.4374906   -1.48987   127%   543    3s
+H  115   130                       5.3981120   -1.48987   128%   488    3s
+2026-03-05 14:15:18 - INFO - H  115   130                       5.3981120   -1.48987   128%   488    3s
+H  129   148                       5.3930723   -1.48987   128%   468    3s
+2026-03-05 14:15:18 - INFO - H  129   148                       5.3930723   -1.48987   128%   468    3s
+H  131   148                       5.3871871   -1.48987   128%   467    3s
+2026-03-05 14:15:18 - INFO - H  131   148                       5.3871871   -1.48987   128%   467    3s
+H  134   148                       5.3166421   -1.48987   128%   461    3s
+2026-03-05 14:15:18 - INFO - H  134   148                       5.3166421   -1.48987   128%   461    3s
+H  139   148                       5.3115318   -1.48987   128%   450    3s
+2026-03-05 14:15:18 - INFO - H  139   148                       5.3115318   -1.48987   128%   450    3s
+H  155   174                       4.8896414   -1.48987   130%   434    3s
+2026-03-05 14:15:18 - INFO - H  155   174                       4.8896414   -1.48987   130%   434    3s
+H  205   210                       4.8496329   -1.47390   130%   409    4s
+2026-03-05 14:15:18 - INFO - H  205   210                       4.8496329   -1.47390   130%   409    4s
+H  209   230                       4.7328809   -1.45040   131%   410    4s
+2026-03-05 14:15:18 - INFO - H  209   230                       4.7328809   -1.45040   131%   410    4s
+H  212   230                       4.6251483   -1.44724   131%   411    4s
+2026-03-05 14:15:18 - INFO - H  212   230                       4.6251483   -1.44724   131%   411    4s
+H  232   249                       4.6143300   -1.30287   128%   411    4s
+2026-03-05 14:15:18 - INFO - H  232   249                       4.6143300   -1.30287   128%   411    4s
+H  261   268                       4.5060083   -1.20008   127%   403    4s
+2026-03-05 14:15:19 - INFO - H  261   268                       4.5060083   -1.20008   127%   403    4s
+H  352   383                       4.4471563   -0.43679   110%   394    4s
+2026-03-05 14:15:19 - INFO - H  352   383                       4.4471563   -0.43679   110%   394    4s
+   527   534    1.28097    8  198    4.44716    0.39436  91.1%   349    5s
+2026-03-05 14:15:19 - INFO -    527   534    1.28097    8  198    4.44716    0.39436  91.1%   349    5s
+H  566   570                       4.4241078    0.58794  86.7%   342    5s
+2026-03-05 14:15:20 - INFO - H  566   570                       4.4241078    0.58794  86.7%   342    5s
+H  590   619                       4.3859401    0.60782  86.1%   336    5s
+2026-03-05 14:15:20 - INFO - H  590   619                       4.3859401    0.60782  86.1%   336    5s
+H  618   634                       4.3835846    0.62439  85.8%   330    6s
+2026-03-05 14:15:20 - INFO - H  618   634                       4.3835846    0.62439  85.8%   330    6s
+H  621   634                       4.3530587    0.63312  85.5%   330    6s
+2026-03-05 14:15:20 - INFO - H  621   634                       4.3530587    0.63312  85.5%   330    6s
+H  654   657                       4.3376931    0.78416  81.9%   323    6s
+2026-03-05 14:15:21 - INFO - H  654   657                       4.3376931    0.78416  81.9%   323    6s
+H  917   948                       4.3180747    1.12344  74.0%   314    6s
+2026-03-05 14:15:21 - INFO - H  917   948                       4.3180747    1.12344  74.0%   314    6s
+H 1267  1201                       4.3133052    1.50629  65.1%   311    9s
+2026-03-05 14:15:24 - INFO - H 1267  1201                       4.3133052    1.50629  65.1%   311    9s
+H 1268  1141                       4.2779534    1.50629  64.8%   311    9s
+2026-03-05 14:15:24 - INFO - H 1268  1141                       4.2779534    1.50629  64.8%   311    9s
+  1269  1142    2.13743   10  152    4.27795    1.50629  64.8%   311   10s
+2026-03-05 14:15:24 - INFO -   1269  1142    2.13743   10  152    4.27795    1.50629  64.8%   311   10s
+H 1633  1318                       4.2779533    2.72470  36.3%   307   12s
+2026-03-05 14:15:27 - INFO - H 1633  1318                       4.2779533    2.72470  36.3%   307   12s
+H 1810  1385                       4.2622123    2.84353  33.3%   315   13s
+2026-03-05 14:15:28 - INFO - H 1810  1385                       4.2622123    2.84353  33.3%   315   13s
+H 1872  1401                       4.2572793    2.85258  33.0%   309   13s
+2026-03-05 14:15:28 - INFO - H 1872  1401                       4.2572793    2.85258  33.0%   309   13s
+H 1914  1387                       4.2074153    2.85976  32.0%   307   13s
+2026-03-05 14:15:28 - INFO - H 1914  1387                       4.2074153    2.85976  32.0%   307   13s
+H 2040  1415                       4.2057244    2.88421  31.4%   301   14s
+2026-03-05 14:15:29 - INFO - H 2040  1415                       4.2057244    2.88421  31.4%   301   14s
+H 2191  1443                       4.2023756    2.91396  30.7%   295   14s
+2026-03-05 14:15:29 - INFO - H 2191  1443                       4.2023756    2.91396  30.7%   295   14s
+  2365  1690    3.14258   23  212    4.20238    2.93086  30.3%   287   15s
+2026-03-05 14:15:29 - INFO -   2365  1690    3.14258   23  212    4.20238    2.93086  30.3%   287   15s
+H 2593  1641                       4.2023756    2.96831  29.4%   283   16s
+2026-03-05 14:15:30 - INFO - H 2593  1641                       4.2023756    2.96831  29.4%   283   16s
+H 2619  1615                       4.2023755    2.97809  29.1%   284   16s
+2026-03-05 14:15:31 - INFO - H 2619  1615                       4.2023755    2.97809  29.1%   284   16s
+H 2631  1588                       4.2023755    2.98085  29.1%   285   16s
+2026-03-05 14:15:31 - INFO - H 2631  1588                       4.2023755    2.98085  29.1%   285   16s
+H 2672  1578                       4.1849885    2.98901  28.6%   288   16s
+2026-03-05 14:15:31 - INFO - H 2672  1578                       4.1849885    2.98901  28.6%   288   16s
+H 2805  1681                       4.1841975    2.99322  28.5%   282   17s
+2026-03-05 14:15:31 - INFO - H 2805  1681                       4.1841975    2.99322  28.5%   282   17s
+H 3060  1723                       4.1841975    3.00946  28.1%   274   17s
+2026-03-05 14:15:32 - INFO - H 3060  1723                       4.1841975    3.00946  28.1%   274   17s
+H 3078  1743                       4.1841975    3.01135  28.0%   273   17s
+2026-03-05 14:15:32 - INFO - H 3078  1743                       4.1841975    3.01135  28.0%   273   17s
+H 4252  2965                       4.1841975    3.07515  26.5%   247   18s
+2026-03-05 14:15:33 - INFO - H 4252  2965                       4.1841975    3.07515  26.5%   247   18s
+H 4321  2965                       4.1841975    3.07687  26.5%   246   18s
+2026-03-05 14:15:33 - INFO - H 4321  2965                       4.1841975    3.07687  26.5%   246   18s
+H 4817  3232                       4.1841975    3.11390  25.6%   243   19s
+2026-03-05 14:15:34 - INFO - H 4817  3232                       4.1841975    3.11390  25.6%   243   19s
+  4837  3261    3.32213   28  161    4.18420    3.11713  25.5%   244   20s
+2026-03-05 14:15:34 - INFO -   4837  3261    3.32213   28  161    4.18420    3.11713  25.5%   244   20s
+H 4840  3242                       4.1365249    3.11730  24.6%   244   20s
+2026-03-05 14:15:34 - INFO - H 4840  3242                       4.1365249    3.11730  24.6%   244   20s
+  7273  5354    3.42049   26  153    4.13652    3.26820  21.0%   243   25s
+2026-03-05 14:15:39 - INFO -   7273  5354    3.42049   26  153    4.13652    3.26820  21.0%   243   25s
+ 11289  8611     cutoff   40         4.13652    3.41227  17.5%   231   30s
+2026-03-05 14:15:45 - INFO -  11289  8611     cutoff   40         4.13652    3.41227  17.5%   231   30s
+ 15048 11602    3.63659   37   81    4.13652    3.51330  15.1%   219   35s
+2026-03-05 14:15:50 - INFO -  15048 11602    3.63659   37   81    4.13652    3.51330  15.1%   219   35s
+H17823 13037                       4.1365249    3.57351  13.6%   208   37s
+2026-03-05 14:15:52 - INFO - H17823 13037                       4.1365249    3.57351  13.6%   208   37s
+H17913 12992                       4.1297533    3.57373  13.5%   207   37s
+2026-03-05 14:15:52 - INFO - H17913 12992                       4.1297533    3.57373  13.5%   207   37s
+ 19506 14507    3.68745   37   58    4.12975    3.59743  12.9%   202   40s
+2026-03-05 14:15:54 - INFO -  19506 14507    3.68745   37   58    4.12975    3.59743  12.9%   202   40s
+ 21630 15801    4.11428   34  109    4.12975    3.62134  12.3%   196   45s
+2026-03-05 14:16:00 - INFO -  21630 15801    4.11428   34  109    4.12975    3.62134  12.3%   196   45s
+H21910 15705                       4.1209838    3.62338  12.1%   196   45s
+2026-03-05 14:16:00 - INFO - H21910 15705                       4.1209838    3.62338  12.1%   196   45s
+H25091 18167                       4.1209811    3.64301  11.6%   188   47s
+2026-03-05 14:16:02 - INFO - H25091 18167                       4.1209811    3.64301  11.6%   188   47s
+ 26353 19883    3.77812   31   62    4.12098    3.65723  11.3%   185   50s
+2026-03-05 14:16:05 - INFO -  26353 19883    3.77812   31   62    4.12098    3.65723  11.3%   185   50s
+ 31998 23685     cutoff   34         4.12098    3.69641  10.3%   177   56s
+2026-03-05 14:16:10 - INFO -  31998 23685     cutoff   34         4.12098    3.69641  10.3%   177   56s
+H36199 24647                       4.0907358    3.74371  8.48%   172   58s
+2026-03-05 14:16:13 - INFO - H36199 24647                       4.0907358    3.74371  8.48%   172   58s
+H37014 26043                       4.0873113    3.74448  8.39%   170   59s
+2026-03-05 14:16:14 - INFO - H37014 26043                       4.0873113    3.74448  8.39%   170   59s
+H37297 25667                       4.0740186    3.74451  8.09%   170   59s
+2026-03-05 14:16:14 - INFO - H37297 25667                       4.0740186    3.74451  8.09%   170   59s
+H39221 26047                       4.0689789    3.75979  7.60%   167   60s
+2026-03-05 14:16:15 - INFO - H39221 26047                       4.0689789    3.75979  7.60%   167   60s
+H39655 25901                       4.0647514    3.75981  7.50%   167   60s
+2026-03-05 14:16:15 - INFO - H39655 25901                       4.0647514    3.75981  7.50%   167   60s
+H40803 26413                       4.0647514    3.76559  7.36%   166   62s
+2026-03-05 14:16:17 - INFO - H40803 26413                       4.0647514    3.76559  7.36%   166   62s
+H43515 27085                       4.0647514    3.77087  7.23%   163   64s
+2026-03-05 14:16:19 - INFO - H43515 27085                       4.0647514    3.77087  7.23%   163   64s
+H43515 27085                       4.0647514    3.77087  7.23%   163   64s
+2026-03-05 14:16:19 - INFO - H43515 27085                       4.0647514    3.77087  7.23%   163   64s
+ 43545 27489     cutoff   35         4.06475    3.77392  7.15%   163   65s
+2026-03-05 14:16:20 - INFO -  43545 27489     cutoff   35         4.06475    3.77392  7.15%   163   65s
+H45932 27972                       4.0647514    3.79296  6.69%   160   67s
+2026-03-05 14:16:22 - INFO - H45932 27972                       4.0647514    3.79296  6.69%   160   67s
+ 48324 29367    3.89260   36   57    4.06475    3.79863  6.55%   158   70s
+2026-03-05 14:16:25 - INFO -  48324 29367    3.89260   36   57    4.06475    3.79863  6.55%   158   70s
+H49990 29380                       4.0647514    3.80552  6.38%   157   71s
+2026-03-05 14:16:26 - INFO - H49990 29380                       4.0647514    3.80552  6.38%   157   71s
+H50113 29380                       4.0647513    3.80938  6.28%   157   71s
+2026-03-05 14:16:26 - INFO - H50113 29380                       4.0647513    3.80938  6.28%   157   71s
+H54350 31526                       4.0647513    3.83048  5.76%   152   74s
+2026-03-05 14:16:28 - INFO - H54350 31526                       4.0647513    3.83048  5.76%   152   74s
+H55136 31526                       4.0647513    3.83073  5.76%   151   74s
+2026-03-05 14:16:28 - INFO - H55136 31526                       4.0647513    3.83073  5.76%   151   74s
+ 55351 31805    3.95734   34   72    4.06475    3.83746  5.59%   151   75s
+2026-03-05 14:16:30 - INFO -  55351 31805    3.95734   34   72    4.06475    3.83746  5.59%   151   75s
+H55895 31805                       4.0647513    3.83762  5.59%   150   75s
+2026-03-05 14:16:30 - INFO - H55895 31805                       4.0647513    3.83762  5.59%   150   75s
+ 60085 33812    3.95175   38   92    4.06475    3.85222  5.23%   146   80s
+2026-03-05 14:16:35 - INFO -  60085 33812    3.95175   38   92    4.06475    3.85222  5.23%   146   80s
+ 68871 35934     cutoff   41         4.06475    3.87251  4.73%   137   85s
+2026-03-05 14:16:40 - INFO -  68871 35934     cutoff   41         4.06475    3.87251  4.73%   137   85s
+H70789 36350                       4.0647513    3.88393  4.45%   135   88s
+2026-03-05 14:16:43 - INFO - H70789 36350                       4.0647513    3.88393  4.45%   135   88s
+ 70864 36373     cutoff   28         4.06475    3.88492  4.42%   135   90s
+2026-03-05 14:16:45 - INFO -  70864 36373     cutoff   28         4.06475    3.88492  4.42%   135   90s
+H71496 36604                       4.0647513    3.88555  4.41%   135   91s
+2026-03-05 14:16:46 - INFO - H71496 36604                       4.0647513    3.88555  4.41%   135   91s
+H71812 36963                       4.0647513    3.88583  4.40%   135   92s
+2026-03-05 14:16:47 - INFO - H71812 36963                       4.0647513    3.88583  4.40%   135   92s
+ 73939 37724    3.88817   39   28    4.06475    3.88794  4.35%   133   96s
+2026-03-05 14:16:50 - INFO -  73939 37724    3.88817   39   28    4.06475    3.88794  4.35%   133   96s
+H74921 37724                       4.0647513    3.88855  4.33%   132   96s
+2026-03-05 14:16:50 - INFO - H74921 37724                       4.0647513    3.88855  4.33%   132   96s
+H78286 38123                       4.0647512    3.90358  3.97%   129   97s
+2026-03-05 14:16:52 - INFO - H78286 38123                       4.0647512    3.90358  3.97%   129   97s
+ 80832 39000    3.98168   43   47    4.06475    3.90499  3.93%   127  100s
+2026-03-05 14:16:55 - INFO -  80832 39000    3.98168   43   47    4.06475    3.90499  3.93%   127  100s
+H82659 39230                       4.0647512    3.91166  3.77%   126  102s
+2026-03-05 14:16:56 - INFO - H82659 39230                       4.0647512    3.91166  3.77%   126  102s
+ 86687 39685     cutoff   37         4.06475    3.92244  3.50%   123  105s
+2026-03-05 14:17:00 - INFO -  86687 39685     cutoff   37         4.06475    3.92244  3.50%   123  105s
+H92495 40063                       4.0647512    3.93341  3.23%   119  108s
+2026-03-05 14:17:03 - INFO - H92495 40063                       4.0647512    3.93341  3.23%   119  108s
+ 92533 40367     cutoff   34         4.06475    3.93362  3.23%   119  110s
+2026-03-05 14:17:05 - INFO -  92533 40367     cutoff   34         4.06475    3.93362  3.23%   119  110s
+H92821 40367                       4.0647512    3.93364  3.23%   119  110s
+2026-03-05 14:17:05 - INFO - H92821 40367                       4.0647512    3.93364  3.23%   119  110s
+H93757 40367                       4.0647512    3.93388  3.22%   118  110s
+2026-03-05 14:17:05 - INFO - H93757 40367                       4.0647512    3.93388  3.22%   118  110s
+H96942 40423                       4.0647512    3.94172  3.03%   117  112s
+2026-03-05 14:17:07 - INFO - H96942 40423                       4.0647512    3.94172  3.03%   117  112s
+H99512 40245                       4.0647512    3.94414  2.97%   115  115s
+2026-03-05 14:17:10 - INFO - H99512 40245                       4.0647512    3.94414  2.97%   115  115s
+H102216 40234                       4.0647511    3.95047  2.81%   113  116s
+2026-03-05 14:17:11 - INFO - H102216 40234                       4.0647511    3.95047  2.81%   113  116s
+ 108011 39868     cutoff   27         4.06475    3.96300  2.50%   110  120s
+2026-03-05 14:17:15 - INFO -  108011 39868     cutoff   27         4.06475    3.96300  2.50%   110  120s
+H108190 39868                       4.0647511    3.96328  2.50%   110  120s
+2026-03-05 14:17:15 - INFO - H108190 39868                       4.0647511    3.96328  2.50%   110  120s
+H108324 39644                       4.0647511    3.96342  2.49%   110  121s
+2026-03-05 14:17:15 - INFO - H108324 39644                       4.0647511    3.96342  2.49%   110  121s
+ 115213 38623     cutoff   40         4.06475    3.97302  2.26%   106  125s
+2026-03-05 14:17:20 - INFO -  115213 38623     cutoff   40         4.06475    3.97302  2.26%   106  125s
+ 121417 37868     cutoff   40         4.06475    3.98371  1.99%   103  130s
+2026-03-05 14:17:24 - INFO -  121417 37868     cutoff   40         4.06475    3.98371  1.99%   103  130s
+ 122380 37445     cutoff   41         4.06475    3.98675  1.92%   103  135s
+2026-03-05 14:17:29 - INFO -  122380 37445     cutoff   41         4.06475    3.98675  1.92%   103  135s
+ 132083 34989    4.02147   39   83    4.06475    3.99981  1.60%  98.3  140s
+2026-03-05 14:17:34 - INFO -  132083 34989    4.02147   39   83    4.06475    3.99981  1.60%  98.3  140s
+ 142385 30648     cutoff   42         4.06475    4.01102  1.32%  93.8  145s
+2026-03-05 14:17:40 - INFO -  142385 30648     cutoff   42         4.06475    4.01102  1.32%  93.8  145s
+ 152253 26543     cutoff   36         4.06475    4.02568  0.96%  89.8  150s
+2026-03-05 14:17:44 - INFO -  152253 26543     cutoff   36         4.06475    4.02568  0.96%  89.8  150s
+ 167610 16528     cutoff   37         4.06475    4.03941  0.62%  83.9  155s
+2026-03-05 14:17:50 - INFO -  167610 16528     cutoff   37         4.06475    4.03941  0.62%  83.9  155s
+H172138 14686                       4.0647511    4.04623  0.46%  82.2  156s
+2026-03-05 14:17:51 - INFO - H172138 14686                       4.0647511    4.04623  0.46%  82.2  156s
+H172513 14686                       4.0647511    4.04632  0.45%  82.1  156s
+2026-03-05 14:17:51 - INFO - H172513 14686                       4.0647511    4.04632  0.45%  82.1  156s
+ 181375  7647    4.05588   53   10    4.06475    4.05588  0.22%  78.9  160s
+2026-03-05 14:17:55 - INFO -  181375  7647    4.05588   53   10    4.06475    4.05588  0.22%  78.9  160s
+
+2026-03-05 14:17:58 - INFO - 
+Cutting planes:
+2026-03-05 14:17:58 - INFO - Cutting planes:
+  Learned: 175
+2026-03-05 14:17:58 - INFO -   Learned: 175
+  Gomory: 450
+2026-03-05 14:17:58 - INFO -   Gomory: 450
+  Lift-and-project: 339
+2026-03-05 14:17:58 - INFO -   Lift-and-project: 339
+  Cover: 269
+2026-03-05 14:17:58 - INFO -   Cover: 269
+  Implied bound: 20
+2026-03-05 14:17:58 - INFO -   Implied bound: 20
+  MIR: 475
+2026-03-05 14:17:58 - INFO -   MIR: 475
+  Mixing: 31
+2026-03-05 14:17:58 - INFO -   Mixing: 31
+  StrongCG: 4
+2026-03-05 14:17:58 - INFO -   StrongCG: 4
+  Flow cover: 1633
+2026-03-05 14:17:58 - INFO -   Flow cover: 1633
+  Inf proof: 379
+2026-03-05 14:17:58 - INFO -   Inf proof: 379
+  Zero half: 17
+2026-03-05 14:17:58 - INFO -   Zero half: 17
+  Network: 1
+2026-03-05 14:17:58 - INFO -   Network: 1
+  RLT: 30
+2026-03-05 14:17:58 - INFO -   RLT: 30
+  Relax-and-lift: 203
+2026-03-05 14:17:58 - INFO -   Relax-and-lift: 203
+
+2026-03-05 14:17:58 - INFO - 
+Explored 190381 nodes (14427588 simplex iterations) in 163.74 seconds (401.75 work units)
+2026-03-05 14:17:58 - INFO - Explored 190381 nodes (14427588 simplex iterations) in 163.74 seconds (401.75 work units)
+Thread count was 12 (of 12 available processors)
+2026-03-05 14:17:58 - INFO - Thread count was 12 (of 12 available processors)
+
+2026-03-05 14:17:58 - INFO - 
+Solution count 10: 4.06475 4.06475 4.06475 ... 4.08731
+2026-03-05 14:17:58 - INFO - Solution count 10: 4.06475 4.06475 4.06475 ... 4.08731
+
+2026-03-05 14:17:58 - INFO - 
+Optimal solution found (tolerance 0.00e+00)
+2026-03-05 14:17:58 - INFO - Optimal solution found (tolerance 0.00e+00)
+Best objective 4.064751447988e+00, best bound 4.064751447988e+00, gap 0.0000%
+2026-03-05 14:17:58 - INFO - Best objective 4.064751447988e+00, best bound 4.064751447988e+00, gap 0.0000%
+[EMIB] 单次求解完成: MIPGap=0.0, 状态=Optimal, Obj=4.064751, 用时=163.75s, SolCount=10
+
+[未归一化实际值]
+  线长(wirelength)=50112.0000, 面积代理(t)=54.0000, 功耗惩罚(power)=729297.2500, 高宽比惩罚(aspect)=2.5000
+[目标函数各项分解]
+  线长: raw=50112.00, norm=0.9216, contrib=4.6081
+  面积代理t: raw=54.00, norm=0.9534, contrib=5.7204
+  长宽比偏差: raw=2.50, norm=0.0455, contrib=0.0045
+  功耗惩罚: raw=729297.25, norm=7.8354, contrib=-6.2683
+[EMIB] 求解成功（Optimal）
+[EMIB] placement JSON 已保存: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/placement/syn1.json
+[EMIB] 布局图片已保存: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/fig/syn1_core/solution_1_layout_gurobi.png
+2026-03-05 14:17:59 - INFO - 
+EMIB求解返回 1 个解（最多1个）。
+  ✓ EMIB求解：返回 1 个解
+
+================================================================================
+批量测试完成 (Gurobi版本)
+  共花费时间: 165.02 秒
+================================================================================
+文件处理统计:
+  成功: 1/1 个文件
+  失败: 0/1 个文件
+解的数量统计:
+  找到: 1/1 个解
+
+详细结果:
+  ✓ syn1.json -> syn1_core: 1 个解
+    Log目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/log/syn1_core
+    LP目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/lp/syn1_core
+    Fig目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/fig/syn1_core
+    Placement文件: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_08/placement/syn1.json
+================================================================================
+

@@ -1,0 +1,1128 @@
+{
+  "case_name": "cpu-dram",
+  "timestamp": "2026-03-06T01:50:20.506661",
+  "total_runs": 14,
+  "num_chiplets": 8,
+  "num_connections": 8,
+  "time_limit_seconds": 3600,
+  "total_time_seconds": 3604.506142139435,
+  "statistics": {
+    "success_count": 14,
+    "failed_count": 115,
+    "cost": {
+      "best": 222.72705072506568,
+      "worst": 227.57232471644323,
+      "average": 224.76270912071627,
+      "std_dev": 1.6572287279641962
+    },
+    "time": {
+      "avg_found_time": 0.299209611756461,
+      "avg_total_time": 14.94514695235661,
+      "min_found_time": 0.0,
+      "max_found_time": 1.8540072441101074
+    }
+  },
+  "run_details": [
+    {
+      "run_id": 1,
+      "seed": 16001,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 2,
+      "seed": 41876,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 3,
+      "seed": 67673,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 4,
+      "seed": 93495,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 0
+    },
+    {
+      "run_id": 5,
+      "seed": 19299,
+      "status": "success",
+      "cost": 223.38564028277756,
+      "found_time": 0.026176929473876953,
+      "total_time": 14.670227527618408,
+      "absolute_time": 133.1658148765564,
+      "num_chiplets": 8,
+      "start_offset": 133.13963794708252
+    },
+    {
+      "run_id": 6,
+      "seed": 63816,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 40.37692928314209
+    },
+    {
+      "run_id": 7,
+      "seed": 89524,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 66.2513701915741
+    },
+    {
+      "run_id": 8,
+      "seed": 15399,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 92.15774464607239
+    },
+    {
+      "run_id": 9,
+      "seed": 41306,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 117.85713529586792
+    },
+    {
+      "run_id": 10,
+      "seed": 67007,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 143.60598707199097
+    },
+    {
+      "run_id": 11,
+      "seed": 92757,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 169.41465282440186
+    },
+    {
+      "run_id": 12,
+      "seed": 18566,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 195.16522479057312
+    },
+    {
+      "run_id": 13,
+      "seed": 44318,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 220.8250868320465
+    },
+    {
+      "run_id": 14,
+      "seed": 69979,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 246.63271188735962
+    },
+    {
+      "run_id": 15,
+      "seed": 95787,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 272.4879398345947
+    },
+    {
+      "run_id": 16,
+      "seed": 21644,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 298.27465867996216
+    },
+    {
+      "run_id": 17,
+      "seed": 47431,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 323.9860396385193
+    },
+    {
+      "run_id": 18,
+      "seed": 73144,
+      "status": "success",
+      "cost": 223.47666670420725,
+      "found_time": 0.10056090354919434,
+      "total_time": 14.785605669021606,
+      "absolute_time": 488.7613756656647,
+      "num_chiplets": 8,
+      "start_offset": 488.6608147621155
+    },
+    {
+      "run_id": 19,
+      "seed": 19466,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 40.81118178367615
+    },
+    {
+      "run_id": 20,
+      "seed": 45492,
+      "status": "success",
+      "cost": 227.57232471644323,
+      "found_time": 0.0,
+      "total_time": 14.909807443618774,
+      "absolute_time": 554.7539918422699,
+      "num_chiplets": 8,
+      "start_offset": 554.7539918422699
+    },
+    {
+      "run_id": 21,
+      "seed": 85685,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 40.738829612731934
+    },
+    {
+      "run_id": 22,
+      "seed": 11515,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 66.52746486663818
+    },
+    {
+      "run_id": 23,
+      "seed": 37305,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 92.42812299728394
+    },
+    {
+      "run_id": 24,
+      "seed": 63206,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 118.26758241653442
+    },
+    {
+      "run_id": 25,
+      "seed": 89047,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 144.08536386489868
+    },
+    {
+      "run_id": 26,
+      "seed": 14865,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 169.92923521995544
+    },
+    {
+      "run_id": 27,
+      "seed": 40710,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 195.67993307113647
+    },
+    {
+      "run_id": 28,
+      "seed": 66462,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 221.436927318573
+    },
+    {
+      "run_id": 29,
+      "seed": 92220,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 247.15487146377563
+    },
+    {
+      "run_id": 30,
+      "seed": 17939,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 272.8830645084381
+    },
+    {
+      "run_id": 31,
+      "seed": 43668,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 298.69628143310547
+    },
+    {
+      "run_id": 32,
+      "seed": 69482,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 324.4395229816437
+    },
+    {
+      "run_id": 33,
+      "seed": 95227,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 350.25982880592346
+    },
+    {
+      "run_id": 34,
+      "seed": 21048,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 376.07154297828674
+    },
+    {
+      "run_id": 35,
+      "seed": 46861,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 401.86032915115356
+    },
+    {
+      "run_id": 36,
+      "seed": 72650,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 427.64706540107727
+    },
+    {
+      "run_id": 37,
+      "seed": 98438,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 453.4253134727478
+    },
+    {
+      "run_id": 38,
+      "seed": 24217,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 479.11301445961
+    },
+    {
+      "run_id": 39,
+      "seed": 49906,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 504.8834629058838
+    },
+    {
+      "run_id": 40,
+      "seed": 75678,
+      "status": "success",
+      "cost": 222.96854567555363,
+      "found_time": 0.11929035186767578,
+      "total_time": 14.762501239776611,
+      "absolute_time": 1090.9927926063538,
+      "num_chiplets": 8,
+      "start_offset": 1090.873502254486
+    },
+    {
+      "run_id": 41,
+      "seed": 21677,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 40.42060947418213
+    },
+    {
+      "run_id": 42,
+      "seed": 47336,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 66.1100959777832
+    },
+    {
+      "run_id": 43,
+      "seed": 73027,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 91.7261176109314
+    },
+    {
+      "run_id": 44,
+      "seed": 98644,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 117.47035932540894
+    },
+    {
+      "run_id": 45,
+      "seed": 24389,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 143.2068371772766
+    },
+    {
+      "run_id": 46,
+      "seed": 50126,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 168.82869362831116
+    },
+    {
+      "run_id": 47,
+      "seed": 75749,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 194.63947224617004
+    },
+    {
+      "run_id": 48,
+      "seed": 1561,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 220.54294967651367
+    },
+    {
+      "run_id": 49,
+      "seed": 27466,
+      "status": "success",
+      "cost": 222.72705072506568,
+      "found_time": 1.8540072441101074,
+      "total_time": 16.445428371429443,
+      "absolute_time": 1348.2906827926636,
+      "num_chiplets": 8,
+      "start_offset": 1346.4366755485535
+    },
+    {
+      "run_id": 50,
+      "seed": 78932,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 42.04133415222168
+    },
+    {
+      "run_id": 51,
+      "seed": 4529,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 67.65987515449524
+    },
+    {
+      "run_id": 52,
+      "seed": 30149,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 93.30826616287231
+    },
+    {
+      "run_id": 53,
+      "seed": 55798,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 118.9217381477356
+    },
+    {
+      "run_id": 54,
+      "seed": 81412,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 144.58777904510498
+    },
+    {
+      "run_id": 55,
+      "seed": 7080,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 170.086110830307
+    },
+    {
+      "run_id": 56,
+      "seed": 32579,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 195.76454162597656
+    },
+    {
+      "run_id": 57,
+      "seed": 58258,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 221.32663702964783
+    },
+    {
+      "run_id": 58,
+      "seed": 83821,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 246.86375761032104
+    },
+    {
+      "run_id": 59,
+      "seed": 9360,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 272.5010802745819
+    },
+    {
+      "run_id": 60,
+      "seed": 34998,
+      "status": "success",
+      "cost": 225.21963610587161,
+      "found_time": 0.13086771965026855,
+      "total_time": 14.832694292068481,
+      "absolute_time": 1650.3781242370605,
+      "num_chiplets": 8,
+      "start_offset": 1650.2472565174103
+    },
+    {
+      "run_id": 61,
+      "seed": 81141,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 40.67330884933472
+    },
+    {
+      "run_id": 62,
+      "seed": 6983,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 66.55850291252136
+    },
+    {
+      "run_id": 63,
+      "seed": 32869,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 92.27801132202148
+    },
+    {
+      "run_id": 64,
+      "seed": 58589,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 118.13763523101807
+    },
+    {
+      "run_id": 65,
+      "seed": 84450,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 143.97893285751343
+    },
+    {
+      "run_id": 66,
+      "seed": 10292,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 169.81035327911377
+    },
+    {
+      "run_id": 67,
+      "seed": 36125,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 195.56661939620972
+    },
+    {
+      "run_id": 68,
+      "seed": 61882,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 221.28202939033508
+    },
+    {
+      "run_id": 69,
+      "seed": 87598,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 247.04174065589905
+    },
+    {
+      "run_id": 70,
+      "seed": 13359,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 272.8753147125244
+    },
+    {
+      "run_id": 71,
+      "seed": 39194,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 298.69510674476624
+    },
+    {
+      "run_id": 72,
+      "seed": 65014,
+      "status": "success",
+      "cost": 226.3704115232147,
+      "found_time": 0.06509566307067871,
+      "total_time": 14.728745937347412,
+      "absolute_time": 1980.5711591243744,
+      "num_chiplets": 8,
+      "start_offset": 1980.5060634613037
+    },
+    {
+      "run_id": 73,
+      "seed": 11308,
+      "status": "success",
+      "cost": 226.72125594833832,
+      "found_time": 0.008818387985229492,
+      "total_time": 14.629257202148438,
+      "absolute_time": 2025.0311760902405,
+      "num_chiplets": 8,
+      "start_offset": 2025.0223577022552
+    },
+    {
+      "run_id": 74,
+      "seed": 55726,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 40.35137629508972
+    },
+    {
+      "run_id": 75,
+      "seed": 81449,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 66.12710332870483
+    },
+    {
+      "run_id": 76,
+      "seed": 7226,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 91.81030941009521
+    },
+    {
+      "run_id": 77,
+      "seed": 32910,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 117.63969659805298
+    },
+    {
+      "run_id": 78,
+      "seed": 58740,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 143.41131138801575
+    },
+    {
+      "run_id": 79,
+      "seed": 84513,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 169.10209560394287
+    },
+    {
+      "run_id": 80,
+      "seed": 10205,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 194.75075340270996
+    },
+    {
+      "run_id": 81,
+      "seed": 35854,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 220.56637907028198
+    },
+    {
+      "run_id": 82,
+      "seed": 61671,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 246.39072251319885
+    },
+    {
+      "run_id": 83,
+      "seed": 87496,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 272.16494703292847
+    },
+    {
+      "run_id": 84,
+      "seed": 13271,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 297.9483497142792
+    },
+    {
+      "run_id": 85,
+      "seed": 39056,
+      "status": "success",
+      "cost": 223.61459460319193,
+      "found_time": 0.017435789108276367,
+      "total_time": 14.638247728347778,
+      "absolute_time": 2354.277505636215,
+      "num_chiplets": 8,
+      "start_offset": 2354.260069847107
+    },
+    {
+      "run_id": 86,
+      "seed": 84984,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 40.44174146652222
+    },
+    {
+      "run_id": 87,
+      "seed": 10789,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 66.36225914955139
+    },
+    {
+      "run_id": 88,
+      "seed": 36710,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 92.22116756439209
+    },
+    {
+      "run_id": 89,
+      "seed": 62570,
+      "status": "success",
+      "cost": 223.03398643052336,
+      "found_time": 0.2696104049682617,
+      "total_time": 14.900808572769165,
+      "absolute_time": 2477.5685572624207,
+      "num_chiplets": 8,
+      "start_offset": 2477.2989468574524
+    },
+    {
+      "run_id": 90,
+      "seed": 8290,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 40.62006974220276
+    },
+    {
+      "run_id": 91,
+      "seed": 34010,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 66.46971917152405
+    },
+    {
+      "run_id": 92,
+      "seed": 59861,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 92.19009900093079
+    },
+    {
+      "run_id": 93,
+      "seed": 85582,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 117.94127869606018
+    },
+    {
+      "run_id": 94,
+      "seed": 11334,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 143.65450763702393
+    },
+    {
+      "run_id": 95,
+      "seed": 37049,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 169.45677947998047
+    },
+    {
+      "run_id": 96,
+      "seed": 62852,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 195.26223468780518
+    },
+    {
+      "run_id": 97,
+      "seed": 88658,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 221.0074861049652
+    },
+    {
+      "run_id": 98,
+      "seed": 14405,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 246.87943696975708
+    },
+    {
+      "run_id": 99,
+      "seed": 40277,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 272.6908838748932
+    },
+    {
+      "run_id": 100,
+      "seed": 66090,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 298.62076473236084
+    },
+    {
+      "run_id": 101,
+      "seed": 92021,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 324.488529920578
+    },
+    {
+      "run_id": 102,
+      "seed": 17890,
+      "status": "success",
+      "cost": 225.042559742478,
+      "found_time": 0.6874666213989258,
+      "total_time": 15.198745489120483,
+      "absolute_time": 2834.0913548469543,
+      "num_chiplets": 8,
+      "start_offset": 2833.4038882255554
+    },
+    {
+      "run_id": 103,
+      "seed": 64706,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 41.019871950149536
+    },
+    {
+      "run_id": 104,
+      "seed": 90528,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 67.00699734687805
+    },
+    {
+      "run_id": 105,
+      "seed": 16516,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 92.86627984046936
+    },
+    {
+      "run_id": 106,
+      "seed": 42376,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 118.81327676773071
+    },
+    {
+      "run_id": 107,
+      "seed": 68324,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 144.86488580703735
+    },
+    {
+      "run_id": 108,
+      "seed": 94377,
+      "status": "success",
+      "cost": 225.07618422599018,
+      "found_time": 0.45113563537597656,
+      "total_time": 15.0044105052948,
+      "absolute_time": 3008.239650249481,
+      "num_chiplets": 8,
+      "start_offset": 3007.788514614105
+    },
+    {
+      "run_id": 109,
+      "seed": 38902,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 40.63406467437744
+    },
+    {
+      "run_id": 110,
+      "seed": 64533,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 66.33300137519836
+    },
+    {
+      "run_id": 111,
+      "seed": 90233,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 92.0929627418518
+    },
+    {
+      "run_id": 112,
+      "seed": 15994,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 117.8037965297699
+    },
+    {
+      "run_id": 113,
+      "seed": 41705,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 143.4157943725586
+    },
+    {
+      "run_id": 114,
+      "seed": 67318,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 169.14377331733704
+    },
+    {
+      "run_id": 115,
+      "seed": 93047,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 194.84181189537048
+    },
+    {
+      "run_id": 116,
+      "seed": 18746,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 220.49181270599365
+    },
+    {
+      "run_id": 117,
+      "seed": 44397,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 246.10064363479614
+    },
+    {
+      "run_id": 118,
+      "seed": 70007,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 271.7119698524475
+    },
+    {
+      "run_id": 119,
+      "seed": 95620,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 297.34425020217896
+    },
+    {
+      "run_id": 120,
+      "seed": 21253,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 323.01682782173157
+    },
+    {
+      "run_id": 121,
+      "seed": 46926,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 348.6211907863617
+    },
+    {
+      "run_id": 122,
+      "seed": 72532,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 374.2159025669098
+    },
+    {
+      "run_id": 123,
+      "seed": 98127,
+      "status": "success",
+      "cost": 227.55677144467924,
+      "found_time": 0.43323755264282227,
+      "total_time": 15.085228443145752,
+      "absolute_time": 3411.853697538376,
+      "num_chiplets": 8,
+      "start_offset": 3411.420459985733
+    },
+    {
+      "run_id": 124,
+      "seed": 42630,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 40.93456172943115
+    },
+    {
+      "run_id": 125,
+      "seed": 68480,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 66.8137755393982
+    },
+    {
+      "run_id": 126,
+      "seed": 94360,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 92.54943823814392
+    },
+    {
+      "run_id": 127,
+      "seed": 20097,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 118.41514301300049
+    },
+    {
+      "run_id": 128,
+      "seed": 45964,
+      "status": "success",
+      "cost": 223.91229956169337,
+      "found_time": 0.025231361389160156,
+      "total_time": 14.6403489112854,
+      "absolute_time": 3559.918157339096,
+      "num_chiplets": 8,
+      "start_offset": 3559.892925977707
+    },
+    {
+      "run_id": 129,
+      "seed": 90662,
+      "status": "failed",
+      "error": "基础导出未生成根节点，无法为ECG 0构建相似度森林",
+      "total_time": 40.364418745040894
+    }
+  ],
+  "solutions": [
+    {
+      "solution_idx": 1,
+      "cost": 222.72705072506568,
+      "utilization": 53.852881276006,
+      "solve_time": 1348.2906827926636,
+      "iteration": 50000,
+      "json_file": "solution_1_cost_222.727051.json",
+      "image_file": "solution_1_cost_222.727051.png",
+      "run_idx": 49
+    },
+    {
+      "solution_idx": 2,
+      "cost": 222.96854567555363,
+      "utilization": 53.376099098600896,
+      "solve_time": 1090.9927926063538,
+      "iteration": 50000,
+      "json_file": "solution_2_cost_222.968546.json",
+      "image_file": "solution_2_cost_222.968546.png",
+      "run_idx": 40
+    },
+    {
+      "solution_idx": 3,
+      "cost": 223.03398643052336,
+      "utilization": 52.533817859743706,
+      "solve_time": 2477.5685572624207,
+      "iteration": 50000,
+      "json_file": "solution_3_cost_223.033986.json",
+      "image_file": "solution_3_cost_223.033986.png",
+      "run_idx": 89
+    },
+    {
+      "solution_idx": 4,
+      "cost": 223.38564028277756,
+      "utilization": 53.87964720330468,
+      "solve_time": 133.1658148765564,
+      "iteration": 50000,
+      "json_file": "solution_4_cost_223.385640.json",
+      "image_file": "solution_4_cost_223.385640.png",
+      "run_idx": 5
+    },
+    {
+      "solution_idx": 5,
+      "cost": 223.47666670420725,
+      "utilization": 53.376099098600896,
+      "solve_time": 488.7613756656647,
+      "iteration": 50000,
+      "json_file": "solution_5_cost_223.476667.json",
+      "image_file": "solution_5_cost_223.476667.png",
+      "run_idx": 18
+    },
+    {
+      "solution_idx": 6,
+      "cost": 223.61459460319193,
+      "utilization": 51.74262456193334,
+      "solve_time": 2354.277505636215,
+      "iteration": 50000,
+      "json_file": "solution_6_cost_223.614595.json",
+      "image_file": "solution_6_cost_223.614595.png",
+      "run_idx": 85
+    },
+    {
+      "solution_idx": 7,
+      "cost": 223.91229956169337,
+      "utilization": 52.752268756037815,
+      "solve_time": 3559.918157339096,
+      "iteration": 50000,
+      "json_file": "solution_7_cost_223.912300.json",
+      "image_file": "solution_7_cost_223.912300.png",
+      "run_idx": 128
+    },
+    {
+      "solution_idx": 8,
+      "cost": 225.042559742478,
+      "utilization": 51.89882252405661,
+      "solve_time": 2834.0913548469543,
+      "iteration": 50000,
+      "json_file": "solution_8_cost_225.042560.json",
+      "image_file": "solution_8_cost_225.042560.png",
+      "run_idx": 102
+    },
+    {
+      "solution_idx": 9,
+      "cost": 225.07618422599018,
+      "utilization": 50.842381911997556,
+      "solve_time": 3008.239650249481,
+      "iteration": 50000,
+      "json_file": "solution_9_cost_225.076184.json",
+      "image_file": "solution_9_cost_225.076184.png",
+      "run_idx": 108
+    },
+    {
+      "solution_idx": 10,
+      "cost": 225.21963610587161,
+      "utilization": 52.85495725857854,
+      "solve_time": 1650.3781242370605,
+      "iteration": 50000,
+      "json_file": "solution_10_cost_225.219636.json",
+      "image_file": "solution_10_cost_225.219636.png",
+      "run_idx": 60
+    },
+    {
+      "solution_idx": 11,
+      "cost": 226.3704115232147,
+      "utilization": 50.56762253195936,
+      "solve_time": 1980.5711591243744,
+      "iteration": 50000,
+      "json_file": "solution_11_cost_226.370412.json",
+      "image_file": "solution_11_cost_226.370412.png",
+      "run_idx": 72
+    },
+    {
+      "solution_idx": 12,
+      "cost": 226.72125594833832,
+      "utilization": 48.496925268608535,
+      "solve_time": 2025.0311760902405,
+      "iteration": 50000,
+      "json_file": "solution_12_cost_226.721256.json",
+      "image_file": "solution_12_cost_226.721256.png",
+      "run_idx": 73
+    },
+    {
+      "solution_idx": 13,
+      "cost": 227.55677144467924,
+      "utilization": 51.05841433822522,
+      "solve_time": 3411.853697538376,
+      "iteration": 50000,
+      "json_file": "solution_13_cost_227.556771.json",
+      "image_file": "solution_13_cost_227.556771.png",
+      "run_idx": 123
+    },
+    {
+      "solution_idx": 14,
+      "cost": 227.57232471644323,
+      "utilization": 53.376099098600896,
+      "solve_time": 554.7539918422699,
+      "iteration": 50000,
+      "json_file": "solution_14_cost_227.572325.json",
+      "image_file": "solution_14_cost_227.572325.png",
+      "run_idx": 20
+    }
+  ]
+}

@@ -1,0 +1,349 @@
+{
+  "case_name": "multigpu",
+  "timestamp": "2026-03-04T02:04:17.114721",
+  "total_runs": 20,
+  "num_chiplets": 6,
+  "num_connections": 3,
+  "time_limit_seconds": 3600,
+  "total_time_seconds": 812.2474117279053,
+  "statistics": {
+    "success_count": 20,
+    "failed_count": 0,
+    "cost": {
+      "best": 167.73871995610043,
+      "worst": 167.73871995610043,
+      "average": 167.73871995610043,
+      "std_dev": 0.0
+    },
+    "time": {
+      "avg_found_time": 0.07624962329864501,
+      "avg_total_time": 8.085424482822418,
+      "min_found_time": 0.011978864669799805,
+      "max_found_time": 0.23100900650024414
+    }
+  },
+  "run_details": [
+    {
+      "run_id": 1,
+      "seed": 44867,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.11219000816345215,
+      "total_time": 8.138351917266846,
+      "absolute_time": 32.86321139335632,
+      "num_chiplets": 6,
+      "start_offset": 32.75102138519287
+    },
+    {
+      "run_id": 2,
+      "seed": 85757,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.016874074935913086,
+      "total_time": 8.040504932403564,
+      "absolute_time": 74.08043718338013,
+      "num_chiplets": 6,
+      "start_offset": 74.06356310844421
+    },
+    {
+      "run_id": 3,
+      "seed": 26973,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.05924868583679199,
+      "total_time": 8.067283153533936,
+      "absolute_time": 114.74602127075195,
+      "num_chiplets": 6,
+      "start_offset": 114.68677258491516
+    },
+    {
+      "run_id": 4,
+      "seed": 67624,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.015417098999023438,
+      "total_time": 8.039355039596558,
+      "absolute_time": 154.37084794044495,
+      "num_chiplets": 6,
+      "start_offset": 154.35543084144592
+    },
+    {
+      "run_id": 5,
+      "seed": 7266,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.13173937797546387,
+      "total_time": 8.120352506637573,
+      "absolute_time": 195.39668440818787,
+      "num_chiplets": 6,
+      "start_offset": 195.2649450302124
+    },
+    {
+      "run_id": 6,
+      "seed": 48257,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.011978864669799805,
+      "total_time": 8.000189065933228,
+      "absolute_time": 235.8839032649994,
+      "num_chiplets": 6,
+      "start_offset": 235.8719244003296
+    },
+    {
+      "run_id": 7,
+      "seed": 88745,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.23100900650024414,
+      "total_time": 8.252375364303589,
+      "absolute_time": 276.7328209877014,
+      "num_chiplets": 6,
+      "start_offset": 276.5018119812012
+    },
+    {
+      "run_id": 8,
+      "seed": 29628,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.060405731201171875,
+      "total_time": 8.042715549468994,
+      "absolute_time": 318.2084081172943,
+      "num_chiplets": 6,
+      "start_offset": 318.14800238609314
+    },
+    {
+      "run_id": 9,
+      "seed": 71066,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.06781005859375,
+      "total_time": 8.063704013824463,
+      "absolute_time": 358.6830611228943,
+      "num_chiplets": 6,
+      "start_offset": 358.61525106430054
+    },
+    {
+      "run_id": 10,
+      "seed": 11555,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.20888829231262207,
+      "total_time": 8.19301724433899,
+      "absolute_time": 398.8184862136841,
+      "num_chiplets": 6,
+      "start_offset": 398.60959792137146
+    },
+    {
+      "run_id": 11,
+      "seed": 51680,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.08991003036499023,
+      "total_time": 8.093291997909546,
+      "absolute_time": 440.12706542015076,
+      "num_chiplets": 6,
+      "start_offset": 440.03715538978577
+    },
+    {
+      "run_id": 12,
+      "seed": 93008,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.019947528839111328,
+      "total_time": 8.059932708740234,
+      "absolute_time": 479.2854278087616,
+      "num_chiplets": 6,
+      "start_offset": 479.2654802799225
+    },
+    {
+      "run_id": 13,
+      "seed": 32204,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.09977340698242188,
+      "total_time": 8.102191686630249,
+      "absolute_time": 519.6568219661713,
+      "num_chiplets": 6,
+      "start_offset": 519.5570485591888
+    },
+    {
+      "run_id": 14,
+      "seed": 72539,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.03680849075317383,
+      "total_time": 8.083768844604492,
+      "absolute_time": 559.454149723053,
+      "num_chiplets": 6,
+      "start_offset": 559.4173412322998
+    },
+    {
+      "run_id": 15,
+      "seed": 12382,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.09671139717102051,
+      "total_time": 8.092420101165771,
+      "absolute_time": 600.202351808548,
+      "num_chiplets": 6,
+      "start_offset": 600.105640411377
+    },
+    {
+      "run_id": 16,
+      "seed": 53080,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.04973912239074707,
+      "total_time": 8.083811521530151,
+      "absolute_time": 640.0390119552612,
+      "num_chiplets": 6,
+      "start_offset": 639.9892728328705
+    },
+    {
+      "run_id": 17,
+      "seed": 92956,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.02241826057434082,
+      "total_time": 8.036388635635376,
+      "absolute_time": 681.3987119197845,
+      "num_chiplets": 6,
+      "start_offset": 681.3762936592102
+    },
+    {
+      "run_id": 18,
+      "seed": 34297,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.013817787170410156,
+      "total_time": 8.034263372421265,
+      "absolute_time": 721.0864880084991,
+      "num_chiplets": 6,
+      "start_offset": 721.0726702213287
+    },
+    {
+      "run_id": 19,
+      "seed": 73992,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.13966608047485352,
+      "total_time": 8.129937648773193,
+      "absolute_time": 761.0872893333435,
+      "num_chiplets": 6,
+      "start_offset": 760.9476232528687
+    },
+    {
+      "run_id": 20,
+      "seed": 13964,
+      "status": "success",
+      "cost": 167.73871995610043,
+      "found_time": 0.04063916206359863,
+      "total_time": 8.034634351730347,
+      "absolute_time": 802.1665461063385,
+      "num_chiplets": 6,
+      "start_offset": 802.1259069442749
+    }
+  ],
+  "solutions": [
+    {
+      "solution_idx": 1,
+      "cost": 167.73871995610043,
+      "utilization": 86.18429433589706,
+      "solve_time": 32.86321139335632,
+      "iteration": 50000,
+      "json_file": "solution_1_cost_167.738720.json",
+      "image_file": "solution_1_cost_167.738720.png",
+      "run_idx": 1
+    },
+    {
+      "solution_idx": 2,
+      "cost": 167.73871995610043,
+      "utilization": 86.18429433589706,
+      "solve_time": 74.08043718338013,
+      "iteration": 50000,
+      "json_file": "solution_2_cost_167.738720.json",
+      "image_file": "solution_2_cost_167.738720.png",
+      "run_idx": 2
+    },
+    {
+      "solution_idx": 3,
+      "cost": 167.73871995610043,
+      "utilization": 86.18429433589706,
+      "solve_time": 114.74602127075195,
+      "iteration": 50000,
+      "json_file": "solution_3_cost_167.738720.json",
+      "image_file": "solution_3_cost_167.738720.png",
+      "run_idx": 3
+    },
+    {
+      "solution_idx": 4,
+      "cost": 167.73871995610043,
+      "utilization": 86.18429433589706,
+      "solve_time": 154.37084794044495,
+      "iteration": 50000,
+      "json_file": "solution_4_cost_167.738720.json",
+      "image_file": "solution_4_cost_167.738720.png",
+      "run_idx": 4
+    },
+    {
+      "solution_idx": 5,
+      "cost": 167.73871995610043,
+      "utilization": 86.18429433589706,
+      "solve_time": 195.39668440818787,
+      "iteration": 50000,
+      "json_file": "solution_5_cost_167.738720.json",
+      "image_file": "solution_5_cost_167.738720.png",
+      "run_idx": 5
+    },
+    {
+      "solution_idx": 6,
+      "cost": 167.73871995610043,
+      "utilization": 86.18429433589706,
+      "solve_time": 235.8839032649994,
+      "iteration": 50000,
+      "json_file": "solution_6_cost_167.738720.json",
+      "image_file": "solution_6_cost_167.738720.png",
+      "run_idx": 6
+    },
+    {
+      "solution_idx": 7,
+      "cost": 167.73871995610043,
+      "utilization": 86.18429433589706,
+      "solve_time": 276.7328209877014,
+      "iteration": 50000,
+      "json_file": "solution_7_cost_167.738720.json",
+      "image_file": "solution_7_cost_167.738720.png",
+      "run_idx": 7
+    },
+    {
+      "solution_idx": 8,
+      "cost": 167.73871995610043,
+      "utilization": 86.18429433589706,
+      "solve_time": 318.2084081172943,
+      "iteration": 50000,
+      "json_file": "solution_8_cost_167.738720.json",
+      "image_file": "solution_8_cost_167.738720.png",
+      "run_idx": 8
+    },
+    {
+      "solution_idx": 9,
+      "cost": 167.73871995610043,
+      "utilization": 86.18429433589706,
+      "solve_time": 358.6830611228943,
+      "iteration": 50000,
+      "json_file": "solution_9_cost_167.738720.json",
+      "image_file": "solution_9_cost_167.738720.png",
+      "run_idx": 9
+    },
+    {
+      "solution_idx": 10,
+      "cost": 167.73871995610043,
+      "utilization": 86.18429433589706,
+      "solve_time": 398.8184862136841,
+      "iteration": 50000,
+      "json_file": "solution_10_cost_167.738720.json",
+      "image_file": "solution_10_cost_167.738720.png",
+      "run_idx": 10
+    }
+  ]
+}
