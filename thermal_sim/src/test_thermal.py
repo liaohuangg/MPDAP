@@ -4,19 +4,20 @@ import json
 import subprocess
 import time
 
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 from matplotlib.patheffects import withStroke
 from matplotlib.colors import ListedColormap
 import numpy as np
 
-# TODO: add English comment
-# Import layout helpers from gen_flp_trace
+# Reuse the FLP generation layout logic to keep chiplet and bridge translations consistent
 from gen_flp_trace import load_json_layout, build_layout
 
 def read_flp_blocks(flp_file):
     """
-    Read an FLP file and return mapping from block name to center coordinates {(x_center, y_center)}.
+    Read an FLP file and return a mapping from block name to center coordinates {(x_center, y_center)}.
     FLP format: name width height x y [optional...]
     """
     blocks = {}
@@ -35,15 +36,15 @@ def read_flp_blocks(flp_file):
 
 def read_steady_file(steady_file, flp_file=None):
     """
-    Read a HotSpot .steady file (format: name<TAB>temp).
-    Grid model output has no coords; use FLP file to map names to positions.
-    Returns: (names, temps, coords) where coords are (x, y).
+    Read a HotSpot .steady file (format: name<TAB>temp, two columns).
+    HotSpot grid-model output does not include coordinates, so block positions are matched from the FLP file.
+    Returns: module name list, temperature list, coordinate list (x, y)
     """
     names = []
     temps = []
     coords = []
     if not os.path.exists(steady_file):
-        print("DEBUG")
+        print(f"[ERROR] {steady_file} does not exist. Check whether the HotSpot simulation completed successfully.")
         return names, temps, coords
 
     flp_blocks = read_flp_blocks(flp_file) if flp_file else {}
@@ -54,7 +55,7 @@ def read_steady_file(steady_file, flp_file=None):
             if len(parts) >= 2:
                 name = parts[0]
                 temp = float(parts[1])
-                # Strip known prefixes used in grid/steady outputs
+                # HotSpot prefixes silicon-layer blocks with layer_0_; strip it before matching against the FLP data
                 base_name = name
                 for prefix in ("layer_0_", "hsp_", "hsink_"):
                     if name.startswith(prefix):
@@ -70,16 +71,16 @@ def read_steady_file(steady_file, flp_file=None):
                     temps.append(temp)
                     coords.append((0.0, 0.0))
 
-    print("DEBUG")
+    print(f"[OK] Loaded temperature data for {len(names)} chiplet modules")
     return names, temps, coords
 
 def read_grid_steady_layer(grid_steady_file, layer_num):
     """
-    Read temperatures for a given layer from a .grid.steady file.
-    Returns: (temps_list, rows, cols) or (None, None, None).
+    Read temperature data for the specified layer from a .grid.steady file.
+    Returns: (temps_list, rows, cols) or (None, None, None)
     """
     if not os.path.exists(grid_steady_file):
-        print("DEBUG")
+        print(f"[ERROR] {grid_steady_file} does not exist")
         return None, None, None
     temps = []
     in_target = False
@@ -110,9 +111,9 @@ def read_grid_steady_layer(grid_steady_file, layer_num):
 
 def read_flp_layout(flp_file):
     """
-    Read FLP layout and return chiplet and TIM block lists (same convention as view_flp).
-    Returns: chiplets [(name, w, h, x, y), ...], tims [(name, w, h, x, y), ...].
-    Naming: single uppercase letter is chiplet (A, B, C, ...); T+number is TIM (T0, T1, ...).
+    Read an FLP layout and return lists of chiplet and TIM blocks (consistent with view_flp).
+    Returns: chiplets [(name, w, h, x, y), ...], tims [(name, w, h, x, y), ...]
+    Supports the newer naming scheme: a single uppercase letter for chiplets (A, B, C...) and T+number for TIMs (T0, T1...)
     """
     chiplets = []
     tims = []
@@ -127,9 +128,9 @@ def read_flp_layout(flp_file):
             if len(parts) < 5:
                 continue
             name, w, h, x, y = parts[0], float(parts[1]), float(parts[2]), float(parts[3]), float(parts[4])
-            # TODO: add English comment
-            # TODO: add English comment
-            # TODO: add English comment
+            # Support two naming schemes:
+            # Old scheme: chipletA, chipletB, TIM0, TIM1
+            # New scheme: A, B, C (single uppercase letter), T0, T1 (T + number)
             if name.startswith("chiplet") or (len(name) == 1 and name.isupper()):
                 chiplets.append((name, w, h, x, y))
             elif name.startswith("TIM") or (name.startswith("T") and len(name) > 1 and name[1:].isdigit()):
@@ -146,10 +147,10 @@ def plot_grid_layer2_thermal_map(
     layer_num=2,
 ):
     """
-    Read Layer 2 data from .grid.steady, draw a grid heatmap, and overlay chiplet boxes, names, and power.
-    Colormap matches HotSpot `grid_thermal_map.pl` (red-yellow-green-cyan-blue, hotter -> red).
+    Read Layer 2 data from .grid.steady, draw the grid thermal map, and overlay chiplet boxes, names, and power.
+    The colormap matches HotSpot's built-in `grid_thermal_map.pl` (red-yellow-green-cyan-blue, with hotter regions shown in red).
     """
-    # TODO: add English comment
+    # Read power data from the ptrace file
     power_dict = {}
     ptrace_file = flp_file.replace('.flp', '.ptrace')
     if os.path.exists(ptrace_file):
@@ -166,20 +167,20 @@ def plot_grid_layer2_thermal_map(
                         except ValueError:
                             pass
         except Exception as e:
-            print("DEBUG")
+            print(f"[WARNING] Failed to read ptrace file: {e}")
     
     temps, rows, cols = read_grid_steady_layer(grid_steady_file, layer_num)
     if not temps or rows is None:
-        print("DEBUG")
+        print(f"[ERROR] Failed to read temperature data for Layer {layer_num}")
         return
 
-    # TODO: add English comment
+    # HotSpot outputs absolute temperature in Kelvin, consistent with grid_thermal_map.pl; convert to Celsius for coloring and display
     temps = np.array(temps).reshape(rows, cols)
-    # TODO: add English comment
+    # Flip vertically once so the physical "top" of the layout also appears at the top of the image
     temps = np.flipud(temps)
     temps_c = temps - 273.15
     chiplets, tims = read_flp_layout(flp_file)
-    # TODO: add English comment
+    # Convert coordinates from meters to millimeters
     chiplets = [(n, w*1000, h*1000, x*1000, y*1000) for n, w, h, x, y in chiplets]
     tims = [(n, w*1000, h*1000, x*1000, y*1000) for n, w, h, x, y in tims]
     all_blocks = chiplets + tims
@@ -190,9 +191,9 @@ def plot_grid_layer2_thermal_map(
     if total_width <= 0 or total_length <= 0:
         total_width = total_length = max(0.01, 0.05)
 
-    # TODO: add English comment
-    # TODO: add English comment
-    # TODO: add English comment
+    # Build the same 21-level RGB palette used by grid_thermal_map.pl.
+    # In matplotlib, vmin maps to the first color and vmax maps to the last color.
+    # To ensure "hot = red, cold = blue", reverse the original (red -> blue) sequence into (blue -> red).
     palette_rgb = [
         (255, 0, 0),
         (255, 51, 0),
@@ -216,7 +217,7 @@ def plot_grid_layer2_thermal_map(
         (0, 51, 255),
         (0, 0, 255),
     ]
-    # TODO: add English comment
+    # Reverse order: blue for lower temperatures, red for higher temperatures
     palette_rgb = list(reversed(palette_rgb))
     palette_norm = [(r / 255.0, g / 255.0, b / 255.0) for r, g, b in palette_rgb]
     cmap = ListedColormap(palette_norm, name="hotspot_grid_palette")
@@ -233,7 +234,7 @@ def plot_grid_layer2_thermal_map(
     avg_c = float(np.mean(temps_c))
     im.set_clim(np.min(temps_c), max_c)
     cbar = fig.colorbar(im, ax=ax)
-    # TODO: add English comment
+    # Keep sizing close to EMIBplot.py: axis labels 18, ticks 14
     cbar.set_label("Temperature (°C)", fontsize=18)
     cbar.ax.tick_params(labelsize=14)
     ax.set_title(
@@ -246,12 +247,12 @@ def plot_grid_layer2_thermal_map(
     ax.set_xlabel("X (mm)")
     ax.set_ylabel("Y (mm)")
 
-    # TODO: add English comment
+    # Overlay chiplet boxes, names, and power labels (facecolor='none' keeps the heatmap visible)
     for name, w, h, x, y in chiplets:
         rect = patches.Rectangle((x, y), w, h, linewidth=1.5, edgecolor="black", facecolor="none")
         ax.add_patch(rect)
         cx, cy = x + w / 2, y + h / 2
-        # TODO: add English comment
+        # Place name and power together at the chiplet center using two lines, fully centered
         power = power_dict.get(name, 0.0)
         power_text = f"{power:.2f}W" if power > 0 else ""
         if power_text:
@@ -270,7 +271,7 @@ def plot_grid_layer2_thermal_map(
             linespacing=1.2,
             path_effects=[withStroke(linewidth=2, foreground="black")],
         )
-    # TODO: add English comment
+    # Overlay TIM boxes and names (optional, red border)
     for name, w, h, x, y in tims:
         rect = patches.Rectangle((x, y), w, h, linewidth=1, edgecolor="red", facecolor="none", alpha=0.7)
         ax.add_patch(rect)
@@ -278,15 +279,15 @@ def plot_grid_layer2_thermal_map(
         ax.text(cx, cy, name, ha="center", va="center", fontsize=12, color="white",
                 path_effects=[withStroke(linewidth=1, foreground="black")])
 
-    # TODO: add English comment
+    # Overlay EMIB silicon bridges (draw only interfaceA/interfaceB, skip interfaceC, keep them on top)
     if json_basename:
         try:
             script_dir = os.path.dirname(os.path.abspath(__file__))
-            # TODO: add English comment
+            # Prefer the externally provided placement_dir (corresponding to the currently processed output_gurobi_EMIB_chiplet_* directory)
             if placement_dir:
                 json_dir = os.path.normpath(placement_dir)
             else:
-                # TODO: add English comment
+                # Backward-compatible fallback: read JSON from output_gurobi_EMIB_chiplet_5_6_01_0/placement by default
                 root_dir = os.path.normpath(os.path.join(script_dir, "..", ".."))
                 json_dir = os.path.join(root_dir, "output_gurobi_EMIB_chiplet_5_6_01_0", "placement")
             json_path = os.path.join(json_dir, f"{json_basename}.json")
@@ -294,11 +295,11 @@ def plot_grid_layer2_thermal_map(
                 with open(json_path, "r", encoding="utf-8") as f:
                     placement_data = json.load(f)
 
-                # TODO: add English comment
+                # Recompute chiplet translation using gen_flp_trace logic to match the FLP translation exactly
                 try:
-                    orig_chiplets = load_json_layout(json_path)  # TODO: add English comment
-                    shifted_chiplets, _ = build_layout(orig_chiplets)  # TODO: add English comment
-                    # TODO: add English comment
+                    orig_chiplets = load_json_layout(json_path)  # Original JSON layout (mm)
+                    shifted_chiplets, _ = build_layout(orig_chiplets)  # Translated + centered layout (mm)
+                    # Compute the global translation. In theory each chiplet has the same shift_x/shift_y; averaging is a more robust fallback.
                     dx_list = []
                     dy_list = []
                     orig_by_name = {c["name"]: c for c in orig_chiplets}
@@ -312,7 +313,7 @@ def plot_grid_layer2_thermal_map(
                     shift_x = sum(dx_list) / len(dx_list) if dx_list else 0.0
                     shift_y = sum(dy_list) / len(dy_list) if dy_list else 0.0
                 except Exception as e:
-                    print("DEBUG")
+                    print(f"[WARNING] Failed to compute chiplet translation; EMIB bridges will not be translated: {e}")
                     shift_x = shift_y = 0.0
 
                 for conn in placement_data.get("connections", []):
@@ -325,12 +326,12 @@ def plot_grid_layer2_thermal_map(
                     y = conn.get("EMIB-y-position", 0.0)
                     w = conn.get("EMIB_width", 0.0)
                     h = conn.get("EMIB_length", 0.0)
-                    # TODO: add English comment
+                    # EMIB coordinates and dimensions in JSON are already in mm; apply the same translation as the chiplets to preserve relative positions
                     x_mm, y_mm = float(x) + shift_x, float(y) + shift_y
                     w_mm, h_mm = float(w), float(h)
                     if w_mm <= 0.0 or h_mm <= 0.0:
                         continue
-                    # TODO: add English comment
+                    # Use the light flesh tone RGB(251,229,214) for the bridge color
                     emib_color = (251 / 255.0, 229 / 255.0, 214 / 255.0)
                     rect = patches.Rectangle(
                         (x_mm, y_mm),
@@ -340,13 +341,13 @@ def plot_grid_layer2_thermal_map(
                         edgecolor="black",
                         facecolor=emib_color,
                         alpha=0.95,
-                        zorder=5,  # TODO: add English comment
+                        zorder=5,  # Keep bridges on the top layer
                     )
                     ax.add_patch(rect)
             else:
-                print("DEBUG")
+                print(f"[WARNING] Placement JSON not found: {json_path}; skipping EMIB drawing")
         except Exception as e:
-            print("DEBUG")
+            print(f"[WARNING] Failed to parse/draw EMIB bridges: {e}")
 
     out_dir = os.path.dirname(output_image)
     if out_dir:
@@ -354,17 +355,17 @@ def plot_grid_layer2_thermal_map(
     plt.tight_layout()
     plt.savefig(output_image, dpi=300, bbox_inches="tight", facecolor="white")
     plt.close()
-    print("DEBUG")
+    print(f"[OK] Layer {layer_num} grid thermal map saved to: {output_image}")
 
 
 def plot_thermal_map(names, temps, coords, output_image="thermal_map.png"):
     """
-    Plot temperature distribution and save a high-resolution image (supports custom output path).
+    Draw the thermal distribution map and save a high-resolution image (supports custom output paths).
     """
     if not temps or not coords:
-        print("DEBUG")
+        print("[ERROR] No valid temperature data available; cannot draw the thermal distribution map.")
         return
-    # TODO: add English comment
+    # Convert coordinates from meters to millimeters
     x = [c[0] * 1000 for c in coords]
     y = [c[1] * 1000 for c in coords]
     temps = np.array(temps)
@@ -386,16 +387,16 @@ def plot_thermal_map(names, temps, coords, output_image="thermal_map.png"):
         os.makedirs(out_dir, exist_ok=True)
     plt.savefig(output_image, dpi=300, bbox_inches='tight', facecolor='white')
     plt.close()
-    print("DEBUG")
+    print(f"[OK] Thermal distribution map saved to: {output_image}")
 
 def run_hotspot_simulation(config_dir, json_basename):
     """
-    Run HotSpot thermal simulation (see example3/run.sh).
-    All config files live under config/{json_name}_config/ :
+    Run the HotSpot thermal simulation (based on example3/run.sh).
+    All configuration files are under config/{json_name}_config/:
     - example.config, example.lcf, example.materials
     - {json_name}.ptrace, {json_name}.flp, {json_name}_sub.flp
-    An output subdir is created under config_dir and .steady/.grid.steady are written there.
-    :param config_dir: config directory path (e.g. config/acend910_config)
+    An output subdirectory is created under config_dir, and .steady and .grid.steady are written there.
+    :param config_dir: configuration directory path (e.g. config/acend910_config)
     :param json_basename: JSON base name (e.g. acend910)
     :return: (steady_file, grid_steady_file) or (None, None)
     """
@@ -416,7 +417,7 @@ def run_hotspot_simulation(config_dir, json_basename):
     check_files = [hotspot_bin, example_config, example_lcf, example_materials, ptrace_file]
     for f in check_files:
         if not os.path.exists(f):
-            print("DEBUG")
+            print(f"[ERROR] Required file does not exist -> {f}")
             return None, None
 
     cmd = (
@@ -432,35 +433,35 @@ def run_hotspot_simulation(config_dir, json_basename):
         f"-materials_file example.materials"
     )
     print(cmd)
-    print("DEBUG")
-    print("DEBUG")
-    print("DEBUG")
+    print(f"\n===== Start HotSpot thermal simulation =====")
+    print(f"Config directory: {config_dir}")
+    print(f"Output directory: {output_dir}")
     tmr_start = time.time()
     proc = subprocess.run(cmd, shell=True, cwd=config_dir, timeout=300)
     tmr_end = time.time()
-    print("DEBUG")
+    print(f"===== Thermal simulation completed in {round(tmr_end - tmr_start, 2)} seconds =====\n")
 
     if proc.returncode != 0:
-        print("DEBUG")
+        print(f"[ERROR] HotSpot execution failed (returncode={proc.returncode})")
         return None, None
     return steady_file, grid_steady_file
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description='Run HotSpot and plot chiplet temperature distribution. Config in config/{json_name}_config, output in output subdir.'
+        description='Run HotSpot thermal simulation and draw chiplet thermal maps. Config files are under config/{json_name}_config/, and outputs are written to the output subdirectory.'
     )
     parser.add_argument(
         '--config_dir',
         type=str,
         required=True,
-        help='Config directory path, e.g. config/acend910_config',
+        help='Configuration directory path, e.g. config/acend910_config',
     )
     parser.add_argument(
         '--placement_dir',
         type=str,
         required=False,
-        help='Placement directory containing JSON layouts, e.g. output_gurobi_EMIB_chiplet_x_x_x_x/placement',
+        help='Placement directory containing the corresponding JSON layout, e.g. output_gurobi_EMIB_chiplet_x_x_x_x/placement',
     )
     args = parser.parse_args()
 
@@ -471,22 +472,22 @@ if __name__ == "__main__":
         else None
     )
 
-    # TODO: add English comment
+    # Derive the JSON base name from the directory name: acend910_config -> acend910
     dir_basename = os.path.basename(config_dir)
     if not dir_basename.endswith("_config"):
-        print("DEBUG")
+        print("[ERROR] config_dir must end with _config, e.g. acend910_config")
         exit(1)
-    json_basename = dir_basename[:-7]  # TODO: add English comment
+    json_basename = dir_basename[:-7]  # Strip the "_config" suffix
 
     steady_file, grid_steady_file = run_hotspot_simulation(config_dir, json_basename)
     if not steady_file:
-        print("DEBUG")
+        print("[ERROR] Thermal simulation failed. Exiting.")
         exit(1)
 
     output_dir = os.path.join(config_dir, "output")
     flp_file = os.path.join(config_dir, f"{json_basename}.flp")
 
-    # TODO: add English comment
+    # Layer 2 grid thermal map (including chiplet boxes, names, power, and EMIB bridges)
     layer2_image = os.path.join(output_dir, f"{json_basename}_layer2_grid_thermal.png")
     plot_grid_layer2_thermal_map(
         flp_file,

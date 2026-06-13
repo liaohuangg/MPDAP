@@ -52,19 +52,19 @@ def _get_beta_from_env(env_name: str, default: float) -> float:
 class ILPPlacementResult:
     """ILP solve result container."""
 
-    # TODO: add English comment
+
     layout: Dict[str, Tuple[float, float]]  # name -> (x_grid, y_grid)
-    rotations: Dict[str, bool]  # TODO: add English comment
+    rotations: Dict[str, bool]  
     objective_value: float
     status: str
     solve_time: float
-    bounding_box: Tuple[float, float]  # TODO: add English comment
-    # TODO: add English comment
+    bounding_box: Tuple[float, float]  
+
     cx_grid_var: Dict[str, float]
     cy_grid_var: Dict[str, float]
-    # TODO: add English comment
+
     emib_placements: Optional[List[dict]] = None
-    # TODO: add English comment
+
     aspect_ratio_penalty: Optional[float] = None
 
 @dataclass
@@ -85,7 +85,7 @@ class ILPModelContext:
 
     model: gp.Model
     nodes: List[ChipletNode]
-    edges: List  # TODO: add English comment
+    edges: List  
 
     x_grid_var: Dict[int, gp.Var]
     y_grid_var: Dict[int, gp.Var]
@@ -107,7 +107,7 @@ class ILPModelContext:
     H: float
     fixed_chiplet_idx: Optional[int] = None
 
-    # TODO: add English comment
+
     ref_wirelength: Optional[float] = None
     ref_t: Optional[float] = None
     ref_power: Optional[float] = None
@@ -117,7 +117,7 @@ class ILPModelContext:
     beta_aspect: Optional[float] = None
     beta_power: Optional[float] = None
 
-    # TODO: add English comment
+
     EMIB_connected_pairs: Optional[Dict[Tuple[int, int], Any]] = None
     EMIB_x_grid_var: Optional[Dict[Tuple[int, int], Any]] = None
     EMIB_y_grid_var: Optional[Dict[Tuple[int, int], Any]] = None
@@ -125,7 +125,7 @@ class ILPModelContext:
     EMIB_h_var: Optional[Dict[Tuple[int, int], Any]] = None
     r_EMIB: Optional[Dict[Tuple[int, int], Any]] = None
 
-    # TODO: add English comment
+
     @property
     def prob(self):
         """Return underlying model for compatibility (Gurobi-style API)."""
@@ -148,43 +148,43 @@ def add_absolute_value_constraint_big_m(
        - When orig_var < 0 (is_positive=0): abs_var = -orig_var
     3. Use 2 constraints to enforce correctness of is_positive
     """
-    # TODO: add English comment
+
     is_positive = model.addVar(
         name=f"{constraint_prefix}_is_positive",
         vtype=GRB.BINARY
     )
     
-    # TODO: add English comment
+
     model.addConstr(
         abs_var >= orig_var - M * (1 - is_positive),
         name=f"{constraint_prefix}_abs_ge_orig"
     )
     
-    # TODO: add English comment
+
     model.addConstr(
         abs_var <= orig_var + M * (1 - is_positive),
         name=f"{constraint_prefix}_abs_le_orig"
     )
     
-    # TODO: add English comment
+
     model.addConstr(
         abs_var >= -orig_var - M * is_positive,
         name=f"{constraint_prefix}_abs_ge_neg_orig"
     )
     
-    # TODO: add English comment
+
     model.addConstr(
         abs_var <= -orig_var + M * is_positive,
         name=f"{constraint_prefix}_abs_le_neg_orig"
     )
     
-    # TODO: add English comment
+
     model.addConstr(
         orig_var >= -M * (1 - is_positive),
         name=f"{constraint_prefix}_force_positive"
     )
     
-    # TODO: add English comment
+
     epsilon = 0.001
     model.addConstr(
         orig_var <= M * is_positive,
@@ -244,7 +244,7 @@ def compute_normalization_factors(
     (ref_wirelength, ref_t, ref_power, ref_aspect)
         Reference values for wirelength, area proxy, power term, and aspect-ratio deviation (all ~1e2).
     """
-    # TODO: add English comment
+
     total_area = sum(
         chiplet_w_orig_grid[i] * chiplet_h_orig_grid[i] for i in range(n)
     )
@@ -252,17 +252,17 @@ def compute_normalization_factors(
     print(f"[DEBUG] L_avg: {L_avg}")
     print(f"[DEBUG] total_area: {total_area}")
     # 2.  scaling factors
-    # TODO: add English comment
+
     ref_t = L_avg * 2.0
 
-    # TODO: add English comment
+
     total_wire_count = sum(
         e.get("wireCount", 1) if isinstance(e, dict) else getattr(e, "wireCount", 1)
         for e in all_connected_pairs.values()
     )
     ref_wirelength = max(total_wire_count * L_avg / 2.0, 1.0)
 
-    # TODO: add English comment
+
     sum_long = 0.0
     sum_short = 0.0
     for i in range(n):
@@ -272,8 +272,8 @@ def compute_normalization_factors(
         sum_short += min(w, h)
     ref_aspect = max(sum_long - sum_short, 1.0)
 
-    # TODO: add English comment
-    # TODO: add English comment
+
+
     ref_power = 1.0
     if power_aware_enabled:
         high_idxs, density_threshold = select_high_power_indices_by_density(
@@ -292,7 +292,7 @@ def compute_normalization_factors(
                     p_j = float(getattr(nodes[j], "power", 0.0) or 0.0)
                     pair_sum += p_i * p_j
 
-            # TODO: add English comment
+        
             scale = max(len(high_list), 1)
             ref_power = max(L_avg / (n / 4.0) * (pair_sum + self_sum) / scale, 1.0)
 
@@ -334,7 +334,7 @@ def log_objective_breakdown(ctx: "ILPModelContext", model: gp.Model) -> None:
 
 def solve_placement_ilp_from_model(
     ctx: ILPModelContext,
-    time_limit: int = 600,  # TODO: add English comment
+    time_limit: int = 600,  
     verbose: bool = True,
 ) -> ILPPlacementResult:
     """
@@ -357,7 +357,7 @@ def solve_placement_ilp_from_model(
         print("DEBUG")
         print("DEBUG")
 
-    # TODO: add English comment
+
     model.setParam('TimeLimit', time_limit)
     model.setParam('OutputFlag', 1 if verbose else 0)
     model.setParam('LogToConsole', 1 if verbose else 0)
@@ -366,7 +366,7 @@ def solve_placement_ilp_from_model(
         model.optimize()
         solve_time = time.time() - start_time
 
-        # TODO: add English comment
+    
         status_map = {
             GRB.OPTIMAL: "Optimal",
             GRB.INFEASIBLE: "Infeasible",
@@ -383,7 +383,7 @@ def solve_placement_ilp_from_model(
             print("DEBUG")
             log_objective_breakdown(ctx, model)
 
-        # TODO: add English comment
+    
         layout: Dict[str, Tuple[float, float]] = {}
         rotations: Dict[str, bool] = {}
         cx_grid_val: Dict[str, float] = {}
@@ -396,7 +396,7 @@ def solve_placement_ilp_from_model(
                 layout[node.name] = (x_val, y_val)
                 rotations[node.name] = bool(r_val > 0.5)
 
-                # TODO: add English comment
+            
                 cx_grid_val[node.name] = float(cx_grid_var[k].X) if cx_grid_var.get(k) is not None else 0.0
                 cy_grid_val[node.name] = float(cy_grid_var[k].X) if cy_grid_var.get(k) is not None else 0.0
             else:
@@ -408,7 +408,7 @@ def solve_placement_ilp_from_model(
             model.ObjVal if model.status == GRB.OPTIMAL else float("inf")
         )
 
-        # TODO: add English comment
+    
         try:
             bw_val = ctx.bbox_w.X if ctx.bbox_w is not None else None
             bh_val = ctx.bbox_h.X if ctx.bbox_h is not None else None
@@ -439,7 +439,7 @@ def solve_placement_ilp_from_model(
 
             traceback.print_exc()
 
-        # TODO: add English comment
+    
         layout = {node.name: (0.0, 0.0) for node in nodes}
         rotations = {node.name: False for node in nodes}
         return ILPPlacementResult(
@@ -454,17 +454,17 @@ def solve_placement_ilp_from_model(
 
 def build_placement_ilp_model(
     nodes: List[ChipletNode],
-    edges: Optional[List] = None,  # TODO: add English comment
-    emib_nodes: Optional[Dict[Tuple[int, int], "EMIBNode"]] = None,  # TODO: add English comment
+    edges: Optional[List] = None,  
+    emib_nodes: Optional[Dict[Tuple[int, int], "EMIBNode"]] = None,  
     W: Optional[float] = None,
     H: Optional[float] = None,
-    time_limit: int = 600,  # TODO: add English comment
+    time_limit: int = 600,  
     verbose: bool = True,
     min_shared_length: float = 0.0,
     minimize_bbox_area: bool = True,
     distance_weight: float = 1.0,
     area_weight: float = 2.0,
-    fixed_chiplet_idx: Optional[int] = None,  # TODO: add English comment
+    fixed_chiplet_idx: Optional[int] = None,  
     min_aspect_ratio: float = 0.5,
     max_aspect_ratio: float = 2,
     power_aware_enabled: bool = True,
@@ -488,8 +488,8 @@ def build_placement_ilp_model(
     n = len(nodes)
     name_to_idx = {node.name: i for i, node in enumerate(nodes)}
     
-    # TODO: add English comment
-    # TODO: add English comment
+
+
     chiplet_w_orig = {}
     chiplet_h_orig = {}
     for i, node in enumerate(nodes):
@@ -497,11 +497,11 @@ def build_placement_ilp_model(
         chiplet_h_orig[i] = float(node.dimensions.get("y", 0.0))
         print(f"node {i} w: {chiplet_w_orig[i]}, h: {chiplet_h_orig[i]}")
     
-    # TODO: add English comment
+
     chiplet_w_orig_grid = {i: chiplet_w_orig[i] for i in range(n)}
     chiplet_h_orig_grid = {i: chiplet_h_orig[i] for i in range(n)}
     
-    # TODO: add English comment
+
     all_connected_pairs: Dict[Tuple[int, int], Any] = {}
     if emib_nodes is not None:
         for (i, j), emib_node in emib_nodes.items():
@@ -535,7 +535,7 @@ def build_placement_ilp_model(
     else:
         raise ValueError("build_placement_ilp_model requires emib_nodes or edges")
 
-    # TODO: add English comment
+
     EMIB_connected_pairs: Dict[Tuple[int, int], Any] = {
         (i, j): e for (i, j), e in all_connected_pairs.items() if e.EMIBType != "interfaceC"
     }
@@ -547,7 +547,7 @@ def build_placement_ilp_model(
             all_connected_pairs,
             key_formatter=lambda k: f"({nodes[k[0]].name},{nodes[k[1]].name})",
         )
-    # TODO: add English comment
+
     if W is None or H is None:
         total_area = sum(chiplet_w_orig_grid[i] * chiplet_h_orig_grid[i] for i in range(n))
         print(f"total_area: {total_area}")
@@ -566,14 +566,14 @@ def build_placement_ilp_model(
         for (i, j), e in all_connected_pairs.items():
             print(f"  ({i},{j}): [{e.node1}, {e.node2}, {e.wireCount}, {e.EMIBType}, {e.EMIB_length}, {e.EMIB_max_width}]")
     
-    # TODO: add English comment
+
     model = gp.Model("ChipletPlacementGrid")
     
-    # TODO: add English comment
-    M = max(W, H) * 2 # TODO: add English comment
 
-    # TODO: add English comment
-    # TODO: add English comment
+    M = max(W, H) * 2 
+
+
+
     r = {}
     for k in range(n):
         r[k] = model.addVar(name=f"r_{k}", vtype=GRB.BINARY)
@@ -582,7 +582,7 @@ def build_placement_ilp_model(
     for (i, j), emib_node in EMIB_connected_pairs.items():
         r_EMIB[(i, j)] = model.addVar(name=f"r_EMIB_{i}_{j}", vtype=GRB.BINARY)
 
-    # TODO: add English comment
+
     w_var = {}
     h_var = {}
     for k in range(n):
@@ -591,7 +591,7 @@ def build_placement_ilp_model(
         w_var[k] = model.addVar(name=f"w_var_{k}", lb=w_min, ub=w_max, vtype=GRB.CONTINUOUS)
         h_var[k] = model.addVar(name=f"h_var_{k}", lb=w_min, ub=w_max, vtype=GRB.CONTINUOUS)
     
-     # TODO: add English comment
+ 
     EMIB_w_var = {}
     EMIB_h_var = {}
     for (i, j), emib_node in EMIB_connected_pairs.items():
@@ -602,8 +602,8 @@ def build_placement_ilp_model(
     print(f"EMIB_w_var: {EMIB_w_var}")
     print(f"EMIB_h_var: {EMIB_h_var}")
     print(f"EMIB_connected_pairs: {EMIB_connected_pairs}")
-    # TODO: add English comment
-    # TODO: add English comment
+
+
     x_grid_var = {}
     y_grid_var = {}
     for k in range(n):
@@ -620,28 +620,28 @@ def build_placement_ilp_model(
             vtype=GRB.CONTINUOUS
         )
 
-     # TODO: add English comment
+ 
     EMIB_x_grid_var = {}
     EMIB_y_grid_var = {}
     for (i, j), emib_node in EMIB_connected_pairs.items():
         EMIB_x_grid_var[(i, j)] = model.addVar(name=f"EMIB_x_grid_var_{i}_{j}", lb=0, ub=W, vtype=GRB.CONTINUOUS)
         EMIB_y_grid_var[(i, j)] = model.addVar(name=f"EMIB_y_grid_var_{i}_{j}", lb=0, ub=H, vtype=GRB.CONTINUOUS)
 
-    # TODO: add English comment
+
     EMIB_cx_grid_var = {}
     EMIB_cy_grid_var = {}
     for (i, j), emib_node in EMIB_connected_pairs.items():
         EMIB_cx_grid_var[(i, j)] = model.addVar(name=f"EMIB_cx_grid_var_{i}_{j}", lb=0, ub=2 * W, vtype=GRB.CONTINUOUS)
         EMIB_cy_grid_var[(i, j)] = model.addVar(name=f"EMIB_cy_grid_var_{i}_{j}", lb=0, ub=2 * H, vtype=GRB.CONTINUOUS)
 
-    # TODO: add English comment
+
     cx_grid_var = {}
     cy_grid_var = {}
     for k in range(n):
         cx_grid_var[k] = model.addVar(name=f"cx_grid_var_{k}", lb=0, ub=2 * W, vtype=GRB.CONTINUOUS)
         cy_grid_var[k] = model.addVar(name=f"cy_grid_var_{k}", lb=0, ub=2 * H, vtype=GRB.CONTINUOUS)
     
-    # TODO: add English comment
+
     z1 = {}
     z2 = {}
     z1L = {}
@@ -649,9 +649,9 @@ def build_placement_ilp_model(
     z2D = {}
     z2U = {}
     
-    # TODO: add English comment
+
     for (i, j), edge in all_connected_pairs.items():
-        if edge.EMIBType == "interfaceC":  # TODO: add English comment
+        if edge.EMIBType == "interfaceC":  
             continue
         z1[(i, j)] = model.addVar(name=f"z1_{i}_{j}", vtype=GRB.BINARY)
         z2[(i, j)] = model.addVar(name=f"z2_{i}_{j}", vtype=GRB.BINARY)
@@ -660,14 +660,14 @@ def build_placement_ilp_model(
         z2D[(i, j)] = model.addVar(name=f"z2D_{i}_{j}", vtype=GRB.BINARY)
         z2U[(i, j)] = model.addVar(name=f"z2U_{i}_{j}", vtype=GRB.BINARY)
     
-    # TODO: add English comment
+
     cx_center = model.addVar(name=f"cx_center", lb=0, ub=W, vtype=GRB.CONTINUOUS)
     cy_center = model.addVar(name=f"cy_center", lb=0, ub=H, vtype=GRB.CONTINUOUS)
-    # TODO: add English comment
 
-    # TODO: add English comment
+
+
     for k in range(n):
-        # TODO: add English comment
+    
         model.addConstr(
             w_var[k] == chiplet_w_orig_grid[k] + r[k] * (chiplet_h_orig_grid[k] - chiplet_w_orig_grid[k]),
             name=f"width_rotation_{k}"
@@ -676,15 +676,15 @@ def build_placement_ilp_model(
             h_var[k] == chiplet_h_orig_grid[k] + r[k] * (chiplet_w_orig_grid[k] - chiplet_h_orig_grid[k]),
             name=f"height_rotation_{k}"
         )
-        # TODO: add English comment
+    
         model.addConstr(x_grid_var[k] <= W - w_var[k], name=f"x_grid_var_ub_{k}")
         model.addConstr(y_grid_var[k] <= H - h_var[k], name=f"y_grid_var_ub_{k}")
     
-    # TODO: add English comment
+
     for (i, j), emib_node in EMIB_connected_pairs.items():
-        # TODO: add English comment
-        # TODO: add English comment
-        # TODO: add English comment
+    
+    
+    
         model.addConstr(
             EMIB_w_var[(i, j)] == emib_node.width * (1 - r_EMIB[(i, j)]) + emib_node.height * r_EMIB[(i, j)],
             name=f"EMIB_width_rotation_{i}_{j}"
@@ -693,12 +693,12 @@ def build_placement_ilp_model(
             EMIB_h_var[(i, j)] == emib_node.height * (1 - r_EMIB[(i, j)]) + emib_node.width * r_EMIB[(i, j)],
             name=f"EMIB_height_rotation_{i}_{j}"
         )
-        # TODO: add English comment
+    
         model.addConstr(EMIB_x_grid_var[(i, j)] <= W - EMIB_w_var[(i, j)], name=f"EMIB_x_grid_var_ub_{i}_{j}")
         model.addConstr(EMIB_y_grid_var[(i, j)] <= H - EMIB_h_var[(i, j)], name=f"EMIB_y_grid_var_ub_{i}_{j}")
 
-    # TODO: add English comment
-    # TODO: add English comment
+
+
     for k in range(n):
         model.addConstr(cx_grid_var[k] == x_grid_var[k] + w_var[k] / 2, name=f"cx_def_{k}")
         model.addConstr(cy_grid_var[k] == y_grid_var[k] + h_var[k] / 2, name=f"cy_def_{k}")
@@ -707,37 +707,37 @@ def build_placement_ilp_model(
         model.addConstr(EMIB_cx_grid_var[(i, j)] == EMIB_x_grid_var[(i, j)] + EMIB_w_var[(i, j)] / 2, name=f"EMIB_cx_def_{i}_{j}")
         model.addConstr(EMIB_cy_grid_var[(i, j)] == EMIB_y_grid_var[(i, j)] + EMIB_h_var[(i, j)] / 2, name=f"EMIB_cy_def_{i}_{j}")
 
-     # TODO: add English comment
-    # TODO: add English comment
+ 
+
     for (i, j), emib_node in EMIB_connected_pairs.items():
-        # TODO: add English comment
+    
         model.addConstr(
             z1[(i, j)] + z2[(i, j)] == 1,
             name=f"must_adjacent_sb_{i}_{j}"
         )
         
-        # TODO: add English comment
+    
         model.addConstr(
             z1L[(i, j)] + z1R[(i, j)] == z1[(i, j)],
             name=f"horizontal_direction_sb_{i}_{j}"
         )
         
-        # TODO: add English comment
+    
         model.addConstr(
             z2D[(i, j)] + z2U[(i, j)] == z2[(i, j)],
             name=f"vertical_direction_sb_{i}_{j}"
         )
-        # TODO: add English comment
-        # TODO: add English comment
-        # TODO: add English comment
+    
+    
+    
         model.addConstr(r_EMIB[(i, j)] == z2[(i, j)], name=f"EMIB_rotate_eq_z2_{i}_{j}")
 
-        # TODO: add English comment
-        # TODO: add English comment
+    
+    
 
-        # TODO: add English comment
-        # TODO: add English comment
-        # TODO: add English comment
+    
+    
+    
         eps = 0.001
         model.addConstr(
             x_grid_var[j] - (x_grid_var[i] + w_var[i]) >= 0 - M * (1 - z1L[(i, j)]),
@@ -753,9 +753,9 @@ def build_placement_ilp_model(
         )
      
 
-        # TODO: add English comment
-        # TODO: add English comment
-        # TODO: add English comment
+    
+    
+    
         model.addConstr(
             x_grid_var[i] - (x_grid_var[j] + w_var[j]) >= 0 - M * (1 - z1R[(i, j)]),
             name=f"horizontal_right_dist_lb_{i}_{j}"
@@ -769,11 +769,6 @@ def build_placement_ilp_model(
             name=f"EMIB_right_overlap_right_{i}_{j}"
         )
        
-
-        # TODO: add English comment
-        # TODO: add English comment
-        # TODO: add English comment
-        # TODO: add English comment
         model.addConstr(
             y_grid_var[j] - (y_grid_var[i] + h_var[i]) >= 0 - M * (1 - z2D[(i, j)]),
             name=f"vertical_down_dist_lb_{i}_{j}"
@@ -788,7 +783,7 @@ def build_placement_ilp_model(
         )
         
 
-        # TODO: add English comment
+    
         model.addConstr(
             y_grid_var[i] - (y_grid_var[j] + h_var[j]) >= 0 - M * (1 - z2U[(i, j)]),
             name=f"vertical_up_dist_lb_{i}_{j}"
@@ -803,8 +798,8 @@ def build_placement_ilp_model(
         )
         
         
-        # TODO: add English comment
-        # TODO: add English comment
+    
+    
         model.addConstr(
             (y_grid_var[i] + h_var[i]) >=  EMIB_y_grid_var[(i, j)] + EMIB_h_var[(i, j)] - M * (1 - z1[(i, j)]),
             name=f"shared_yi_ub1_{i}_{j}"
@@ -822,7 +817,7 @@ def build_placement_ilp_model(
             name=f"shared_yj_ub2_{i}_{j}"
         )
 
-        # TODO: add English comment
+    
         model.addConstr(
             (x_grid_var[i] + w_var[i]) >= EMIB_x_grid_var[(i, j)] + EMIB_w_var[(i, j)] - M * (1 - z2[(i, j)]),
             name=f"shared_xi_ub1_{i}_{j}"
@@ -839,10 +834,7 @@ def build_placement_ilp_model(
             x_grid_var[j] <= EMIB_x_grid_var[(i, j)] + M * (1 - z2[(i, j)]),
             name=f"shared_xj_ub2_{i}_{j}"
         )
-    
-    # TODO: add English comment
-    # TODO: add English comment
-    # TODO: add English comment
+
     p_left = {}
     p_right = {}
     p_down = {}
@@ -857,27 +849,27 @@ def build_placement_ilp_model(
             p_down[(i, j)] = model.addVar(name=f"p_down_{i}_{j}", vtype=GRB.BINARY)
             p_up[(i, j)] = model.addVar(name=f"p_up_{i}_{j}", vtype=GRB.BINARY)
 
-    # TODO: add English comment
+
     for i, j in all_pairs:
-        # TODO: add English comment
+    
         model.addConstr(
             p_left[(i, j)] + p_right[(i, j)] + p_down[(i, j)] + p_up[(i, j)] >= 1,
             name=f"non_overlap_any_{i}_{j}"
         )
         
-        # TODO: add English comment
-        # TODO: add English comment
+    
+    
         model.addConstr(
             x_grid_var[i] + w_var[i] - x_grid_var[j] <= M * (1 - p_left[(i, j)]),
             name=f"non_overlap_left_{i}_{j}"
         )
-        # TODO: add English comment
+    
         model.addConstr(
             x_grid_var[j] - (x_grid_var[i] + w_var[i]) <= M * p_left[(i, j)],
             name=f"non_overlap_left_rev_{i}_{j}"
         )
         
-        # TODO: add English comment
+    
         model.addConstr(
             x_grid_var[j] + w_var[j] - x_grid_var[i] <= M * (1 - p_right[(i, j)]),
             name=f"non_overlap_right_{i}_{j}"
@@ -887,7 +879,7 @@ def build_placement_ilp_model(
             name=f"non_overlap_right_rev_{i}_{j}"
         )
         
-        # TODO: add English comment
+    
         model.addConstr(
             y_grid_var[i] + h_var[i] - y_grid_var[j] <= M * (1 - p_down[(i, j)]),
             name=f"non_overlap_down_{i}_{j}"
@@ -897,7 +889,7 @@ def build_placement_ilp_model(
             name=f"non_overlap_down_rev_{i}_{j}"
         )
         
-        # TODO: add English comment
+    
         model.addConstr(
             y_grid_var[j] + h_var[j] - y_grid_var[i] <= M * (1 - p_up[(i, j)]),
             name=f"non_overlap_up_{i}_{j}"
@@ -907,18 +899,15 @@ def build_placement_ilp_model(
             name=f"non_overlap_up_rev_{i}_{j}"
         )
 
-    # TODO: add English comment
-    # TODO: add English comment
-    # TODO: add English comment
     emib_list = list(EMIB_connected_pairs.items())
-    emib_non_overlap_pairs = []  # TODO: add English comment
+    emib_non_overlap_pairs = []  
     for idx_a in range(len(emib_list)):
         (i, j), _ = emib_list[idx_a]
-        chips_a = {i, j}  # TODO: add English comment
+        chips_a = {i, j}  
         for idx_b in range(idx_a + 1, len(emib_list)):
             (k, l), _ = emib_list[idx_b]
             chips_b = {k, l}
-            if chips_a & chips_b:  # TODO: add English comment
+            if chips_a & chips_b:  
                 emib_non_overlap_pairs.append(((i, j), (k, l)))
 
     p_EMIB_left = {}
@@ -933,12 +922,12 @@ def build_placement_ilp_model(
         p_EMIB_down[key] = model.addVar(name=f"p_EMIB_down_{i}_{j}_{k}_{l}", vtype=GRB.BINARY)
         p_EMIB_up[key] = model.addVar(name=f"p_EMIB_up_{i}_{j}_{k}_{l}", vtype=GRB.BINARY)
 
-        # TODO: add English comment
+    
         model.addConstr(
             p_EMIB_left[key] + p_EMIB_right[key] + p_EMIB_down[key] + p_EMIB_up[key] >= 1,
             name=f"EMIB_non_overlap_any_{i}_{j}_{k}_{l}"
         )
-        # TODO: add English comment
+    
         model.addConstr(
             EMIB_x_grid_var[(i, j)] + EMIB_w_var[(i, j)] - EMIB_x_grid_var[(k, l)] <= M * (1 - p_EMIB_left[key]),
             name=f"EMIB_non_overlap_left_{i}_{j}_{k}_{l}"
@@ -947,7 +936,7 @@ def build_placement_ilp_model(
             EMIB_x_grid_var[(k, l)] - (EMIB_x_grid_var[(i, j)] + EMIB_w_var[(i, j)]) <= M * p_EMIB_left[key],
             name=f"EMIB_non_overlap_left_rev_{i}_{j}_{k}_{l}"
         )
-        # TODO: add English comment
+    
         model.addConstr(
             EMIB_x_grid_var[(k, l)] + EMIB_w_var[(k, l)] - EMIB_x_grid_var[(i, j)] <= M * (1 - p_EMIB_right[key]),
             name=f"EMIB_non_overlap_right_{i}_{j}_{k}_{l}"
@@ -956,7 +945,7 @@ def build_placement_ilp_model(
             EMIB_x_grid_var[(i, j)] - (EMIB_x_grid_var[(k, l)] + EMIB_w_var[(k, l)]) <= M * p_EMIB_right[key],
             name=f"EMIB_non_overlap_right_rev_{i}_{j}_{k}_{l}"
         )
-        # TODO: add English comment
+    
         model.addConstr(
             EMIB_y_grid_var[(i, j)] + EMIB_h_var[(i, j)] - EMIB_y_grid_var[(k, l)] <= M * (1 - p_EMIB_down[key]),
             name=f"EMIB_non_overlap_down_{i}_{j}_{k}_{l}"
@@ -965,7 +954,7 @@ def build_placement_ilp_model(
             EMIB_y_grid_var[(k, l)] - (EMIB_y_grid_var[(i, j)] + EMIB_h_var[(i, j)]) <= M * p_EMIB_down[key],
             name=f"EMIB_non_overlap_down_rev_{i}_{j}_{k}_{l}"
         )
-        # TODO: add English comment
+    
         model.addConstr(
             EMIB_y_grid_var[(k, l)] + EMIB_h_var[(k, l)] - EMIB_y_grid_var[(i, j)] <= M * (1 - p_EMIB_up[key]),
             name=f"EMIB_non_overlap_up_{i}_{j}_{k}_{l}"
@@ -982,13 +971,6 @@ def build_placement_ilp_model(
     #         nc, nd = nodes[k].name, nodes[l].name
     #         print(f"  EMIB ({na}-{nb}) vs ({nc}-{nd})")
 
-    
-    # TODO: add English comment
-    # TODO: add English comment
-    # TODO: add English comment
-    # TODO: add English comment
-
-    # TODO: add English comment
     bbox_min_x = model.addVar(name="bbox_min_x", lb=0, ub=W, vtype=GRB.CONTINUOUS)
     bbox_max_x = model.addVar(name="bbox_max_x", lb=0, ub=W, vtype=GRB.CONTINUOUS)
     bbox_min_y = model.addVar(name="bbox_min_y", lb=0, ub=H, vtype=GRB.CONTINUOUS)
@@ -996,7 +978,7 @@ def build_placement_ilp_model(
     bbox_w = model.addVar(name="bbox_w", lb=0, ub=W, vtype=GRB.CONTINUOUS)
     bbox_h = model.addVar(name="bbox_h", lb=0, ub=H, vtype=GRB.CONTINUOUS)
     
-    # TODO: add English comment
+
     for k in range(n):
         model.addConstr(bbox_min_x <= x_grid_var[k], name=f"bbox_min_x_{k}")
         model.addConstr(bbox_max_x >= x_grid_var[k] + w_var[k], name=f"bbox_max_x_{k}")
@@ -1006,14 +988,14 @@ def build_placement_ilp_model(
     model.addConstr(bbox_w == bbox_max_x - bbox_min_x, name="bbox_w_def")
     model.addConstr(bbox_h == bbox_max_y - bbox_min_y, name="bbox_h_def")
 
-    # TODO: add English comment
+
     model.addConstr(cx_center == (bbox_max_x + bbox_min_x) / 2, name=f"cx_center_def")
     model.addConstr(cy_center == (bbox_max_y + bbox_min_y) / 2, name=f"cy_center_def")
     
-    # TODO: add English comment
+
     # if min_aspect_ratio is not None:
     #     # bbox_w / bbox_h >= min_aspect_ratio
-    # TODO: add English comment
+
     #     model.addConstr(
     #         bbox_w >= min_aspect_ratio * bbox_h,
     #         name="aspect_ratio_min"
@@ -1023,7 +1005,6 @@ def build_placement_ilp_model(
     
     # if max_aspect_ratio is not None:
     #     # bbox_w / bbox_h <= max_aspect_ratio
-    # TODO: add English comment
     #     model.addConstr(
     #         bbox_w <= max_aspect_ratio * bbox_h,
     #         name="aspect_ratio_max"
@@ -1031,10 +1012,6 @@ def build_placement_ilp_model(
     #     if verbose:
     print("DEBUG")
     
-    # TODO: add English comment
-    # TODO: add English comment
-    # aspect_ratio_penalty = None
-
     aspect_ratio_penalty = model.addVar(
         name="aspect_ratio_penalty",
         lb=0,
@@ -1052,8 +1029,8 @@ def build_placement_ilp_model(
     )
 
     
-    # TODO: add English comment
-    power_aware_enabled = True # TODO: add English comment
+
+    power_aware_enabled = True 
     power_aware_penalty = None
     if power_aware_enabled:
         power_aware_penalty = model.addVar(
@@ -1064,13 +1041,11 @@ def build_placement_ilp_model(
         )
         power_aware_expr = gp.LinExpr()
 
-        # TODO: add English comment
+    
         high_power_indices, density_threshold = select_high_power_indices_by_density(
             n, nodes, chiplet_w_orig_grid, chiplet_h_orig_grid, top_ratio=0.3
         )
-
-        # TODO: add English comment
-        # TODO: add English comment
+    
         if len(high_power_indices) >= 2:
             high_power_pairs = [(i, j) for i in range(n) for j in range(i + 1, n) if i in high_power_indices and j in high_power_indices]
             print("DEBUG")
@@ -1140,18 +1115,11 @@ def build_placement_ilp_model(
                 power_aware_expr += power_weight_ij * dist_curr_ij
         else:
             print("DEBUG")
-
-        # TODO: add English comment
-        print("DEBUG")
-
-        # TODO: add English comment
-        # TODO: add English comment
-        # TODO: add English comment
-        # TODO: add English comment
+    
         if not high_power_indices:
             print("DEBUG")
         else:
-            # TODO: add English comment
+        
             high_power_count = 0
             for i in range(n):
                 if i not in high_power_indices:
@@ -1162,7 +1130,7 @@ def build_placement_ilp_model(
                     f"[DEBUG] chiplet {i} in top 30% power density, add away-from-center constraint"
                 )
 
-                # TODO: add English comment
+            
                 dx_center_diff_i = model.addVar(
                     name=f"dx_center_diff_{i}",
                     lb=-W,
@@ -1174,7 +1142,7 @@ def build_placement_ilp_model(
                     name=f"dx_center_diff_def_{i}"
                 )
 
-                # TODO: add English comment
+            
                 dx_center_abs_i = model.addVar(
                     name=f"dx_center_abs_{i}",
                     lb=0,
@@ -1189,7 +1157,7 @@ def build_placement_ilp_model(
                     constraint_prefix=f"dx_center_abs_{i}",
                 )
 
-                # TODO: add English comment
+            
                 dy_center_diff_i = model.addVar(
                     name=f"dy_center_diff_{i}",
                     lb=-H,
@@ -1201,7 +1169,7 @@ def build_placement_ilp_model(
                     name=f"dy_center_diff_def_{i}"
                 )
 
-                # TODO: add English comment
+            
                 dy_center_abs_i = model.addVar(
                     name=f"dy_center_abs_{i}",
                     lb=0,
@@ -1216,7 +1184,7 @@ def build_placement_ilp_model(
                     constraint_prefix=f"dy_center_abs_{i}",
                 )
 
-                # TODO: add English comment
+            
                 dist_center_i = model.addVar(
                     name=f"dist_center_{i}",
                     lb=0,
@@ -1228,19 +1196,11 @@ def build_placement_ilp_model(
                     name=f"dist_center_def_{i}"
                 )
 
-                # TODO: add English comment
+            
                 power_aware_expr += p_i * p_i *  dist_center_i
 
-        print("DEBUG")
-        # TODO: add English comment
         model.addConstr(power_aware_penalty == power_aware_expr, name="power_aware_penalty_def")
 
-    # TODO: add English comment
-    # TODO: add English comment
-    # TODO: add English comment
-    # TODO: add English comment
-    # TODO: add English comment
-    # TODO: add English comment
     wirelength = model.addVar(
         name="wirelength",
         lb=0,
@@ -1249,7 +1209,7 @@ def build_placement_ilp_model(
     )
     wirelength_sum = gp.LinExpr()
 
-    # TODO: add English comment
+
     for (i, j), edge in all_connected_pairs.items():
         if edge.EMIBType != "interfaceC":
             continue
@@ -1270,8 +1230,8 @@ def build_placement_ilp_model(
         )
         wirelength_sum += wire_count * (dx_abs + dy_abs)
 
-    # TODO: add English comment
-    # TODO: add English comment
+
+
     for (i, j), edge in EMIB_connected_pairs.items():
         wire_count = edge.wireCount
         dx_abs_i = model.addVar(name=f"dx_abs_i_{i}_{j}", lb=0, vtype=GRB.CONTINUOUS)
@@ -1306,7 +1266,7 @@ def build_placement_ilp_model(
 
     model.addConstr(wirelength == wirelength_sum, name="wirelength_def")
 
-    # TODO: add English comment
+
     ref_wirelength, ref_t, ref_power, ref_aspect = compute_normalization_factors(
         n=n,
         nodes=nodes,
@@ -1316,39 +1276,39 @@ def build_placement_ilp_model(
         power_aware_enabled=power_aware_enabled,
     )
 
-    # TODO: add English comment
+
     t = model.addVar(
         name="bbox_area_proxy_t",
         lb=0,
         ub=W+H,
         vtype=GRB.CONTINUOUS
     )
-    # TODO: add English comment
-    # TODO: add English comment
+
+
     # model.addConstr(t >= bbox_w, name="t_ge_width")
     # model.addConstr(t >= bbox_h, name="t_ge_height")
     
-    # TODO: add English comment
-    # TODO: add English comment
+
+
     alpha = 0.8
     model.addConstr(t >= alpha * (bbox_w + bbox_h), name="t_ge_scaled_mean")
     
-    # TODO: add English comment
-    # TODO: add English comment
+
+
     beta_wire = _get_beta_from_env("EMIB_BETA_WIRE", 5.0)
     beta_area = _get_beta_from_env("EMIB_BETA_AREA", 20.0)
     beta_aspect = _get_beta_from_env("EMIB_BETA_ASPECT", 0.1)
     beta_power = _get_beta_from_env("EMIB_BETA_POWER", 0.0)
     # aspect_ratio_penalty = 1
     # power_aware_penalty = 1
-    # TODO: add English comment
+
     norm_wirelength = (1.0 / ref_wirelength) * wirelength
     norm_t = (1.0 / ref_t) * t
     norm_aspect = ((1.0 / ref_aspect) * aspect_ratio_penalty)
     norm_power = ((1.0 / ref_power) * power_aware_penalty) if power_aware_penalty is not None else 0
 
-    # TODO: add English comment
-    # TODO: add English comment
+
+
     objective = (
         beta_wire * norm_wirelength
         + beta_area * norm_t
@@ -1416,23 +1376,23 @@ def main():
     """
     from pathlib import Path
 
-    # TODO: add English comment
-    time_limit = 600  # TODO: add English comment
+
+    time_limit = 600  
     min_shared_length = 0.1
-    fixed_chiplet_idx = None  # TODO: add English comment
+    fixed_chiplet_idx = None  
     
-    # TODO: add English comment
+
     output_dir = Path(__file__).parent.parent / "output"
     output_dir.mkdir(exist_ok=True)
     
-    # TODO: add English comment
+
     json_path = Path(__file__).parent.parent / "baseline" / "ICCAD23" / "test_input" / "2core.json"
     
     print("=" * 80)
     print("DEBUG")
     print("=" * 80)
     
-    # TODO: add English comment
+
     print("DEBUG")
     if not json_path.exists():
         raise FileNotFoundError(f"JSON file does not exist: {json_path}")
@@ -1445,13 +1405,13 @@ def main():
     print("DEBUG")
     print("DEBUG")
     
-    # TODO: add English comment
+
     print("DEBUG")
     ctx = build_placement_ilp_model(
         nodes=nodes,
         edges=edges,
-        W=None,  # TODO: add English comment
-        H=None,  # TODO: add English comment
+        W=None,  
+        H=None,  
         verbose=True,
         min_shared_length=min_shared_length,
         minimize_bbox_area=True,
@@ -1460,12 +1420,12 @@ def main():
         fixed_chiplet_idx=fixed_chiplet_idx,
     )
     
-    # TODO: add English comment
+
     lp_file = output_dir / "ilp_model_gurobi.lp"
     ctx.model.write(str(lp_file))
     print("DEBUG")
     
-    # TODO: add English comment
+
     print("DEBUG")
     result = solve_placement_ilp_from_model(
         ctx,
@@ -1473,7 +1433,7 @@ def main():
         verbose=True,
     )
     
-    # TODO: add English comment
+
     print("\n" + "=" * 80)
     print("DEBUG")
     print("=" * 80)
@@ -1488,7 +1448,7 @@ def main():
         rot_str = " (rotated)" if rotated else ""
         print(f"  {name}: ({x:.2f}, {y:.2f}){rot_str}")
     
-    # TODO: add English comment
+
     if result.status == "Optimal":
         print("DEBUG")
         try:
@@ -1498,7 +1458,7 @@ def main():
             draw_chiplet_diagram(
                 nodes=nodes,
                 edges=draw_edges,
-                layout=result.layout,  # TODO: add English comment
+                layout=result.layout,  
                 save_path=str(save_path),
                 rotations=result.rotations,
             )

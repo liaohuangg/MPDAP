@@ -81,36 +81,36 @@ if [ $# -gt 0 ]; then
             python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn1.json > "$log_dir/syn1.log" 2>&1
             echo "syn1.log solve done"
             ;;
-        "syn2")
-            if [ -f "$log_dir/syn2.log" ]; then rm -f "$log_dir/syn2.log"; fi
-            touch "$log_dir/syn2.log"
-            python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn2.json > "$log_dir/syn2.log" 2>&1
-            echo "syn2.log solve done"
-            ;;
-        "syn3")
-            if [ -f "$log_dir/syn3.log" ]; then rm -f "$log_dir/syn3.log"; fi
-            touch "$log_dir/syn3.log"
-            python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn3.json > "$log_dir/syn3.log" 2>&1
-            echo "syn3.log solve done"
-            ;;
-        "syn4")
-            if [ -f "$log_dir/syn4.log" ]; then rm -f "$log_dir/syn4.log"; fi
-            touch "$log_dir/syn4.log"
-            python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn4.json > "$log_dir/syn4.log" 2>&1
-            echo "syn4.log solve done"
-            ;;
+        # "syn2")
+        #     if [ -f "$log_dir/syn2.log" ]; then rm -f "$log_dir/syn2.log"; fi
+        #     touch "$log_dir/syn2.log"
+        #     python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn2.json > "$log_dir/syn2.log" 2>&1
+        #     echo "syn2.log solve done"
+        #     ;;
+        # "syn3")
+        #     if [ -f "$log_dir/syn3.log" ]; then rm -f "$log_dir/syn3.log"; fi
+        #     touch "$log_dir/syn3.log"
+        #     python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn3.json > "$log_dir/syn3.log" 2>&1
+        #     echo "syn3.log solve done"
+        #     ;;
+        # "syn4")
+        #     if [ -f "$log_dir/syn4.log" ]; then rm -f "$log_dir/syn4.log"; fi
+        #     touch "$log_dir/syn4.log"
+        #     python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn4.json > "$log_dir/syn4.log" 2>&1
+        #     echo "syn4.log solve done"
+        #     ;;
         "syn5")
             if [ -f "$log_dir/syn5.log" ]; then rm -f "$log_dir/syn5.log"; fi
             touch "$log_dir/syn5.log"
             python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn5.json > "$log_dir/syn5.log" 2>&1
             echo "syn5.log solve done"
             ;;
-        "syn6")
-            if [ -f "$log_dir/syn6.log" ]; then rm -f "$log_dir/syn6.log"; fi
-            touch "$log_dir/syn6.log"
-            python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn6.json > "$log_dir/syn6.log" 2>&1
-            echo "syn6.log solve done"
-            ;;
+        # "syn6")
+        #     if [ -f "$log_dir/syn6.log" ]; then rm -f "$log_dir/syn6.log"; fi
+        #     touch "$log_dir/syn6.log"
+        #     python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn6.json > "$log_dir/syn6.log" 2>&1
+        #     echo "syn6.log solve done"
+        #     ;;
         *)
             echo "Error: unknown test name: $1"
             echo ""

@@ -86,7 +86,7 @@ def generate_ptrace_file(chiplet_list, tim_list, json_path, output_ptrace_path, 
         for chip in data['chiplets']:
             original_name = chip.get('name')
             if original_name:
-                # TODO: add English comment
+                
                 power = float(chip.get(power_key, 0.0))
                 power_dict[original_name] = power
 
@@ -118,7 +118,7 @@ def load_json_layout(json_path):
         raise ValueError("No 'chiplets' field found in JSON")
     for idx, chip in enumerate(data['chiplets']):
         original_name = chip.get('name', chr(65 + idx))
-        name = original_name  # TODO: add English comment
+        name = original_name  
         x = float(chip['x-position'])
         y = float(chip['y-position'])
         w = float(chip['width'])
@@ -126,7 +126,7 @@ def load_json_layout(json_path):
         if w <= 0 or h <= 0:
             raise ValueError(f"Chiplet {name}: width/height must be >0, got w={w}, h={h}")
         # if x < 0 or y < 0:
-        # TODO: add English comment
+        
         chiplets.append({'name': name, 'x': x, 'y': y, 'w': w, 'h': h})
     if not chiplets:
         raise ValueError("No valid chiplet data in JSON")
@@ -150,7 +150,7 @@ def build_layout(chiplets):
     (same shift + rounding), without moving individual blocks independently.
     Returns: (chiplet_list_mm, square_side_mm)
     """
-    # TODO: add English comment
+    
     chiplets_grid = []
     for c in chiplets:
         w = round_to_grid_mm(c['w'])
@@ -170,7 +170,7 @@ def build_layout(chiplets):
     bbox_h = max_y - min_y
     longest_side = round_to_grid_mm(max(bbox_w, bbox_h))
 
-    # TODO: add English comment
+    
     def place_once(side_mm):
         new_cx = side_mm / 2.0
         new_cy = side_mm / 2.0
@@ -190,7 +190,7 @@ def build_layout(chiplets):
 
     chiplet_list = place_once(longest_side)
     max_expand = 10
-    expand_step = round_to_grid_mm(0.02)  # TODO: add English comment
+    expand_step = round_to_grid_mm(0.02)  
 
     while _has_any_overlap(chiplet_list) and max_expand > 0:
         longest_side = round_to_grid_mm(longest_side + expand_step)
@@ -248,7 +248,7 @@ def _merge_adjacent_rects(rects):
             break
     return lst
 
-# TODO: add English comment
+
 GRID_MM = 0.01
 MIN_DIMENSION_MM = 0.01
 OVERLAP_TOLERANCE_MM2 = 1e-6
@@ -266,7 +266,7 @@ def _rect_fully_outside(rect, chiplet):
     rx1, ry1, rx2, ry2 = rect
     cx1, cy1 = chiplet['x'], chiplet['y']
     cx2, cy2 = chiplet['x'] + chiplet['w'], chiplet['y'] + chiplet['h']
-    # TODO: add English comment
+    
     return (rx2 <= cx1) or (rx1 >= cx2) or (ry2 <= cy1) or (ry1 >= cy2)
 
 def _can_merge_h(a, b):
@@ -319,13 +319,13 @@ def _is_pure_blank_rect(rect_x1, rect_y1, rect_x2, rect_y2, chiplet_list):
         c_x1, c_y1 = chip['x'], chip['y']
         c_x2, c_y2 = chip['x'] + chip['w'], chip['y'] + chip['h']
         
-        # TODO: add English comment
+        
         inter_x1 = max(rect_x1, c_x1)
         inter_y1 = max(rect_y1, c_y1)
         inter_x2 = min(rect_x2, c_x2)
         inter_y2 = min(rect_y2, c_y2)
         
-        # TODO: add English comment
+        
         if (inter_x2 - inter_x1) > 1e-9 and (inter_y2 - inter_y1) > 1e-9:
             return False
     return True
@@ -339,24 +339,24 @@ def _try_merge_rects(rect1, rect2):
     """
     (x1, y1, w1, h1), (x2, y2, w2, h2) = rect1, rect2
     
-    # TODO: add English comment
+    
     eps = 1e-9
     
-    # TODO: add English comment
+    
     if abs(y1 - y2) < eps and abs(h1 - h2) < eps:
         if abs((x1 + w1) - x2) < eps:
             return (x1, y1, w1 + w2, h1)
         if abs((x2 + w2) - x1) < eps:
             return (x2, y2, w1 + w2, h2)
     
-    # TODO: add English comment
+    
     if abs(x1 - x2) < eps and abs(w1 - w2) < eps:
         if abs((y1 + h1) - y2) < eps:
             return (x1, y1, w1, h1 + h2)
         if abs((y2 + h2) - y1) < eps:
             return (x1, y2, w1, h1 + h2)
     
-    # TODO: add English comment
+    
     return None
 
 def _merge_all_possible_rects(rect_list):
@@ -368,17 +368,17 @@ def _merge_all_possible_rects(rect_list):
     if not rect_list:
         return []
     
-    # TODO: add English comment
+    
     current_rects = rect_list.copy()
     
-    # TODO: add English comment
+    
     while True:
         merged = False
         new_rects = []
-        # TODO: add English comment
+        
         merged_indices = set()
         
-        # TODO: add English comment
+        
         for i in range(len(current_rects)):
             if i in merged_indices:
                 continue
@@ -386,14 +386,14 @@ def _merge_all_possible_rects(rect_list):
             current = current_rects[i]
             found_merge = False
             
-            # TODO: add English comment
+            
             for j in range(i + 1, len(current_rects)):
                 if j in merged_indices:
                     continue
                 
                 merged_rect = _try_merge_rects(current, current_rects[j])
                 if merged_rect:
-                    # TODO: add English comment
+                    
                     new_rects.append(merged_rect)
                     merged_indices.add(i)
                     merged_indices.add(j)
@@ -401,11 +401,11 @@ def _merge_all_possible_rects(rect_list):
                     merged = True
                     break
             
-            # TODO: add English comment
+            
             if not found_merge:
                 new_rects.append(current)
         
-        # TODO: add English comment
+        
         current_rects = new_rects
         if not merged:
             break
@@ -420,7 +420,7 @@ def get_tim_blocks(chiplet_list_mm, square_side_mm):
     3. Fill all blanks with minimal TIM rectangles.
     Input/output unit: mm
     """
-    # TODO: add English comment
+    
     x_edges = {round_to_grid_mm(0.0), round_to_grid_mm(square_side_mm)}
     y_edges = {round_to_grid_mm(0.0), round_to_grid_mm(square_side_mm)}
     
@@ -430,12 +430,12 @@ def get_tim_blocks(chiplet_list_mm, square_side_mm):
         y_edges.add(round_to_grid_mm(chip['y']))
         y_edges.add(round_to_grid_mm(chip['y'] + chip['h']))
     
-    # TODO: add English comment
+    
     x_edges_sorted = sorted(list(x_edges))
     y_edges_sorted = sorted(list(y_edges))
 
-    # TODO: add English comment
-    # TODO: add English comment
+    
+    
     eps = 1e-6
     raw_blank_rects = []
     for i in range(len(x_edges_sorted) - 1):
@@ -456,14 +456,14 @@ def get_tim_blocks(chiplet_list_mm, square_side_mm):
             if rect_h < MIN_TIM_DIMENSION_MM and not at_y_boundary:
                 continue
             
-            # TODO: add English comment
+            
             if _is_pure_blank_rect(rect_x1, rect_y1, rect_x2, rect_y2, chiplet_list_mm):
                 raw_blank_rects.append((rect_x1, rect_y1, rect_w, rect_h))
 
-    # TODO: add English comment
+    
     merged_rects = _merge_all_possible_rects(raw_blank_rects)
 
-    # TODO: add English comment
+    
     tim_blocks = []
     for idx, (x, y, w, h) in enumerate(merged_rects):
         tim_blocks.append({
@@ -476,18 +476,17 @@ def get_tim_blocks(chiplet_list_mm, square_side_mm):
             'thermal_resistivity': 0.014130946773433819
         })
 
-    # TODO: add English comment
+    
     tim_total_area = sum(t['w'] * t['h'] for t in tim_blocks)
     chip_total_area = sum(c['w'] * c['h'] for c in chiplet_list_mm)
     frame_total_area = square_side_mm * square_side_mm
     area_diff = abs((tim_total_area + chip_total_area) - frame_total_area)
     
     if area_diff > OVERLAP_TOLERANCE_MM2 * 100:
-        print("DEBUG")
+        print("area_diff > OVERLAP_TOLERANCE_MM2 * 100")
     else:
-        print("DEBUG")
-    
-    print("DEBUG")
+        print("area_diff <= OVERLAP_TOLERANCE_MM2 * 100")
+        
     return tim_blocks
 
 def _rects_overlap(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2):
@@ -526,8 +525,8 @@ def copy_config_templates(template_dir, target_dir, json_basename=None, bbox_lon
         if os.path.exists(src):
             shutil.copy2(src, dst)
             os.chmod(dst, 0o755)
-            print("DEBUG")
-    # TODO: add English comment
+            
+    
     if bbox_longest_side is not None:
         val = math.ceil(bbox_longest_side * 1000) / 1000 + 0.001
         val_str = f"{val:.3f}"
@@ -539,8 +538,8 @@ def copy_config_templates(template_dir, target_dir, json_basename=None, bbox_lon
             content = re.sub(r"(-s_spreader\s+)[\d.e+-]+", rf"\g<1>{val_str}", content)
             with open(config_path, 'w', encoding='utf-8') as f:
                 f.write(content)
-            print("DEBUG")
-    # TODO: add English comment
+            
+    
     if json_basename is not None:
         lcf_path = os.path.join(target_dir, "example.lcf")
         if os.path.exists(lcf_path):
@@ -551,7 +550,7 @@ def copy_config_templates(template_dir, target_dir, json_basename=None, bbox_lon
             content = content.replace("floorplan1.flp", f"{json_basename}_C4.flp")
             with open(lcf_path, 'w', encoding='utf-8') as f:
                 f.write(content)
-            print("DEBUG")
+            
 
 def blocks_mm_to_m(blocks):
     """Convert block list from mm to m (for FLP output)."""
@@ -573,7 +572,7 @@ def generate_sub_flp_file(square_side_m, json_basename, output_dir):
         f.write("# Format: <unit> <width> <height> <x> <y>\n")
         f.write("# Unit: meters\n\n")
         f.write(f"Unit0\t{square_side_m:.6f}\t{square_side_m:.6f}\t0.000000\t0.000000\n")
-    print("DEBUG")
+    
 
 def generate_C4_flp_file(square_side_m, json_basename, output_dir):
     """Generate bounding-box-only FLP (Unit0, square side in m)."""
@@ -583,7 +582,7 @@ def generate_C4_flp_file(square_side_m, json_basename, output_dir):
         f.write("# Format: <unit> <width> <height> <x> <y>\n")
         f.write("# Unit: meters\n\n")
         f.write(f"Unit0\t{square_side_m:.6f}\t{square_side_m:.6f}\t0.000000\t0.000000\t2523888.888888889\t0.014130946773433819\n")
-    print("DEBUG")
+    
 
 def generate_flp_file(chiplet_list_m, tim_list_m, output_flp_path):
     """Generate final FLP (chiplet+TIM, in m, with thermal properties)."""
@@ -592,7 +591,7 @@ def generate_flp_file(chiplet_list_m, tim_list_m, output_flp_path):
         f.write("# Format: <unit> <w> <h> <x> <y> [specific-heat] [thermal-resistivity]\n")
         f.write("# Unit: meters\n\n")
         for chip in chiplet_list_m:
-            # TODO: add English comment
+            
             f.write(
                 f"{chip['name']} {chip['w']:.6f} {chip['h']:.6f} "
                 f"{chip['x']:.6f} {chip['y']:.6f} "
@@ -604,8 +603,8 @@ def generate_flp_file(chiplet_list_m, tim_list_m, output_flp_path):
                 f"{tim['x']:.6f} {tim['y']:.6f} "
                 f"{tim['specific_heat']} {tim['thermal_resistivity']}\n"
             )
-    print("DEBUG")
-    print("DEBUG")
+    
+    
 
 def main(json_path, output_flp_path=None, output_ptrace_path=None):
     """
@@ -627,44 +626,42 @@ def main(json_path, output_flp_path=None, output_ptrace_path=None):
     if output_ptrace_path is None:
         output_ptrace_path = os.path.join(output_config_dir, f"{json_basename}.ptrace")
 
-    # TODO: add English comment
+    
     chiplets = load_json_layout(json_path)
-    print("DEBUG")
+    
 
-    # TODO: add English comment
+    
     chiplet_list_mm, square_side_mm = build_layout(chiplets)
-    print("DEBUG")
+    
     check_blocks_overlap(chiplet_list_mm)
 
-    # TODO: add English comment
+    
     tim_list_mm = get_tim_blocks(chiplet_list_mm, square_side_mm)
     all_blocks_mm = chiplet_list_mm + tim_list_mm
     check_blocks_overlap(all_blocks_mm)
 
-    # TODO: add English comment
+    
     chiplet_list_m = blocks_mm_to_m(chiplet_list_mm)
     tim_list_m = blocks_mm_to_m(tim_list_mm)
     square_side_m = mm_to_m(square_side_mm)
 
-    # TODO: add English comment
+    
     template_dir = os.path.join(config_dir, "template_config")
     if os.path.isdir(template_dir):
-        print("DEBUG")
+        
         copy_config_templates(template_dir, output_config_dir, json_basename, square_side_m)
     else:
         print("DEBUG")
-
-    # TODO: add English comment
-    print("DEBUG")
+        
     generate_flp_file(chiplet_list_m, tim_list_m, output_flp_path)
     generate_ptrace_file(chiplet_list_m, tim_list_m, json_path, output_ptrace_path)
     generate_sub_flp_file(square_side_m, json_basename, output_config_dir)
     generate_C4_flp_file(square_side_m, json_basename, output_config_dir)
 
-    # TODO: add English comment
+    
     check_no_grid_overlap(chiplet_list_m, tim_list_m, unit_m=True)
 
-    print("DEBUG")
+    
 
 if __name__ == "__main__":
     import argparse
