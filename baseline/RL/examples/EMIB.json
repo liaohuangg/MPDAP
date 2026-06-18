@@ -1,0 +1,25 @@
+{
+    "EMIBTypes": [
+      {
+        "name": "interfaceA",
+        "LinearIODensity": 1200,
+        "max_Reach_length": 1,
+        "Gbps": 5,
+        "AreaIODensity": 2400
+      },
+      {
+        "name": "interfaceB",
+        "LinearIODensity": 300,
+        "max_Reach_length": 5,
+        "Gbps": 5,
+        "AreaIODensity": 300
+      },
+      {
+        "name": "interfaceC",
+        "LinearIODensity": 40,
+        "max_Reach_length": 100,
+        "Gbps": 5,
+        "AreaIODensity": 80
+      }
+    ]
+  }
