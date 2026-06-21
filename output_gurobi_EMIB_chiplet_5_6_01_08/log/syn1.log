@@ -1,0 +1,179 @@
+
+================================================================================
+Batch test start (Gurobi)
+================================================================================
+Test input dir: /root/placement/MPDAP/benchmark/test_input
+Output base dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08
+Found 1 test file(s)
+Files to process: syn1.json
+================================================================================
+
+
+[1/1] Processing: syn1.json
+  Core name: syn1_core
+  Log dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/log/syn1_core
+  LP dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/lp/syn1_core
+  Fig dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/fig/syn1_core
+  Placement file: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/placement/syn1.json
+  Removing old output dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/log/syn1_core
+  Removing old output dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/lp/syn1_core
+  Removing old output dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/fig/syn1_core
+2026-06-21 12:28:39 - INFO - Calling EMIB solver (Gurobi)...
+node 0 w: 11.0, h: 10.0
+node 1 w: 12.0, h: 10.0
+node 2 w: 6.0, h: 15.0
+node 3 w: 13.0, h: 6.0
+node 4 w: 11.0, h: 5.0
+node 5 w: 15.0, h: 6.0
+node 6 w: 5.0, h: 5.0
+node 7 w: 6.0, h: 14.0
+node 8 w: 6.0, h: 12.0
+node 9 w: 13.0, h: 6.0
+  (A,E): node1=A, node2=E, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (A,H): node1=A, node2=H, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (B,E): node1=B, node2=E, wireCount=512, EMIBType=interfaceB, EMIB_length=1.7067, EMIB_max_width=3.0, width=2.0, height=1.7067, bump_width=1.0000
+  (B,H): node1=B, node2=H, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (B,I): node1=B, node2=I, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (B,J): node1=B, node2=J, wireCount=512, EMIBType=interfaceB, EMIB_length=1.7067, EMIB_max_width=3.0, width=2.0, height=1.7067, bump_width=1.0000
+  (C,D): node1=C, node2=D, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (C,E): node1=C, node2=E, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (C,G): node1=C, node2=G, wireCount=512, EMIBType=interfaceB, EMIB_length=1.7067, EMIB_max_width=3.0, width=2.0, height=1.7067, bump_width=1.0000
+  (E,F): node1=E, node2=F, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (E,G): node1=E, node2=G, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (E,H): node1=E, node2=H, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (F,I): node1=F, node2=I, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (G,H): node1=G, node2=H, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (G,I): node1=G, node2=I, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (G,J): node1=G, node2=J, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (I,J): node1=I, node2=J, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (0,4): [A, E, 128, interfaceC, 3.2, 99.0]
+  (0,7): [A, H, 256, interfaceB, 0.8533, 3.0]
+  (1,4): [B, E, 512, interfaceB, 1.7067, 3.0]
+  (1,7): [B, H, 128, interfaceC, 3.2, 99.0]
+  (1,8): [B, I, 256, interfaceB, 0.8533, 3.0]
+  (1,9): [B, J, 512, interfaceB, 1.7067, 3.0]
+  (2,3): [C, D, 128, interfaceC, 3.2, 99.0]
+  (2,4): [C, E, 128, interfaceC, 3.2, 99.0]
+  (2,6): [C, G, 512, interfaceB, 1.7067, 3.0]
+  (4,5): [E, F, 128, interfaceC, 3.2, 99.0]
+  (4,6): [E, G, 256, interfaceB, 0.8533, 3.0]
+  (4,7): [E, H, 128, interfaceC, 3.2, 99.0]
+  (5,8): [F, I, 128, interfaceC, 3.2, 99.0]
+  (6,7): [G, H, 128, interfaceC, 3.2, 99.0]
+  (6,8): [G, I, 128, interfaceC, 3.2, 99.0]
+  (6,9): [G, J, 128, interfaceC, 3.2, 99.0]
+  (8,9): [I, J, 256, interfaceB, 0.8533, 3.0]
+Set parameter WLSAccessID
+2026-06-21 12:28:39 - INFO - Set parameter WLSAccessID
+Set parameter WLSSecret
+2026-06-21 12:28:39 - INFO - Set parameter WLSSecret
+Set parameter LicenseID to value 2756663
+2026-06-21 12:28:39 - INFO - Set parameter LicenseID to value 2756663
+Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+2026-06-21 12:28:39 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+EMIB_w_var: {(0, 7): <gurobi.Var *Awaiting Model Update*>, (1, 4): <gurobi.Var *Awaiting Model Update*>, (1, 8): <gurobi.Var *Awaiting Model Update*>, (1, 9): <gurobi.Var *Awaiting Model Update*>, (2, 6): <gurobi.Var *Awaiting Model Update*>, (4, 6): <gurobi.Var *Awaiting Model Update*>, (8, 9): <gurobi.Var *Awaiting Model Update*>}
+EMIB_h_var: {(0, 7): <gurobi.Var *Awaiting Model Update*>, (1, 4): <gurobi.Var *Awaiting Model Update*>, (1, 8): <gurobi.Var *Awaiting Model Update*>, (1, 9): <gurobi.Var *Awaiting Model Update*>, (2, 6): <gurobi.Var *Awaiting Model Update*>, (4, 6): <gurobi.Var *Awaiting Model Update*>, (8, 9): <gurobi.Var *Awaiting Model Update*>}
+EMIB_connected_pairs: {(0, 7): EMIBNode(node1='A', node2='H', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (1, 4): EMIBNode(node1='B', node2='E', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (1, 8): EMIBNode(node1='B', node2='I', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (1, 9): EMIBNode(node1='B', node2='J', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (2, 6): EMIBNode(node1='C', node2='G', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (4, 6): EMIBNode(node1='E', node2='G', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (8, 9): EMIBNode(node1='I', node2='J', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533)}
+[POWER_AWARE] Mutual Distancing: ENABLED
+[POWER_AWARE] Central Avoidance: DISABLED
+[POWER_AWARE] Power Aware Optimization: ENABLED
+[POWER_AWARE] Selected high-power chiplets: 3 (density threshold: 0.8452380952380952)
+[POWER_AWARE] High-power chiplet indices: [6, 7, 9]
+[POWER_AWARE] Mutual Distancing: Creating constraints for 3 high-power chiplets
+[POWER_AWARE] Mutual Distancing: Added distance constraints for all high-power pairs
+[DEBUG] L_avg: 28.319604517012593
+[DEBUG] total_area: 802.0
+[POWER_AWARE] Normalization factor calculation:
+[POWER_AWARE]   - High-power chiplets: 3
+[POWER_AWARE]   - Mutual Distancing enabled: True
+[POWER_AWARE]   - Central Avoidance enabled: False
+[POWER_AWARE]   - pair_sum (MD): 1.183100e+04
+[POWER_AWARE]   - self_sum (CA): 0.000000e+00
+[POWER_AWARE]   - total_sum (pair + self): 1.183100e+04
+[POWER_AWARE]   - ref_power: 5.025739e+05
+[DEBUG] ref_wirelength: 54373.64067266418
+[DEBUG] ref_t: 56.639209034025185
+[DEBUG] ref_power: 502573.8615611639
+[DEBUG] ref_aspect: 55.0
+
+================================================================================
+[OBJECTIVE FUNCTION DETAILS]
+================================================================================
+
+[Normalization Reference Values]
+  ref_wirelength: 5.437364e+04
+  ref_t (area proxy): 5.663921e+01
+  ref_power: 5.025739e+05
+  ref_aspect: 5.500000e+01
+
+[Beta Weights]
+  beta_wire: 5.000000e+00
+  beta_area: 6.000000e+00
+  beta_aspect: 1.000000e-01
+  beta_power: 8.000000e-01
+
+[Objective Function Components]
+  1. Wirelength term:
+     norm_wirelength = wirelength / ref_wirelength
+     contribution = beta_wire * norm_wirelength = 5.0 * norm_wirelength
+  2. Area term:
+     norm_t = t / ref_t
+     contribution = beta_area * norm_t = 6.0 * norm_t
+  3. Aspect Ratio term:
+     norm_aspect = aspect_ratio_penalty / ref_aspect
+     contribution = beta_aspect * norm_aspect = 0.1 * norm_aspect
+  4. Power Awareness term:
+     norm_power = power_aware_penalty / ref_power
+     contribution = - beta_power * norm_power = - 0.8 * norm_power
+
+[Objective Function Formula]
+  minimize: 5.0 * wirelength/ref_wirelength
+          + 6.0 * t/ref_t
+          + 0.1 * aspect_ratio_penalty/ref_aspect
+          - 0.8 * power_aware_penalty/ref_power
+================================================================================
+
+
+[EMIB] ILP Model construction completed. Analyzing model structure...
+2026-06-21 12:28:39 - ERROR - 
+Error during solve: Unable to retrieve attribute 'NodeCount'
+Traceback (most recent call last):
+  File "/root/placement/MPDAP/tests/batch_test_solutions_EMIB_chiplet.py", line 417, in run_batch_tests
+    sols = solve_emib(
+           ^^^^^^^^^^^
+  File "/root/placement/MPDAP/src/ilp_EMIB_search_EMIB_chiplet.py", line 379, in search_multiple_solutions
+    ctx = build_placement_ilp_model(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/placement/MPDAP/src/ilp_method_EMIB_chiplet.py", line 1498, in build_placement_ilp_model
+    print_model_report(
+  File "/root/placement/MPDAP/src/ilp_model_analyzer.py", line 317, in print_model_report
+    solve_stats = get_solve_statistics(model)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/placement/MPDAP/src/ilp_model_analyzer.py", line 223, in get_solve_statistics
+    stats['nodes_explored'] = model.NodeCount
+                              ^^^^^^^^^^^^^^^
+  File "src/gurobipy/_model.pyx", line 399, in gurobipy._model.Model.__getattr__
+  File "src/gurobipy/_model.pyx", line 2219, in gurobipy._model.Model.getAttr
+  File "src/gurobipy/_attrutil.pyx", line 119, in gurobipy._attrutil._getattr
+AttributeError: Unable to retrieve attribute 'NodeCount'. Did you mean: 'SolCount'?
+  ✗ Failed: Unable to retrieve attribute 'NodeCount'
+
+================================================================================
+Batch test done (Gurobi)
+  Total time: 0.02 s
+================================================================================
+File summary:
+  Success: 0/1
+  Failed: 1/1
+Solution count:
+  Found: 0/0
+
+Details:
+  ✗ syn1.json -> syn1_core: failed
+    Error: Unable to retrieve attribute 'NodeCount'
+    Log dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/log/syn1_core
+    LP dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/lp/syn1_core
+    Fig dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/fig/syn1_core
+    Placement: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/placement/syn1.json
+================================================================================
+

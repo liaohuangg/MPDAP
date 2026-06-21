@@ -148,20 +148,20 @@ else
     python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files multigpu.json > "$log_dir/multigpu.log" 2>&1
     echo "multigpu.log solve done"
     
-    if [ -f "$log_dir/xerox6_m.log" ]; then rm -f "$log_dir/xerox6_m.log"; fi
-    touch "$log_dir/xerox6_m.log"
-    python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files xerox6_m.json > "$log_dir/xerox6_m.log" 2>&1
-    echo "xerox6_m.log solve done"
+    # if [ -f "$log_dir/xerox6_m.log" ]; then rm -f "$log_dir/xerox6_m.log"; fi
+    # touch "$log_dir/xerox6_m.log"
+    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files xerox6_m.json > "$log_dir/xerox6_m.log" 2>&1
+    # echo "xerox6_m.log solve done"
     
-    if [ -f "$log_dir/xerox7_m.log" ]; then rm -f "$log_dir/xerox7_m.log"; fi
-    touch "$log_dir/xerox7_m.log"
-    python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files xerox7_m.json > "$log_dir/xerox7_m.log" 2>&1
-    echo "xerox7_m.log solve done"
+    # if [ -f "$log_dir/xerox7_m.log" ]; then rm -f "$log_dir/xerox7_m.log"; fi
+    # touch "$log_dir/xerox7_m.log"
+    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files xerox7_m.json > "$log_dir/xerox7_m.log" 2>&1
+    # echo "xerox7_m.log solve done"
     
-    if [ -f "$log_dir/xerox8_m.log" ]; then rm -f "$log_dir/xerox8_m.log"; fi
-    touch "$log_dir/xerox8_m.log"
-    python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files xerox8_m.json > "$log_dir/xerox8_m.log" 2>&1
-    echo "xerox8_m.log solve done"
+    # if [ -f "$log_dir/xerox8_m.log" ]; then rm -f "$log_dir/xerox8_m.log"; fi
+    # touch "$log_dir/xerox8_m.log"
+    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files xerox8_m.json > "$log_dir/xerox8_m.log" 2>&1
+    # echo "xerox8_m.log solve done"
 
     if [ -f "$log_dir/hp11_m.log" ]; then rm -f "$log_dir/hp11_m.log"; fi
     touch "$log_dir/hp11_m.log"

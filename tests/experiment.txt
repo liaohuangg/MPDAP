@@ -1,0 +1,463 @@
+% ============ Block Area (BA) Table ============
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\begin{table}[t]
+\centering
+\caption{\textcolor{blue}{Block Area Comparison of BT-tree, Power-Aware MP, RLPlanner and O-MILP}}
+\label{tab:comp_ba_all}
+
+\setlength{\tabcolsep}{4pt}
+
+\begin{tabularx}{\linewidth}{
+    >{\centering\arraybackslash}p{1.65cm}
+    Y Y Y Y
+}
+\toprule
+\multirow{2}{*}{\textbf{\textcolor{blue}{Test Case}}}
+& \multicolumn{4}{c}{\textbf{\textcolor{blue}{Block Area Comparison, BA ($\mathrm{mm}^2$)}}}
+\\
+\cmidrule(lr){2-5}
+& \textbf{\textcolor{blue}{BT-tree}}
+& \textbf{\textcolor{blue}{RLPlanner}}
+& \textbf{\textcolor{blue}{O-MILP}}
+& \textbf{\textcolor{blue}{Power-Aware MP}}
+\\
+\midrule
+
+\renewcommand{\arraystretch}{1.9}
+
+\textcolor{blue}{$acend910$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1257.00\\[-1pt]\scriptsize (+8.58\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1282.71\\[-1pt]\scriptsize (+10.8\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1157.72\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1271.70\\[-1pt]\scriptsize (+9.85\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$cpu-dram$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1119.63\\[-1pt]\scriptsize (+82.95\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1070.00\\[-1pt]\scriptsize (+74.84\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 612.00\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 707.83\\[-1pt]\scriptsize (+15.66\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp11\_m$}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1075.33\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1976.21\\[-1pt]\scriptsize (+83.78\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp6\_m$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 596.70\\[-1pt]\scriptsize (+26.47\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 787.05\\[-1pt]\scriptsize (+66.82\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 471.81\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 471.81\\[-1pt]\scriptsize (0.0\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp8\_m$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 2528.77\\[-1pt]\scriptsize (+250.81\%)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 720.83\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 712.50\\[-1pt]\scriptsize (-1.16\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$multigpu$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1255.98\\[-1pt]\scriptsize (-9.08\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1663.48\\[-1pt]\scriptsize (+20.42\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1381.38\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1362.14\\[-1pt]\scriptsize (-1.39\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn1$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1480.00\\[-1pt]\scriptsize (+65.18\%)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 896.00\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1137.50\\[-1pt]\scriptsize (+26.95\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn5$}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 702.00\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 895.17\\[-1pt]\scriptsize (+27.52\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$sys\_micro150$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1119.63\\[-1pt]\scriptsize (+82.95\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 977.50\\[-1pt]\scriptsize (+59.72\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 612.00\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 707.83\\[-1pt]\scriptsize (+15.66\%)}}
+\\
+\addlinespace[2pt]
+
+\bottomrule
+\end{tabularx}
+
+\vspace{1mm}
+\parbox{\linewidth}{
+\scriptsize
+\centering
+\textcolor{blue}{
+Values in parentheses denote the relative change compared with the proposed O-MILP method.
+Positive values indicate larger values than O-MILP, while negative values indicate smaller values.
+``ref.'' denotes the proposed O-MILP baseline, and ``--'' indicates unavailable data.
+}
+}
+\end{table}
+
+
+% ============ Wire Length (WL) Table ============
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\begin{table}[t]
+\centering
+\caption{\textcolor{blue}{Wire Length Comparison of BT-tree, Power-Aware MP, RLPlanner and O-MILP}}
+\label{tab:comp_wl_all}
+
+\setlength{\tabcolsep}{4pt}
+
+\begin{tabularx}{\linewidth}{
+    >{\centering\arraybackslash}p{1.65cm}
+    Y Y Y Y
+}
+\toprule
+\multirow{2}{*}{\textbf{\textcolor{blue}{Test Case}}}
+& \multicolumn{4}{c}{\textbf{\textcolor{blue}{Wire Length Comparison, WL (m)}}}
+\\
+\cmidrule(lr){2-5}
+& \textbf{\textcolor{blue}{BT-tree}}
+& \textbf{\textcolor{blue}{RLPlanner}}
+& \textbf{\textcolor{blue}{O-MILP}}
+& \textbf{\textcolor{blue}{Power-Aware MP}}
+\\
+\midrule
+
+\renewcommand{\arraystretch}{1.9}
+
+\textcolor{blue}{$acend910$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 24239.47\\[-1pt]\scriptsize (+3.06\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 24324.94\\[-1pt]\scriptsize (+3.42\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 23520.27\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 22590.96\\[-1pt]\scriptsize (-3.95\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$cpu-dram$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 54492.72\\[-1pt]\scriptsize (+4.36\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 54739.50\\[-1pt]\scriptsize (+4.83\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 52215.63\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 54713.91\\[-1pt]\scriptsize (+4.78\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp11\_m$}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 91397.36\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 106353.44\\[-1pt]\scriptsize (+16.36\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp6\_m$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 10291.63\\[-1pt]\scriptsize (-0.33\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 14353.76\\[-1pt]\scriptsize (+39.01\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 10325.49\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 9659.31\\[-1pt]\scriptsize (-6.45\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp8\_m$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 53830.70\\[-1pt]\scriptsize (+24.13\%)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 43367.49\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 44274.13\\[-1pt]\scriptsize (+2.09\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$multigpu$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 54874.77\\[-1pt]\scriptsize (+1.5\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 57735.00\\[-1pt]\scriptsize (+6.79\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 54064.65\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 55238.24\\[-1pt]\scriptsize (+2.17\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn1$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 55408.79\\[-1pt]\scriptsize (+19.95\%)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 46192.37\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 51797.26\\[-1pt]\scriptsize (+12.13\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn5$}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 70516.52\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 74620.56\\[-1pt]\scriptsize (+5.82\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$sys\_micro150$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 54299.35\\[-1pt]\scriptsize (+3.99\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 55311.38\\[-1pt]\scriptsize (+5.93\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 52215.63\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 54713.91\\[-1pt]\scriptsize (+4.78\%)}}
+\\
+\addlinespace[2pt]
+
+\bottomrule
+\end{tabularx}
+
+\vspace{1mm}
+\parbox{\linewidth}{
+\scriptsize
+\centering
+\textcolor{blue}{
+Values in parentheses denote the relative change compared with the proposed O-MILP method.
+Positive values indicate larger values than O-MILP, while negative values indicate smaller values.
+``ref.'' denotes the proposed O-MILP baseline, and ``--'' indicates unavailable data.
+}
+}
+\end{table}
+
+
+% ============ Aspect Ratio (|AR-1|) Table ============
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\begin{table}[t]
+\centering
+\caption{\textcolor{blue}{Aspect Ratio Comparison of BT-tree, Power-Aware MP, RLPlanner and O-MILP}}
+\label{tab:comp_ar_all}
+
+\setlength{\tabcolsep}{4pt}
+
+\begin{tabularx}{\linewidth}{
+    >{\centering\arraybackslash}p{1.65cm}
+    Y Y Y Y
+}
+\toprule
+\multirow{2}{*}{\textbf{\textcolor{blue}{Test Case}}}
+& \multicolumn{4}{c}{\textbf{\textcolor{blue}{Aspect Ratio Comparison, AR ($|$AR$-1|$)}}}
+\\
+\cmidrule(lr){2-5}
+& \textbf{\textcolor{blue}{BT-tree}}
+& \textbf{\textcolor{blue}{RLPlanner}}
+& \textbf{\textcolor{blue}{O-MILP}}
+& \textbf{\textcolor{blue}{Power-Aware MP}}
+\\
+\midrule
+
+\renewcommand{\arraystretch}{1.9}
+
+\textcolor{blue}{$acend910$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.28\\[-1pt]\scriptsize (+63.22\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.06\\[-1pt]\scriptsize (-65.52\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.17\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.29\\[-1pt]\scriptsize (+66.67\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$cpu-dram$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.59\\[-1pt]\scriptsize (+26.11\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.50\\[-1pt]\scriptsize (+5.1\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.47\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.00\\[-1pt]\scriptsize (-100.0\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp11\_m$}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.15\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.28\\[-1pt]\scriptsize (+88.0\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp6\_m$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.45\\[-1pt]\scriptsize (-65.53\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.63\\[-1pt]\scriptsize (-52.13\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1.31\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.57\\[-1pt]\scriptsize (-56.77\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp8\_m$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.22\\[-1pt]\scriptsize (-62.48\%)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.59\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.55\\[-1pt]\scriptsize (-6.79\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$multigpu$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.46\\[-1pt]\scriptsize (+979.07\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.20\\[-1pt]\scriptsize (+374.42\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.04\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.19\\[-1pt]\scriptsize (+339.53\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn1$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.08\\[-1pt]\scriptsize (-35.2\%)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.12\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.08\\[-1pt]\scriptsize (-38.4\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn5$}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.04\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.19\\[-1pt]\scriptsize (+400.0\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$sys\_micro150$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.59\\[-1pt]\scriptsize (+25.27\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.15\\[-1pt]\scriptsize (-67.3\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.47\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 0.00\\[-1pt]\scriptsize (-100.0\%)}}
+\\
+\addlinespace[2pt]
+
+\bottomrule
+\end{tabularx}
+
+\vspace{1mm}
+\parbox{\linewidth}{
+\scriptsize
+\centering
+\textcolor{blue}{
+Values in parentheses denote the relative change compared with the proposed O-MILP method.
+Positive values indicate larger values than O-MILP, while negative values indicate smaller values.
+``ref.'' denotes the proposed O-MILP baseline, and ``--'' indicates unavailable data.
+}
+}
+\end{table}
+
+
+% ============ Maximum Temperature (maxT) Table ============
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\begin{table}[t]
+\centering
+\caption{\textcolor{blue}{Maximum Temperature Comparison of BT-tree, Power-Aware MP, RLPlanner and O-MILP}}
+\label{tab:comp_maxt_all}
+
+\setlength{\tabcolsep}{4pt}
+
+\begin{tabularx}{\linewidth}{
+    >{\centering\arraybackslash}p{1.65cm}
+    Y Y Y Y
+}
+\toprule
+\multirow{2}{*}{\textbf{\textcolor{blue}{Test Case}}}
+& \multicolumn{4}{c}{\textbf{\textcolor{blue}{Maximum Temperature Comparison, maxT (°C)}}}
+\\
+\cmidrule(lr){2-5}
+& \textbf{\textcolor{blue}{BT-tree}}
+& \textbf{\textcolor{blue}{RLPlanner}}
+& \textbf{\textcolor{blue}{O-MILP}}
+& \textbf{\textcolor{blue}{Power-Aware MP}}
+\\
+\midrule
+
+\renewcommand{\arraystretch}{1.9}
+
+\textcolor{blue}{$acend910$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 67.05\\[-1pt]\scriptsize (+1.75\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 65.74\\[-1pt]\scriptsize (-0.24\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 65.90\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 66.92\\[-1pt]\scriptsize (+1.55\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$cpu-dram$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 107.29\\[-1pt]\scriptsize (+1.74\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 99.72\\[-1pt]\scriptsize (-5.44\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 105.46\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 94.45\\[-1pt]\scriptsize (-10.44\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp11\_m$}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 91.88\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 88.77\\[-1pt]\scriptsize (-3.38\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp6\_m$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 85.08\\[-1pt]\scriptsize (-2.05\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 77.25\\[-1pt]\scriptsize (-11.06\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 86.86\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 86.35\\[-1pt]\scriptsize (-0.59\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp8\_m$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 97.07\\[-1pt]\scriptsize (+12.18\%)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 86.53\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 82.08\\[-1pt]\scriptsize (-5.14\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$multigpu$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 83.94\\[-1pt]\scriptsize (+1.3\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 86.18\\[-1pt]\scriptsize (+4.01\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 82.86\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 81.56\\[-1pt]\scriptsize (-1.57\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn1$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 84.52\\[-1pt]\scriptsize (-0.13\%)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 84.63\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 82.50\\[-1pt]\scriptsize (-2.52\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn5$}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 81.23\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 79.02\\[-1pt]\scriptsize (-2.72\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$sys\_micro150$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 102.89\\[-1pt]\scriptsize (-2.44\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 104.33\\[-1pt]\scriptsize (-1.07\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 105.46\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 94.45\\[-1pt]\scriptsize (-10.44\%)}}
+\\
+\addlinespace[2pt]
+
+\bottomrule
+\end{tabularx}
+
+\vspace{1mm}
+\parbox{\linewidth}{
+\scriptsize
+\centering
+\textcolor{blue}{
+Values in parentheses denote the relative change compared with the proposed O-MILP method.
+Positive values indicate larger values than O-MILP, while negative values indicate smaller values.
+``ref.'' denotes the proposed O-MILP baseline, and ``--'' indicates unavailable data.
+}
+}
+\end{table}
+

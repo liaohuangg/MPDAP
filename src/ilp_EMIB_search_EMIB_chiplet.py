@@ -24,6 +24,11 @@ from ilp_method_EMIB_chiplet import (
 )
 from ilp_method_EMIB_chiplet import build_placement_ilp_model
 
+try:
+    from ilp_model_analyzer import MemoryTracker, print_model_report
+except ImportError:
+    from ilp_method_EMIB_chiplet import MemoryTracker, print_model_report
+
 
 def _resolve_output_base(project_root: Path) -> Path:
     base_env = os.getenv("EMIB_OUTPUT_BASE")
@@ -158,11 +163,17 @@ def _solve_once_with_gap(
     time_limit: int = 60,
     mip_focus: int = 3,
     heuristics: float = 0.5,
+    enable_model_analysis: bool = True,
 ) -> ILPPlacementResult:
     """
     Single solve (time_limit seconds), allow feasible (non-optimal) solution.
     - Feasible: status="Optimal" or "Feasible", objective_value = ObjVal
     - Infeasible: status="NoSolution", objective_value = inf
+
+    Parameters
+    ----------
+    enable_model_analysis : bool
+        Enable detailed ILP model and memory analysis output (default: True)
     """
     import time as _time
 
@@ -173,9 +184,18 @@ def _solve_once_with_gap(
     model.Params.Heuristics = heuristics
     model.Params.LogToConsole = True
 
+    # Initialize memory tracker for analysis
+    memory_tracker = MemoryTracker() if enable_model_analysis else None
+    if memory_tracker:
+        memory_tracker.start()
+
     start = _time.time()
     model.optimize()
     solve_time = _time.time() - start
+
+    # Track final memory
+    if memory_tracker:
+        memory_tracker.finish()
 
     status = model.Status
     sol_count = int(getattr(model, "SolCount", 0))
@@ -206,6 +226,16 @@ def _solve_once_with_gap(
         print(
             f"[EMIB] Solve done: MIPGap={gap}, status={status_str}, Obj={obj_val:.6f}, time={solve_time:.2f}s, SolCount={sol_count}"
         )
+
+        # Print model analysis report if enabled
+        if enable_model_analysis and memory_tracker:
+            print("\n")
+            print_model_report(
+                model,
+                model_name=f"Chiplet Placement ILP (Gap={gap})",
+                memory_tracker=memory_tracker,
+            )
+
         log_objective_breakdown(ctx, model)
 
         aspect_ratio_val = 0.0

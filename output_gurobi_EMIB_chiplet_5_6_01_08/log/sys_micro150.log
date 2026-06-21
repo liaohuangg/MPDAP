@@ -1,0 +1,159 @@
+
+================================================================================
+Batch test start (Gurobi)
+================================================================================
+Test input dir: /root/placement/MPDAP/benchmark/test_input
+Output base dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08
+Found 1 test file(s)
+Files to process: sys_micro150.json
+================================================================================
+
+
+[1/1] Processing: sys_micro150.json
+  Core name: sys_micro150_core
+  Log dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/log/sys_micro150_core
+  LP dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/lp/sys_micro150_core
+  Fig dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/fig/sys_micro150_core
+  Placement file: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/placement/sys_micro150.json
+  Removing old output dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/log/sys_micro150_core
+  Removing old output dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/lp/sys_micro150_core
+  Removing old output dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/fig/sys_micro150_core
+2026-06-21 12:28:38 - INFO - Calling EMIB solver (Gurobi)...
+node 0 w: 8.25, h: 9.0
+node 1 w: 8.25, h: 9.0
+node 2 w: 8.25, h: 9.0
+node 3 w: 8.25, h: 9.0
+node 4 w: 8.75, h: 8.75
+node 5 w: 8.75, h: 8.75
+node 6 w: 8.75, h: 8.75
+node 7 w: 8.75, h: 8.75
+  (A,B): node1=A, node2=B, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (A,D): node1=A, node2=D, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (A,E): node1=A, node2=E, wireCount=1024, EMIBType=interfaceB, EMIB_length=3.4133, EMIB_max_width=3.0, width=2.0, height=3.4133, bump_width=1.0000
+  (B,C): node1=B, node2=C, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (B,F): node1=B, node2=F, wireCount=1024, EMIBType=interfaceB, EMIB_length=3.4133, EMIB_max_width=3.0, width=2.0, height=3.4133, bump_width=1.0000
+  (C,D): node1=C, node2=D, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (C,G): node1=C, node2=G, wireCount=1024, EMIBType=interfaceB, EMIB_length=3.4133, EMIB_max_width=3.0, width=2.0, height=3.4133, bump_width=1.0000
+  (D,H): node1=D, node2=H, wireCount=1024, EMIBType=interfaceB, EMIB_length=3.4133, EMIB_max_width=3.0, width=2.0, height=3.4133, bump_width=1.0000
+  (0,1): [A, B, 256, interfaceB, 0.8533, 3.0]
+  (0,3): [A, D, 256, interfaceB, 0.8533, 3.0]
+  (0,4): [A, E, 1024, interfaceB, 3.4133, 3.0]
+  (1,2): [B, C, 256, interfaceB, 0.8533, 3.0]
+  (1,5): [B, F, 1024, interfaceB, 3.4133, 3.0]
+  (2,3): [C, D, 256, interfaceB, 0.8533, 3.0]
+  (2,6): [C, G, 1024, interfaceB, 3.4133, 3.0]
+  (3,7): [D, H, 1024, interfaceB, 3.4133, 3.0]
+Set parameter WLSAccessID
+2026-06-21 12:28:38 - INFO - Set parameter WLSAccessID
+Set parameter WLSSecret
+2026-06-21 12:28:38 - INFO - Set parameter WLSSecret
+Set parameter LicenseID to value 2756663
+2026-06-21 12:28:38 - INFO - Set parameter LicenseID to value 2756663
+Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+2026-06-21 12:28:38 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+EMIB_w_var: {(0, 1): <gurobi.Var *Awaiting Model Update*>, (0, 3): <gurobi.Var *Awaiting Model Update*>, (0, 4): <gurobi.Var *Awaiting Model Update*>, (1, 2): <gurobi.Var *Awaiting Model Update*>, (1, 5): <gurobi.Var *Awaiting Model Update*>, (2, 3): <gurobi.Var *Awaiting Model Update*>, (2, 6): <gurobi.Var *Awaiting Model Update*>, (3, 7): <gurobi.Var *Awaiting Model Update*>}
+EMIB_h_var: {(0, 1): <gurobi.Var *Awaiting Model Update*>, (0, 3): <gurobi.Var *Awaiting Model Update*>, (0, 4): <gurobi.Var *Awaiting Model Update*>, (1, 2): <gurobi.Var *Awaiting Model Update*>, (1, 5): <gurobi.Var *Awaiting Model Update*>, (2, 3): <gurobi.Var *Awaiting Model Update*>, (2, 6): <gurobi.Var *Awaiting Model Update*>, (3, 7): <gurobi.Var *Awaiting Model Update*>}
+EMIB_connected_pairs: {(0, 1): EMIBNode(node1='A', node2='B', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (0, 3): EMIBNode(node1='A', node2='D', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (0, 4): EMIBNode(node1='A', node2='E', wireCount=1024, EMIBType='interfaceB', EMIB_length=3.4133, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=3.4133), (1, 2): EMIBNode(node1='B', node2='C', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (1, 5): EMIBNode(node1='B', node2='F', wireCount=1024, EMIBType='interfaceB', EMIB_length=3.4133, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=3.4133), (2, 3): EMIBNode(node1='C', node2='D', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (2, 6): EMIBNode(node1='C', node2='G', wireCount=1024, EMIBType='interfaceB', EMIB_length=3.4133, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=3.4133), (3, 7): EMIBNode(node1='D', node2='H', wireCount=1024, EMIBType='interfaceB', EMIB_length=3.4133, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=3.4133)}
+[POWER_AWARE] Mutual Distancing: ENABLED
+[POWER_AWARE] Central Avoidance: DISABLED
+[POWER_AWARE] Power Aware Optimization: ENABLED
+[POWER_AWARE] Selected high-power chiplets: 4 (density threshold: 2.0202020202020203)
+[POWER_AWARE] High-power chiplet indices: [0, 1, 2, 3]
+[POWER_AWARE] Mutual Distancing: Creating constraints for 4 high-power chiplets
+[POWER_AWARE] Mutual Distancing: Added distance constraints for all high-power pairs
+[DEBUG] L_avg: 24.561148181630273
+[DEBUG] total_area: 603.25
+[POWER_AWARE] Normalization factor calculation:
+[POWER_AWARE]   - High-power chiplets: 4
+[POWER_AWARE]   - Mutual Distancing enabled: True
+[POWER_AWARE]   - Central Avoidance enabled: False
+[POWER_AWARE]   - pair_sum (MD): 1.350000e+05
+[POWER_AWARE]   - self_sum (CA): 0.000000e+00
+[POWER_AWARE]   - total_sum (pair + self): 1.350000e+05
+[POWER_AWARE]   - ref_power: 6.631510e+06
+[DEBUG] ref_wirelength: 62876.5393449735
+[DEBUG] ref_t: 49.122296363260546
+[DEBUG] ref_power: 6631510.009040174
+[DEBUG] ref_aspect: 3.0
+
+================================================================================
+[OBJECTIVE FUNCTION DETAILS]
+================================================================================
+
+[Normalization Reference Values]
+  ref_wirelength: 6.287654e+04
+  ref_t (area proxy): 4.912230e+01
+  ref_power: 6.631510e+06
+  ref_aspect: 3.000000e+00
+
+[Beta Weights]
+  beta_wire: 5.000000e+00
+  beta_area: 6.000000e+00
+  beta_aspect: 1.000000e-01
+  beta_power: 8.000000e-01
+
+[Objective Function Components]
+  1. Wirelength term:
+     norm_wirelength = wirelength / ref_wirelength
+     contribution = beta_wire * norm_wirelength = 5.0 * norm_wirelength
+  2. Area term:
+     norm_t = t / ref_t
+     contribution = beta_area * norm_t = 6.0 * norm_t
+  3. Aspect Ratio term:
+     norm_aspect = aspect_ratio_penalty / ref_aspect
+     contribution = beta_aspect * norm_aspect = 0.1 * norm_aspect
+  4. Power Awareness term:
+     norm_power = power_aware_penalty / ref_power
+     contribution = - beta_power * norm_power = - 0.8 * norm_power
+
+[Objective Function Formula]
+  minimize: 5.0 * wirelength/ref_wirelength
+          + 6.0 * t/ref_t
+          + 0.1 * aspect_ratio_penalty/ref_aspect
+          - 0.8 * power_aware_penalty/ref_power
+================================================================================
+
+
+[EMIB] ILP Model construction completed. Analyzing model structure...
+2026-06-21 12:28:38 - ERROR - 
+Error during solve: Unable to retrieve attribute 'NodeCount'
+Traceback (most recent call last):
+  File "/root/placement/MPDAP/tests/batch_test_solutions_EMIB_chiplet.py", line 417, in run_batch_tests
+    sols = solve_emib(
+           ^^^^^^^^^^^
+  File "/root/placement/MPDAP/src/ilp_EMIB_search_EMIB_chiplet.py", line 379, in search_multiple_solutions
+    ctx = build_placement_ilp_model(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/placement/MPDAP/src/ilp_method_EMIB_chiplet.py", line 1498, in build_placement_ilp_model
+    print_model_report(
+  File "/root/placement/MPDAP/src/ilp_model_analyzer.py", line 317, in print_model_report
+    solve_stats = get_solve_statistics(model)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/placement/MPDAP/src/ilp_model_analyzer.py", line 223, in get_solve_statistics
+    stats['nodes_explored'] = model.NodeCount
+                              ^^^^^^^^^^^^^^^
+  File "src/gurobipy/_model.pyx", line 399, in gurobipy._model.Model.__getattr__
+  File "src/gurobipy/_model.pyx", line 2219, in gurobipy._model.Model.getAttr
+  File "src/gurobipy/_attrutil.pyx", line 119, in gurobipy._attrutil._getattr
+AttributeError: Unable to retrieve attribute 'NodeCount'. Did you mean: 'SolCount'?
+  ✗ Failed: Unable to retrieve attribute 'NodeCount'
+
+================================================================================
+Batch test done (Gurobi)
+  Total time: 0.02 s
+================================================================================
+File summary:
+  Success: 0/1
+  Failed: 1/1
+Solution count:
+  Found: 0/0
+
+Details:
+  ✗ sys_micro150.json -> sys_micro150_core: failed
+    Error: Unable to retrieve attribute 'NodeCount'
+    Log dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/log/sys_micro150_core
+    LP dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/lp/sys_micro150_core
+    Fig dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/fig/sys_micro150_core
+    Placement: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_08/placement/sys_micro150.json
+================================================================================
+

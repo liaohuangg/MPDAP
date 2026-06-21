@@ -32,8 +32,10 @@ from gurobipy import GRB
 
 try:
     from tool import ChipletNode, draw_chiplet_diagram, EMIBNode, print_emib_node_contents
+    from ilp_model_analyzer import MemoryTracker, print_model_report, print_gurobi_log_extract
 except ImportError:
     from .tool import ChipletNode, draw_chiplet_diagram, EMIBNode, print_emib_node_contents
+    from .ilp_model_analyzer import MemoryTracker, print_model_report, print_gurobi_log_extract
 
 
 def _get_beta_from_env(env_name: str, default: float) -> float:
@@ -81,11 +83,12 @@ class ILPModelContext:
     - `bbox_w, bbox_h` : variables for bounding-box width and height
     - `W, H`  : upper bounds for bounding-box size (chosen at modeling time)
     - `fixed_chiplet_idx` : deprecated; fixed-chiplet constraint no longer used (kept for API compatibility)
+    - `metrics_printed` : flag tracking whether model metrics have been output (prevents duplicate output)
     """
 
     model: gp.Model
     nodes: List[ChipletNode]
-    edges: List  
+    edges: List
 
     x_grid_var: Dict[int, gp.Var]
     y_grid_var: Dict[int, gp.Var]
@@ -124,6 +127,8 @@ class ILPModelContext:
     EMIB_w_var: Optional[Dict[Tuple[int, int], Any]] = None
     EMIB_h_var: Optional[Dict[Tuple[int, int], Any]] = None
     r_EMIB: Optional[Dict[Tuple[int, int], Any]] = None
+
+    metrics_printed: bool = False
 
 
     @property
@@ -234,6 +239,8 @@ def compute_normalization_factors(
     chiplet_h_orig_grid: Dict[int, float],
     all_connected_pairs: Dict[Tuple[int, int], dict],
     power_aware_enabled: bool,
+    mutual_distancing_enabled: bool = True,
+    central_avoidance_enabled: bool = True,
 ) -> Tuple[float, float, float, float]:
     """
     Estimate normalization scales (static scaling) so multi-objective terms have similar magnitude.
@@ -255,7 +262,6 @@ def compute_normalization_factors(
 
     ref_t = L_avg * 2.0
 
-
     total_wire_count = sum(
         e.get("wireCount", 1) if isinstance(e, dict) else getattr(e, "wireCount", 1)
         for e in all_connected_pairs.values()
@@ -272,8 +278,6 @@ def compute_normalization_factors(
         sum_short += min(w, h)
     ref_aspect = max(sum_long - sum_short, 1.0)
 
-
-
     ref_power = 1.0
     if power_aware_enabled:
         high_idxs, density_threshold = select_high_power_indices_by_density(
@@ -283,18 +287,37 @@ def compute_normalization_factors(
             pair_sum = 0.0
             self_sum = 0.0
             high_list = sorted(high_idxs)
-            for a in range(len(high_list)):
-                i = high_list[a]
-                p_i = float(getattr(nodes[i], "power", 0.0) or 0.0)
-                self_sum += p_i * p_i
-                for b in range(a + 1, len(high_list)):
-                    j = high_list[b]
-                    p_j = float(getattr(nodes[j], "power", 0.0) or 0.0)
-                    pair_sum += p_i * p_j
 
-        
-            scale = max(len(high_list), 1)
-            ref_power = max(L_avg / (n / 4.0) * (pair_sum + self_sum) / scale, 1.0)
+            # Calculate pair_sum only if mutual distancing is enabled
+            if mutual_distancing_enabled:
+                for a in range(len(high_list)):
+                    i = high_list[a]
+                    p_i = float(getattr(nodes[i], "power", 0.0) or 0.0)
+                    for b in range(a + 1, len(high_list)):
+                        j = high_list[b]
+                        p_j = float(getattr(nodes[j], "power", 0.0) or 0.0)
+                        pair_sum += p_i * p_j
+
+            # Calculate self_sum only if central avoidance is enabled
+            if central_avoidance_enabled:
+                for a in range(len(high_list)):
+                    i = high_list[a]
+                    p_i = float(getattr(nodes[i], "power", 0.0) or 0.0)
+                    self_sum += p_i * p_i
+
+            # scale = max(len(high_list), 1)
+            # powerij * dis ij + powerii * cenii
+            ref_power = max((L_avg / 2.0) * (pair_sum + self_sum), 1.0)
+
+            # Log normalization factor calculation details
+            print(f"[POWER_AWARE] Normalization factor calculation:")
+            print(f"[POWER_AWARE]   - High-power chiplets: {len(high_list)}")
+            print(f"[POWER_AWARE]   - Mutual Distancing enabled: {mutual_distancing_enabled}")
+            print(f"[POWER_AWARE]   - Central Avoidance enabled: {central_avoidance_enabled}")
+            print(f"[POWER_AWARE]   - pair_sum (MD): {pair_sum:.6e}")
+            print(f"[POWER_AWARE]   - self_sum (CA): {self_sum:.6e}")
+            print(f"[POWER_AWARE]   - total_sum (pair + self): {pair_sum + self_sum:.6e}")
+            print(f"[POWER_AWARE]   - ref_power: {ref_power:.6e}")
 
     print(f"[DEBUG] ref_wirelength: {ref_wirelength}")
     print(f"[DEBUG] ref_t: {ref_t}")
@@ -305,7 +328,7 @@ def compute_normalization_factors(
 
 def log_objective_breakdown(ctx: "ILPModelContext", model: gp.Model) -> None:
     """
-    Print normalized objective breakdown to stdout.
+    Print detailed objective function breakdown to stdout.
     Can be called after solve_placement_ilp_from_model or _solve_once_with_gap succeeds.
     """
     if getattr(ctx, "ref_wirelength", None) is None or getattr(ctx, "ref_t", None) is None:
@@ -319,28 +342,81 @@ def log_objective_breakdown(ctx: "ILPModelContext", model: gp.Model) -> None:
         val_t = float(v_t.X) if v_t else 0.0
         val_asp = float(v_asp.X) if v_asp else 0.0
         val_pwr = float(v_pwr.X) if v_pwr else 0.0
+
+        # Normalization
         norm_wl = val_wl / ctx.ref_wirelength
         norm_t = val_t / ctx.ref_t
         norm_asp = val_asp / (ctx.ref_aspect or 1.0)
         norm_pwr = val_pwr / (ctx.ref_power or 1.0)
-        contrib_wl = (ctx.beta_wire or 1.0) * norm_wl
-        contrib_t = (ctx.beta_area or 1.0) * norm_t
-        contrib_asp = (ctx.beta_aspect or 0.0) * norm_asp
-        contrib_pwr = (ctx.beta_power or 0.0) * norm_pwr
-        print("power_penalty(power)={val_pwr:.4f}, aspect_penalty(aspect)={val_asp:.4f}")
+
+        # Weighted contributions
+        beta_w = ctx.beta_wire or 1.0
+        beta_a = ctx.beta_area or 1.0
+        beta_as = ctx.beta_aspect or 0.0
+        beta_p = ctx.beta_power or 0.0
+
+        contrib_wl = beta_w * norm_wl
+        contrib_t = beta_a * norm_t
+        contrib_asp = beta_as * norm_asp
+        contrib_pwr = beta_p * norm_pwr
+
+        # Print detailed breakdown
+        print(f"\n{'='*80}")
+        print(f"[OBJECTIVE FUNCTION BREAKDOWN - SOLUTION VALUES]")
+        print(f"{'='*80}")
+
+        print(f"\n[Actual Variable Values]")
+        print(f"  wirelength: {val_wl:.6e}")
+        print(f"  bbox_area_proxy_t: {val_t:.6e}")
+        print(f"  aspect_ratio_penalty: {val_asp:.6e}")
+        print(f"  power_aware_penalty: {val_pwr:.6e}")
+
+        print(f"\n[Normalized Values]")
+        print(f"  norm_wirelength = {val_wl:.6e} / {ctx.ref_wirelength:.6e} = {norm_wl:.6e}")
+        print(f"  norm_t = {val_t:.6e} / {ctx.ref_t:.6e} = {norm_t:.6e}")
+        print(f"  norm_aspect = {val_asp:.6e} / {ctx.ref_aspect:.6e} = {norm_asp:.6e}")
+        print(f"  norm_power = {val_pwr:.6e} / {ctx.ref_power:.6e} = {norm_pwr:.6e}")
+
+        print(f"\n[Weighted Contributions]")
+        print(f"  1. Wirelength: {beta_w:.6e} * {norm_wl:.6e} = {contrib_wl:.6e}")
+        print(f"  2. Area: {beta_a:.6e} * {norm_t:.6e} = {contrib_t:.6e}")
+        print(f"  3. Aspect Ratio: {beta_as:.6e} * {norm_asp:.6e} = {contrib_asp:.6e}")
+        print(f"  4. Power Awareness: -{beta_p:.6e} * {norm_pwr:.6e} = {-contrib_pwr:.6e}")
+
+        total_obj = contrib_wl + contrib_t + contrib_asp - contrib_pwr
+        print(f"\n[Total Objective Value]")
+        print(f"  {contrib_wl:.6e} + {contrib_t:.6e} + {contrib_asp:.6e} - {contrib_pwr:.6e}")
+        print(f"  = {total_obj:.6e}")
+        print(f"{'='*80}\n")
+
     except Exception as e:
-        print("DEBUG")
+        print(f"[ERROR] Failed to log objective breakdown: {e}")
 
 
 def solve_placement_ilp_from_model(
     ctx: ILPModelContext,
-    time_limit: int = 600,  
+    time_limit: int = 600,
     verbose: bool = True,
+    enable_model_analysis: bool = True,
+    output_dir: Optional[str] = None,
 ) -> ILPPlacementResult:
     """
     Solve on an existing ILPModelContext and extract solution.
 
     Additional constraints (e.g. solution-exclusion cuts) can be added between solves.
+
+    Parameters
+    ----------
+    ctx : ILPModelContext
+        Model context with variables and constraints
+    time_limit : int
+        Time limit in seconds (default: 600)
+    verbose : bool
+        Enable verbose output (default: True)
+    enable_model_analysis : bool
+        Enable detailed ILP model and memory analysis (default: True)
+    output_dir : str, optional
+        Directory to save analysis reports
     """
     import time
 
@@ -352,11 +428,19 @@ def solve_placement_ilp_from_model(
 
     start_time = time.time()
 
-    if verbose:
-        print("DEBUG")
-        print("DEBUG")
-        print("DEBUG")
+    # Initialize memory tracker
+    memory_tracker = MemoryTracker() if enable_model_analysis else None
+    if memory_tracker:
+        memory_tracker.start()
 
+    # Prepare output file paths
+    report_file = None
+    if output_dir and enable_model_analysis:
+        report_file = os.path.join(output_dir, "ilp_model_analysis.txt")
+
+    if verbose:
+        print("[EMIB] Optimization starting...")
+        print(f"[EMIB] Time limit: {time_limit}s")
 
     model.setParam('TimeLimit', time_limit)
     model.setParam('OutputFlag', 1 if verbose else 0)
@@ -366,7 +450,22 @@ def solve_placement_ilp_from_model(
         model.optimize()
         solve_time = time.time() - start_time
 
-    
+        # Track final memory
+        if memory_tracker:
+            memory_tracker.finish()
+
+        # Print model analysis report (skip if already printed at build time)
+        # Note: Always print analysis report to stdout regardless of verbose flag
+        # This allows shell script redirection to capture the output
+        if enable_model_analysis and not ctx.metrics_printed:
+            print("\n")
+            print_model_report(
+                model,
+                model_name="Chiplet Placement ILP",
+                memory_tracker=memory_tracker,
+                log_file=report_file,
+            )
+
         status_map = {
             GRB.OPTIMAL: "Optimal",
             GRB.INFEASIBLE: "Infeasible",
@@ -376,11 +475,9 @@ def solve_placement_ilp_from_model(
         }
         status_str = status_map.get(model.status, f"Unknown({model.status})")
 
-        # if verbose:
-        print("DEBUG")
-        print("DEBUG")
+        if verbose:
+            print(f"[EMIB] Optimization completed: {status_str}")
         if model.status == GRB.OPTIMAL or model.status == GRB.FEASIBLE:
-            print("DEBUG")
             log_objective_breakdown(ctx, model)
 
     
@@ -433,13 +530,31 @@ def solve_placement_ilp_from_model(
 
     except Exception as e:
         solve_time = time.time() - start_time
-        if verbose:
-            print("DEBUG")
-            import traceback
 
+        # Track error memory state
+        if memory_tracker:
+            memory_tracker.finish()
+
+        # Always output error and analysis info regardless of verbose flag
+        # This allows shell script redirection to capture the output
+        print(f"[EMIB] Optimization error: {e}")
+        if verbose:
+            import traceback
             traceback.print_exc()
 
-    
+        # Still print model analysis even on error (skip if already printed at build time)
+        if enable_model_analysis and not ctx.metrics_printed:
+            print("\n[EMIB] Pre-solve ILP Model Statistics (before error):")
+            try:
+                print_model_report(
+                    model,
+                    model_name="Chiplet Placement ILP (Error)",
+                    memory_tracker=memory_tracker,
+                    log_file=report_file,
+                )
+            except Exception as analysis_error:
+                print(f"[EMIB] Could not generate analysis report: {analysis_error}")
+
         layout = {node.name: (0.0, 0.0) for node in nodes}
         rotations = {node.name: False for node in nodes}
         return ILPPlacementResult(
@@ -454,20 +569,22 @@ def solve_placement_ilp_from_model(
 
 def build_placement_ilp_model(
     nodes: List[ChipletNode],
-    edges: Optional[List] = None,  
-    emib_nodes: Optional[Dict[Tuple[int, int], "EMIBNode"]] = None,  
+    edges: Optional[List] = None,
+    emib_nodes: Optional[Dict[Tuple[int, int], "EMIBNode"]] = None,
     W: Optional[float] = None,
     H: Optional[float] = None,
-    time_limit: int = 600,  
+    time_limit: int = 600,
     verbose: bool = True,
     min_shared_length: float = 0.0,
     minimize_bbox_area: bool = True,
     distance_weight: float = 1.0,
     area_weight: float = 2.0,
-    fixed_chiplet_idx: Optional[int] = None,  
+    fixed_chiplet_idx: Optional[int] = None,
     min_aspect_ratio: float = 0.5,
     max_aspect_ratio: float = 2,
     power_aware_enabled: bool = True,
+    mutual_distancing_enabled: bool = True,
+    central_avoidance_enabled: bool = True,
 ) -> ILPModelContext:
     """
     Solve chiplet placement with a continuous-coordinate ILP model (no grid discretization).
@@ -541,8 +658,6 @@ def build_placement_ilp_model(
     }
 
     if verbose:
-        print("DEBUG")
-        print("DEBUG")
         print_emib_node_contents(
             all_connected_pairs,
             key_formatter=lambda k: f"({nodes[k[0]].name},{nodes[k[1]].name})",
@@ -560,9 +675,6 @@ def build_placement_ilp_model(
         print(f"Estimated W: {W}, H: {H}")
     
     if verbose:
-        print("DEBUG")
-        print("DEBUG")
-        print("DEBUG")
         for (i, j), e in all_connected_pairs.items():
             print(f"  ({i},{j}): [{e.node1}, {e.node2}, {e.wireCount}, {e.EMIBType}, {e.EMIB_length}, {e.EMIB_max_width}]")
     
@@ -965,7 +1077,6 @@ def build_placement_ilp_model(
         )
 
     # if verbose and emib_non_overlap_pairs:
-    print("DEBUG")
     #     for (i, j), (k, l) in emib_non_overlap_pairs:
     #         na, nb = nodes[i].name, nodes[j].name
     #         nc, nd = nodes[k].name, nodes[l].name
@@ -1001,7 +1112,6 @@ def build_placement_ilp_model(
     #         name="aspect_ratio_min"
     #     )
     #     if verbose:
-    print("DEBUG")
     
     # if max_aspect_ratio is not None:
     #     # bbox_w / bbox_h <= max_aspect_ratio
@@ -1010,7 +1120,6 @@ def build_placement_ilp_model(
     #         name="aspect_ratio_max"
     #     )
     #     if verbose:
-    print("DEBUG")
     
     aspect_ratio_penalty = model.addVar(
         name="aspect_ratio_penalty",
@@ -1028,9 +1137,15 @@ def build_placement_ilp_model(
         name="aspect_ratio_diff_ge_h_minus_w"
     )
 
-    
 
-    power_aware_enabled = True 
+
+    power_aware_enabled = mutual_distancing_enabled or central_avoidance_enabled
+
+    # Log power-aware strategy settings
+    print(f"[POWER_AWARE] Mutual Distancing: {'ENABLED' if mutual_distancing_enabled else 'DISABLED'}")
+    print(f"[POWER_AWARE] Central Avoidance: {'ENABLED' if central_avoidance_enabled else 'DISABLED'}")
+    print(f"[POWER_AWARE] Power Aware Optimization: {'ENABLED' if power_aware_enabled else 'DISABLED'}")
+
     power_aware_penalty = None
     if power_aware_enabled:
         power_aware_penalty = model.addVar(
@@ -1045,10 +1160,14 @@ def build_placement_ilp_model(
         high_power_indices, density_threshold = select_high_power_indices_by_density(
             n, nodes, chiplet_w_orig_grid, chiplet_h_orig_grid, top_ratio=0.3
         )
-    
-        if len(high_power_indices) >= 2:
+        print(f"[POWER_AWARE] Selected high-power chiplets: {len(high_power_indices)} (density threshold: {density_threshold})")
+        if high_power_indices:
+            print(f"[POWER_AWARE] High-power chiplet indices: {sorted(high_power_indices)}")
+
+        # Mutual Distancing - ONLY ADD IF ENABLED AND SUFFICIENT CHIPLETS FOUND
+        if mutual_distancing_enabled and len(high_power_indices) >= 2:
+            print(f"[POWER_AWARE] Mutual Distancing: Creating constraints for {len(high_power_indices)} high-power chiplets")
             high_power_pairs = [(i, j) for i in range(n) for j in range(i + 1, n) if i in high_power_indices and j in high_power_indices]
-            print("DEBUG")
             for i, j in high_power_pairs:
                 power_i = float(getattr(nodes[i], "power", 0.0) or 0.0)
                 power_j = float(getattr(nodes[j], "power", 0.0) or 0.0)
@@ -1113,13 +1232,17 @@ def build_placement_ilp_model(
                     name=f"dist_curr_pair_def_{i}_{j}"
                 )
                 power_aware_expr += power_weight_ij * dist_curr_ij
+            print(f"[POWER_AWARE] Mutual Distancing: Added distance constraints for all high-power pairs")
+        elif mutual_distancing_enabled and len(high_power_indices) < 2:
+            # 如果启用但没找到足够芯片对，默认不添加任何约束
+            print(f"[POWER_AWARE] Mutual Distancing: NOT ADDED - Insufficient high-power chiplet pairs (found {len(high_power_indices)}, need at least 2)")
         else:
-            print("DEBUG")
-    
-        if not high_power_indices:
-            print("DEBUG")
-        else:
-        
+            # 如果禁用，则跳过
+            pass
+
+        # Central Avoidance
+        if central_avoidance_enabled and high_power_indices:
+            print(f"[POWER_AWARE] Central Avoidance: Creating away-from-center constraints for {len(high_power_indices)} high-power chiplets")
             high_power_count = 0
             for i in range(n):
                 if i not in high_power_indices:
@@ -1198,6 +1321,9 @@ def build_placement_ilp_model(
 
             
                 power_aware_expr += p_i * p_i *  dist_center_i
+            print(f"[POWER_AWARE] Central Avoidance: Added away-from-center constraints for {high_power_count} high-power chiplets")
+        elif central_avoidance_enabled and not high_power_indices:
+            print(f"[POWER_AWARE] Central Avoidance: Skipped (no high-power chiplets found)")
 
         model.addConstr(power_aware_penalty == power_aware_expr, name="power_aware_penalty_def")
 
@@ -1274,6 +1400,8 @@ def build_placement_ilp_model(
         chiplet_h_orig_grid=chiplet_h_orig_grid,
         all_connected_pairs=all_connected_pairs,
         power_aware_enabled=power_aware_enabled,
+        mutual_distancing_enabled=mutual_distancing_enabled,
+        central_avoidance_enabled=central_avoidance_enabled,
     )
 
 
@@ -1317,21 +1445,63 @@ def build_placement_ilp_model(
     )
     model.setObjective(objective, GRB.MINIMIZE)
     if verbose:
-        print(f"\n[Normalization Info]")
-        print(f"  Ref Wirelength: {ref_wirelength:.2f}")
-        print(f"  Ref Area Proxy (t): {ref_t:.2f}")
-        print(f"  Ref Power Term: {ref_power:.2f}")
-        print(f"  Ref Aspect: {ref_aspect:.2f}")
-        obj_parts = [
-            f"beta_wire({beta_wire})*wirelength/ref",
-            f"beta_area({beta_area})*t/ref",
-            f"beta_aspect({beta_aspect})*aspect_ratio/ref"
-        ]
-        if power_aware_penalty is not None:
-            obj_parts.append(f"- beta_power({beta_power})*power/ref")
-        print("DEBUG")
+        print(f"\n{'='*80}")
+        print(f"[OBJECTIVE FUNCTION DETAILS]")
+        print(f"{'='*80}")
 
-    
+        print(f"\n[Normalization Reference Values]")
+        print(f"  ref_wirelength: {ref_wirelength:.6e}")
+        print(f"  ref_t (area proxy): {ref_t:.6e}")
+        print(f"  ref_power: {ref_power:.6e}")
+        print(f"  ref_aspect: {ref_aspect:.6e}")
+
+        print(f"\n[Beta Weights]")
+        print(f"  beta_wire: {beta_wire:.6e}")
+        print(f"  beta_area: {beta_area:.6e}")
+        print(f"  beta_aspect: {beta_aspect:.6e}")
+        print(f"  beta_power: {beta_power:.6e}")
+
+        print(f"\n[Objective Function Components]")
+        print(f"  1. Wirelength term:")
+        print(f"     norm_wirelength = wirelength / ref_wirelength")
+        print(f"     contribution = beta_wire * norm_wirelength = {beta_wire} * norm_wirelength")
+        print(f"  2. Area term:")
+        print(f"     norm_t = t / ref_t")
+        print(f"     contribution = beta_area * norm_t = {beta_area} * norm_t")
+        print(f"  3. Aspect Ratio term:")
+        print(f"     norm_aspect = aspect_ratio_penalty / ref_aspect")
+        print(f"     contribution = beta_aspect * norm_aspect = {beta_aspect} * norm_aspect")
+        if power_aware_penalty is not None:
+            print(f"  4. Power Awareness term:")
+            print(f"     norm_power = power_aware_penalty / ref_power")
+            print(f"     contribution = - beta_power * norm_power = - {beta_power} * norm_power")
+        else:
+            print(f"  4. Power Awareness term: NOT USED (power_aware_penalty is None)")
+
+        print(f"\n[Objective Function Formula]")
+        print(f"  minimize: {beta_wire} * wirelength/ref_wirelength")
+        print(f"          + {beta_area} * t/ref_t")
+        print(f"          + {beta_aspect} * aspect_ratio_penalty/ref_aspect", end="")
+        if power_aware_penalty is not None:
+            print(f"\n          - {beta_power} * power_aware_penalty/ref_power")
+        else:
+            print()
+        print(f"{'='*80}")
+
+    # Output model metrics at build time (always output for log capture)
+    print("\n")
+    print("[EMIB] ILP Model construction completed. Analyzing model structure...")
+    model_build_tracker = MemoryTracker()
+    model_build_tracker.start()
+    print_model_report(
+        model,
+        model_name="Chiplet Placement ILP (Construction Complete)",
+        memory_tracker=model_build_tracker,
+        log_file=None,
+    )
+    model_build_tracker.finish()
+    metrics_printed_at_build = True
+
     return ILPModelContext(
         model=model,
         nodes=nodes,
@@ -1367,6 +1537,7 @@ def build_placement_ilp_model(
         EMIB_w_var=EMIB_w_var,
         EMIB_h_var=EMIB_h_var,
         r_EMIB=r_EMIB,
+        metrics_printed=metrics_printed_at_build,
     )
 
 
@@ -1389,24 +1560,17 @@ def main():
     json_path = Path(__file__).parent.parent / "baseline" / "ICCAD23" / "test_input" / "2core.json"
     
     print("=" * 80)
-    print("DEBUG")
     print("=" * 80)
     
 
-    print("DEBUG")
     if not json_path.exists():
         raise FileNotFoundError(f"JSON file does not exist: {json_path}")
 
     from tool import load_emib_placement_json
     nodes, edges, edge_map, name_to_idx = load_emib_placement_json(str(json_path))
     
-    print("DEBUG")
-    print("DEBUG")
-    print("DEBUG")
-    print("DEBUG")
     
 
-    print("DEBUG")
     ctx = build_placement_ilp_model(
         nodes=nodes,
         edges=edges,
@@ -1423,26 +1587,21 @@ def main():
 
     lp_file = output_dir / "ilp_model_gurobi.lp"
     ctx.model.write(str(lp_file))
-    print("DEBUG")
     
 
-    print("DEBUG")
+    print("[EMIB] Starting ILP optimization...")
     result = solve_placement_ilp_from_model(
         ctx,
         time_limit=time_limit,
         verbose=True,
+        enable_model_analysis=True,
+        output_dir=str(output_dir),
     )
     
 
     print("\n" + "=" * 80)
-    print("DEBUG")
     print("=" * 80)
-    print("DEBUG")
-    print("DEBUG")
-    print("DEBUG")
-    print("DEBUG")
     
-    print("DEBUG")
     for name, (x, y) in result.layout.items():
         rotated = result.rotations.get(name, False)
         rot_str = " (rotated)" if rotated else ""
@@ -1450,7 +1609,6 @@ def main():
     
 
     if result.status == "Optimal":
-        print("DEBUG")
         try:
             save_path = output_dir / "ilp_single_solution_gurobi.png"
             
@@ -1462,16 +1620,13 @@ def main():
                 save_path=str(save_path),
                 rotations=result.rotations,
             )
-            print("DEBUG")
         except Exception as e:
-            print("DEBUG")
             import traceback
             traceback.print_exc()
     else:
-        print("DEBUG")
-    
+        print("[EMIB] Optimization did not produce optimal solution")
+
     print("\n" + "=" * 80)
-    print("DEBUG")
     print("=" * 80)
 
 

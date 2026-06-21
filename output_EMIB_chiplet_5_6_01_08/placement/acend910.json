@@ -2,8 +2,8 @@
   "chiplets": [
     {
       "name": "A",
-      "x-position": 11.87,
-      "y-position": 0.0,
+      "x-position": 112.75,
+      "y-position": 103.6,
       "width": 14.5,
       "height": 31.4,
       "rotation": 0,
@@ -11,8 +11,8 @@
     },
     {
       "name": "B",
-      "x-position": 26.37,
-      "y-position": 15.4,
+      "x-position": 94.5,
+      "y-position": 111.3,
       "width": 10.5,
       "height": 16.0,
       "rotation": 0,
@@ -20,17 +20,17 @@
     },
     {
       "name": "C",
-      "x-position": 0.0,
-      "y-position": 11.825,
-      "width": 11.87,
-      "height": 7.75,
-      "rotation": 1,
+      "x-position": 127.25,
+      "y-position": 119.727,
+      "width": 7.75,
+      "height": 11.87,
+      "rotation": 0,
       "power": 20.0
     },
     {
       "name": "D",
-      "x-position": 26.37,
-      "y-position": 3.53,
+      "x-position": 105.0,
+      "y-position": 103.6,
       "width": 7.75,
       "height": 11.87,
       "rotation": 0,
@@ -38,20 +38,20 @@
     },
     {
       "name": "E",
-      "x-position": -0.0,
-      "y-position": 4.075,
-      "width": 11.87,
-      "height": 7.75,
-      "rotation": 1,
+      "x-position": 105.0,
+      "y-position": 115.47,
+      "width": 7.75,
+      "height": 11.87,
+      "rotation": 0,
       "power": 20.0
     },
     {
       "name": "F",
-      "x-position": 0.0,
-      "y-position": 19.575,
-      "width": 11.87,
-      "height": 7.75,
-      "rotation": 1,
+      "x-position": 127.25,
+      "y-position": 107.857,
+      "width": 7.75,
+      "height": 11.87,
+      "rotation": 0,
       "power": 20.0
     }
   ],
@@ -64,8 +64,8 @@
       "EMIB_max_width": 3.0,
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 10.869,
-      "EMIB-y-position": 15.273,
+      "EMIB-x-position": 126.249,
+      "EMIB-y-position": 120.125,
       "EMIB-rotation": 0
     },
     {
@@ -76,8 +76,8 @@
       "EMIB_max_width": 3.0,
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 25.371,
-      "EMIB-y-position": 14.547,
+      "EMIB-x-position": 111.751,
+      "EMIB-y-position": 109.108,
       "EMIB-rotation": 0
     },
     {
@@ -88,8 +88,8 @@
       "EMIB_max_width": 3.0,
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 10.869,
-      "EMIB-y-position": 7.523,
+      "EMIB-x-position": 111.751,
+      "EMIB-y-position": 120.978,
       "EMIB-rotation": 0
     },
     {
@@ -100,12 +100,12 @@
       "EMIB_max_width": 3.0,
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 10.871,
-      "EMIB-y-position": 19.575,
+      "EMIB-x-position": 126.249,
+      "EMIB-y-position": 118.873,
       "EMIB-rotation": 0
     }
   ],
-  "wirelength": 22578.24,
-  "area": 1157.718,
-  "aspect_ratio": 0.852
+  "wirelength": 21519.44,
+  "area": 1271.7,
+  "aspect_ratio": 0.775
 }

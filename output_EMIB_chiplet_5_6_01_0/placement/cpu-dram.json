@@ -2,8 +2,8 @@
   "chiplets": [
     {
       "name": "A",
-      "x-position": 9.0,
-      "y-position": 8.75,
+      "x-position": 0.0,
+      "y-position": 79.75,
       "width": 9.0,
       "height": 8.25,
       "rotation": 1,
@@ -12,7 +12,7 @@
     {
       "name": "B",
       "x-position": 9.0,
-      "y-position": 17.0,
+      "y-position": 79.75,
       "width": 9.0,
       "height": 8.25,
       "rotation": 1,
@@ -20,8 +20,8 @@
     },
     {
       "name": "C",
-      "x-position": 0.0,
-      "y-position": 17.0,
+      "x-position": 9.0,
+      "y-position": 88.0,
       "width": 9.0,
       "height": 8.25,
       "rotation": 1,
@@ -30,7 +30,7 @@
     {
       "name": "D",
       "x-position": 0.0,
-      "y-position": 8.75,
+      "y-position": 88.0,
       "width": 9.0,
       "height": 8.25,
       "rotation": 1,
@@ -38,8 +38,8 @@
     },
     {
       "name": "E",
-      "x-position": 9.125,
-      "y-position": 0.0,
+      "x-position": 0.125,
+      "y-position": 71.0,
       "width": 8.75,
       "height": 8.75,
       "rotation": 0,
@@ -48,7 +48,7 @@
     {
       "name": "F",
       "x-position": 9.125,
-      "y-position": 25.25,
+      "y-position": 71.0,
       "width": 8.75,
       "height": 8.75,
       "rotation": 0,
@@ -56,8 +56,8 @@
     },
     {
       "name": "G",
-      "x-position": 0.125,
-      "y-position": 25.25,
+      "x-position": 9.125,
+      "y-position": 96.25,
       "width": 8.75,
       "height": 8.75,
       "rotation": 0,
@@ -66,7 +66,7 @@
     {
       "name": "H",
       "x-position": 0.125,
-      "y-position": 0.0,
+      "y-position": 96.25,
       "width": 8.75,
       "height": 8.75,
       "rotation": 0,
@@ -78,25 +78,25 @@
       "node1": "A",
       "node2": "B",
       "EMIBType": "interfaceB",
-      "EMIB_length": 2.0,
+      "EMIB_length": 0.853,
       "EMIB_max_width": 3.0,
-      "EMIB_width": 0.853,
+      "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 13.073,
-      "EMIB-y-position": 15.999,
-      "EMIB-rotation": 1
+      "EMIB-x-position": 7.999,
+      "EMIB-y-position": 83.448,
+      "EMIB-rotation": 0
     },
     {
       "node1": "A",
       "node2": "D",
       "EMIBType": "interfaceB",
-      "EMIB_length": 0.853,
+      "EMIB_length": 2.0,
       "EMIB_max_width": 3.0,
-      "EMIB_width": 2.0,
+      "EMIB_width": 0.853,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 8.001,
-      "EMIB-y-position": 12.448,
-      "EMIB-rotation": 0
+      "EMIB-x-position": 4.073,
+      "EMIB-y-position": 87.001,
+      "EMIB-rotation": 1
     },
     {
       "node1": "A",
@@ -106,21 +106,21 @@
       "EMIB_max_width": 3.0,
       "EMIB_width": 3.413,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 11.793,
-      "EMIB-y-position": 7.751,
+      "EMIB-x-position": 2.793,
+      "EMIB-y-position": 78.751,
       "EMIB-rotation": 1
     },
     {
       "node1": "B",
       "node2": "C",
       "EMIBType": "interfaceB",
-      "EMIB_length": 0.853,
+      "EMIB_length": 2.0,
       "EMIB_max_width": 3.0,
-      "EMIB_width": 2.0,
+      "EMIB_width": 0.853,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 8.001,
-      "EMIB-y-position": 20.698,
-      "EMIB-rotation": 0
+      "EMIB-x-position": 13.073,
+      "EMIB-y-position": 86.999,
+      "EMIB-rotation": 1
     },
     {
       "node1": "B",
@@ -131,20 +131,20 @@
       "EMIB_width": 3.413,
       "EMIB_bump_width": 1.0,
       "EMIB-x-position": 11.793,
-      "EMIB-y-position": 24.249,
+      "EMIB-y-position": 78.751,
       "EMIB-rotation": 1
     },
     {
       "node1": "C",
       "node2": "D",
       "EMIBType": "interfaceB",
-      "EMIB_length": 2.0,
+      "EMIB_length": 0.853,
       "EMIB_max_width": 3.0,
-      "EMIB_width": 0.853,
+      "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 4.073,
-      "EMIB-y-position": 16.001,
-      "EMIB-rotation": 1
+      "EMIB-x-position": 7.999,
+      "EMIB-y-position": 91.698,
+      "EMIB-rotation": 0
     },
     {
       "node1": "C",
@@ -154,8 +154,8 @@
       "EMIB_max_width": 3.0,
       "EMIB_width": 3.413,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 2.793,
-      "EMIB-y-position": 24.249,
+      "EMIB-x-position": 11.793,
+      "EMIB-y-position": 95.249,
       "EMIB-rotation": 1
     },
     {
@@ -167,7 +167,7 @@
       "EMIB_width": 3.413,
       "EMIB_bump_width": 1.0,
       "EMIB-x-position": 2.793,
-      "EMIB-y-position": 7.751,
+      "EMIB-y-position": 95.249,
       "EMIB-rotation": 1
     }
   ],

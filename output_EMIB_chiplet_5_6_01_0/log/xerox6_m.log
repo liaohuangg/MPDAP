@@ -1,90 +1,29 @@
 
 ================================================================================
-原始命令行参数:
-  sys.argv: ['batch_test_solutions_EMIB_chiplet.py', '--min-shared-length', '1.5', '--files', 'xerox6_m.json']
+Batch test start (Gurobi)
+================================================================================
+Test input dir: /root/placement/MPDAP/benchmark/test_input
+Output base dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_0
+Found 1 test file(s)
+Files to process: xerox6_m.json
 ================================================================================
 
 
-================================================================================
-命令行参数解析结果:
-  - min_shared_length: 1.5 (类型: float)
-  - fixed_chiplet_idx: 0 (类型: int)
-  - min_pair_dist_diff: 7.0 (类型: float)
-  - time_limit: 600 (类型: int)
-  - files: ['xerox6_m.json']
-  - test_input_dir: None
-  - output_dir: None
-================================================================================
-
-所有解析后的参数:
-  min_shared_length: 1.5 (类型: float)
-  fixed_chiplet_idx: 0 (类型: int)
-  min_pair_dist_diff: 7.0 (类型: float)
-  time_limit: 600 (类型: int)
-  test_input_dir: None (类型: NoneType)
-  output_dir: None (类型: NoneType)
-  files: ['xerox6_m.json'] (类型: list)
-================================================================================
-
-
-================================================================================
-批量测试开始 (Gurobi版本)
-================================================================================
-测试输入目录: /root/placement/thermal-placement/benchmark/test_input
-输出基础目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0
-找到 1 个测试文件
-指定处理的文件: xerox6_m.json
-
-参数配置:
-  - min_shared_length: 1.5
-  - fixed_chiplet_idx: 0
-  - min_pair_dist_diff: 7.0
-  - time_limit: 600 秒 (10.0 分钟)
-================================================================================
-
-
-[1/1] 处理文件: xerox6_m.json
-  核心名称: xerox6_m_core
-  Log目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/log/xerox6_m_core
-  LP目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/lp/xerox6_m_core
-  Fig目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/fig/xerox6_m_core
-  Placement文件: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/placement/xerox6_m.json
-  删除旧的输出目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/log/xerox6_m_core
-  删除旧的输出目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/lp/xerox6_m_core
-  删除旧的输出目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/fig/xerox6_m_core
-2026-03-05 16:15:36 - INFO - ================================================================================
-2026-03-05 16:15:36 - INFO - 开始处理: xerox6_m.json (Gurobi版本)
-2026-03-05 16:15:36 - INFO - 核心名称: xerox6_m_core
-2026-03-05 16:15:36 - INFO - Log目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/log/xerox6_m_core
-2026-03-05 16:15:36 - INFO - LP目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/lp/xerox6_m_core
-2026-03-05 16:15:36 - INFO - Fig目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/fig/xerox6_m_core
-2026-03-05 16:15:36 - INFO - 参数配置:
-2026-03-05 16:15:36 - INFO -   - min_shared_length: 1.5
-2026-03-05 16:15:36 - INFO -   - fixed_chiplet_idx: 0
-2026-03-05 16:15:36 - INFO -   - min_pair_dist_diff: 7.0
-2026-03-05 16:15:36 - INFO -   - time_limit: 600 秒 (10.0 分钟)
-2026-03-05 16:15:36 - INFO - ================================================================================
-2026-03-05 16:15:36 - INFO - 调用 EMIB reduce solver (Gurobi版本)...
-2026-03-05 16:15:36 - INFO - ================================================================================
-2026-03-05 16:15:36 - INFO - 求解参数确认（在调用 EMIB reduce solver 之前）:
-2026-03-05 16:15:36 - INFO -   - min_shared_length: 1.5 (类型: float)
-2026-03-05 16:15:36 - INFO -   - fixed_chiplet_idx: 0 (类型: int)
-2026-03-05 16:15:36 - INFO -   - min_pair_dist_diff: 7.0 (类型: float)
-2026-03-05 16:15:36 - INFO -   - time_limit: 600 (类型: int)
-2026-03-05 16:15:36 - INFO -   - input_json_path: /root/placement/thermal-placement/benchmark/test_input/xerox6_m.json
-2026-03-05 16:15:36 - INFO -   - output_dir: output_gurobi_EMIB_chiplet_5_6_01_0/lp/xerox6_m_core
-2026-03-05 16:15:36 - INFO -   - image_output_dir: output_gurobi_EMIB_chiplet_5_6_01_0/fig/xerox6_m_core
-2026-03-05 16:15:36 - INFO -   - placement_output_path: output_gurobi_EMIB_chiplet_5_6_01_0/placement/xerox6_m.json
-2026-03-05 16:15:36 - INFO - ================================================================================
-2026-03-05 16:15:36 - INFO - 开始调用 EMIB reduce solver...
+[1/1] Processing: xerox6_m.json
+  Core name: xerox6_m_core
+  Log dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_0/log/xerox6_m_core
+  LP dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_0/lp/xerox6_m_core
+  Fig dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_0/fig/xerox6_m_core
+  Placement file: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_0/placement/xerox6_m.json
+2026-06-20 18:39:22 - INFO - Calling EMIB solver (Gurobi)...
 node 0 w: 6.16, h: 12.95
 node 1 w: 4.9, h: 12.95
 node 2 w: 8.4, h: 7.56
 node 3 w: 11.62, h: 19.39
 node 4 w: 12.18, h: 16.52
 node 5 w: 8.82, h: 13.16
-连接统计: 总计 8 对
-连接关系（EMIBNode 内容）:
+DEBUG
+DEBUG
   (A,E): node1=A, node2=E, wireCount=512, EMIBType=interfaceB, EMIB_length=1.7067, EMIB_max_width=3.0, width=2.0, height=1.7067, bump_width=1.0000
   (A,F): node1=A, node2=F, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
   (B,C): node1=B, node2=C, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
@@ -93,9 +32,9 @@ node 5 w: 8.82, h: 13.16
   (D,E): node1=D, node2=E, wireCount=512, EMIBType=interfaceB, EMIB_length=1.7067, EMIB_max_width=3.0, width=2.0, height=1.7067, bump_width=1.0000
   (D,F): node1=D, node2=F, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
   (E,F): node1=E, node2=F, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
-连续布局: W=117, H=117
-问题规模: 6 个模块, 8 对连接
-连接关系 [node1, node2, wireCount, EMIBType, EMIB_length, EMIB_max_width]:
+DEBUG
+DEBUG
+DEBUG
   (0,4): [A, E, 512, interfaceB, 1.7067, 3.0]
   (0,5): [A, F, 256, interfaceB, 0.8533, 3.0]
   (1,2): [B, C, 256, interfaceB, 0.8533, 3.0]
@@ -105,190 +44,419 @@ node 5 w: 8.82, h: 13.16
   (3,5): [D, F, 256, interfaceB, 0.8533, 3.0]
   (4,5): [E, F, 256, interfaceB, 0.8533, 3.0]
 Set parameter WLSAccessID
-2026-03-05 16:15:36 - INFO - Set parameter WLSAccessID
+2026-06-20 18:39:22 - INFO - Set parameter WLSAccessID
 Set parameter WLSSecret
-2026-03-05 16:15:36 - INFO - Set parameter WLSSecret
+2026-06-20 18:39:22 - INFO - Set parameter WLSSecret
 Set parameter LicenseID to value 2756663
-2026-03-05 16:15:36 - INFO - Set parameter LicenseID to value 2756663
+2026-06-20 18:39:22 - INFO - Set parameter LicenseID to value 2756663
 Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
-2026-03-05 16:15:36 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+2026-06-20 18:39:22 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
 EMIB_w_var: {(0, 4): <gurobi.Var *Awaiting Model Update*>, (0, 5): <gurobi.Var *Awaiting Model Update*>, (1, 2): <gurobi.Var *Awaiting Model Update*>, (2, 4): <gurobi.Var *Awaiting Model Update*>, (2, 5): <gurobi.Var *Awaiting Model Update*>, (3, 4): <gurobi.Var *Awaiting Model Update*>, (3, 5): <gurobi.Var *Awaiting Model Update*>, (4, 5): <gurobi.Var *Awaiting Model Update*>}
 EMIB_h_var: {(0, 4): <gurobi.Var *Awaiting Model Update*>, (0, 5): <gurobi.Var *Awaiting Model Update*>, (1, 2): <gurobi.Var *Awaiting Model Update*>, (2, 4): <gurobi.Var *Awaiting Model Update*>, (2, 5): <gurobi.Var *Awaiting Model Update*>, (3, 4): <gurobi.Var *Awaiting Model Update*>, (3, 5): <gurobi.Var *Awaiting Model Update*>, (4, 5): <gurobi.Var *Awaiting Model Update*>}
 EMIB_connected_pairs: {(0, 4): EMIBNode(node1='A', node2='E', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (0, 5): EMIBNode(node1='A', node2='F', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (1, 2): EMIBNode(node1='B', node2='C', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (2, 4): EMIBNode(node1='C', node2='E', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (2, 5): EMIBNode(node1='C', node2='F', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (3, 4): EMIBNode(node1='D', node2='E', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (3, 5): EMIBNode(node1='D', node2='F', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (4, 5): EMIBNode(node1='E', node2='F', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533)}
+DEBUG
+DEBUG
+DEBUG
+DEBUG
+[DEBUG] chiplet 1 in top 30% power density, add away-from-center constraint
 [DEBUG] L_avg: 27.37384883424324
 [DEBUG] total_area: 749.3276
 [DEBUG] ref_wirelength: 38542.37915861448
 [DEBUG] ref_t: 54.74769766848648
-[DEBUG] ref_power: 1.0
+[DEBUG] ref_power: 154461.5043553565
 [DEBUG] ref_aspect: 32.12999999999999
 
 [Normalization Info]
   Ref Wirelength: 38542.38
   Ref Area Proxy (t): 54.75
-  Ref Power Term: 1.00
+  Ref Power Term: 154461.50
   Ref Aspect: 32.13
-目标函数: Min beta_wire(5.0)*wirelength/ref + beta_area(6.0)*t/ref + beta_aspect(0.1)*aspect_ratio/ref
+DEBUG
 Set parameter TimeLimit to value 300
-2026-03-05 16:15:36 - INFO - Set parameter TimeLimit to value 300
+2026-06-20 18:39:22 - INFO - Set parameter TimeLimit to value 300
 Set parameter MIPGap to value 0
-2026-03-05 16:15:36 - INFO - Set parameter MIPGap to value 0
+2026-06-20 18:39:22 - INFO - Set parameter MIPGap to value 0
 Set parameter MIPFocus to value 3
-2026-03-05 16:15:36 - INFO - Set parameter MIPFocus to value 3
+2026-06-20 18:39:22 - INFO - Set parameter MIPFocus to value 3
 Set parameter Heuristics to value 0.5
-2026-03-05 16:15:36 - INFO - Set parameter Heuristics to value 0.5
+2026-06-20 18:39:22 - INFO - Set parameter Heuristics to value 0.5
 Set parameter LogToConsole to value 1
-2026-03-05 16:15:36 - INFO - Set parameter LogToConsole to value 1
-Gurobi Optimizer version 13.0.0 build v13.0.0rc1 (linux64 - "Ubuntu 20.04.6 LTS")
-2026-03-05 16:15:36 - INFO - Gurobi Optimizer version 13.0.0 build v13.0.0rc1 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-06-20 18:39:22 - INFO - Set parameter LogToConsole to value 1
+Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-06-20 18:39:22 - INFO - Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
 
-2026-03-05 16:15:36 - INFO - 
+2026-06-20 18:39:22 - INFO - 
 CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
-2026-03-05 16:15:36 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
-Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
-2026-03-05 16:15:36 - INFO - Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
+2026-06-20 18:39:22 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+2026-06-20 18:39:22 - INFO - Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
 
-2026-03-05 16:15:36 - INFO - 
+2026-06-20 18:39:22 - INFO - 
 Non-default parameters:
-2026-03-05 16:15:36 - INFO - Non-default parameters:
+2026-06-20 18:39:22 - INFO - Non-default parameters:
 TimeLimit  300
-2026-03-05 16:15:36 - INFO - TimeLimit  300
+2026-06-20 18:39:22 - INFO - TimeLimit  300
 MIPGap  0
-2026-03-05 16:15:36 - INFO - MIPGap  0
+2026-06-20 18:39:22 - INFO - MIPGap  0
 Heuristics  0.5
-2026-03-05 16:15:36 - INFO - Heuristics  0.5
+2026-06-20 18:39:22 - INFO - Heuristics  0.5
 MIPFocus  3
-2026-03-05 16:15:36 - INFO - MIPFocus  3
+2026-06-20 18:39:22 - INFO - MIPFocus  3
 
-2026-03-05 16:15:36 - INFO - 
+2026-06-20 18:39:22 - INFO - 
 Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
-2026-03-05 16:15:36 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
-Optimize a model with 820 rows, 381 columns and 2790 nonzeros (Min)
-2026-03-05 16:15:36 - INFO - Optimize a model with 820 rows, 381 columns and 2790 nonzeros (Min)
-Model fingerprint: 0x748134bd
-2026-03-05 16:15:36 - INFO - Model fingerprint: 0x748134bd
+2026-06-20 18:39:22 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+Optimize a model with 836 rows, 389 columns and 2833 nonzeros (Min)
+2026-06-20 18:39:22 - INFO - Optimize a model with 836 rows, 389 columns and 2833 nonzeros (Min)
+Model fingerprint: 0x531bc946
+2026-06-20 18:39:22 - INFO - Model fingerprint: 0x531bc946
 Model has 3 linear objective coefficients
-2026-03-05 16:15:36 - INFO - Model has 3 linear objective coefficients
-Variable types: 159 continuous, 222 integer (222 binary)
-2026-03-05 16:15:36 - INFO - Variable types: 159 continuous, 222 integer (222 binary)
+2026-06-20 18:39:22 - INFO - Model has 3 linear objective coefficients
+Variable types: 165 continuous, 224 integer (224 binary)
+2026-06-20 18:39:22 - INFO - Variable types: 165 continuous, 224 integer (224 binary)
 Coefficient statistics:
-2026-03-05 16:15:36 - INFO - Coefficient statistics:
-  Matrix range     [3e-01, 5e+02]
-2026-03-05 16:15:36 - INFO -   Matrix range     [3e-01, 5e+02]
+2026-06-20 18:39:22 - INFO - Coefficient statistics:
+  Matrix range     [3e-01, 8e+03]
+2026-06-20 18:39:22 - INFO -   Matrix range     [3e-01, 8e+03]
   Objective range  [1e-04, 1e-01]
-2026-03-05 16:15:36 - INFO -   Objective range  [1e-04, 1e-01]
+2026-06-20 18:39:22 - INFO -   Objective range  [1e-04, 1e-01]
   Bounds range     [9e-01, 8e+06]
-2026-03-05 16:15:36 - INFO -   Bounds range     [9e-01, 8e+06]
+2026-06-20 18:39:22 - INFO -   Bounds range     [9e-01, 8e+06]
   RHS range        [9e-01, 2e+02]
-2026-03-05 16:15:36 - INFO -   RHS range        [9e-01, 2e+02]
-Presolve removed 84 rows and 72 columns
-2026-03-05 16:15:36 - INFO - Presolve removed 84 rows and 72 columns
+2026-06-20 18:39:22 - INFO -   RHS range        [9e-01, 2e+02]
+
+2026-06-20 18:39:22 - INFO - 
+Presolve removed 86 rows and 74 columns
+2026-06-20 18:39:22 - INFO - Presolve removed 86 rows and 74 columns
 Presolve time: 0.01s
-2026-03-05 16:15:36 - INFO - Presolve time: 0.01s
-Presolved: 736 rows, 309 columns, 2628 nonzeros
-2026-03-05 16:15:36 - INFO - Presolved: 736 rows, 309 columns, 2628 nonzeros
-Variable types: 103 continuous, 206 integer (206 binary)
-2026-03-05 16:15:36 - INFO - Variable types: 103 continuous, 206 integer (206 binary)
-Root relaxation presolve removed 28 rows and 4 columns
-2026-03-05 16:15:36 - INFO - Root relaxation presolve removed 28 rows and 4 columns
+2026-06-20 18:39:22 - INFO - Presolve time: 0.01s
+Presolved: 750 rows, 315 columns, 2666 nonzeros
+2026-06-20 18:39:22 - INFO - Presolved: 750 rows, 315 columns, 2666 nonzeros
+Variable types: 107 continuous, 208 integer (208 binary)
+2026-06-20 18:39:22 - INFO - Variable types: 107 continuous, 208 integer (208 binary)
+Root relaxation presolve removed 42 rows and 10 columns
+2026-06-20 18:39:22 - INFO - Root relaxation presolve removed 42 rows and 10 columns
 Root relaxation presolved: 708 rows, 317 columns, 2576 nonzeros
-2026-03-05 16:15:36 - INFO - Root relaxation presolved: 708 rows, 317 columns, 2576 nonzeros
+2026-06-20 18:39:22 - INFO - Root relaxation presolved: 708 rows, 317 columns, 2576 nonzeros
 
-2026-03-05 16:15:36 - INFO - 
+2026-06-20 18:39:22 - INFO - 
 
-2026-03-05 16:15:36 - INFO - 
-Root relaxation: objective 2.718799e+00, 177 iterations, 0.00 seconds (0.00 work units)
-2026-03-05 16:15:36 - INFO - Root relaxation: objective 2.718799e+00, 177 iterations, 0.00 seconds (0.00 work units)
+2026-06-20 18:39:22 - INFO - 
+Root relaxation: objective 2.718799e+00, 177 iterations, 0.00 seconds (0.01 work units)
+2026-06-20 18:39:22 - INFO - Root relaxation: objective 2.718799e+00, 177 iterations, 0.00 seconds (0.01 work units)
 
-2026-03-05 16:15:36 - INFO - 
+2026-06-20 18:39:22 - INFO - 
     Nodes    |    Current Node    |     Objective Bounds      |     Work
-2026-03-05 16:15:36 - INFO -     Nodes    |    Current Node    |     Objective Bounds      |     Work
+2026-06-20 18:39:22 - INFO -     Nodes    |    Current Node    |     Objective Bounds      |     Work
  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
-2026-03-05 16:15:36 - INFO -  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+2026-06-20 18:39:22 - INFO -  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
 
-2026-03-05 16:15:36 - INFO - 
+2026-06-20 18:39:22 - INFO - 
      0     0    2.71880    0   82          -    2.71880      -     -    0s
-2026-03-05 16:15:36 - INFO -      0     0    2.71880    0   82          -    2.71880      -     -    0s
-     0     0    2.72686    0  102          -    2.72686      -     -    0s
-2026-03-05 16:15:36 - INFO -      0     0    2.72686    0  102          -    2.72686      -     -    0s
-     0     0    2.72686    0   92          -    2.72686      -     -    0s
-2026-03-05 16:15:36 - INFO -      0     0    2.72686    0   92          -    2.72686      -     -    0s
-     0     0    5.01435    0   87          -    5.01435      -     -    0s
-2026-03-05 16:15:36 - INFO -      0     0    5.01435    0   87          -    5.01435      -     -    0s
-     0     0    5.12266    0  107          -    5.12266      -     -    0s
-2026-03-05 16:15:36 - INFO -      0     0    5.12266    0  107          -    5.12266      -     -    0s
-     0     0    5.12266    0   97          -    5.12266      -     -    0s
-2026-03-05 16:15:36 - INFO -      0     0    5.12266    0   97          -    5.12266      -     -    0s
-     0     0    5.90144    0   99          -    5.90144      -     -    0s
-2026-03-05 16:15:36 - INFO -      0     0    5.90144    0   99          -    5.90144      -     -    0s
-     0     0    6.52214    0  115          -    6.52214      -     -    0s
-2026-03-05 16:15:37 - INFO -      0     0    6.52214    0  115          -    6.52214      -     -    0s
-     0     0    6.52214    0  115          -    6.52214      -     -    0s
-2026-03-05 16:15:37 - INFO -      0     0    6.52214    0  115          -    6.52214      -     -    0s
-     0     0    6.52214    0  115          -    6.52214      -     -    0s
-2026-03-05 16:15:37 - INFO -      0     0    6.52214    0  115          -    6.52214      -     -    0s
-     0     0    7.23291    0  115          -    7.23291      -     -    0s
-2026-03-05 16:15:37 - INFO -      0     0    7.23291    0  115          -    7.23291      -     -    0s
-     0     0    7.23291    0  104          -    7.23291      -     -    0s
-2026-03-05 16:15:37 - INFO -      0     0    7.23291    0  104          -    7.23291      -     -    0s
-     0     2    7.23291    0  104          -    7.23291      -     -    1s
-2026-03-05 16:15:37 - INFO -      0     2    7.23291    0  104          -    7.23291      -     -    1s
+2026-06-20 18:39:22 - INFO -      0     0    2.71880    0   82          -    2.71880      -     -    0s
+     0     0    4.98601    0   96          -    4.98601      -     -    0s
+2026-06-20 18:39:22 - INFO -      0     0    4.98601    0   96          -    4.98601      -     -    0s
+     0     0    4.98601    0   84          -    4.98601      -     -    0s
+2026-06-20 18:39:22 - INFO -      0     0    4.98601    0   84          -    4.98601      -     -    0s
+     0     0    4.98601    0   89          -    4.98601      -     -    0s
+2026-06-20 18:39:22 - INFO -      0     0    4.98601    0   89          -    4.98601      -     -    0s
+     0     0    5.76755    0  108          -    5.76755      -     -    0s
+2026-06-20 18:39:23 - INFO -      0     0    5.76755    0  108          -    5.76755      -     -    0s
+     0     0    5.76755    0   89          -    5.76755      -     -    0s
+2026-06-20 18:39:23 - INFO -      0     0    5.76755    0   89          -    5.76755      -     -    0s
+     0     0    6.36224    0   90          -    6.36224      -     -    0s
+2026-06-20 18:39:23 - INFO -      0     0    6.36224    0   90          -    6.36224      -     -    0s
+     0     0    6.71560    0  106          -    6.71560      -     -    0s
+2026-06-20 18:39:23 - INFO -      0     0    6.71560    0  106          -    6.71560      -     -    0s
+     0     0    6.71560    0  106          -    6.71560      -     -    0s
+2026-06-20 18:39:23 - INFO -      0     0    6.71560    0  106          -    6.71560      -     -    0s
+     0     0    6.71560    0  101          -    6.71560      -     -    0s
+2026-06-20 18:39:23 - INFO -      0     0    6.71560    0  101          -    6.71560      -     -    0s
+     0     0    7.19921    0  101          -    7.19921      -     -    0s
+2026-06-20 18:39:23 - INFO -      0     0    7.19921    0  101          -    7.19921      -     -    0s
+     0     0    7.19921    0  101          -    7.19921      -     -    0s
+2026-06-20 18:39:23 - INFO -      0     0    7.19921    0  101          -    7.19921      -     -    0s
+     0     2    7.19921    0  101          -    7.19921      -     -    1s
+2026-06-20 18:39:23 - INFO -      0     2    7.19921    0  101          -    7.19921      -     -    1s
 
-2026-03-05 16:15:41 - INFO - 
+2026-06-20 18:39:27 - INFO - 
 Cutting planes:
-2026-03-05 16:15:41 - INFO - Cutting planes:
-  Learned: 5
-2026-03-05 16:15:41 - INFO -   Learned: 5
-  Gomory: 62
-2026-03-05 16:15:41 - INFO -   Gomory: 62
-  Lift-and-project: 31
-2026-03-05 16:15:41 - INFO -   Lift-and-project: 31
-  Implied bound: 2
-2026-03-05 16:15:41 - INFO -   Implied bound: 2
-  MIR: 13
-2026-03-05 16:15:41 - INFO -   MIR: 13
-  Flow cover: 160
-2026-03-05 16:15:41 - INFO -   Flow cover: 160
-  Inf proof: 6
-2026-03-05 16:15:41 - INFO -   Inf proof: 6
+2026-06-20 18:39:27 - INFO - Cutting planes:
+  Learned: 8
+2026-06-20 18:39:27 - INFO -   Learned: 8
+  Gomory: 84
+2026-06-20 18:39:27 - INFO -   Gomory: 84
+  Lift-and-project: 49
+2026-06-20 18:39:27 - INFO -   Lift-and-project: 49
+  Cover: 1
+2026-06-20 18:39:27 - INFO -   Cover: 1
+  Implied bound: 5
+2026-06-20 18:39:27 - INFO -   Implied bound: 5
+  MIR: 50
+2026-06-20 18:39:27 - INFO -   MIR: 50
+  Flow cover: 289
+2026-06-20 18:39:27 - INFO -   Flow cover: 289
+  Inf proof: 10
+2026-06-20 18:39:27 - INFO -   Inf proof: 10
+  RLT: 6
+2026-06-20 18:39:27 - INFO -   RLT: 6
   Relax-and-lift: 1
-2026-03-05 16:15:41 - INFO -   Relax-and-lift: 1
+2026-06-20 18:39:27 - INFO -   Relax-and-lift: 1
+  PSD: 1
+2026-06-20 18:39:27 - INFO -   PSD: 1
 
-2026-03-05 16:15:41 - INFO - 
-Explored 5585 nodes (150730 simplex iterations) in 4.32 seconds (7.34 work units)
-2026-03-05 16:15:41 - INFO - Explored 5585 nodes (150730 simplex iterations) in 4.32 seconds (7.34 work units)
-Thread count was 12 (of 12 available processors)
-2026-03-05 16:15:41 - INFO - Thread count was 12 (of 12 available processors)
+2026-06-20 18:39:27 - INFO - 
+Explored 7090 nodes (220434 simplex iterations) in 4.64 seconds (6.82 work units)
+2026-06-20 18:39:27 - INFO - Explored 7090 nodes (220434 simplex iterations) in 4.64 seconds (6.82 work units)
+Thread count was 28 (of 28 available processors)
+2026-06-20 18:39:27 - INFO - Thread count was 28 (of 28 available processors)
 
-2026-03-05 16:15:41 - INFO - 
+2026-06-20 18:39:27 - INFO - 
 Solution count 0
-2026-03-05 16:15:41 - INFO - Solution count 0
+2026-06-20 18:39:27 - INFO - Solution count 0
 
-2026-03-05 16:15:41 - INFO - 
+2026-06-20 18:39:27 - INFO - 
 Model is infeasible
-2026-03-05 16:15:41 - INFO - Model is infeasible
+2026-06-20 18:39:27 - INFO - Model is infeasible
 Best objective -, best bound -, gap -
-2026-03-05 16:15:41 - INFO - Best objective -, best bound -, gap -
-[EMIB] 单次求解无可行解: MIPGap=0.0, 状态码=3, 用时=4.32s, SolCount=0
-[EMIB] 搜索解失败，无合法解
-2026-03-05 16:15:41 - INFO - 
-EMIB求解返回 0 个解（最多1个）。
-  ✓ EMIB求解：返回 0 个解
+2026-06-20 18:39:27 - INFO - Best objective -, best bound -, gap -
+[EMIB] No feasible solution: MIPGap=0.0, status=3, time=4.64s, SolCount=0
+[EMIB] Phase 1 no feasible solution, switching to phase 2 MIPGap=0.3.
+Set parameter TimeLimit to value 300
+2026-06-20 18:39:27 - INFO - Set parameter TimeLimit to value 300
+Set parameter MIPGap to value 0.3
+2026-06-20 18:39:27 - INFO - Set parameter MIPGap to value 0.3
+Set parameter MIPFocus to value 3
+2026-06-20 18:39:27 - INFO - Set parameter MIPFocus to value 3
+Set parameter Heuristics to value 0.5
+2026-06-20 18:39:27 - INFO - Set parameter Heuristics to value 0.5
+Set parameter LogToConsole to value 1
+2026-06-20 18:39:27 - INFO - Set parameter LogToConsole to value 1
+Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-06-20 18:39:27 - INFO - Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+
+2026-06-20 18:39:27 - INFO - 
+CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-06-20 18:39:27 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+2026-06-20 18:39:27 - INFO - Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+
+2026-06-20 18:39:27 - INFO - 
+Non-default parameters:
+2026-06-20 18:39:27 - INFO - Non-default parameters:
+TimeLimit  300
+2026-06-20 18:39:27 - INFO - TimeLimit  300
+MIPGap  0.3
+2026-06-20 18:39:27 - INFO - MIPGap  0.3
+Heuristics  0.5
+2026-06-20 18:39:27 - INFO - Heuristics  0.5
+MIPFocus  3
+2026-06-20 18:39:27 - INFO - MIPFocus  3
+
+2026-06-20 18:39:27 - INFO - 
+Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+2026-06-20 18:39:27 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+Optimize a model with 836 rows, 389 columns and 2833 nonzeros (Min)
+2026-06-20 18:39:27 - INFO - Optimize a model with 836 rows, 389 columns and 2833 nonzeros (Min)
+Model fingerprint: 0x531bc946
+2026-06-20 18:39:27 - INFO - Model fingerprint: 0x531bc946
+Model has 3 linear objective coefficients
+2026-06-20 18:39:27 - INFO - Model has 3 linear objective coefficients
+Variable types: 165 continuous, 224 integer (224 binary)
+2026-06-20 18:39:27 - INFO - Variable types: 165 continuous, 224 integer (224 binary)
+Coefficient statistics:
+2026-06-20 18:39:27 - INFO - Coefficient statistics:
+  Matrix range     [3e-01, 8e+03]
+2026-06-20 18:39:27 - INFO -   Matrix range     [3e-01, 8e+03]
+  Objective range  [1e-04, 1e-01]
+2026-06-20 18:39:27 - INFO -   Objective range  [1e-04, 1e-01]
+  Bounds range     [9e-01, 8e+06]
+2026-06-20 18:39:27 - INFO -   Bounds range     [9e-01, 8e+06]
+  RHS range        [9e-01, 2e+02]
+2026-06-20 18:39:27 - INFO -   RHS range        [9e-01, 2e+02]
+
+2026-06-20 18:39:27 - INFO - 
+Presolved: 750 rows, 315 columns, 2666 nonzeros
+2026-06-20 18:39:27 - INFO - Presolved: 750 rows, 315 columns, 2666 nonzeros
+
+2026-06-20 18:39:27 - INFO - 
+Continuing optimization...
+2026-06-20 18:39:27 - INFO - Continuing optimization...
+
+2026-06-20 18:39:27 - INFO - 
+
+2026-06-20 18:39:27 - INFO - 
+Cutting planes:
+2026-06-20 18:39:27 - INFO - Cutting planes:
+  Learned: 8
+2026-06-20 18:39:27 - INFO -   Learned: 8
+  Gomory: 84
+2026-06-20 18:39:27 - INFO -   Gomory: 84
+  Lift-and-project: 49
+2026-06-20 18:39:27 - INFO -   Lift-and-project: 49
+  Cover: 1
+2026-06-20 18:39:27 - INFO -   Cover: 1
+  Implied bound: 5
+2026-06-20 18:39:27 - INFO -   Implied bound: 5
+  MIR: 50
+2026-06-20 18:39:27 - INFO -   MIR: 50
+  Flow cover: 289
+2026-06-20 18:39:27 - INFO -   Flow cover: 289
+  Inf proof: 10
+2026-06-20 18:39:27 - INFO -   Inf proof: 10
+  RLT: 6
+2026-06-20 18:39:27 - INFO -   RLT: 6
+  Relax-and-lift: 1
+2026-06-20 18:39:27 - INFO -   Relax-and-lift: 1
+  PSD: 1
+2026-06-20 18:39:27 - INFO -   PSD: 1
+
+2026-06-20 18:39:27 - INFO - 
+Explored 7090 nodes (220434 simplex iterations) in 4.65 seconds (6.82 work units)
+2026-06-20 18:39:27 - INFO - Explored 7090 nodes (220434 simplex iterations) in 4.65 seconds (6.82 work units)
+Most recent optimization runtime was 0.00 seconds (0.00 work units)
+2026-06-20 18:39:27 - INFO - Most recent optimization runtime was 0.00 seconds (0.00 work units)
+Thread count was 28 (of 28 available processors)
+2026-06-20 18:39:27 - INFO - Thread count was 28 (of 28 available processors)
+
+2026-06-20 18:39:27 - INFO - 
+Solution count 0
+2026-06-20 18:39:27 - INFO - Solution count 0
+
+2026-06-20 18:39:27 - INFO - 
+Model is infeasible
+2026-06-20 18:39:27 - INFO - Model is infeasible
+Best objective -, best bound -, gap -
+2026-06-20 18:39:27 - INFO - Best objective -, best bound -, gap -
+[EMIB] No feasible solution: MIPGap=0.3, status=3, time=0.00s, SolCount=0
+[EMIB] Phase 2 no feasible solution, switching to phase 3 MIPGap=0.8.
+Set parameter TimeLimit to value 3600
+2026-06-20 18:39:27 - INFO - Set parameter TimeLimit to value 3600
+Set parameter MIPGap to value 0.8
+2026-06-20 18:39:27 - INFO - Set parameter MIPGap to value 0.8
+Set parameter MIPFocus to value 3
+2026-06-20 18:39:27 - INFO - Set parameter MIPFocus to value 3
+Set parameter Heuristics to value 0.5
+2026-06-20 18:39:27 - INFO - Set parameter Heuristics to value 0.5
+Set parameter LogToConsole to value 1
+2026-06-20 18:39:27 - INFO - Set parameter LogToConsole to value 1
+Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-06-20 18:39:27 - INFO - Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+
+2026-06-20 18:39:27 - INFO - 
+CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-06-20 18:39:27 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+2026-06-20 18:39:27 - INFO - Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+
+2026-06-20 18:39:27 - INFO - 
+Non-default parameters:
+2026-06-20 18:39:27 - INFO - Non-default parameters:
+TimeLimit  3600
+2026-06-20 18:39:27 - INFO - TimeLimit  3600
+MIPGap  0.8
+2026-06-20 18:39:27 - INFO - MIPGap  0.8
+Heuristics  0.5
+2026-06-20 18:39:27 - INFO - Heuristics  0.5
+MIPFocus  3
+2026-06-20 18:39:27 - INFO - MIPFocus  3
+
+2026-06-20 18:39:27 - INFO - 
+Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+2026-06-20 18:39:27 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+Optimize a model with 836 rows, 389 columns and 2833 nonzeros (Min)
+2026-06-20 18:39:27 - INFO - Optimize a model with 836 rows, 389 columns and 2833 nonzeros (Min)
+Model fingerprint: 0x531bc946
+2026-06-20 18:39:27 - INFO - Model fingerprint: 0x531bc946
+Model has 3 linear objective coefficients
+2026-06-20 18:39:27 - INFO - Model has 3 linear objective coefficients
+Variable types: 165 continuous, 224 integer (224 binary)
+2026-06-20 18:39:27 - INFO - Variable types: 165 continuous, 224 integer (224 binary)
+Coefficient statistics:
+2026-06-20 18:39:27 - INFO - Coefficient statistics:
+  Matrix range     [3e-01, 8e+03]
+2026-06-20 18:39:27 - INFO -   Matrix range     [3e-01, 8e+03]
+  Objective range  [1e-04, 1e-01]
+2026-06-20 18:39:27 - INFO -   Objective range  [1e-04, 1e-01]
+  Bounds range     [9e-01, 8e+06]
+2026-06-20 18:39:27 - INFO -   Bounds range     [9e-01, 8e+06]
+  RHS range        [9e-01, 2e+02]
+2026-06-20 18:39:27 - INFO -   RHS range        [9e-01, 2e+02]
+
+2026-06-20 18:39:27 - INFO - 
+Presolved: 750 rows, 315 columns, 2666 nonzeros
+2026-06-20 18:39:27 - INFO - Presolved: 750 rows, 315 columns, 2666 nonzeros
+
+2026-06-20 18:39:27 - INFO - 
+Continuing optimization...
+2026-06-20 18:39:27 - INFO - Continuing optimization...
+
+2026-06-20 18:39:27 - INFO - 
+
+2026-06-20 18:39:27 - INFO - 
+Cutting planes:
+2026-06-20 18:39:27 - INFO - Cutting planes:
+  Learned: 8
+2026-06-20 18:39:27 - INFO -   Learned: 8
+  Gomory: 84
+2026-06-20 18:39:27 - INFO -   Gomory: 84
+  Lift-and-project: 49
+2026-06-20 18:39:27 - INFO -   Lift-and-project: 49
+  Cover: 1
+2026-06-20 18:39:27 - INFO -   Cover: 1
+  Implied bound: 5
+2026-06-20 18:39:27 - INFO -   Implied bound: 5
+  MIR: 50
+2026-06-20 18:39:27 - INFO -   MIR: 50
+  Flow cover: 289
+2026-06-20 18:39:27 - INFO -   Flow cover: 289
+  Inf proof: 10
+2026-06-20 18:39:27 - INFO -   Inf proof: 10
+  RLT: 6
+2026-06-20 18:39:27 - INFO -   RLT: 6
+  Relax-and-lift: 1
+2026-06-20 18:39:27 - INFO -   Relax-and-lift: 1
+  PSD: 1
+2026-06-20 18:39:27 - INFO -   PSD: 1
+
+2026-06-20 18:39:27 - INFO - 
+Explored 7090 nodes (220434 simplex iterations) in 4.65 seconds (6.83 work units)
+2026-06-20 18:39:27 - INFO - Explored 7090 nodes (220434 simplex iterations) in 4.65 seconds (6.83 work units)
+Most recent optimization runtime was 0.00 seconds (0.00 work units)
+2026-06-20 18:39:27 - INFO - Most recent optimization runtime was 0.00 seconds (0.00 work units)
+Thread count was 28 (of 28 available processors)
+2026-06-20 18:39:27 - INFO - Thread count was 28 (of 28 available processors)
+
+2026-06-20 18:39:27 - INFO - 
+Solution count 0
+2026-06-20 18:39:27 - INFO - Solution count 0
+
+2026-06-20 18:39:27 - INFO - 
+Model is infeasible
+2026-06-20 18:39:27 - INFO - Model is infeasible
+Best objective -, best bound -, gap -
+2026-06-20 18:39:27 - INFO - Best objective -, best bound -, gap -
+[EMIB] No feasible solution: MIPGap=0.8, status=3, time=0.00s, SolCount=0
+[EMIB] Search failed, no feasible solution
+2026-06-20 18:39:27 - INFO - 
+EMIB returned 0 solution(s) (max 1).
+  ✓ EMIB: 0 solution(s)
 
 ================================================================================
-批量测试完成 (Gurobi版本)
-  共花费时间: 4.96 秒
+Batch test done (Gurobi)
+  Total time: 4.67 s
 ================================================================================
-文件处理统计:
-  成功: 1/1 个文件
-  失败: 0/1 个文件
-解的数量统计:
-  找到: 0/1 个解
+File summary:
+  Success: 1/1
+  Failed: 0/1
+Solution count:
+  Found: 0/1
 
-详细结果:
-  ✓ xerox6_m.json -> xerox6_m_core: 0 个解
-    Log目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/log/xerox6_m_core
-    LP目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/lp/xerox6_m_core
-    Fig目录: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/fig/xerox6_m_core
-    Placement文件: /root/placement/thermal-placement/output_gurobi_EMIB_chiplet_5_6_01_0/placement/xerox6_m.json
+Details:
+  ✓ xerox6_m.json -> xerox6_m_core: 0 solution(s)
+    Log dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_0/log/xerox6_m_core
+    LP dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_0/lp/xerox6_m_core
+    Fig dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_0/fig/xerox6_m_core
+    Placement: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_0/placement/xerox6_m.json
 ================================================================================
 

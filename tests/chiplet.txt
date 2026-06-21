@@ -1,0 +1,35 @@
+\begin{table}[h!t]
+  \centering
+  \textcolor{blue}{\caption{Attributes of the test cases with chiplet power density}}
+  \label{tab:testcase_attr_density}
+  % 1列1.8cm + 7列1.2cm，整体适配单栏宽度
+  \begin{tabularx}{\linewidth}{C{1.8cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}}
+    \toprule
+    \textbf{\textcolor{blue}{TC}} 
+    & \textbf{\textcolor{blue}{Die}} 
+    & \textbf{\textcolor{blue}{Brg}} 
+    & \textbf{\textcolor{blue}{Max Brg}} 
+    & \textbf{\textcolor{blue}{ECG}} 
+    & \textbf{\textcolor{blue}{BT Node}} 
+    & \textbf{\textcolor{blue}{TP}} 
+    & \textbf{\textcolor{blue}{APD}} \\
+    \midrule
+    \textcolor{blue}{$acend910$} & \textcolor{blue}{6} & \textcolor{blue}{4} & \textcolor{blue}{4} & \textcolor{blue}{1} & \textcolor{blue}{2} & \textcolor{blue}{350.0} & \textcolor{blue}{0.3531} \\
+    \textcolor{blue}{$cpu\text{-}dram$} & \textcolor{blue}{8} & \textcolor{blue}{8} & \textcolor{blue}{8} & \textcolor{blue}{1} & \textcolor{blue}{2} & \textcolor{blue}{680.0} & \textcolor{blue}{1.1272} \\
+    \textcolor{blue}{$hp11\_m$} & \textcolor{blue}{11} & \textcolor{blue}{13} & \textcolor{blue}{10} & \textcolor{blue}{1} & \textcolor{blue}{2} & \textcolor{blue}{556.0} & \textcolor{blue}{0.6296} \\
+    \textcolor{blue}{$hp6\_m$} & \textcolor{blue}{6} & \textcolor{blue}{3} & \textcolor{blue}{3} & \textcolor{blue}{1} & \textcolor{blue}{3} & \textcolor{blue}{295.0} & \textcolor{blue}{0.9322} \\
+    \textcolor{blue}{$hp8\_m$} & \textcolor{blue}{8} & \textcolor{blue}{7} & \textcolor{blue}{7} & \textcolor{blue}{1} & \textcolor{blue}{2} & \textcolor{blue}{393.0} & \textcolor{blue}{0.7176} \\
+    \textcolor{blue}{$multigpu$} & \textcolor{blue}{6} & \textcolor{blue}{3} & \textcolor{blue}{1} & \textcolor{blue}{3} & \textcolor{blue}{3} & \textcolor{blue}{755.0} & \textcolor{blue}{0.6975} \\
+    \textcolor{blue}{$syn1$} & \textcolor{blue}{10} & \textcolor{blue}{7} & \textcolor{blue}{6} & \textcolor{blue}{2} & \textcolor{blue}{4} & \textcolor{blue}{586.0} & \textcolor{blue}{0.7307} \\
+    \textcolor{blue}{$syn2$} & \textcolor{blue}{11} & \textcolor{blue}{16} & \textcolor{blue}{16} & \textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{590.0} & \textcolor{blue}{0.7032} \\
+    \textcolor{blue}{$syn3$} & \textcolor{blue}{12} & \textcolor{blue}{18} & \textcolor{blue}{18} & \textcolor{blue}{1} & \textcolor{blue}{2} & \textcolor{blue}{565.0} & \textcolor{blue}{0.5335} \\
+    \textcolor{blue}{$syn4$} & \textcolor{blue}{13} & \textcolor{blue}{15} & \textcolor{blue}{15} & \textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{516.0} & \textcolor{blue}{0.8075} \\
+    \textcolor{blue}{$syn5$} & \textcolor{blue}{14} & \textcolor{blue}{13} & \textcolor{blue}{12} & \textcolor{blue}{2} & \textcolor{blue}{3} & \textcolor{blue}{495.0} & \textcolor{blue}{0.7783} \\
+    \textcolor{blue}{$syn6$} & \textcolor{blue}{15} & \textcolor{blue}{23} & \textcolor{blue}{23} & \textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{532.0} & \textcolor{blue}{0.7557} \\
+    \textcolor{blue}{$sys_micro150$} & \textcolor{blue}{8} & \textcolor{blue}{8} & \textcolor{blue}{8} & \textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{680.0} & \textcolor{blue}{1.1272} \\
+    \textcolor{blue}{$xerox6\_m$} & \textcolor{blue}{6} & \textcolor{blue}{8} & \textcolor{blue}{8} & \textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{327.0} & \textcolor{blue}{0.4364} \\
+    \textcolor{blue}{$xerox7\_m$} & \textcolor{blue}{7} & \textcolor{blue}{10} & \textcolor{blue}{10} & \textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{400.0} & \textcolor{blue}{0.3910} \\
+    \textcolor{blue}{$xerox8\_m$} & \textcolor{blue}{8} & \textcolor{blue}{13} & \textcolor{blue}{13} & \textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{442.0} & \textcolor{blue}{0.3469} \\
+    \bottomrule
+  \end{tabularx}
+\end{table}

@@ -1,9 +1,10 @@
 \ Model ChipletPlacementGrid
 \ LP format - for model browsing. Use MPS format to capture full model detail.
-\ Signature: 0xacdbedc95ea2d6c4
+\ Signature: 0x7a1676f316e262ed
 Minimize
   0 r_0 + 0 r_1 + 0 r_2 + 0.00809061488673139 aspect_ratio_penalty
-   + 8.7947e-05 wirelength + 0.0911834096301581 bbox_area_proxy_t
+   - 2.79409e-07 power_aware_penalty + 8.7947e-05 wirelength
+   + 0.0911834096301581 bbox_area_proxy_t
 Subject To
  width_rotation_0: w_var_0 = 12
  height_rotation_0: h_var_0 = 12
@@ -487,6 +488,94 @@ Subject To
    >= 0
  aspect_ratio_diff_ge_h_minus_w: bbox_w - bbox_h + aspect_ratio_penalty
    >= 0
+ dx_grid_diff_def_1_2: - cx_grid_var_1 + cx_grid_var_2 + dx_grid_diff_1_2
+   = 0
+ dx_grid_abs_pair_1_2_abs_ge_orig: dx_grid_abs_pair_1_2 - dx_grid_diff_1_2
+   - 282 dx_grid_abs_pair_1_2_is_positive >= -282
+ dx_grid_abs_pair_1_2_abs_le_orig: dx_grid_abs_pair_1_2 - dx_grid_diff_1_2
+   + 282 dx_grid_abs_pair_1_2_is_positive <= 282
+ dx_grid_abs_pair_1_2_abs_ge_neg_orig: dx_grid_abs_pair_1_2
+   + dx_grid_diff_1_2 + 282 dx_grid_abs_pair_1_2_is_positive >= 0
+ dx_grid_abs_pair_1_2_abs_le_neg_orig: dx_grid_abs_pair_1_2
+   + dx_grid_diff_1_2 - 282 dx_grid_abs_pair_1_2_is_positive <= 0
+ dx_grid_abs_pair_1_2_force_positive: dx_grid_diff_1_2
+   - 282 dx_grid_abs_pair_1_2_is_positive >= -282
+ dx_grid_abs_pair_1_2_force_negative: dx_grid_diff_1_2
+   - 282 dx_grid_abs_pair_1_2_is_positive <= 0
+ dy_grid_diff_def_1_2: - cy_grid_var_1 + cy_grid_var_2 + dy_grid_diff_1_2
+   = 0
+ dy_grid_abs_pair_1_2_abs_ge_orig: dy_grid_abs_pair_1_2 - dy_grid_diff_1_2
+   - 282 dy_grid_abs_pair_1_2_is_positive >= -282
+ dy_grid_abs_pair_1_2_abs_le_orig: dy_grid_abs_pair_1_2 - dy_grid_diff_1_2
+   + 282 dy_grid_abs_pair_1_2_is_positive <= 282
+ dy_grid_abs_pair_1_2_abs_ge_neg_orig: dy_grid_abs_pair_1_2
+   + dy_grid_diff_1_2 + 282 dy_grid_abs_pair_1_2_is_positive >= 0
+ dy_grid_abs_pair_1_2_abs_le_neg_orig: dy_grid_abs_pair_1_2
+   + dy_grid_diff_1_2 - 282 dy_grid_abs_pair_1_2_is_positive <= 0
+ dy_grid_abs_pair_1_2_force_positive: dy_grid_diff_1_2
+   - 282 dy_grid_abs_pair_1_2_is_positive >= -282
+ dy_grid_abs_pair_1_2_force_negative: dy_grid_diff_1_2
+   - 282 dy_grid_abs_pair_1_2_is_positive <= 0
+ dist_curr_pair_def_1_2: - dx_grid_abs_pair_1_2 - dy_grid_abs_pair_1_2
+   + dist_curr_pair_1_2 = 0
+ dx_center_diff_def_1: - cx_grid_var_1 + cx_center + dx_center_diff_1 = 0
+ dx_center_abs_1_abs_ge_orig: - dx_center_diff_1 + dx_center_abs_1
+   - 282 dx_center_abs_1_is_positive >= -282
+ dx_center_abs_1_abs_le_orig: - dx_center_diff_1 + dx_center_abs_1
+   + 282 dx_center_abs_1_is_positive <= 282
+ dx_center_abs_1_abs_ge_neg_orig: dx_center_diff_1 + dx_center_abs_1
+   + 282 dx_center_abs_1_is_positive >= 0
+ dx_center_abs_1_abs_le_neg_orig: dx_center_diff_1 + dx_center_abs_1
+   - 282 dx_center_abs_1_is_positive <= 0
+ dx_center_abs_1_force_positive: dx_center_diff_1
+   - 282 dx_center_abs_1_is_positive >= -282
+ dx_center_abs_1_force_negative: dx_center_diff_1
+   - 282 dx_center_abs_1_is_positive <= 0
+ dy_center_diff_def_1: - cy_grid_var_1 + cy_center + dy_center_diff_1 = 0
+ dy_center_abs_1_abs_ge_orig: - dy_center_diff_1 + dy_center_abs_1
+   - 282 dy_center_abs_1_is_positive >= -282
+ dy_center_abs_1_abs_le_orig: - dy_center_diff_1 + dy_center_abs_1
+   + 282 dy_center_abs_1_is_positive <= 282
+ dy_center_abs_1_abs_ge_neg_orig: dy_center_diff_1 + dy_center_abs_1
+   + 282 dy_center_abs_1_is_positive >= 0
+ dy_center_abs_1_abs_le_neg_orig: dy_center_diff_1 + dy_center_abs_1
+   - 282 dy_center_abs_1_is_positive <= 0
+ dy_center_abs_1_force_positive: dy_center_diff_1
+   - 282 dy_center_abs_1_is_positive >= -282
+ dy_center_abs_1_force_negative: dy_center_diff_1
+   - 282 dy_center_abs_1_is_positive <= 0
+ dist_center_def_1: - dx_center_abs_1 - dy_center_abs_1 + dist_center_1
+   = 0
+ dx_center_diff_def_2: - cx_grid_var_2 + cx_center + dx_center_diff_2 = 0
+ dx_center_abs_2_abs_ge_orig: - dx_center_diff_2 + dx_center_abs_2
+   - 282 dx_center_abs_2_is_positive >= -282
+ dx_center_abs_2_abs_le_orig: - dx_center_diff_2 + dx_center_abs_2
+   + 282 dx_center_abs_2_is_positive <= 282
+ dx_center_abs_2_abs_ge_neg_orig: dx_center_diff_2 + dx_center_abs_2
+   + 282 dx_center_abs_2_is_positive >= 0
+ dx_center_abs_2_abs_le_neg_orig: dx_center_diff_2 + dx_center_abs_2
+   - 282 dx_center_abs_2_is_positive <= 0
+ dx_center_abs_2_force_positive: dx_center_diff_2
+   - 282 dx_center_abs_2_is_positive >= -282
+ dx_center_abs_2_force_negative: dx_center_diff_2
+   - 282 dx_center_abs_2_is_positive <= 0
+ dy_center_diff_def_2: - cy_grid_var_2 + cy_center + dy_center_diff_2 = 0
+ dy_center_abs_2_abs_ge_orig: - dy_center_diff_2 + dy_center_abs_2
+   - 282 dy_center_abs_2_is_positive >= -282
+ dy_center_abs_2_abs_le_orig: - dy_center_diff_2 + dy_center_abs_2
+   + 282 dy_center_abs_2_is_positive <= 282
+ dy_center_abs_2_abs_ge_neg_orig: dy_center_diff_2 + dy_center_abs_2
+   + 282 dy_center_abs_2_is_positive >= 0
+ dy_center_abs_2_abs_le_neg_orig: dy_center_diff_2 + dy_center_abs_2
+   - 282 dy_center_abs_2_is_positive <= 0
+ dy_center_abs_2_force_positive: dy_center_diff_2
+   - 282 dy_center_abs_2_is_positive >= -282
+ dy_center_abs_2_force_negative: dy_center_diff_2
+   - 282 dy_center_abs_2_is_positive <= 0
+ dist_center_def_2: - dx_center_abs_2 - dy_center_abs_2 + dist_center_2
+   = 0
+ power_aware_penalty_def: power_aware_penalty - 87025 dist_curr_pair_1_2
+   - 87025 dist_center_1 - 87025 dist_center_2 = 0
  dx_diff_def_0_1: - cx_grid_var_0 + cx_grid_var_1 + dx_diff_0_1 = 0
  dy_diff_def_0_1: - cy_grid_var_0 + cy_grid_var_1 + dy_diff_0_1 = 0
  dx_abs_0_1_abs_ge_orig: dx_abs_0_1 - dx_diff_0_1
@@ -798,6 +887,21 @@ Bounds
  bbox_w <= 141
  bbox_h <= 141
  aspect_ratio_penalty <= 141
+ dx_grid_abs_pair_1_2 <= 141
+ dy_grid_abs_pair_1_2 <= 141
+ -141 <= dx_grid_diff_1_2 <= 141
+ -141 <= dy_grid_diff_1_2 <= 141
+ dist_curr_pair_1_2 <= 282
+ -141 <= dx_center_diff_1 <= 141
+ dx_center_abs_1 <= 141
+ -141 <= dy_center_diff_1 <= 141
+ dy_center_abs_1 <= 141
+ dist_center_1 <= 282
+ -141 <= dx_center_diff_2 <= 141
+ dx_center_abs_2 <= 141
+ -141 <= dy_center_diff_2 <= 141
+ dy_center_abs_2 <= 141
+ dist_center_2 <= 282
  wirelength <= 6.930432e+06
  -141 <= dx_diff_0_1 <= 141
  -141 <= dy_diff_0_1 <= 141
@@ -831,6 +935,9 @@ Binaries
  p_right_2_4 p_down_2_4 p_up_2_4 p_left_2_5 p_right_2_5 p_down_2_5 p_up_2_5
  p_left_3_4 p_right_3_4 p_down_3_4 p_up_3_4 p_left_3_5 p_right_3_5
  p_down_3_5 p_up_3_5 p_left_4_5 p_right_4_5 p_down_4_5 p_up_4_5
+ dx_grid_abs_pair_1_2_is_positive dy_grid_abs_pair_1_2_is_positive
+ dx_center_abs_1_is_positive dy_center_abs_1_is_positive
+ dx_center_abs_2_is_positive dy_center_abs_2_is_positive
  dx_abs_0_1_is_positive dy_abs_0_1_is_positive dx_abs_0_2_is_positive
  dy_abs_0_2_is_positive dx_abs_1_2_is_positive dy_abs_1_2_is_positive
  dx_abs_i_0_3_is_positive dy_abs_i_0_3_is_positive dx_abs_j_0_3_is_positive

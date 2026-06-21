@@ -1,6 +1,6 @@
 \ Model ChipletPlacementGrid
 \ LP format - for model browsing. Use MPS format to capture full model detail.
-\ Signature: 0xff1d9c88f922c8aa
+\ Signature: 0x922159b39211fbcc
 Minimize
   0 r_1 + 0 r_4 + 0 r_5 + 0 r_7 + 0 r_10 + 0 r_13
    + 0.00666666666666667 aspect_ratio_penalty + 6.19572e-05 wirelength
@@ -2814,6 +2814,305 @@ Subject To
    >= 0
  aspect_ratio_diff_ge_h_minus_w: bbox_w - bbox_h + aspect_ratio_penalty
    >= 0
+ dx_grid_diff_def_1_2: - cx_grid_var_1 + cx_grid_var_2 + dx_grid_diff_1_2
+   = 0
+ dx_grid_abs_pair_1_2_abs_ge_orig: dx_grid_abs_pair_1_2 - dx_grid_diff_1_2
+   - 216 dx_grid_abs_pair_1_2_is_positive >= -216
+ dx_grid_abs_pair_1_2_abs_le_orig: dx_grid_abs_pair_1_2 - dx_grid_diff_1_2
+   + 216 dx_grid_abs_pair_1_2_is_positive <= 216
+ dx_grid_abs_pair_1_2_abs_ge_neg_orig: dx_grid_abs_pair_1_2
+   + dx_grid_diff_1_2 + 216 dx_grid_abs_pair_1_2_is_positive >= 0
+ dx_grid_abs_pair_1_2_abs_le_neg_orig: dx_grid_abs_pair_1_2
+   + dx_grid_diff_1_2 - 216 dx_grid_abs_pair_1_2_is_positive <= 0
+ dx_grid_abs_pair_1_2_force_positive: dx_grid_diff_1_2
+   - 216 dx_grid_abs_pair_1_2_is_positive >= -216
+ dx_grid_abs_pair_1_2_force_negative: dx_grid_diff_1_2
+   - 216 dx_grid_abs_pair_1_2_is_positive <= 0
+ dy_grid_diff_def_1_2: - cy_grid_var_1 + cy_grid_var_2 + dy_grid_diff_1_2
+   = 0
+ dy_grid_abs_pair_1_2_abs_ge_orig: dy_grid_abs_pair_1_2 - dy_grid_diff_1_2
+   - 216 dy_grid_abs_pair_1_2_is_positive >= -216
+ dy_grid_abs_pair_1_2_abs_le_orig: dy_grid_abs_pair_1_2 - dy_grid_diff_1_2
+   + 216 dy_grid_abs_pair_1_2_is_positive <= 216
+ dy_grid_abs_pair_1_2_abs_ge_neg_orig: dy_grid_abs_pair_1_2
+   + dy_grid_diff_1_2 + 216 dy_grid_abs_pair_1_2_is_positive >= 0
+ dy_grid_abs_pair_1_2_abs_le_neg_orig: dy_grid_abs_pair_1_2
+   + dy_grid_diff_1_2 - 216 dy_grid_abs_pair_1_2_is_positive <= 0
+ dy_grid_abs_pair_1_2_force_positive: dy_grid_diff_1_2
+   - 216 dy_grid_abs_pair_1_2_is_positive >= -216
+ dy_grid_abs_pair_1_2_force_negative: dy_grid_diff_1_2
+   - 216 dy_grid_abs_pair_1_2_is_positive <= 0
+ dist_curr_pair_def_1_2: - dx_grid_abs_pair_1_2 - dy_grid_abs_pair_1_2
+   + dist_curr_pair_1_2 = 0
+ dx_grid_diff_def_1_4: - cx_grid_var_1 + cx_grid_var_4 + dx_grid_diff_1_4
+   = 0
+ dx_grid_abs_pair_1_4_abs_ge_orig: dx_grid_abs_pair_1_4 - dx_grid_diff_1_4
+   - 216 dx_grid_abs_pair_1_4_is_positive >= -216
+ dx_grid_abs_pair_1_4_abs_le_orig: dx_grid_abs_pair_1_4 - dx_grid_diff_1_4
+   + 216 dx_grid_abs_pair_1_4_is_positive <= 216
+ dx_grid_abs_pair_1_4_abs_ge_neg_orig: dx_grid_abs_pair_1_4
+   + dx_grid_diff_1_4 + 216 dx_grid_abs_pair_1_4_is_positive >= 0
+ dx_grid_abs_pair_1_4_abs_le_neg_orig: dx_grid_abs_pair_1_4
+   + dx_grid_diff_1_4 - 216 dx_grid_abs_pair_1_4_is_positive <= 0
+ dx_grid_abs_pair_1_4_force_positive: dx_grid_diff_1_4
+   - 216 dx_grid_abs_pair_1_4_is_positive >= -216
+ dx_grid_abs_pair_1_4_force_negative: dx_grid_diff_1_4
+   - 216 dx_grid_abs_pair_1_4_is_positive <= 0
+ dy_grid_diff_def_1_4: - cy_grid_var_1 + cy_grid_var_4 + dy_grid_diff_1_4
+   = 0
+ dy_grid_abs_pair_1_4_abs_ge_orig: dy_grid_abs_pair_1_4 - dy_grid_diff_1_4
+   - 216 dy_grid_abs_pair_1_4_is_positive >= -216
+ dy_grid_abs_pair_1_4_abs_le_orig: dy_grid_abs_pair_1_4 - dy_grid_diff_1_4
+   + 216 dy_grid_abs_pair_1_4_is_positive <= 216
+ dy_grid_abs_pair_1_4_abs_ge_neg_orig: dy_grid_abs_pair_1_4
+   + dy_grid_diff_1_4 + 216 dy_grid_abs_pair_1_4_is_positive >= 0
+ dy_grid_abs_pair_1_4_abs_le_neg_orig: dy_grid_abs_pair_1_4
+   + dy_grid_diff_1_4 - 216 dy_grid_abs_pair_1_4_is_positive <= 0
+ dy_grid_abs_pair_1_4_force_positive: dy_grid_diff_1_4
+   - 216 dy_grid_abs_pair_1_4_is_positive >= -216
+ dy_grid_abs_pair_1_4_force_negative: dy_grid_diff_1_4
+   - 216 dy_grid_abs_pair_1_4_is_positive <= 0
+ dist_curr_pair_def_1_4: - dx_grid_abs_pair_1_4 - dy_grid_abs_pair_1_4
+   + dist_curr_pair_1_4 = 0
+ dx_grid_diff_def_1_10: - cx_grid_var_1 + cx_grid_var_10
+   + dx_grid_diff_1_10 = 0
+ dx_grid_abs_pair_1_10_abs_ge_orig: dx_grid_abs_pair_1_10
+   - dx_grid_diff_1_10 - 216 dx_grid_abs_pair_1_10_is_positive >= -216
+ dx_grid_abs_pair_1_10_abs_le_orig: dx_grid_abs_pair_1_10
+   - dx_grid_diff_1_10 + 216 dx_grid_abs_pair_1_10_is_positive <= 216
+ dx_grid_abs_pair_1_10_abs_ge_neg_orig: dx_grid_abs_pair_1_10
+   + dx_grid_diff_1_10 + 216 dx_grid_abs_pair_1_10_is_positive >= 0
+ dx_grid_abs_pair_1_10_abs_le_neg_orig: dx_grid_abs_pair_1_10
+   + dx_grid_diff_1_10 - 216 dx_grid_abs_pair_1_10_is_positive <= 0
+ dx_grid_abs_pair_1_10_force_positive: dx_grid_diff_1_10
+   - 216 dx_grid_abs_pair_1_10_is_positive >= -216
+ dx_grid_abs_pair_1_10_force_negative: dx_grid_diff_1_10
+   - 216 dx_grid_abs_pair_1_10_is_positive <= 0
+ dy_grid_diff_def_1_10: - cy_grid_var_1 + cy_grid_var_10
+   + dy_grid_diff_1_10 = 0
+ dy_grid_abs_pair_1_10_abs_ge_orig: dy_grid_abs_pair_1_10
+   - dy_grid_diff_1_10 - 216 dy_grid_abs_pair_1_10_is_positive >= -216
+ dy_grid_abs_pair_1_10_abs_le_orig: dy_grid_abs_pair_1_10
+   - dy_grid_diff_1_10 + 216 dy_grid_abs_pair_1_10_is_positive <= 216
+ dy_grid_abs_pair_1_10_abs_ge_neg_orig: dy_grid_abs_pair_1_10
+   + dy_grid_diff_1_10 + 216 dy_grid_abs_pair_1_10_is_positive >= 0
+ dy_grid_abs_pair_1_10_abs_le_neg_orig: dy_grid_abs_pair_1_10
+   + dy_grid_diff_1_10 - 216 dy_grid_abs_pair_1_10_is_positive <= 0
+ dy_grid_abs_pair_1_10_force_positive: dy_grid_diff_1_10
+   - 216 dy_grid_abs_pair_1_10_is_positive >= -216
+ dy_grid_abs_pair_1_10_force_negative: dy_grid_diff_1_10
+   - 216 dy_grid_abs_pair_1_10_is_positive <= 0
+ dist_curr_pair_def_1_10: - dx_grid_abs_pair_1_10 - dy_grid_abs_pair_1_10
+   + dist_curr_pair_1_10 = 0
+ dx_grid_diff_def_2_4: - cx_grid_var_2 + cx_grid_var_4 + dx_grid_diff_2_4
+   = 0
+ dx_grid_abs_pair_2_4_abs_ge_orig: dx_grid_abs_pair_2_4 - dx_grid_diff_2_4
+   - 216 dx_grid_abs_pair_2_4_is_positive >= -216
+ dx_grid_abs_pair_2_4_abs_le_orig: dx_grid_abs_pair_2_4 - dx_grid_diff_2_4
+   + 216 dx_grid_abs_pair_2_4_is_positive <= 216
+ dx_grid_abs_pair_2_4_abs_ge_neg_orig: dx_grid_abs_pair_2_4
+   + dx_grid_diff_2_4 + 216 dx_grid_abs_pair_2_4_is_positive >= 0
+ dx_grid_abs_pair_2_4_abs_le_neg_orig: dx_grid_abs_pair_2_4
+   + dx_grid_diff_2_4 - 216 dx_grid_abs_pair_2_4_is_positive <= 0
+ dx_grid_abs_pair_2_4_force_positive: dx_grid_diff_2_4
+   - 216 dx_grid_abs_pair_2_4_is_positive >= -216
+ dx_grid_abs_pair_2_4_force_negative: dx_grid_diff_2_4
+   - 216 dx_grid_abs_pair_2_4_is_positive <= 0
+ dy_grid_diff_def_2_4: - cy_grid_var_2 + cy_grid_var_4 + dy_grid_diff_2_4
+   = 0
+ dy_grid_abs_pair_2_4_abs_ge_orig: dy_grid_abs_pair_2_4 - dy_grid_diff_2_4
+   - 216 dy_grid_abs_pair_2_4_is_positive >= -216
+ dy_grid_abs_pair_2_4_abs_le_orig: dy_grid_abs_pair_2_4 - dy_grid_diff_2_4
+   + 216 dy_grid_abs_pair_2_4_is_positive <= 216
+ dy_grid_abs_pair_2_4_abs_ge_neg_orig: dy_grid_abs_pair_2_4
+   + dy_grid_diff_2_4 + 216 dy_grid_abs_pair_2_4_is_positive >= 0
+ dy_grid_abs_pair_2_4_abs_le_neg_orig: dy_grid_abs_pair_2_4
+   + dy_grid_diff_2_4 - 216 dy_grid_abs_pair_2_4_is_positive <= 0
+ dy_grid_abs_pair_2_4_force_positive: dy_grid_diff_2_4
+   - 216 dy_grid_abs_pair_2_4_is_positive >= -216
+ dy_grid_abs_pair_2_4_force_negative: dy_grid_diff_2_4
+   - 216 dy_grid_abs_pair_2_4_is_positive <= 0
+ dist_curr_pair_def_2_4: - dx_grid_abs_pair_2_4 - dy_grid_abs_pair_2_4
+   + dist_curr_pair_2_4 = 0
+ dx_grid_diff_def_2_10: - cx_grid_var_2 + cx_grid_var_10
+   + dx_grid_diff_2_10 = 0
+ dx_grid_abs_pair_2_10_abs_ge_orig: dx_grid_abs_pair_2_10
+   - dx_grid_diff_2_10 - 216 dx_grid_abs_pair_2_10_is_positive >= -216
+ dx_grid_abs_pair_2_10_abs_le_orig: dx_grid_abs_pair_2_10
+   - dx_grid_diff_2_10 + 216 dx_grid_abs_pair_2_10_is_positive <= 216
+ dx_grid_abs_pair_2_10_abs_ge_neg_orig: dx_grid_abs_pair_2_10
+   + dx_grid_diff_2_10 + 216 dx_grid_abs_pair_2_10_is_positive >= 0
+ dx_grid_abs_pair_2_10_abs_le_neg_orig: dx_grid_abs_pair_2_10
+   + dx_grid_diff_2_10 - 216 dx_grid_abs_pair_2_10_is_positive <= 0
+ dx_grid_abs_pair_2_10_force_positive: dx_grid_diff_2_10
+   - 216 dx_grid_abs_pair_2_10_is_positive >= -216
+ dx_grid_abs_pair_2_10_force_negative: dx_grid_diff_2_10
+   - 216 dx_grid_abs_pair_2_10_is_positive <= 0
+ dy_grid_diff_def_2_10: - cy_grid_var_2 + cy_grid_var_10
+   + dy_grid_diff_2_10 = 0
+ dy_grid_abs_pair_2_10_abs_ge_orig: dy_grid_abs_pair_2_10
+   - dy_grid_diff_2_10 - 216 dy_grid_abs_pair_2_10_is_positive >= -216
+ dy_grid_abs_pair_2_10_abs_le_orig: dy_grid_abs_pair_2_10
+   - dy_grid_diff_2_10 + 216 dy_grid_abs_pair_2_10_is_positive <= 216
+ dy_grid_abs_pair_2_10_abs_ge_neg_orig: dy_grid_abs_pair_2_10
+   + dy_grid_diff_2_10 + 216 dy_grid_abs_pair_2_10_is_positive >= 0
+ dy_grid_abs_pair_2_10_abs_le_neg_orig: dy_grid_abs_pair_2_10
+   + dy_grid_diff_2_10 - 216 dy_grid_abs_pair_2_10_is_positive <= 0
+ dy_grid_abs_pair_2_10_force_positive: dy_grid_diff_2_10
+   - 216 dy_grid_abs_pair_2_10_is_positive >= -216
+ dy_grid_abs_pair_2_10_force_negative: dy_grid_diff_2_10
+   - 216 dy_grid_abs_pair_2_10_is_positive <= 0
+ dist_curr_pair_def_2_10: - dx_grid_abs_pair_2_10 - dy_grid_abs_pair_2_10
+   + dist_curr_pair_2_10 = 0
+ dx_grid_diff_def_4_10: - cx_grid_var_4 + cx_grid_var_10
+   + dx_grid_diff_4_10 = 0
+ dx_grid_abs_pair_4_10_abs_ge_orig: dx_grid_abs_pair_4_10
+   - dx_grid_diff_4_10 - 216 dx_grid_abs_pair_4_10_is_positive >= -216
+ dx_grid_abs_pair_4_10_abs_le_orig: dx_grid_abs_pair_4_10
+   - dx_grid_diff_4_10 + 216 dx_grid_abs_pair_4_10_is_positive <= 216
+ dx_grid_abs_pair_4_10_abs_ge_neg_orig: dx_grid_abs_pair_4_10
+   + dx_grid_diff_4_10 + 216 dx_grid_abs_pair_4_10_is_positive >= 0
+ dx_grid_abs_pair_4_10_abs_le_neg_orig: dx_grid_abs_pair_4_10
+   + dx_grid_diff_4_10 - 216 dx_grid_abs_pair_4_10_is_positive <= 0
+ dx_grid_abs_pair_4_10_force_positive: dx_grid_diff_4_10
+   - 216 dx_grid_abs_pair_4_10_is_positive >= -216
+ dx_grid_abs_pair_4_10_force_negative: dx_grid_diff_4_10
+   - 216 dx_grid_abs_pair_4_10_is_positive <= 0
+ dy_grid_diff_def_4_10: - cy_grid_var_4 + cy_grid_var_10
+   + dy_grid_diff_4_10 = 0
+ dy_grid_abs_pair_4_10_abs_ge_orig: dy_grid_abs_pair_4_10
+   - dy_grid_diff_4_10 - 216 dy_grid_abs_pair_4_10_is_positive >= -216
+ dy_grid_abs_pair_4_10_abs_le_orig: dy_grid_abs_pair_4_10
+   - dy_grid_diff_4_10 + 216 dy_grid_abs_pair_4_10_is_positive <= 216
+ dy_grid_abs_pair_4_10_abs_ge_neg_orig: dy_grid_abs_pair_4_10
+   + dy_grid_diff_4_10 + 216 dy_grid_abs_pair_4_10_is_positive >= 0
+ dy_grid_abs_pair_4_10_abs_le_neg_orig: dy_grid_abs_pair_4_10
+   + dy_grid_diff_4_10 - 216 dy_grid_abs_pair_4_10_is_positive <= 0
+ dy_grid_abs_pair_4_10_force_positive: dy_grid_diff_4_10
+   - 216 dy_grid_abs_pair_4_10_is_positive >= -216
+ dy_grid_abs_pair_4_10_force_negative: dy_grid_diff_4_10
+   - 216 dy_grid_abs_pair_4_10_is_positive <= 0
+ dist_curr_pair_def_4_10: - dx_grid_abs_pair_4_10 - dy_grid_abs_pair_4_10
+   + dist_curr_pair_4_10 = 0
+ dx_center_diff_def_1: - cx_grid_var_1 + cx_center + dx_center_diff_1 = 0
+ dx_center_abs_1_abs_ge_orig: - dx_center_diff_1 + dx_center_abs_1
+   - 216 dx_center_abs_1_is_positive >= -216
+ dx_center_abs_1_abs_le_orig: - dx_center_diff_1 + dx_center_abs_1
+   + 216 dx_center_abs_1_is_positive <= 216
+ dx_center_abs_1_abs_ge_neg_orig: dx_center_diff_1 + dx_center_abs_1
+   + 216 dx_center_abs_1_is_positive >= 0
+ dx_center_abs_1_abs_le_neg_orig: dx_center_diff_1 + dx_center_abs_1
+   - 216 dx_center_abs_1_is_positive <= 0
+ dx_center_abs_1_force_positive: dx_center_diff_1
+   - 216 dx_center_abs_1_is_positive >= -216
+ dx_center_abs_1_force_negative: dx_center_diff_1
+   - 216 dx_center_abs_1_is_positive <= 0
+ dy_center_diff_def_1: - cy_grid_var_1 + cy_center + dy_center_diff_1 = 0
+ dy_center_abs_1_abs_ge_orig: - dy_center_diff_1 + dy_center_abs_1
+   - 216 dy_center_abs_1_is_positive >= -216
+ dy_center_abs_1_abs_le_orig: - dy_center_diff_1 + dy_center_abs_1
+   + 216 dy_center_abs_1_is_positive <= 216
+ dy_center_abs_1_abs_ge_neg_orig: dy_center_diff_1 + dy_center_abs_1
+   + 216 dy_center_abs_1_is_positive >= 0
+ dy_center_abs_1_abs_le_neg_orig: dy_center_diff_1 + dy_center_abs_1
+   - 216 dy_center_abs_1_is_positive <= 0
+ dy_center_abs_1_force_positive: dy_center_diff_1
+   - 216 dy_center_abs_1_is_positive >= -216
+ dy_center_abs_1_force_negative: dy_center_diff_1
+   - 216 dy_center_abs_1_is_positive <= 0
+ dist_center_def_1: - dx_center_abs_1 - dy_center_abs_1 + dist_center_1
+   = 0
+ dx_center_diff_def_2: - cx_grid_var_2 + cx_center + dx_center_diff_2 = 0
+ dx_center_abs_2_abs_ge_orig: - dx_center_diff_2 + dx_center_abs_2
+   - 216 dx_center_abs_2_is_positive >= -216
+ dx_center_abs_2_abs_le_orig: - dx_center_diff_2 + dx_center_abs_2
+   + 216 dx_center_abs_2_is_positive <= 216
+ dx_center_abs_2_abs_ge_neg_orig: dx_center_diff_2 + dx_center_abs_2
+   + 216 dx_center_abs_2_is_positive >= 0
+ dx_center_abs_2_abs_le_neg_orig: dx_center_diff_2 + dx_center_abs_2
+   - 216 dx_center_abs_2_is_positive <= 0
+ dx_center_abs_2_force_positive: dx_center_diff_2
+   - 216 dx_center_abs_2_is_positive >= -216
+ dx_center_abs_2_force_negative: dx_center_diff_2
+   - 216 dx_center_abs_2_is_positive <= 0
+ dy_center_diff_def_2: - cy_grid_var_2 + cy_center + dy_center_diff_2 = 0
+ dy_center_abs_2_abs_ge_orig: - dy_center_diff_2 + dy_center_abs_2
+   - 216 dy_center_abs_2_is_positive >= -216
+ dy_center_abs_2_abs_le_orig: - dy_center_diff_2 + dy_center_abs_2
+   + 216 dy_center_abs_2_is_positive <= 216
+ dy_center_abs_2_abs_ge_neg_orig: dy_center_diff_2 + dy_center_abs_2
+   + 216 dy_center_abs_2_is_positive >= 0
+ dy_center_abs_2_abs_le_neg_orig: dy_center_diff_2 + dy_center_abs_2
+   - 216 dy_center_abs_2_is_positive <= 0
+ dy_center_abs_2_force_positive: dy_center_diff_2
+   - 216 dy_center_abs_2_is_positive >= -216
+ dy_center_abs_2_force_negative: dy_center_diff_2
+   - 216 dy_center_abs_2_is_positive <= 0
+ dist_center_def_2: - dx_center_abs_2 - dy_center_abs_2 + dist_center_2
+   = 0
+ dx_center_diff_def_4: - cx_grid_var_4 + cx_center + dx_center_diff_4 = 0
+ dx_center_abs_4_abs_ge_orig: - dx_center_diff_4 + dx_center_abs_4
+   - 216 dx_center_abs_4_is_positive >= -216
+ dx_center_abs_4_abs_le_orig: - dx_center_diff_4 + dx_center_abs_4
+   + 216 dx_center_abs_4_is_positive <= 216
+ dx_center_abs_4_abs_ge_neg_orig: dx_center_diff_4 + dx_center_abs_4
+   + 216 dx_center_abs_4_is_positive >= 0
+ dx_center_abs_4_abs_le_neg_orig: dx_center_diff_4 + dx_center_abs_4
+   - 216 dx_center_abs_4_is_positive <= 0
+ dx_center_abs_4_force_positive: dx_center_diff_4
+   - 216 dx_center_abs_4_is_positive >= -216
+ dx_center_abs_4_force_negative: dx_center_diff_4
+   - 216 dx_center_abs_4_is_positive <= 0
+ dy_center_diff_def_4: - cy_grid_var_4 + cy_center + dy_center_diff_4 = 0
+ dy_center_abs_4_abs_ge_orig: - dy_center_diff_4 + dy_center_abs_4
+   - 216 dy_center_abs_4_is_positive >= -216
+ dy_center_abs_4_abs_le_orig: - dy_center_diff_4 + dy_center_abs_4
+   + 216 dy_center_abs_4_is_positive <= 216
+ dy_center_abs_4_abs_ge_neg_orig: dy_center_diff_4 + dy_center_abs_4
+   + 216 dy_center_abs_4_is_positive >= 0
+ dy_center_abs_4_abs_le_neg_orig: dy_center_diff_4 + dy_center_abs_4
+   - 216 dy_center_abs_4_is_positive <= 0
+ dy_center_abs_4_force_positive: dy_center_diff_4
+   - 216 dy_center_abs_4_is_positive >= -216
+ dy_center_abs_4_force_negative: dy_center_diff_4
+   - 216 dy_center_abs_4_is_positive <= 0
+ dist_center_def_4: - dx_center_abs_4 - dy_center_abs_4 + dist_center_4
+   = 0
+ dx_center_diff_def_10: - cx_grid_var_10 + cx_center + dx_center_diff_10
+   = 0
+ dx_center_abs_10_abs_ge_orig: - dx_center_diff_10 + dx_center_abs_10
+   - 216 dx_center_abs_10_is_positive >= -216
+ dx_center_abs_10_abs_le_orig: - dx_center_diff_10 + dx_center_abs_10
+   + 216 dx_center_abs_10_is_positive <= 216
+ dx_center_abs_10_abs_ge_neg_orig: dx_center_diff_10 + dx_center_abs_10
+   + 216 dx_center_abs_10_is_positive >= 0
+ dx_center_abs_10_abs_le_neg_orig: dx_center_diff_10 + dx_center_abs_10
+   - 216 dx_center_abs_10_is_positive <= 0
+ dx_center_abs_10_force_positive: dx_center_diff_10
+   - 216 dx_center_abs_10_is_positive >= -216
+ dx_center_abs_10_force_negative: dx_center_diff_10
+   - 216 dx_center_abs_10_is_positive <= 0
+ dy_center_diff_def_10: - cy_grid_var_10 + cy_center + dy_center_diff_10
+   = 0
+ dy_center_abs_10_abs_ge_orig: - dy_center_diff_10 + dy_center_abs_10
+   - 216 dy_center_abs_10_is_positive >= -216
+ dy_center_abs_10_abs_le_orig: - dy_center_diff_10 + dy_center_abs_10
+   + 216 dy_center_abs_10_is_positive <= 216
+ dy_center_abs_10_abs_ge_neg_orig: dy_center_diff_10 + dy_center_abs_10
+   + 216 dy_center_abs_10_is_positive >= 0
+ dy_center_abs_10_abs_le_neg_orig: dy_center_diff_10 + dy_center_abs_10
+   - 216 dy_center_abs_10_is_positive <= 0
+ dy_center_abs_10_force_positive: dy_center_diff_10
+   - 216 dy_center_abs_10_is_positive >= -216
+ dy_center_abs_10_force_negative: dy_center_diff_10
+   - 216 dy_center_abs_10_is_positive <= 0
+ dist_center_def_10: - dx_center_abs_10 - dy_center_abs_10 + dist_center_10
+   = 0
+ power_aware_penalty_def: power_aware_penalty - 1122 dist_curr_pair_1_2
+   - 1287 dist_curr_pair_1_4 - 1650 dist_curr_pair_1_10
+   - 1326 dist_curr_pair_2_4 - 1700 dist_curr_pair_2_10
+   - 1950 dist_curr_pair_4_10 - 1089 dist_center_1 - 1156 dist_center_2
+   - 1521 dist_center_4 - 2500 dist_center_10 = 0
  dx_diff_def_0_10: - cx_grid_var_0 + cx_grid_var_10 + dx_diff_0_10 = 0
  dy_diff_def_0_10: - cy_grid_var_0 + cy_grid_var_10 + dy_diff_0_10 = 0
  dx_abs_0_10_abs_ge_orig: dx_abs_0_10 - dx_diff_0_10
@@ -4143,6 +4442,56 @@ Bounds
  bbox_w <= 108
  bbox_h <= 108
  aspect_ratio_penalty <= 108
+ dx_grid_abs_pair_1_2 <= 108
+ dy_grid_abs_pair_1_2 <= 108
+ -108 <= dx_grid_diff_1_2 <= 108
+ -108 <= dy_grid_diff_1_2 <= 108
+ dist_curr_pair_1_2 <= 216
+ dx_grid_abs_pair_1_4 <= 108
+ dy_grid_abs_pair_1_4 <= 108
+ -108 <= dx_grid_diff_1_4 <= 108
+ -108 <= dy_grid_diff_1_4 <= 108
+ dist_curr_pair_1_4 <= 216
+ dx_grid_abs_pair_1_10 <= 108
+ dy_grid_abs_pair_1_10 <= 108
+ -108 <= dx_grid_diff_1_10 <= 108
+ -108 <= dy_grid_diff_1_10 <= 108
+ dist_curr_pair_1_10 <= 216
+ dx_grid_abs_pair_2_4 <= 108
+ dy_grid_abs_pair_2_4 <= 108
+ -108 <= dx_grid_diff_2_4 <= 108
+ -108 <= dy_grid_diff_2_4 <= 108
+ dist_curr_pair_2_4 <= 216
+ dx_grid_abs_pair_2_10 <= 108
+ dy_grid_abs_pair_2_10 <= 108
+ -108 <= dx_grid_diff_2_10 <= 108
+ -108 <= dy_grid_diff_2_10 <= 108
+ dist_curr_pair_2_10 <= 216
+ dx_grid_abs_pair_4_10 <= 108
+ dy_grid_abs_pair_4_10 <= 108
+ -108 <= dx_grid_diff_4_10 <= 108
+ -108 <= dy_grid_diff_4_10 <= 108
+ dist_curr_pair_4_10 <= 216
+ -108 <= dx_center_diff_1 <= 108
+ dx_center_abs_1 <= 108
+ -108 <= dy_center_diff_1 <= 108
+ dy_center_abs_1 <= 108
+ dist_center_1 <= 216
+ -108 <= dx_center_diff_2 <= 108
+ dx_center_abs_2 <= 108
+ -108 <= dy_center_diff_2 <= 108
+ dy_center_abs_2 <= 108
+ dist_center_2 <= 216
+ -108 <= dx_center_diff_4 <= 108
+ dx_center_abs_4 <= 108
+ -108 <= dy_center_diff_4 <= 108
+ dy_center_abs_4 <= 108
+ dist_center_4 <= 216
+ -108 <= dx_center_diff_10 <= 108
+ dx_center_abs_10 <= 108
+ -108 <= dy_center_diff_10 <= 108
+ dy_center_abs_10 <= 108
+ dist_center_10 <= 216
  wirelength <= 2.5657344e+07
  -108 <= dx_diff_0_10 <= 108
  -108 <= dy_diff_0_10 <= 108
@@ -4324,20 +4673,30 @@ Binaries
  p_EMIB_down_4_8_8_12 p_EMIB_up_4_8_8_12 p_EMIB_left_6_10_10_12
  p_EMIB_right_6_10_10_12 p_EMIB_down_6_10_10_12 p_EMIB_up_6_10_10_12
  p_EMIB_left_8_12_10_12 p_EMIB_right_8_12_10_12 p_EMIB_down_8_12_10_12
- p_EMIB_up_8_12_10_12 dx_abs_0_10_is_positive dy_abs_0_10_is_positive
- dx_abs_0_13_is_positive dy_abs_0_13_is_positive dx_abs_1_3_is_positive
- dy_abs_1_3_is_positive dx_abs_1_8_is_positive dy_abs_1_8_is_positive
- dx_abs_3_4_is_positive dy_abs_3_4_is_positive dx_abs_3_5_is_positive
- dy_abs_3_5_is_positive dx_abs_4_5_is_positive dy_abs_4_5_is_positive
- dx_abs_4_9_is_positive dy_abs_4_9_is_positive dx_abs_4_13_is_positive
- dy_abs_4_13_is_positive dx_abs_5_6_is_positive dy_abs_5_6_is_positive
- dx_abs_5_12_is_positive dy_abs_5_12_is_positive dx_abs_7_10_is_positive
- dy_abs_7_10_is_positive dx_abs_7_12_is_positive dy_abs_7_12_is_positive
- dx_abs_8_10_is_positive dy_abs_8_10_is_positive dx_abs_9_13_is_positive
- dy_abs_9_13_is_positive dx_abs_11_13_is_positive dy_abs_11_13_is_positive
- dx_abs_i_0_3_is_positive dy_abs_i_0_3_is_positive dx_abs_j_0_3_is_positive
- dy_abs_j_0_3_is_positive dx_abs_i_1_7_is_positive dy_abs_i_1_7_is_positive
- dx_abs_j_1_7_is_positive dy_abs_j_1_7_is_positive
+ p_EMIB_up_8_12_10_12 dx_grid_abs_pair_1_2_is_positive
+ dy_grid_abs_pair_1_2_is_positive dx_grid_abs_pair_1_4_is_positive
+ dy_grid_abs_pair_1_4_is_positive dx_grid_abs_pair_1_10_is_positive
+ dy_grid_abs_pair_1_10_is_positive dx_grid_abs_pair_2_4_is_positive
+ dy_grid_abs_pair_2_4_is_positive dx_grid_abs_pair_2_10_is_positive
+ dy_grid_abs_pair_2_10_is_positive dx_grid_abs_pair_4_10_is_positive
+ dy_grid_abs_pair_4_10_is_positive dx_center_abs_1_is_positive
+ dy_center_abs_1_is_positive dx_center_abs_2_is_positive
+ dy_center_abs_2_is_positive dx_center_abs_4_is_positive
+ dy_center_abs_4_is_positive dx_center_abs_10_is_positive
+ dy_center_abs_10_is_positive dx_abs_0_10_is_positive
+ dy_abs_0_10_is_positive dx_abs_0_13_is_positive dy_abs_0_13_is_positive
+ dx_abs_1_3_is_positive dy_abs_1_3_is_positive dx_abs_1_8_is_positive
+ dy_abs_1_8_is_positive dx_abs_3_4_is_positive dy_abs_3_4_is_positive
+ dx_abs_3_5_is_positive dy_abs_3_5_is_positive dx_abs_4_5_is_positive
+ dy_abs_4_5_is_positive dx_abs_4_9_is_positive dy_abs_4_9_is_positive
+ dx_abs_4_13_is_positive dy_abs_4_13_is_positive dx_abs_5_6_is_positive
+ dy_abs_5_6_is_positive dx_abs_5_12_is_positive dy_abs_5_12_is_positive
+ dx_abs_7_10_is_positive dy_abs_7_10_is_positive dx_abs_7_12_is_positive
+ dy_abs_7_12_is_positive dx_abs_8_10_is_positive dy_abs_8_10_is_positive
+ dx_abs_9_13_is_positive dy_abs_9_13_is_positive dx_abs_11_13_is_positive
+ dy_abs_11_13_is_positive dx_abs_i_0_3_is_positive dy_abs_i_0_3_is_positive
+ dx_abs_j_0_3_is_positive dy_abs_j_0_3_is_positive dx_abs_i_1_7_is_positive
+ dy_abs_i_1_7_is_positive dx_abs_j_1_7_is_positive dy_abs_j_1_7_is_positive
  dx_abs_i_2_11_is_positive dy_abs_i_2_11_is_positive
  dx_abs_j_2_11_is_positive dy_abs_j_2_11_is_positive
  dx_abs_i_2_12_is_positive dy_abs_i_2_12_is_positive
