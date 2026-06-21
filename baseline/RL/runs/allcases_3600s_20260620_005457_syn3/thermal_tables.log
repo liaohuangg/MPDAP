@@ -1,0 +1,92 @@
+command: /root/anaconda3/envs/chipdiffusion/bin/python /mnt/c/Users/user/Desktop/619rl实验/RL/generate_thermal_tables.py /mnt/c/Users/user/Desktop/619rl实验/RL/examples/syn3.json --intp-size 100.0 --overwrite-config
+cwd: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM
+hotspot: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/util/hotspot
+started_at: 2026-06-20T07:25:28
+
+Config: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/configs/benchmark_syn3.cfg
+Output: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3
+#info# Characterizing R_self for Chiplet0 at [ 3.6 , 4.6 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.635 , 4.6 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 3.6 , 49.645 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.635 , 49.645 ] [mm]
+#info# R_self characterization done for: Chiplet0 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet0.rself
+#info# Characterizing R_mutu for Chiplet0 at [ 3.6 , 4.6 ] [mm]
+#info# R_mutual characterization done for: Chiplet0 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet0.rmutu
+#info# Characterizing R_self for Chiplet1 at [ 2.6 , 4.1 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.625 , 4.1 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 2.6 , 49.64 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.625 , 49.64 ] [mm]
+#info# R_self characterization done for: Chiplet1 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet1.rself
+#info# Characterizing R_mutu for Chiplet1 at [ 2.6 , 4.1 ] [mm]
+#info# R_mutual characterization done for: Chiplet1 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet1.rmutu
+#info# Characterizing R_self for Chiplet2 at [ 3.6 , 4.1 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 49.635 , 4.1 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 3.6 , 49.64 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 49.635 , 49.64 ] [mm]
+#info# R_self characterization done for: Chiplet2 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet2.rself
+#info# Characterizing R_mutu for Chiplet2 at [ 3.6 , 4.1 ] [mm]
+#info# R_mutual characterization done for: Chiplet2 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet2.rmutu
+#info# Characterizing R_self for Chiplet3 at [ 6.1 , 4.6 ] [mm]
+#info# Characterizing R_self for Chiplet3 at [ 49.660000000000004 , 4.6 ] [mm]
+#info# Characterizing R_self for Chiplet3 at [ 6.1 , 49.645 ] [mm]
+#info# Characterizing R_self for Chiplet3 at [ 49.660000000000004 , 49.645 ] [mm]
+#info# R_self characterization done for: Chiplet3 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet3.rself
+#info# Characterizing R_mutu for Chiplet3 at [ 6.1 , 4.6 ] [mm]
+#info# R_mutual characterization done for: Chiplet3 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet3.rmutu
+#info# Characterizing R_self for Chiplet4 at [ 6.1 , 6.1 ] [mm]
+#info# Characterizing R_self for Chiplet4 at [ 49.660000000000004 , 6.1 ] [mm]
+#info# Characterizing R_self for Chiplet4 at [ 6.1 , 49.660000000000004 ] [mm]
+#info# Characterizing R_self for Chiplet4 at [ 49.660000000000004 , 49.660000000000004 ] [mm]
+#info# R_self characterization done for: Chiplet4 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet4.rself
+#info# Characterizing R_mutu for Chiplet4 at [ 6.1 , 6.1 ] [mm]
+#info# R_mutual characterization done for: Chiplet4 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet4.rmutu
+#info# Characterizing R_self for Chiplet5 at [ 5.6 , 6.1 ] [mm]
+#info# Characterizing R_self for Chiplet5 at [ 49.655 , 6.1 ] [mm]
+#info# Characterizing R_self for Chiplet5 at [ 5.6 , 49.660000000000004 ] [mm]
+#info# Characterizing R_self for Chiplet5 at [ 49.655 , 49.660000000000004 ] [mm]
+#info# R_self characterization done for: Chiplet5 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet5.rself
+#info# Characterizing R_mutu for Chiplet5 at [ 5.6 , 6.1 ] [mm]
+#info# R_mutual characterization done for: Chiplet5 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet5.rmutu
+#info# Characterizing R_self for Chiplet6 at [ 3.1 , 4.1 ] [mm]
+#info# Characterizing R_self for Chiplet6 at [ 49.63 , 4.1 ] [mm]
+#info# Characterizing R_self for Chiplet6 at [ 3.1 , 49.64 ] [mm]
+#info# Characterizing R_self for Chiplet6 at [ 49.63 , 49.64 ] [mm]
+#info# R_self characterization done for: Chiplet6 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet6.rself
+#info# Characterizing R_mutu for Chiplet6 at [ 3.1 , 4.1 ] [mm]
+#info# R_mutual characterization done for: Chiplet6 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet6.rmutu
+#info# Characterizing R_self for Chiplet7 at [ 5.6 , 5.6 ] [mm]
+#info# Characterizing R_self for Chiplet7 at [ 49.655 , 5.6 ] [mm]
+#info# Characterizing R_self for Chiplet7 at [ 5.6 , 49.655 ] [mm]
+#info# Characterizing R_self for Chiplet7 at [ 49.655 , 49.655 ] [mm]
+#info# R_self characterization done for: Chiplet7 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet7.rself
+#info# Characterizing R_mutu for Chiplet7 at [ 5.6 , 5.6 ] [mm]
+#info# R_mutual characterization done for: Chiplet7 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet7.rmutu
+#info# Characterizing R_self for Chiplet8 at [ 5.1 , 5.6 ] [mm]
+#info# Characterizing R_self for Chiplet8 at [ 49.65 , 5.6 ] [mm]
+#info# Characterizing R_self for Chiplet8 at [ 5.1 , 49.655 ] [mm]
+#info# Characterizing R_self for Chiplet8 at [ 49.65 , 49.655 ] [mm]
+#info# R_self characterization done for: Chiplet8 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet8.rself
+#info# Characterizing R_mutu for Chiplet8 at [ 5.1 , 5.6 ] [mm]
+#info# R_mutual characterization done for: Chiplet8 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet8.rmutu
+#info# Characterizing R_self for Chiplet9 at [ 5.6 , 4.1 ] [mm]
+#info# Characterizing R_self for Chiplet9 at [ 49.655 , 4.1 ] [mm]
+#info# Characterizing R_self for Chiplet9 at [ 5.6 , 49.64 ] [mm]
+#info# Characterizing R_self for Chiplet9 at [ 49.655 , 49.64 ] [mm]
+#info# R_self characterization done for: Chiplet9 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet9.rself
+#info# Characterizing R_mutu for Chiplet9 at [ 5.6 , 4.1 ] [mm]
+#info# R_mutual characterization done for: Chiplet9 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet9.rmutu
+#info# Characterizing R_self for Chiplet10 at [ 5.6 , 4.6 ] [mm]
+#info# Characterizing R_self for Chiplet10 at [ 49.655 , 4.6 ] [mm]
+#info# Characterizing R_self for Chiplet10 at [ 5.6 , 49.645 ] [mm]
+#info# Characterizing R_self for Chiplet10 at [ 49.655 , 49.645 ] [mm]
+#info# R_self characterization done for: Chiplet10 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet10.rself
+#info# Characterizing R_mutu for Chiplet10 at [ 5.6 , 4.6 ] [mm]
+#info# R_mutual characterization done for: Chiplet10 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet10.rmutu
+#info# Characterizing R_self for Chiplet11 at [ 5.1 , 2.6 ] [mm]
+#info# Characterizing R_self for Chiplet11 at [ 49.65 , 2.6 ] [mm]
+#info# Characterizing R_self for Chiplet11 at [ 5.1 , 49.625 ] [mm]
+#info# Characterizing R_self for Chiplet11 at [ 49.65 , 49.625 ] [mm]
+#info# R_self characterization done for: Chiplet11 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet11.rself
+#info# Characterizing R_mutu for Chiplet11 at [ 5.1 , 2.6 ] [mm]
+#info# R_mutual characterization done for: Chiplet11 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_syn3/Chiplet11.rmutu
+Thermal tables generated.

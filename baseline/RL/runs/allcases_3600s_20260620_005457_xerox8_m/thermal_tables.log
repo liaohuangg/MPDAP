@@ -1,0 +1,64 @@
+command: /root/anaconda3/envs/chipdiffusion/bin/python /mnt/c/Users/user/Desktop/619rl实验/RL/generate_thermal_tables.py /mnt/c/Users/user/Desktop/619rl实验/RL/examples/xerox8_m.json --intp-size 100.0 --overwrite-config
+cwd: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM
+hotspot: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/util/hotspot
+started_at: 2026-06-20T00:54:58
+
+Config: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/configs/benchmark_xerox8_m.cfg
+Output: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m
+#info# Characterizing R_self for Chiplet0 at [ 3.18 , 6.574999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.6308 , 6.574999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 3.18 , 49.66475 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.6308 , 49.66475 ] [mm]
+#info# R_self characterization done for: Chiplet0 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet0.rself
+#info# Characterizing R_mutu for Chiplet0 at [ 3.18 , 6.574999999999999 ] [mm]
+#info# R_mutual characterization done for: Chiplet0 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet0.rmutu
+#info# Characterizing R_self for Chiplet1 at [ 2.5500000000000003 , 6.574999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.6245 , 6.574999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 2.5500000000000003 , 49.66475 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.6245 , 49.66475 ] [mm]
+#info# R_self characterization done for: Chiplet1 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet1.rself
+#info# Characterizing R_mutu for Chiplet1 at [ 2.5500000000000003 , 6.574999999999999 ] [mm]
+#info# R_mutual characterization done for: Chiplet1 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet1.rmutu
+#info# Characterizing R_self for Chiplet2 at [ 4.3 , 3.88 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 49.642 , 3.88 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 4.3 , 49.6378 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 49.642 , 49.6378 ] [mm]
+#info# R_self characterization done for: Chiplet2 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet2.rself
+#info# Characterizing R_mutu for Chiplet2 at [ 4.3 , 3.88 ] [mm]
+#info# R_mutual characterization done for: Chiplet2 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet2.rmutu
+#info# Characterizing R_self for Chiplet3 at [ 5.909999999999999 , 9.795 ] [mm]
+#info# Characterizing R_self for Chiplet3 at [ 49.6581 , 9.795 ] [mm]
+#info# Characterizing R_self for Chiplet3 at [ 5.909999999999999 , 49.69695 ] [mm]
+#info# Characterizing R_self for Chiplet3 at [ 49.6581 , 49.69695 ] [mm]
+#info# R_self characterization done for: Chiplet3 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet3.rself
+#info# Characterizing R_mutu for Chiplet3 at [ 5.909999999999999 , 9.795 ] [mm]
+#info# R_mutual characterization done for: Chiplet3 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet3.rmutu
+#info# Characterizing R_self for Chiplet4 at [ 6.1899999999999995 , 8.36 ] [mm]
+#info# Characterizing R_self for Chiplet4 at [ 49.6609 , 8.36 ] [mm]
+#info# Characterizing R_self for Chiplet4 at [ 6.1899999999999995 , 49.6826 ] [mm]
+#info# Characterizing R_self for Chiplet4 at [ 49.6609 , 49.6826 ] [mm]
+#info# R_self characterization done for: Chiplet4 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet4.rself
+#info# Characterizing R_mutu for Chiplet4 at [ 6.1899999999999995 , 8.36 ] [mm]
+#info# R_mutual characterization done for: Chiplet4 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet4.rmutu
+#info# Characterizing R_self for Chiplet5 at [ 4.51 , 6.68 ] [mm]
+#info# Characterizing R_self for Chiplet5 at [ 49.6441 , 6.68 ] [mm]
+#info# Characterizing R_self for Chiplet5 at [ 4.51 , 49.665800000000004 ] [mm]
+#info# Characterizing R_self for Chiplet5 at [ 49.6441 , 49.665800000000004 ] [mm]
+#info# R_self characterization done for: Chiplet5 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet5.rself
+#info# Characterizing R_mutu for Chiplet5 at [ 4.51 , 6.68 ] [mm]
+#info# R_mutual characterization done for: Chiplet5 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet5.rmutu
+#info# Characterizing R_self for Chiplet6 at [ 10.67 , 6.574999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet6 at [ 49.7057 , 6.574999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet6 at [ 10.67 , 49.66475 ] [mm]
+#info# Characterizing R_self for Chiplet6 at [ 49.7057 , 49.66475 ] [mm]
+#info# R_self characterization done for: Chiplet6 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet6.rself
+#info# Characterizing R_mutu for Chiplet6 at [ 10.67 , 6.574999999999999 ] [mm]
+#info# R_mutual characterization done for: Chiplet6 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet6.rmutu
+#info# Characterizing R_self for Chiplet7 at [ 9.795 , 6.574999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet7 at [ 49.69695 , 6.574999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet7 at [ 9.795 , 49.66475 ] [mm]
+#info# Characterizing R_self for Chiplet7 at [ 49.69695 , 49.66475 ] [mm]
+#info# R_self characterization done for: Chiplet7 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet7.rself
+#info# Characterizing R_mutu for Chiplet7 at [ 9.795 , 6.574999999999999 ] [mm]
+#info# R_mutual characterization done for: Chiplet7 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_xerox8_m/Chiplet7.rmutu
+Thermal tables generated.

@@ -1,0 +1,29 @@
+command: /root/anaconda3/envs/chipdiffusion/bin/python /mnt/c/Users/user/Desktop/619rl实验/RL/generate_thermal_tables.py /mnt/c/Users/user/Desktop/619rl实验/RL/examples/acend910_2.json --intp-size 100.0 --overwrite-config
+cwd: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM
+hotspot: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/util/hotspot
+started_at: 2026-06-20T15:10:55
+
+Config: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/configs/benchmark_acend910_2.cfg
+Output: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_acend910_2
+#info# Characterizing R_self for Chiplet0 at [ 7.35 , 15.799999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.6725 , 15.799999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 7.35 , 49.757 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.6725 , 49.757 ] [mm]
+#info# R_self characterization done for: Chiplet0 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_acend910_2/Chiplet0.rself
+#info# Characterizing R_mutu for Chiplet0 at [ 7.35 , 15.799999999999999 ] [mm]
+#info# R_mutual characterization done for: Chiplet0 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_acend910_2/Chiplet0.rmutu
+#info# Characterizing R_self for Chiplet1 at [ 5.35 , 8.1 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.6525 , 8.1 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 5.35 , 49.68 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.6525 , 49.68 ] [mm]
+#info# R_self characterization done for: Chiplet1 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_acend910_2/Chiplet1.rself
+#info# Characterizing R_mutu for Chiplet1 at [ 5.35 , 8.1 ] [mm]
+#info# R_mutual characterization done for: Chiplet1 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_acend910_2/Chiplet1.rmutu
+#info# Characterizing R_self for Chiplet2 at [ 3.975 , 6.034999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 49.63875 , 6.034999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 3.975 , 49.65935 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 49.63875 , 49.65935 ] [mm]
+#info# R_self characterization done for: Chiplet2 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_acend910_2/Chiplet2.rself
+#info# Characterizing R_mutu for Chiplet2 at [ 3.975 , 6.034999999999999 ] [mm]
+#info# R_mutual characterization done for: Chiplet2 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_acend910_2/Chiplet2.rmutu
+Thermal tables generated.

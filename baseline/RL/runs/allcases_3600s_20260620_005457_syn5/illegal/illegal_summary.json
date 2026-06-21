@@ -1,0 +1,40 @@
+{
+  "reward": 223.30057565789474,
+  "episode": 15230,
+  "json": "/mnt/c/Users/user/Desktop/619rl实验/RL/runs/allcases_3600s_20260620_005457_syn5/illegal/illegal_best_ep15230_r223.30.json",
+  "metrics_json": "/mnt/c/Users/user/Desktop/619rl实验/RL/runs/allcases_3600s_20260620_005457_syn5/illegal/illegal_best_ep15230_r223.30.metrics.json",
+  "img": "/mnt/c/Users/user/Desktop/619rl实验/RL/runs/allcases_3600s_20260620_005457_syn5/illegal/illegal_best_ep15230_r223.30.png",
+  "metrics": {
+    "rlplanner_total_wirelength": NaN,
+    "rlplanner_avg_wirelength": NaN,
+    "rlplanner_emib_wirelength": NaN,
+    "rlplanner_normal_wirelength": NaN,
+    "rlplanner_total_wire_count": 0,
+    "rlplanner_temperature": NaN,
+    "rlplanner_temperature_penalty": NaN,
+    "rlplanner_cost": NaN,
+    "rlplanner_reward_error": "incomplete_layout",
+    "rlplanner_reward": 0.0,
+    "chiplet_area": 270.0,
+    "bbox_min_x": 32.5,
+    "bbox_min_y": 43.5,
+    "bbox_max_x": 52.5,
+    "bbox_max_y": 62.5,
+    "bbox_width": 20.0,
+    "bbox_height": 19.0,
+    "bbox_area": 380.0,
+    "bbox_utilization": 0.7105263157894737,
+    "canvas_area": 10000.0,
+    "canvas_utilization": 0.027
+  },
+  "timing": {
+    "run_started_at": "2026-06-20T06:06:01",
+    "found_at": "2026-06-20T06:14:26",
+    "episode": 15230,
+    "rl_elapsed_seconds": 297.7877536129963,
+    "total_elapsed_seconds": 482.33148114100914,
+    "pre_rl_seconds": 184.54372752801282
+  },
+  "success": false,
+  "placed_chiplets": 6
+}

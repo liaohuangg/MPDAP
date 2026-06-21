@@ -1,0 +1,35 @@
+{
+  "name": "allcases_3600s_20260620_005457_xerox8_m",
+  "run_dir": "/mnt/c/Users/user/Desktop/619rl实验/RL/runs/allcases_3600s_20260620_005457_xerox8_m",
+  "json_path": "/mnt/c/Users/user/Desktop/619rl实验/RL/examples/xerox8_m.json",
+  "num_episodes": 1000000,
+  "save_interval": 1000,
+  "log_interval": 100,
+  "generate_thermal_tables": true,
+  "force_thermal_tables": false,
+  "env_kwargs": {
+    "grid_resolution": "auto",
+    "max_width": 100.0,
+    "max_height": 100.0,
+    "thermal_intp_size": 100.0,
+    "min_overlap": 0.5,
+    "exact_action_slots": 50000,
+    "placement_reward": 1,
+    "adjacency_reward": 20,
+    "compact": 10,
+    "min_wirelength_reward_scale": 0,
+    "extra_adjacency_reward": 5,
+    "terminal_util_reward_scale": 30,
+    "terminal_wirelength_reward_scale": 0,
+    "terminal_rlplanner_cost_scale": 1.0,
+    "lenbase_samples": 0
+  },
+  "canvas_defaults": {
+    "thermal_intp_size": 100.0,
+    "updates": {
+      "max_width": 100.0,
+      "max_height": 100.0
+    }
+  },
+  "started_at": "2026-06-20T00:54:58"
+}

@@ -1,0 +1,22 @@
+command: /root/anaconda3/envs/chipdiffusion/bin/python /mnt/c/Users/user/Desktop/619rl实验/RL/generate_thermal_tables.py /mnt/c/Users/user/Desktop/619rl实验/RL/examples/cpu-dram.json --intp-size 100.0 --overwrite-config
+cwd: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM
+hotspot: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/util/hotspot
+started_at: 2026-06-20T14:07:00
+
+Config: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/configs/benchmark_cpu-dram.cfg
+Output: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_cpu-dram
+#info# Characterizing R_self for Chiplet0 at [ 4.225 , 4.6 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.64125 , 4.6 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 4.225 , 49.645 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.64125 , 49.645 ] [mm]
+#info# R_self characterization done for: Chiplet0 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_cpu-dram/Chiplet0.rself
+#info# Characterizing R_mutu for Chiplet0 at [ 4.225 , 4.6 ] [mm]
+#info# R_mutual characterization done for: Chiplet0 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_cpu-dram/Chiplet0.rmutu
+#info# Characterizing R_self for Chiplet1 at [ 4.475 , 4.475 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.643750000000004 , 4.475 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 4.475 , 49.643750000000004 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.643750000000004 , 49.643750000000004 ] [mm]
+#info# R_self characterization done for: Chiplet1 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_cpu-dram/Chiplet1.rself
+#info# Characterizing R_mutu for Chiplet1 at [ 4.475 , 4.475 ] [mm]
+#info# R_mutual characterization done for: Chiplet1 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_cpu-dram/Chiplet1.rmutu
+Thermal tables generated.

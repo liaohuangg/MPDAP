@@ -1,0 +1,29 @@
+command: /root/anaconda3/envs/chipdiffusion/bin/python /mnt/c/Users/user/Desktop/619rl实验/RL/generate_thermal_tables.py /mnt/c/Users/user/Desktop/619rl实验/RL/examples/multigpu.json --intp-size 100.0 --overwrite-config
+cwd: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM
+hotspot: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/util/hotspot
+started_at: 2026-06-20T09:52:49
+
+Config: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/configs/benchmark_multigpu.cfg
+Output: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_multigpu
+#info# Characterizing R_self for Chiplet0 at [ 6.1 , 6.1 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.660000000000004 , 6.1 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 6.1 , 49.660000000000004 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.660000000000004 , 49.660000000000004 ] [mm]
+#info# R_self characterization done for: Chiplet0 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_multigpu/Chiplet0.rself
+#info# Characterizing R_mutu for Chiplet0 at [ 6.1 , 6.1 ] [mm]
+#info# R_mutual characterization done for: Chiplet0 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_multigpu/Chiplet0.rmutu
+#info# Characterizing R_self for Chiplet1 at [ 9.2 , 9.2 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.691 , 9.2 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 9.2 , 49.691 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.691 , 49.691 ] [mm]
+#info# R_self characterization done for: Chiplet1 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_multigpu/Chiplet1.rself
+#info# Characterizing R_mutu for Chiplet1 at [ 9.2 , 9.2 ] [mm]
+#info# R_mutual characterization done for: Chiplet1 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_multigpu/Chiplet1.rmutu
+#info# Characterizing R_self for Chiplet2 at [ 3.975 , 6.034999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 49.63875 , 6.034999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 3.975 , 49.65935 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 49.63875 , 49.65935 ] [mm]
+#info# R_self characterization done for: Chiplet2 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_multigpu/Chiplet2.rself
+#info# Characterizing R_mutu for Chiplet2 at [ 3.975 , 6.034999999999999 ] [mm]
+#info# R_mutual characterization done for: Chiplet2 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_multigpu/Chiplet2.rmutu
+Thermal tables generated.

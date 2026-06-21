@@ -1,0 +1,89 @@
+Run name: allcases_3600s_20260620_005457_acend910_2
+Run directory: /mnt/c/Users/user/Desktop/619rl实验/RL/runs/allcases_3600s_20260620_005457_acend910_2
+Training log: /mnt/c/Users/user/Desktop/619rl实验/RL/runs/allcases_3600s_20260620_005457_acend910_2/train.log
+Default RL canvas aligned to fastTM interposer: 100.0 x 100.0
+
+生成/检查 fastTM 热阻表...
+  热阻表阶段状态: ok
+  热阻表阶段耗时: 54.033s
+  热阻表日志: /mnt/c/Users/user/Desktop/619rl实验/RL/runs/allcases_3600s_20260620_005457_acend910_2/thermal_tables.log
+======================================================================
+PPO训练 - 芯片布局优化
+======================================================================
+
+环境信息:
+  芯片数量: 6
+  放置顺序: ['A', 'B', 'C', 'D', 'E', 'F']
+  观察维度: 10
+  动作维度: 2050000
+
+开始训练...
+----------------------------------------------------------------------
+BEST_LAYOUT
+  episode: 1/1000000
+  reward: 108.40
+  found_at: 2026-06-20T15:11:58
+  累计RL时间: 1.604s
+  累计总时间: 55.648s
+  温度: 74.3856
+  总线长: 29301.9430
+  平均线长: 23.9395
+  EMIB线长: 24821.9430
+  普通线长: 4480.0000
+  芯片总面积: 991.2700
+  bbox面积: 1872.0030
+  bbox利用率: 0.5295
+  json: /mnt/c/Users/user/Desktop/619rl实验/RL/runs/allcases_3600s_20260620_005457_acend910_2/results/top_layouts/layout_best_ep1_r108.40.json
+BEST_LAYOUT
+  episode: 3/1000000
+  reward: 115.30
+  found_at: 2026-06-20T15:12:00
+  累计RL时间: 3.090s
+  累计总时间: 57.134s
+  温度: 75.9993
+  总线长: 25719.9251
+  平均线长: 21.0130
+  EMIB线长: 21099.9251
+  普通线长: 4620.0000
+  芯片总面积: 991.2700
+  bbox面积: 1512.0675
+  bbox利用率: 0.6556
+  json: /mnt/c/Users/user/Desktop/619rl实验/RL/runs/allcases_3600s_20260620_005457_acend910_2/results/top_layouts/layout_best_ep3_r115.30.json
+BEST_LAYOUT
+  episode: 4/1000000
+  reward: 117.10
+  found_at: 2026-06-20T15:12:00
+  累计RL时间: 3.831s
+  累计总时间: 57.875s
+  温度: 75.7439
+  总线长: 25601.1930
+  平均线长: 20.9160
+  EMIB线长: 20981.1930
+  普通线长: 4620.0000
+  芯片总面积: 991.2700
+  bbox面积: 1434.7460
+  bbox利用率: 0.6909
+  json: /mnt/c/Users/user/Desktop/619rl实验/RL/runs/allcases_3600s_20260620_005457_acend910_2/results/top_layouts/layout_best_ep4_r117.10.json
+Episode 100/1000000
+  平均奖励: 110.92
+  成功率: 100.0%
+  累计RL时间: 52.87s
+  本区间时间: 52.87s
+  损失: 550.6416
+  熵: 1.8607
+  KL散度: 15.362068
+BEST_LAYOUT
+  episode: 150/1000000
+  reward: 118.56
+  found_at: 2026-06-20T15:13:19
+  累计RL时间: 78.188s
+  累计总时间: 132.232s
+  温度: 75.7689
+  总线长: 25224.0024
+  平均线长: 20.6078
+  EMIB线长: 20604.0024
+  普通线长: 4620.0000
+  芯片总面积: 991.2700
+  bbox面积: 1377.1375
+  bbox利用率: 0.7198
+  json: /mnt/c/Users/user/Desktop/619rl实验/RL/runs/allcases_3600s_20260620_005457_acend910_2/results/top_layouts/layout_best_ep150_r118.56.json

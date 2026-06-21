@@ -1,0 +1,22 @@
+command: /root/anaconda3/envs/chipdiffusion/bin/python /mnt/c/Users/user/Desktop/619rl实验/RL/generate_thermal_tables.py /mnt/c/Users/user/Desktop/619rl实验/RL/examples/sys_micro150.json --intp-size 100.0 --overwrite-config
+cwd: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM
+hotspot: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/util/hotspot
+started_at: 2026-06-20T04:01:06
+
+Config: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/configs/benchmark_sys_micro150.cfg
+Output: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_sys_micro150
+#info# Characterizing R_self for Chiplet0 at [ 4.225 , 4.6 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.64125 , 4.6 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 4.225 , 49.645 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.64125 , 49.645 ] [mm]
+#info# R_self characterization done for: Chiplet0 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_sys_micro150/Chiplet0.rself
+#info# Characterizing R_mutu for Chiplet0 at [ 4.225 , 4.6 ] [mm]
+#info# R_mutual characterization done for: Chiplet0 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_sys_micro150/Chiplet0.rmutu
+#info# Characterizing R_self for Chiplet1 at [ 4.475 , 4.475 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.643750000000004 , 4.475 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 4.475 , 49.643750000000004 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.643750000000004 , 49.643750000000004 ] [mm]
+#info# R_self characterization done for: Chiplet1 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_sys_micro150/Chiplet1.rself
+#info# Characterizing R_mutu for Chiplet1 at [ 4.475 , 4.475 ] [mm]
+#info# R_mutual characterization done for: Chiplet1 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_sys_micro150/Chiplet1.rmutu
+Thermal tables generated.

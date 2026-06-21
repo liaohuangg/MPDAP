@@ -1,0 +1,36 @@
+command: /root/anaconda3/envs/chipdiffusion/bin/python /mnt/c/Users/user/Desktop/619rl实验/RL/generate_thermal_tables.py /mnt/c/Users/user/Desktop/619rl实验/RL/examples/hp6_m.json --intp-size 100.0 --overwrite-config
+cwd: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM
+hotspot: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/util/hotspot
+started_at: 2026-06-20T11:59:37
+
+Config: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/configs/benchmark_hp6_m.cfg
+Output: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_hp6_m
+#info# Characterizing R_self for Chiplet0 at [ 2.41 , 5.279999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.623099999999994 , 5.279999999999999 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 2.41 , 49.6518 ] [mm]
+#info# Characterizing R_self for Chiplet0 at [ 49.623099999999994 , 49.6518 ] [mm]
+#info# R_self characterization done for: Chiplet0 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_hp6_m/Chiplet0.rself
+#info# Characterizing R_mutu for Chiplet0 at [ 2.41 , 5.279999999999999 ] [mm]
+#info# R_mutual characterization done for: Chiplet0 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_hp6_m/Chiplet0.rmutu
+#info# Characterizing R_self for Chiplet1 at [ 3.6 , 1.99 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.635 , 1.99 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 3.6 , 49.618900000000004 ] [mm]
+#info# Characterizing R_self for Chiplet1 at [ 49.635 , 49.618900000000004 ] [mm]
+#info# R_self characterization done for: Chiplet1 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_hp6_m/Chiplet1.rself
+#info# Characterizing R_mutu for Chiplet1 at [ 3.6 , 1.99 ] [mm]
+#info# R_mutual characterization done for: Chiplet1 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_hp6_m/Chiplet1.rmutu
+#info# Characterizing R_self for Chiplet2 at [ 1.1500000000000001 , 5.0 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 49.6105 , 5.0 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 1.1500000000000001 , 49.649 ] [mm]
+#info# Characterizing R_self for Chiplet2 at [ 49.6105 , 49.649 ] [mm]
+#info# R_self characterization done for: Chiplet2 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_hp6_m/Chiplet2.rself
+#info# Characterizing R_mutu for Chiplet2 at [ 1.1500000000000001 , 5.0 ] [mm]
+#info# R_mutual characterization done for: Chiplet2 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_hp6_m/Chiplet2.rmutu
+#info# Characterizing R_self for Chiplet3 at [ 2.83 , 16.62 ] [mm]
+#info# Characterizing R_self for Chiplet3 at [ 49.6273 , 16.62 ] [mm]
+#info# Characterizing R_self for Chiplet3 at [ 2.83 , 49.76520000000001 ] [mm]
+#info# Characterizing R_self for Chiplet3 at [ 49.6273 , 49.76520000000001 ] [mm]
+#info# R_self characterization done for: Chiplet3 . Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_hp6_m/Chiplet3.rself
+#info# Characterizing R_mutu for Chiplet3 at [ 2.83 , 16.62 ] [mm]
+#info# R_mutual characterization done for: Chiplet3 Saved to file: /mnt/c/Users/user/Desktop/619rl实验/RL/fastTM/outputs/benchmark_hp6_m/Chiplet3.rmutu
+Thermal tables generated.
