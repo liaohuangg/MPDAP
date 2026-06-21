@@ -16,26 +16,29 @@ venv/
 env/
 ENV/
 
-# PyTorch 模型文件
+# PyTorch 模型文件 - 排除某些位置的.pt文件（除了runs中的）
 checkpoints/*.pt
 checkpoints/*.pth
-*.pt
-*.pth
 
 # 输出文件
 output/*.png
 output/*.jpg
 output/*.pdf
 results/
-runs/
 fastTM/configs/
 fastTM/outputs/
+
+# 图片和PDF（但不忽略 runs 中的）
 *.png
 *.jpg
 *.pdf
+!runs/**/*.png
+!runs/**/*.jpg
+!runs/**/*.pdf
 
-# 日志文件
+# 日志文件（但不忽略 runs 中的）
 *.log
+!runs/**/*.log
 logs/
 
 # IDE
