@@ -16,9 +16,9 @@ venv/
 env/
 ENV/
 
-# PyTorch 模型文件 - 排除某些位置的.pt文件（除了runs中的）
-checkpoints/*.pt
-checkpoints/*.pth
+# PyTorch 模型文件
+*.pt
+*.pth
 
 # 输出文件
 output/*.png
