@@ -17,29 +17,27 @@ env/
 ENV/
 
 # PyTorch 模型文件
+checkpoints/*.pt
+checkpoints/*.pth
 *.pt
 *.pth
 
 # 输出文件
-output/*.png
-output/*.jpg
-output/*.pdf
-results/
-fastTM/configs/
-fastTM/outputs/
+# output/*.png
+# output/*.jpg
+# output/*.pdf
+# results/
+# runs/
+# fastTM/configs/
+# fastTM/outputs/
+# *.png
+# *.jpg
+# *.pdf
+# *.pt
 
-# 图片和PDF（但不忽略 runs 中的）
-*.png
-*.jpg
-*.pdf
-!runs/**/*.png
-!runs/**/*.jpg
-!runs/**/*.pdf
-
-# 日志文件（但不忽略 runs 中的）
-*.log
-!runs/**/*.log
-logs/
+# # 日志文件
+# *.log
+# logs/
 
 # IDE
 .vscode/
