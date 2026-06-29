@@ -7,7 +7,7 @@ from glob import glob
 # Config: root dir (single placement dir under project)
 # ==============================
 # Placement dir to process
-ROOT_DIR = "/root/placement/MPDAP/experiment_result/output_RL"
+ROOT_DIR = "/root/placement/MPDAP/output_EMIB_chiplet_5_6_01_08"
 
 # Output to same dir
 OUTPUT_DIR = ROOT_DIR

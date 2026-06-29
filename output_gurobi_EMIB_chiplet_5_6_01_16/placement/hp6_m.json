@@ -1,0 +1,99 @@
+{
+  "chiplets": [
+    {
+      "name": "A",
+      "x-position": 22.68,
+      "y-position": 69.18,
+      "width": 10.36,
+      "height": 4.62,
+      "rotation": 1,
+      "power": 61.0
+    },
+    {
+      "name": "B",
+      "x-position": 13.02,
+      "y-position": 69.18,
+      "width": 7.0,
+      "height": 3.78,
+      "rotation": 0,
+      "power": 61.0
+    },
+    {
+      "name": "C",
+      "x-position": 22.96,
+      "y-position": 73.8,
+      "width": 9.8,
+      "height": 2.1,
+      "rotation": 1,
+      "power": 52.0
+    },
+    {
+      "name": "D",
+      "x-position": 22.96,
+      "y-position": 75.9,
+      "width": 9.8,
+      "height": 2.1,
+      "rotation": 1,
+      "power": 48.0
+    },
+    {
+      "name": "E",
+      "x-position": 11.62,
+      "y-position": 72.96,
+      "width": 9.8,
+      "height": 2.1,
+      "rotation": 1,
+      "power": 28.0
+    },
+    {
+      "name": "F",
+      "x-position": 0.0,
+      "y-position": 63.72,
+      "width": 33.04,
+      "height": 5.46,
+      "rotation": 1,
+      "power": 45.0
+    }
+  ],
+  "connections": [
+    {
+      "node1": "A",
+      "node2": "C",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 2.0,
+      "EMIB_max_width": 3.0,
+      "EMIB_width": 1.707,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 27.007,
+      "EMIB-y-position": 72.799,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "A",
+      "node2": "F",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 2.0,
+      "EMIB_max_width": 3.0,
+      "EMIB_width": 0.853,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 27.433,
+      "EMIB-y-position": 68.179,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "C",
+      "node2": "D",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 2.0,
+      "EMIB_max_width": 3.0,
+      "EMIB_width": 0.853,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 27.433,
+      "EMIB-y-position": 74.901,
+      "EMIB-rotation": 1
+    }
+  ],
+  "wirelength": 7418.88,
+  "area": 471.811,
+  "aspect_ratio": 0.432
+}

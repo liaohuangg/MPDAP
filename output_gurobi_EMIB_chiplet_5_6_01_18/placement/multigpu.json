@@ -1,0 +1,99 @@
+{
+  "chiplets": [
+    {
+      "name": "A",
+      "x-position": 107.765,
+      "y-position": 110.8,
+      "width": 12.0,
+      "height": 12.0,
+      "rotation": 0,
+      "power": 105.0
+    },
+    {
+      "name": "B",
+      "x-position": 122.8,
+      "y-position": 107.7,
+      "width": 18.2,
+      "height": 18.2,
+      "rotation": 0,
+      "power": 295.0
+    },
+    {
+      "name": "C",
+      "x-position": 100.015,
+      "y-position": 122.8,
+      "width": 18.2,
+      "height": 18.2,
+      "rotation": 0,
+      "power": 295.0
+    },
+    {
+      "name": "D",
+      "x-position": 100.015,
+      "y-position": 110.865,
+      "width": 7.75,
+      "height": 11.87,
+      "rotation": 0,
+      "power": 20.0
+    },
+    {
+      "name": "E",
+      "x-position": 125.965,
+      "y-position": 125.9,
+      "width": 11.87,
+      "height": 7.75,
+      "rotation": 1,
+      "power": 20.0
+    },
+    {
+      "name": "F",
+      "x-position": 118.215,
+      "y-position": 125.965,
+      "width": 7.75,
+      "height": 11.87,
+      "rotation": 0,
+      "power": 20.0
+    }
+  ],
+  "connections": [
+    {
+      "node1": "A",
+      "node2": "D",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.413,
+      "EMIB_max_width": 3.0,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 106.764,
+      "EMIB-y-position": 115.093,
+      "EMIB-rotation": 0
+    },
+    {
+      "node1": "B",
+      "node2": "E",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 2.0,
+      "EMIB_max_width": 3.0,
+      "EMIB_width": 3.413,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 130.193,
+      "EMIB-y-position": 124.901,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "C",
+      "node2": "F",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.413,
+      "EMIB_max_width": 3.0,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 117.216,
+      "EMIB-y-position": 130.193,
+      "EMIB-rotation": 0
+    }
+  ],
+  "wirelength": 46383.36,
+  "area": 1364.8,
+  "aspect_ratio": 0.812
+}

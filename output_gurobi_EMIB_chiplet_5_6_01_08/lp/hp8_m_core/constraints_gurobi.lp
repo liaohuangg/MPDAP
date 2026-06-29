@@ -1,9 +1,9 @@
 \ Model ChipletPlacementGrid
 \ LP format - for model browsing. Use MPS format to capture full model detail.
-\ Signature: 0xe550bca287a6a03e
+\ Signature: 0x398664e7725f0ec1
 Minimize
   9.5365248903299643e-04 aspect_ratio_penalty
-   - 2.73917e-05 power_aware_penalty + 1.335344253566415e-04 wirelength
+   - 9.11109e-06 power_aware_penalty + 1.335344253566415e-04 wirelength
    + 0.1281930483423758 bbox_area_proxy_t
 Subject To
  width_rotation_0: - 5.74 r_0 + w_var_0 = 4.62
@@ -1126,8 +1126,64 @@ Subject To
    - 204 dy_grid_abs_pair_2_3_is_positive <= 0
  dist_curr_pair_def_2_3: - dx_grid_abs_pair_2_3 - dy_grid_abs_pair_2_3
    + dist_curr_pair_2_3 = 0
- power_aware_penalty_def: power_aware_penalty - 2496 dist_curr_pair_2_3
+ dx_center_diff_def_2: - cx_grid_var_2 + cx_center + dx_center_diff_2 = 0
+ dx_center_abs_2_abs_ge_orig: - dx_center_diff_2 + dx_center_abs_2
+   - 204 dx_center_abs_2_is_positive >= -204
+ dx_center_abs_2_abs_le_orig: - dx_center_diff_2 + dx_center_abs_2
+   + 204 dx_center_abs_2_is_positive <= 204
+ dx_center_abs_2_abs_ge_neg_orig: dx_center_diff_2 + dx_center_abs_2
+   + 204 dx_center_abs_2_is_positive >= 0
+ dx_center_abs_2_abs_le_neg_orig: dx_center_diff_2 + dx_center_abs_2
+   - 204 dx_center_abs_2_is_positive <= 0
+ dx_center_abs_2_force_positive: dx_center_diff_2
+   - 204 dx_center_abs_2_is_positive >= -204
+ dx_center_abs_2_force_negative: dx_center_diff_2
+   - 204 dx_center_abs_2_is_positive <= 0
+ dy_center_diff_def_2: - cy_grid_var_2 + cy_center + dy_center_diff_2 = 0
+ dy_center_abs_2_abs_ge_orig: - dy_center_diff_2 + dy_center_abs_2
+   - 204 dy_center_abs_2_is_positive >= -204
+ dy_center_abs_2_abs_le_orig: - dy_center_diff_2 + dy_center_abs_2
+   + 204 dy_center_abs_2_is_positive <= 204
+ dy_center_abs_2_abs_ge_neg_orig: dy_center_diff_2 + dy_center_abs_2
+   + 204 dy_center_abs_2_is_positive >= 0
+ dy_center_abs_2_abs_le_neg_orig: dy_center_diff_2 + dy_center_abs_2
+   - 204 dy_center_abs_2_is_positive <= 0
+ dy_center_abs_2_force_positive: dy_center_diff_2
+   - 204 dy_center_abs_2_is_positive >= -204
+ dy_center_abs_2_force_negative: dy_center_diff_2
+   - 204 dy_center_abs_2_is_positive <= 0
+ dist_center_def_2: - dx_center_abs_2 - dy_center_abs_2 + dist_center_2
    = 0
+ dx_center_diff_def_3: - cx_grid_var_3 + cx_center + dx_center_diff_3 = 0
+ dx_center_abs_3_abs_ge_orig: - dx_center_diff_3 + dx_center_abs_3
+   - 204 dx_center_abs_3_is_positive >= -204
+ dx_center_abs_3_abs_le_orig: - dx_center_diff_3 + dx_center_abs_3
+   + 204 dx_center_abs_3_is_positive <= 204
+ dx_center_abs_3_abs_ge_neg_orig: dx_center_diff_3 + dx_center_abs_3
+   + 204 dx_center_abs_3_is_positive >= 0
+ dx_center_abs_3_abs_le_neg_orig: dx_center_diff_3 + dx_center_abs_3
+   - 204 dx_center_abs_3_is_positive <= 0
+ dx_center_abs_3_force_positive: dx_center_diff_3
+   - 204 dx_center_abs_3_is_positive >= -204
+ dx_center_abs_3_force_negative: dx_center_diff_3
+   - 204 dx_center_abs_3_is_positive <= 0
+ dy_center_diff_def_3: - cy_grid_var_3 + cy_center + dy_center_diff_3 = 0
+ dy_center_abs_3_abs_ge_orig: - dy_center_diff_3 + dy_center_abs_3
+   - 204 dy_center_abs_3_is_positive >= -204
+ dy_center_abs_3_abs_le_orig: - dy_center_diff_3 + dy_center_abs_3
+   + 204 dy_center_abs_3_is_positive <= 204
+ dy_center_abs_3_abs_ge_neg_orig: dy_center_diff_3 + dy_center_abs_3
+   + 204 dy_center_abs_3_is_positive >= 0
+ dy_center_abs_3_abs_le_neg_orig: dy_center_diff_3 + dy_center_abs_3
+   - 204 dy_center_abs_3_is_positive <= 0
+ dy_center_abs_3_force_positive: dy_center_diff_3
+   - 204 dy_center_abs_3_is_positive >= -204
+ dy_center_abs_3_force_negative: dy_center_diff_3
+   - 204 dy_center_abs_3_is_positive <= 0
+ dist_center_def_3: - dx_center_abs_3 - dy_center_abs_3 + dist_center_3
+   = 0
+ power_aware_penalty_def: power_aware_penalty - 2496 dist_curr_pair_2_3
+   - 2704 dist_center_2 - 2304 dist_center_3 = 0
  dx_diff_def_1_4: - cx_grid_var_1 + cx_grid_var_4 + dx_diff_1_4 = 0
  dy_diff_def_1_4: - cy_grid_var_1 + cy_grid_var_4 + dy_diff_1_4 = 0
  dx_abs_1_4_abs_ge_orig: dx_abs_1_4 - dx_diff_1_4
@@ -1759,6 +1815,16 @@ Bounds
  -102 <= dx_grid_diff_2_3 <= 102
  -102 <= dy_grid_diff_2_3 <= 102
  dist_curr_pair_2_3 <= 204
+ -102 <= dx_center_diff_2 <= 102
+ dx_center_abs_2 <= 102
+ -102 <= dy_center_diff_2 <= 102
+ dy_center_abs_2 <= 102
+ dist_center_2 <= 204
+ -102 <= dx_center_diff_3 <= 102
+ dx_center_abs_3 <= 102
+ -102 <= dy_center_diff_3 <= 102
+ dy_center_abs_3 <= 102
+ dist_center_3 <= 204
  wirelength <= 1.0027008e+07
  -102 <= dx_diff_1_4 <= 102
  -102 <= dy_diff_1_4 <= 102
@@ -1836,6 +1902,8 @@ Binaries
  p_EMIB_down_4_6_6_7 p_EMIB_up_4_6_6_7 p_EMIB_left_5_7_6_7
  p_EMIB_right_5_7_6_7 p_EMIB_down_5_7_6_7 p_EMIB_up_5_7_6_7
  dx_grid_abs_pair_2_3_is_positive dy_grid_abs_pair_2_3_is_positive
+ dx_center_abs_2_is_positive dy_center_abs_2_is_positive
+ dx_center_abs_3_is_positive dy_center_abs_3_is_positive
  dx_abs_1_4_is_positive dy_abs_1_4_is_positive dx_abs_1_5_is_positive
  dy_abs_1_5_is_positive dx_abs_2_6_is_positive dy_abs_2_6_is_positive
  dx_abs_2_7_is_positive dy_abs_2_7_is_positive dx_abs_3_6_is_positive

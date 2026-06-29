@@ -1,8 +1,8 @@
 \ Model ChipletPlacementGrid
 \ LP format - for model browsing. Use MPS format to capture full model detail.
-\ Signature: 0x8dba8704850b6384
+\ Signature: 0x1f8e0cd5453b94a0
 Minimize
-  0.00311235605353253 aspect_ratio_penalty - 5.17928e-06 power_aware_penalty
+  0.00311235605353253 aspect_ratio_penalty - 0.8 power_aware_penalty
    + 1.2972733155427088e-04 wirelength
    + 0.109593649697048 bbox_area_proxy_t
 Subject To
@@ -1034,35 +1034,7 @@ Subject To
    >= 0
  aspect_ratio_diff_ge_h_minus_w: bbox_w - bbox_h + aspect_ratio_penalty
    >= 0
- dx_center_diff_def_1: - cx_grid_var_1 + cx_center + dx_center_diff_1 = 0
- dx_center_abs_1_abs_ge_orig: - dx_center_diff_1 + dx_center_abs_1
-   - 234 dx_center_abs_1_is_positive >= -234
- dx_center_abs_1_abs_le_orig: - dx_center_diff_1 + dx_center_abs_1
-   + 234 dx_center_abs_1_is_positive <= 234
- dx_center_abs_1_abs_ge_neg_orig: dx_center_diff_1 + dx_center_abs_1
-   + 234 dx_center_abs_1_is_positive >= 0
- dx_center_abs_1_abs_le_neg_orig: dx_center_diff_1 + dx_center_abs_1
-   - 234 dx_center_abs_1_is_positive <= 0
- dx_center_abs_1_force_positive: dx_center_diff_1
-   - 234 dx_center_abs_1_is_positive >= -234
- dx_center_abs_1_force_negative: dx_center_diff_1
-   - 234 dx_center_abs_1_is_positive <= 0
- dy_center_diff_def_1: - cy_grid_var_1 + cy_center + dy_center_diff_1 = 0
- dy_center_abs_1_abs_ge_orig: - dy_center_diff_1 + dy_center_abs_1
-   - 234 dy_center_abs_1_is_positive >= -234
- dy_center_abs_1_abs_le_orig: - dy_center_diff_1 + dy_center_abs_1
-   + 234 dy_center_abs_1_is_positive <= 234
- dy_center_abs_1_abs_ge_neg_orig: dy_center_diff_1 + dy_center_abs_1
-   + 234 dy_center_abs_1_is_positive >= 0
- dy_center_abs_1_abs_le_neg_orig: dy_center_diff_1 + dy_center_abs_1
-   - 234 dy_center_abs_1_is_positive <= 0
- dy_center_abs_1_force_positive: dy_center_diff_1
-   - 234 dy_center_abs_1_is_positive >= -234
- dy_center_abs_1_force_negative: dy_center_diff_1
-   - 234 dy_center_abs_1_is_positive <= 0
- dist_center_def_1: - dx_center_abs_1 - dy_center_abs_1 + dist_center_1
-   = 0
- power_aware_penalty_def: power_aware_penalty - 8464 dist_center_1 = 0
+ power_aware_penalty_def: power_aware_penalty = 0
  dx_diff_def_i_0_4: EMIB_cx_grid_var_0_4 - cx_grid_var_0 + dx_diff_i_0_4
    = 0
  dx_diff_def_j_0_4: EMIB_cx_grid_var_0_4 - cx_grid_var_4 + dx_diff_j_0_4
@@ -1617,11 +1589,6 @@ Bounds
  bbox_w <= 117
  bbox_h <= 117
  aspect_ratio_penalty <= 117
- -117 <= dx_center_diff_1 <= 117
- dx_center_abs_1 <= 117
- -117 <= dy_center_diff_1 <= 117
- dy_center_abs_1 <= 117
- dist_center_1 <= 234
  wirelength <= 7.667712e+06
  -117 <= dx_diff_i_0_4 <= 117
  -117 <= dy_diff_i_0_4 <= 117
@@ -1695,8 +1662,7 @@ Binaries
  p_EMIB_right_3_4_3_5 p_EMIB_down_3_4_3_5 p_EMIB_up_3_4_3_5
  p_EMIB_left_3_4_4_5 p_EMIB_right_3_4_4_5 p_EMIB_down_3_4_4_5
  p_EMIB_up_3_4_4_5 p_EMIB_left_3_5_4_5 p_EMIB_right_3_5_4_5
- p_EMIB_down_3_5_4_5 p_EMIB_up_3_5_4_5 dx_center_abs_1_is_positive
- dy_center_abs_1_is_positive dx_abs_i_0_4_is_positive
+ p_EMIB_down_3_5_4_5 p_EMIB_up_3_5_4_5 dx_abs_i_0_4_is_positive
  dy_abs_i_0_4_is_positive dx_abs_j_0_4_is_positive dy_abs_j_0_4_is_positive
  dx_abs_i_0_5_is_positive dy_abs_i_0_5_is_positive dx_abs_j_0_5_is_positive
  dy_abs_j_0_5_is_positive dx_abs_i_1_2_is_positive dy_abs_i_1_2_is_positive

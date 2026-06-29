@@ -3,7 +3,7 @@
 \ Signature: 0x398664e7725f0ec1
 Minimize
   9.5365248903299643e-04 aspect_ratio_penalty
-   - 1.82222e-05 power_aware_penalty + 1.335344253566415e-04 wirelength
+   - 9.11109e-06 power_aware_penalty + 1.335344253566415e-04 wirelength
    + 0.1281930483423758 bbox_area_proxy_t
 Subject To
  width_rotation_0: - 5.74 r_0 + w_var_0 = 4.62

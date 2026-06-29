@@ -2,7 +2,7 @@
 \ LP format - for model browsing. Use MPS format to capture full model detail.
 \ Signature: 0x875df57e6a56a36a
 Minimize
-  0.00257201646090535 aspect_ratio_penalty - 5.81574e-07 power_aware_penalty
+  0.00257201646090535 aspect_ratio_penalty - 7.75433e-07 power_aware_penalty
    + 2.594911799096688e-04 wirelength
    + 0.0952851612628304 bbox_area_proxy_t
 Subject To

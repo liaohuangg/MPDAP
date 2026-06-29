@@ -1,0 +1,601 @@
+
+================================================================================
+Batch test start (Gurobi)
+================================================================================
+Test input dir: /root/placement/MPDAP/benchmark/test_input
+Output base dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_05
+Found 1 test file(s)
+Files to process: sys_micro150.json
+================================================================================
+
+
+[1/1] Processing: sys_micro150.json
+  Core name: sys_micro150_core
+  Log dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_05/log/sys_micro150_core
+  LP dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_05/lp/sys_micro150_core
+  Fig dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_05/fig/sys_micro150_core
+  Placement file: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_05/placement/sys_micro150.json
+2026-06-21 20:45:53 - INFO - Calling EMIB solver (Gurobi)...
+node 0 w: 8.25, h: 9.0
+node 1 w: 8.25, h: 9.0
+node 2 w: 8.25, h: 9.0
+node 3 w: 8.25, h: 9.0
+node 4 w: 8.75, h: 8.75
+node 5 w: 8.75, h: 8.75
+node 6 w: 8.75, h: 8.75
+node 7 w: 8.75, h: 8.75
+  (A,B): node1=A, node2=B, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (A,D): node1=A, node2=D, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (A,E): node1=A, node2=E, wireCount=1024, EMIBType=interfaceB, EMIB_length=3.4133, EMIB_max_width=3.0, width=2.0, height=3.4133, bump_width=1.0000
+  (B,C): node1=B, node2=C, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (B,F): node1=B, node2=F, wireCount=1024, EMIBType=interfaceB, EMIB_length=3.4133, EMIB_max_width=3.0, width=2.0, height=3.4133, bump_width=1.0000
+  (C,D): node1=C, node2=D, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (C,G): node1=C, node2=G, wireCount=1024, EMIBType=interfaceB, EMIB_length=3.4133, EMIB_max_width=3.0, width=2.0, height=3.4133, bump_width=1.0000
+  (D,H): node1=D, node2=H, wireCount=1024, EMIBType=interfaceB, EMIB_length=3.4133, EMIB_max_width=3.0, width=2.0, height=3.4133, bump_width=1.0000
+  (0,1): [A, B, 256, interfaceB, 0.8533, 3.0]
+  (0,3): [A, D, 256, interfaceB, 0.8533, 3.0]
+  (0,4): [A, E, 1024, interfaceB, 3.4133, 3.0]
+  (1,2): [B, C, 256, interfaceB, 0.8533, 3.0]
+  (1,5): [B, F, 1024, interfaceB, 3.4133, 3.0]
+  (2,3): [C, D, 256, interfaceB, 0.8533, 3.0]
+  (2,6): [C, G, 1024, interfaceB, 3.4133, 3.0]
+  (3,7): [D, H, 1024, interfaceB, 3.4133, 3.0]
+Set parameter WLSAccessID
+2026-06-21 20:45:53 - INFO - Set parameter WLSAccessID
+Set parameter WLSSecret
+2026-06-21 20:45:53 - INFO - Set parameter WLSSecret
+Set parameter LicenseID to value 2756663
+2026-06-21 20:45:53 - INFO - Set parameter LicenseID to value 2756663
+Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+2026-06-21 20:45:53 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+EMIB_w_var: {(0, 1): <gurobi.Var *Awaiting Model Update*>, (0, 3): <gurobi.Var *Awaiting Model Update*>, (0, 4): <gurobi.Var *Awaiting Model Update*>, (1, 2): <gurobi.Var *Awaiting Model Update*>, (1, 5): <gurobi.Var *Awaiting Model Update*>, (2, 3): <gurobi.Var *Awaiting Model Update*>, (2, 6): <gurobi.Var *Awaiting Model Update*>, (3, 7): <gurobi.Var *Awaiting Model Update*>}
+EMIB_h_var: {(0, 1): <gurobi.Var *Awaiting Model Update*>, (0, 3): <gurobi.Var *Awaiting Model Update*>, (0, 4): <gurobi.Var *Awaiting Model Update*>, (1, 2): <gurobi.Var *Awaiting Model Update*>, (1, 5): <gurobi.Var *Awaiting Model Update*>, (2, 3): <gurobi.Var *Awaiting Model Update*>, (2, 6): <gurobi.Var *Awaiting Model Update*>, (3, 7): <gurobi.Var *Awaiting Model Update*>}
+EMIB_connected_pairs: {(0, 1): EMIBNode(node1='A', node2='B', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (0, 3): EMIBNode(node1='A', node2='D', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (0, 4): EMIBNode(node1='A', node2='E', wireCount=1024, EMIBType='interfaceB', EMIB_length=3.4133, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=3.4133), (1, 2): EMIBNode(node1='B', node2='C', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (1, 5): EMIBNode(node1='B', node2='F', wireCount=1024, EMIBType='interfaceB', EMIB_length=3.4133, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=3.4133), (2, 3): EMIBNode(node1='C', node2='D', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (2, 6): EMIBNode(node1='C', node2='G', wireCount=1024, EMIBType='interfaceB', EMIB_length=3.4133, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=3.4133), (3, 7): EMIBNode(node1='D', node2='H', wireCount=1024, EMIBType='interfaceB', EMIB_length=3.4133, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=3.4133)}
+[POWER_AWARE] Mutual Distancing: ENABLED
+[POWER_AWARE] Central Avoidance: ENABLED
+[POWER_AWARE] Power Aware Optimization: ENABLED
+[POWER_AWARE] Selected high-power chiplets: 4 (density threshold: 2.0202020202020203)
+[POWER_AWARE] High-power chiplet indices: [0, 1, 2, 3]
+[POWER_AWARE] Mutual Distancing: Creating constraints for 4 high-power chiplets
+[POWER_AWARE] Mutual Distancing: Added distance constraints for all high-power pairs
+[POWER_AWARE] Central Avoidance: Creating away-from-center constraints for 4 high-power chiplets
+[DEBUG] chiplet 0 in top 30% power density, add away-from-center constraint
+[DEBUG] chiplet 1 in top 30% power density, add away-from-center constraint
+[DEBUG] chiplet 2 in top 30% power density, add away-from-center constraint
+[DEBUG] chiplet 3 in top 30% power density, add away-from-center constraint
+[POWER_AWARE] Central Avoidance: Added away-from-center constraints for 4 high-power chiplets
+[DEBUG] L_avg: 24.561148181630273
+[DEBUG] total_area: 603.25
+[POWER_AWARE] Normalization factor calculation:
+[POWER_AWARE]   - High-power chiplets: 4
+[POWER_AWARE]   - Mutual Distancing enabled: True
+[POWER_AWARE]   - Central Avoidance enabled: True
+[POWER_AWARE]   - pair_sum (MD): 1.350000e+05
+[POWER_AWARE]   - self_sum (CA): 9.000000e+04
+[POWER_AWARE]   - total_sum (pair + self): 2.250000e+05
+[POWER_AWARE]   - ref_power: 2.763129e+06
+[DEBUG] ref_wirelength: 62876.5393449735
+[DEBUG] ref_t: 49.122296363260546
+[DEBUG] ref_power: 2763129.170433406
+[DEBUG] ref_aspect: 3.0
+
+================================================================================
+[OBJECTIVE FUNCTION DETAILS]
+================================================================================
+
+[Normalization Reference Values]
+  ref_wirelength: 6.287654e+04
+  ref_t (area proxy): 4.912230e+01
+  ref_power: 2.763129e+06
+  ref_aspect: 3.000000e+00
+
+[Beta Weights]
+  beta_wire: 5.000000e+00
+  beta_area: 6.000000e+00
+  beta_aspect: 1.000000e-01
+  beta_power: 5.000000e-01
+
+[Objective Function Components]
+  1. Wirelength term:
+     norm_wirelength = wirelength / ref_wirelength
+     contribution = beta_wire * norm_wirelength = 5.0 * norm_wirelength
+  2. Area term:
+     norm_t = t / ref_t
+     contribution = beta_area * norm_t = 6.0 * norm_t
+  3. Aspect Ratio term:
+     norm_aspect = aspect_ratio_penalty / ref_aspect
+     contribution = beta_aspect * norm_aspect = 0.1 * norm_aspect
+  4. Power Awareness term:
+     norm_power = power_aware_penalty / ref_power
+     contribution = - beta_power * norm_power = - 0.5 * norm_power
+
+[Objective Function Formula]
+  minimize: 5.0 * wirelength/ref_wirelength
+          + 6.0 * t/ref_t
+          + 0.1 * aspect_ratio_penalty/ref_aspect
+          - 0.5 * power_aware_penalty/ref_power
+================================================================================
+
+
+[EMIB] ILP Model construction completed. Analyzing model structure...
+================================================================================
+ILP MODEL ANALYSIS REPORT - Chiplet Placement ILP (Construction Complete)
+Generated: 2026-06-21 20:45:53
+================================================================================
+
+[MODEL STRUCTURE]
+  Constraints (rows):                      0
+  Variables (columns):                     0
+  Non-zero elements:                       0
+  Objective coefficients:                  0
+
+[VARIABLE TYPES]
+  Continuous:                              0
+  Integer:                                 0
+  Binary:                                  0
+
+[CONSTRAINT TYPES]
+
+[COEFFICIENT STATISTICS]
+
+[SOLVE STATISTICS]
+  Status:                    Unknown(1)
+  Solve time (s):                       0.00
+  Solutions found:                         0
+  Nodes explored:            (not available)
+  Simplex iterations:        (not available)
+
+[MEMORY USAGE]
+  Initial memory:                     96.29 MB
+  Peak memory:                         0.00 MB
+  Final memory:                        0.00 MB
+  Peak increase:                     -96.29 MB
+  Final increase:                    -96.29 MB
+
+================================================================================
+Set parameter TimeLimit to value 300
+2026-06-21 20:45:53 - INFO - Set parameter TimeLimit to value 300
+Set parameter MIPGap to value 0
+2026-06-21 20:45:53 - INFO - Set parameter MIPGap to value 0
+Set parameter MIPFocus to value 3
+2026-06-21 20:45:53 - INFO - Set parameter MIPFocus to value 3
+Set parameter Heuristics to value 0.5
+2026-06-21 20:45:53 - INFO - Set parameter Heuristics to value 0.5
+Set parameter LogToConsole to value 1
+2026-06-21 20:45:53 - INFO - Set parameter LogToConsole to value 1
+Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-06-21 20:45:53 - INFO - Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+
+2026-06-21 20:45:53 - INFO - 
+CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-06-21 20:45:53 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+2026-06-21 20:45:53 - INFO - Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+
+2026-06-21 20:45:53 - INFO - 
+Non-default parameters:
+2026-06-21 20:45:53 - INFO - Non-default parameters:
+TimeLimit  300
+2026-06-21 20:45:53 - INFO - TimeLimit  300
+MIPGap  0
+2026-06-21 20:45:53 - INFO - MIPGap  0
+Heuristics  0.5
+2026-06-21 20:45:53 - INFO - Heuristics  0.5
+MIPFocus  3
+2026-06-21 20:45:53 - INFO - MIPFocus  3
+
+2026-06-21 20:45:53 - INFO - 
+Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+2026-06-21 20:45:53 - INFO - Academic license 2756663 - for non-commercial use only - registered to hu___@sjtu.edu.cn
+Optimize a model with 1063 rows, 498 columns and 3539 nonzeros (Min)
+2026-06-21 20:45:53 - INFO - Optimize a model with 1063 rows, 498 columns and 3539 nonzeros (Min)
+Model fingerprint: 0x3e6aad7f
+2026-06-21 20:45:53 - INFO - Model fingerprint: 0x3e6aad7f
+Model has 4 linear objective coefficients
+2026-06-21 20:45:53 - INFO - Model has 4 linear objective coefficients
+Variable types: 222 continuous, 276 integer (276 binary)
+2026-06-21 20:45:53 - INFO - Variable types: 222 continuous, 276 integer (276 binary)
+Coefficient statistics:
+2026-06-21 20:45:53 - INFO - Coefficient statistics:
+  Matrix range     [5e-01, 2e+04]
+2026-06-21 20:45:53 - INFO -   Matrix range     [5e-01, 2e+04]
+  Objective range  [2e-07, 1e-01]
+2026-06-21 20:45:53 - INFO -   Objective range  [2e-07, 1e-01]
+  Bounds range     [9e-01, 7e+06]
+2026-06-21 20:45:53 - INFO -   Bounds range     [9e-01, 7e+06]
+  RHS range        [9e-01, 2e+02]
+2026-06-21 20:45:53 - INFO -   RHS range        [9e-01, 2e+02]
+
+2026-06-21 20:45:53 - INFO - 
+Presolve removed 101 rows and 89 columns
+2026-06-21 20:45:53 - INFO - Presolve removed 101 rows and 89 columns
+Presolve time: 0.01s
+2026-06-21 20:45:53 - INFO - Presolve time: 0.01s
+Presolved: 962 rows, 409 columns, 3126 nonzeros
+2026-06-21 20:45:53 - INFO - Presolved: 962 rows, 409 columns, 3126 nonzeros
+Variable types: 153 continuous, 256 integer (256 binary)
+2026-06-21 20:45:53 - INFO - Variable types: 153 continuous, 256 integer (256 binary)
+Root relaxation presolve removed 218 rows and 78 columns
+2026-06-21 20:45:53 - INFO - Root relaxation presolve removed 218 rows and 78 columns
+Root relaxation presolved: 744 rows, 343 columns, 2608 nonzeros
+2026-06-21 20:45:53 - INFO - Root relaxation presolved: 744 rows, 343 columns, 2608 nonzeros
+
+2026-06-21 20:45:53 - INFO - 
+
+2026-06-21 20:45:53 - INFO - 
+Root relaxation: objective -6.160135e+00, 195 iterations, 0.00 seconds (0.00 work units)
+2026-06-21 20:45:53 - INFO - Root relaxation: objective -6.160135e+00, 195 iterations, 0.00 seconds (0.00 work units)
+
+2026-06-21 20:45:53 - INFO - 
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+2026-06-21 20:45:53 - INFO -     Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+2026-06-21 20:45:53 - INFO -  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+2026-06-21 20:45:53 - INFO - 
+     0     0   -6.16014    0  120          -   -6.16014      -     -    0s
+2026-06-21 20:45:53 - INFO -      0     0   -6.16014    0  120          -   -6.16014      -     -    0s
+H    0     0                      14.5798521   -4.98043   134%     -    0s
+2026-06-21 20:45:53 - INFO - H    0     0                      14.5798521   -4.98043   134%     -    0s
+     0     0   -4.58753    0  151   14.57985   -4.58753   131%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0   -4.58753    0  151   14.57985   -4.58753   131%     -    0s
+     0     0   -4.58753    0  151   14.57985   -4.58753   131%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0   -4.58753    0  151   14.57985   -4.58753   131%     -    0s
+     0     0   -4.58753    0  131   14.57985   -4.58753   131%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0   -4.58753    0  131   14.57985   -4.58753   131%     -    0s
+     0     0    0.15402    0  141   14.57985    0.15402  98.9%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0    0.15402    0  141   14.57985    0.15402  98.9%     -    0s
+     0     0    1.42525    0  137   14.57985    1.42525  90.2%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0    1.42525    0  137   14.57985    1.42525  90.2%     -    0s
+     0     0    1.42525    0  137   14.57985    1.42525  90.2%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0    1.42525    0  137   14.57985    1.42525  90.2%     -    0s
+     0     0    1.42525    0  118   14.57985    1.42525  90.2%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0    1.42525    0  118   14.57985    1.42525  90.2%     -    0s
+     0     0    1.63509    0  129   14.57985    1.63509  88.8%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0    1.63509    0  129   14.57985    1.63509  88.8%     -    0s
+     0     0    2.23405    0  145   14.57985    2.23405  84.7%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0    2.23405    0  145   14.57985    2.23405  84.7%     -    0s
+     0     0    2.23405    0  145   14.57985    2.23405  84.7%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0    2.23405    0  145   14.57985    2.23405  84.7%     -    0s
+     0     0    2.23405    0  137   14.57985    2.23405  84.7%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0    2.23405    0  137   14.57985    2.23405  84.7%     -    0s
+     0     0    2.27725    0  140   14.57985    2.27725  84.4%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0    2.27725    0  140   14.57985    2.27725  84.4%     -    0s
+     0     0    2.32854    0  132   14.57985    2.32854  84.0%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0    2.32854    0  132   14.57985    2.32854  84.0%     -    0s
+     0     0    2.33145    0  133   14.57985    2.33145  84.0%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0    2.33145    0  133   14.57985    2.33145  84.0%     -    0s
+     0     0    2.72480    0  163   14.57985    2.72480  81.3%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0    2.72480    0  163   14.57985    2.72480  81.3%     -    0s
+     0     0    2.72480    0  163   14.57985    2.72480  81.3%     -    0s
+2026-06-21 20:45:53 - INFO -      0     0    2.72480    0  163   14.57985    2.72480  81.3%     -    0s
+     0     0    2.72480    0  141   14.57985    2.72480  81.3%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    2.72480    0  141   14.57985    2.72480  81.3%     -    0s
+H    0     0                      10.5446872    2.72673  74.1%     -    0s
+2026-06-21 20:45:54 - INFO - H    0     0                      10.5446872    2.72673  74.1%     -    0s
+     0     0    2.86641    0  140   10.54469    2.86641  72.8%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    2.86641    0  140   10.54469    2.86641  72.8%     -    0s
+     0     0    2.91567    0  144   10.54469    2.91567  72.3%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    2.91567    0  144   10.54469    2.91567  72.3%     -    0s
+     0     0    2.92064    0  152   10.54469    2.92064  72.3%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    2.92064    0  152   10.54469    2.92064  72.3%     -    0s
+     0     0    2.95682    0  149   10.54469    2.95682  72.0%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    2.95682    0  149   10.54469    2.95682  72.0%     -    0s
+     0     0    2.96217    0  159   10.54469    2.96217  71.9%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    2.96217    0  159   10.54469    2.96217  71.9%     -    0s
+     0     0    2.97692    0  159   10.54469    2.97692  71.8%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    2.97692    0  159   10.54469    2.97692  71.8%     -    0s
+     0     0    2.97947    0  158   10.54469    2.97947  71.7%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    2.97947    0  158   10.54469    2.97947  71.7%     -    0s
+     0     0    3.46718    0  171   10.54469    3.46718  67.1%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    3.46718    0  171   10.54469    3.46718  67.1%     -    0s
+     0     0    3.46718    0  171   10.54469    3.46718  67.1%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    3.46718    0  171   10.54469    3.46718  67.1%     -    0s
+     0     0    3.46718    0  162   10.54469    3.46718  67.1%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    3.46718    0  162   10.54469    3.46718  67.1%     -    0s
+     0     0    3.52461    0  170   10.54469    3.52461  66.6%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    3.52461    0  170   10.54469    3.52461  66.6%     -    0s
+     0     0    3.55908    0  174   10.54469    3.55908  66.2%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    3.55908    0  174   10.54469    3.55908  66.2%     -    0s
+     0     0    3.58188    0  167   10.54469    3.58188  66.0%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    3.58188    0  167   10.54469    3.58188  66.0%     -    0s
+     0     0    3.58609    0  179   10.54469    3.58609  66.0%     -    0s
+2026-06-21 20:45:54 - INFO -      0     0    3.58609    0  179   10.54469    3.58609  66.0%     -    0s
+     0     0    3.69468    0  184   10.54469    3.69468  65.0%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.69468    0  184   10.54469    3.69468  65.0%     -    1s
+     0     0    3.69468    0  184   10.54469    3.69468  65.0%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.69468    0  184   10.54469    3.69468  65.0%     -    1s
+     0     0    3.69468    0  169   10.54469    3.69468  65.0%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.69468    0  169   10.54469    3.69468  65.0%     -    1s
+H    0     0                      10.5106691    3.70286  64.8%     -    1s
+2026-06-21 20:45:54 - INFO - H    0     0                      10.5106691    3.70286  64.8%     -    1s
+H    0     0                      10.0964620    3.70286  63.3%     -    1s
+2026-06-21 20:45:54 - INFO - H    0     0                      10.0964620    3.70286  63.3%     -    1s
+     0     0    3.72836    0  171   10.09646    3.72836  63.1%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.72836    0  171   10.09646    3.72836  63.1%     -    1s
+     0     0    3.74701    0  183   10.09646    3.74701  62.9%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.74701    0  183   10.09646    3.74701  62.9%     -    1s
+     0     0    3.75783    0  190   10.09646    3.75783  62.8%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.75783    0  190   10.09646    3.75783  62.8%     -    1s
+     0     0    3.76717    0  190   10.09646    3.76717  62.7%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.76717    0  190   10.09646    3.76717  62.7%     -    1s
+     0     0    3.77664    0  194   10.09646    3.77664  62.6%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.77664    0  194   10.09646    3.77664  62.6%     -    1s
+     0     0    3.77830    0  195   10.09646    3.77830  62.6%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.77830    0  195   10.09646    3.77830  62.6%     -    1s
+     0     0    3.80679    0  198   10.09646    3.80679  62.3%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.80679    0  198   10.09646    3.80679  62.3%     -    1s
+     0     0    3.80679    0  175   10.09646    3.80679  62.3%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.80679    0  175   10.09646    3.80679  62.3%     -    1s
+     0     0    3.81854    0  185   10.09646    3.81854  62.2%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.81854    0  185   10.09646    3.81854  62.2%     -    1s
+     0     0    3.82081    0  198   10.09646    3.82081  62.2%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.82081    0  198   10.09646    3.82081  62.2%     -    1s
+     0     0    3.83153    0  201   10.09646    3.83153  62.1%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.83153    0  201   10.09646    3.83153  62.1%     -    1s
+     0     0    3.83153    0  193   10.09646    3.83153  62.1%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.83153    0  193   10.09646    3.83153  62.1%     -    1s
+     0     0    3.83338    0  192   10.09646    3.83338  62.0%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.83338    0  192   10.09646    3.83338  62.0%     -    1s
+     0     0    3.83338    0  192   10.09646    3.83338  62.0%     -    1s
+2026-06-21 20:45:54 - INFO -      0     0    3.83338    0  192   10.09646    3.83338  62.0%     -    1s
+     0     2    3.83338    0  184   10.09646    3.83338  62.0%     -    1s
+2026-06-21 20:45:55 - INFO -      0     2    3.83338    0  184   10.09646    3.83338  62.0%     -    1s
+H   70    84                      10.0096053    4.35594  56.5%   181    2s
+2026-06-21 20:45:55 - INFO - H   70    84                      10.0096053    4.35594  56.5%   181    2s
+H   84   101                       9.9227487    4.38974  55.8%   176    2s
+2026-06-21 20:45:55 - INFO - H   84   101                       9.9227487    4.38974  55.8%   176    2s
+H   86   101                       9.2539864    4.42394  52.2%   174    2s
+2026-06-21 20:45:55 - INFO - H   86   101                       9.2539864    4.42394  52.2%   174    2s
+H  119   155                       8.9207624    4.54702  49.0%   188    2s
+2026-06-21 20:45:55 - INFO - H  119   155                       8.9207624    4.54702  49.0%   188    2s
+H  136   155                       8.7858327    4.55212  48.2%   174    2s
+2026-06-21 20:45:55 - INFO - H  136   155                       8.7858327    4.55212  48.2%   174    2s
+H  208   241                       8.7855869    4.74183  46.0%   194    2s
+2026-06-21 20:45:56 - INFO - H  208   241                       8.7855869    4.74183  46.0%   194    2s
+H  211   241                       8.7737648    4.74886  45.9%   194    2s
+2026-06-21 20:45:56 - INFO - H  211   241                       8.7737648    4.74886  45.9%   194    2s
+H  249   285                       8.7413958    4.77627  45.4%   181    2s
+2026-06-21 20:45:56 - INFO - H  249   285                       8.7413958    4.77627  45.4%   181    2s
+H  284   300                       8.6731134    4.79732  44.7%   172    2s
+2026-06-21 20:45:56 - INFO - H  284   300                       8.6731134    4.79732  44.7%   172    2s
+H  289   300                       8.6730971    4.80033  44.7%   172    2s
+2026-06-21 20:45:56 - INFO - H  289   300                       8.6730971    4.80033  44.7%   172    2s
+H  350   356                       8.6413528    4.87254  43.6%   180    3s
+2026-06-21 20:45:56 - INFO - H  350   356                       8.6413528    4.87254  43.6%   180    3s
+H  357   377                       8.6411899    4.88140  43.5%   180    3s
+2026-06-21 20:45:56 - INFO - H  357   377                       8.6411899    4.88140  43.5%   180    3s
+H  498   508                       8.6311741    4.97467  42.4%   180    3s
+2026-06-21 20:45:57 - INFO - H  498   508                       8.6311741    4.97467  42.4%   180    3s
+  2108  2017    5.34989    8  192    8.63117    5.13815  40.5%   106    5s
+2026-06-21 20:45:58 - INFO -   2108  2017    5.34989    8  192    8.63117    5.13815  40.5%   106    5s
+  2167  2067    5.96918   29  154    8.63117    5.96918  30.8%   110   10s
+2026-06-21 20:46:03 - INFO -   2167  2067    5.96918   29  154    8.63117    5.96918  30.8%   110   10s
+H 2303  2079                       8.6311741    6.11648  29.1%   113   10s
+2026-06-21 20:46:03 - INFO - H 2303  2079                       8.6311741    6.11648  29.1%   113   10s
+H 2395  2034                       8.6311741    6.35839  26.3%   114   10s
+2026-06-21 20:46:04 - INFO - H 2395  2034                       8.6311741    6.35839  26.3%   114   10s
+H 2426  1959                       8.6311741    6.39231  25.9%   115   10s
+2026-06-21 20:46:04 - INFO - H 2426  1959                       8.6311741    6.39231  25.9%   115   10s
+H 2491  1908                       8.6311741    6.45292  25.2%   117   11s
+2026-06-21 20:46:04 - INFO - H 2491  1908                       8.6311741    6.45292  25.2%   117   11s
+H 2552  1863                       8.6311741    6.48373  24.9%   118   11s
+2026-06-21 20:46:04 - INFO - H 2552  1863                       8.6311741    6.48373  24.9%   118   11s
+H 2705  1882                       8.6311740    6.55421  24.1%   122   11s
+2026-06-21 20:46:05 - INFO - H 2705  1882                       8.6311740    6.55421  24.1%   122   11s
+H 2915  1931                       8.6311740    6.64711  23.0%   123   12s
+2026-06-21 20:46:05 - INFO - H 2915  1931                       8.6311740    6.64711  23.0%   123   12s
+H 3021  1952                       8.6311740    6.67530  22.7%   123   12s
+2026-06-21 20:46:05 - INFO - H 3021  1952                       8.6311740    6.67530  22.7%   123   12s
+H 3283  1991                       8.6311740    6.72880  22.0%   123   12s
+2026-06-21 20:46:06 - INFO - H 3283  1991                       8.6311740    6.72880  22.0%   123   12s
+H 3389  2059                       8.6311740    6.74020  21.9%   122   12s
+2026-06-21 20:46:06 - INFO - H 3389  2059                       8.6311740    6.74020  21.9%   122   12s
+H 3429  1983                       8.6311740    6.74566  21.8%   122   12s
+2026-06-21 20:46:06 - INFO - H 3429  1983                       8.6311740    6.74566  21.8%   122   12s
+H 3492  1998                       8.6311740    6.75306  21.8%   121   13s
+2026-06-21 20:46:06 - INFO - H 3492  1998                       8.6311740    6.75306  21.8%   121   13s
+H 3752  2055                       8.6311739    6.78739  21.4%   120   13s
+2026-06-21 20:46:06 - INFO - H 3752  2055                       8.6311739    6.78739  21.4%   120   13s
+H 3804  1984                       8.6311739    6.78739  21.4%   119   13s
+2026-06-21 20:46:06 - INFO - H 3804  1984                       8.6311739    6.78739  21.4%   119   13s
+H 3815  1931                       8.6311739    6.78739  21.4%   119   13s
+2026-06-21 20:46:06 - INFO - H 3815  1931                       8.6311739    6.78739  21.4%   119   13s
+H 4175  2118                       8.6311739    6.83981  20.8%   117   13s
+2026-06-21 20:46:07 - INFO - H 4175  2118                       8.6311739    6.83981  20.8%   117   13s
+H 4222  2057                       8.6311738    6.84252  20.7%   117   13s
+2026-06-21 20:46:07 - INFO - H 4222  2057                       8.6311738    6.84252  20.7%   117   13s
+H 4247  2128                       8.6311738    6.84693  20.7%   117   13s
+2026-06-21 20:46:07 - INFO - H 4247  2128                       8.6311738    6.84693  20.7%   117   13s
+H 4332  2058                       8.6311738    6.85161  20.6%   117   13s
+2026-06-21 20:46:07 - INFO - H 4332  2058                       8.6311738    6.85161  20.6%   117   13s
+H 4408  2144                       8.6311738    6.85906  20.5%   117   14s
+2026-06-21 20:46:07 - INFO - H 4408  2144                       8.6311738    6.85906  20.5%   117   14s
+H 4510  2144                       8.6311738    6.86342  20.5%   116   14s
+2026-06-21 20:46:07 - INFO - H 4510  2144                       8.6311738    6.86342  20.5%   116   14s
+  4988  2630    7.86210   44   67    8.63117    6.92297  19.8%   115   15s
+2026-06-21 20:46:08 - INFO -   4988  2630    7.86210   44   67    8.63117    6.92297  19.8%   115   15s
+H 5869  3221                       8.6311738    6.97131  19.2%   113   15s
+2026-06-21 20:46:08 - INFO - H 5869  3221                       8.6311738    6.97131  19.2%   113   15s
+H 7112  4092                       8.6311738    7.13357  17.4%   113   15s
+2026-06-21 20:46:09 - INFO - H 7112  4092                       8.6311738    7.13357  17.4%   113   15s
+H 9209  5420                       8.6311738    7.38932  14.4%   109   16s
+2026-06-21 20:46:09 - INFO - H 9209  5420                       8.6311738    7.38932  14.4%   109   16s
+H10444  6170                       8.6311737    7.46222  13.5%   105   16s
+2026-06-21 20:46:10 - INFO - H10444  6170                       8.6311737    7.46222  13.5%   105   16s
+H11210  6745                       8.6311737    7.48718  13.3%   103   17s
+2026-06-21 20:46:10 - INFO - H11210  6745                       8.6311737    7.48718  13.3%   103   17s
+ 16644 10662 infeasible   41         8.63117    7.64166  11.5%  94.2   20s
+2026-06-21 20:46:13 - INFO -  16644 10662 infeasible   41         8.63117    7.64166  11.5%  94.2   20s
+H17115 10662                       8.6311737    7.64520  11.4%  93.9   20s
+2026-06-21 20:46:13 - INFO - H17115 10662                       8.6311737    7.64520  11.4%  93.9   20s
+H18227 11183                       8.6311737    7.66049  11.2%  93.1   20s
+2026-06-21 20:46:14 - INFO - H18227 11183                       8.6311737    7.66049  11.2%  93.1   20s
+H27404 13822                       8.6311737    7.89822  8.49%  88.4   23s
+2026-06-21 20:46:17 - INFO - H27404 13822                       8.6311737    7.89822  8.49%  88.4   23s
+H29123 13919                       8.6311737    7.90900  8.37%  86.9   24s
+2026-06-21 20:46:17 - INFO - H29123 13919                       8.6311737    7.90900  8.37%  86.9   24s
+ 31411 14063 infeasible   36         8.63117    7.97305  7.62%  84.8   25s
+2026-06-21 20:46:18 - INFO -  31411 14063 infeasible   36         8.63117    7.97305  7.62%  84.8   25s
+H32205 14083                       8.6311737    7.99576  7.36%  84.0   26s
+2026-06-21 20:46:19 - INFO - H32205 14083                       8.6311737    7.99576  7.36%  84.0   26s
+ 47839 12280     cutoff   42         8.63117    8.25227  4.39%  71.8   30s
+2026-06-21 20:46:23 - INFO -  47839 12280     cutoff   42         8.63117    8.25227  4.39%  71.8   30s
+H48591 12214                       8.6311736    8.27668  4.11%  71.3   32s
+2026-06-21 20:46:25 - INFO - H48591 12214                       8.6311736    8.27668  4.11%  71.3   32s
+H49089 11862                       8.6311736    8.27828  4.09%  70.9   32s
+2026-06-21 20:46:26 - INFO - H49089 11862                       8.6311736    8.27828  4.09%  70.9   32s
+H51369 11816                       8.6311721    8.28957  3.96%  69.2   33s
+2026-06-21 20:46:26 - INFO - H51369 11816                       8.6311721    8.28957  3.96%  69.2   33s
+ 55030 10871    8.34328   43   46    8.63117    8.34328  3.34%  66.6   35s
+2026-06-21 20:46:28 - INFO -  55030 10871    8.34328   43   46    8.63117    8.34328  3.34%  66.6   35s
+ 67317  6586     cutoff   48         8.63117    8.50315  1.48%  58.4   40s
+2026-06-21 20:46:33 - INFO -  67317  6586     cutoff   48         8.63117    8.50315  1.48%  58.4   40s
+
+2026-06-21 20:46:36 - INFO - 
+Cutting planes:
+2026-06-21 20:46:36 - INFO - Cutting planes:
+  Learned: 130
+2026-06-21 20:46:36 - INFO -   Learned: 130
+  Gomory: 184
+2026-06-21 20:46:36 - INFO -   Gomory: 184
+  Lift-and-project: 67
+2026-06-21 20:46:36 - INFO -   Lift-and-project: 67
+  Cover: 574
+2026-06-21 20:46:36 - INFO -   Cover: 574
+  Implied bound: 38
+2026-06-21 20:46:36 - INFO -   Implied bound: 38
+  Clique: 5
+2026-06-21 20:46:36 - INFO -   Clique: 5
+  MIR: 315
+2026-06-21 20:46:36 - INFO -   MIR: 315
+  Mixing: 16
+2026-06-21 20:46:36 - INFO -   Mixing: 16
+  Flow cover: 1265
+2026-06-21 20:46:36 - INFO -   Flow cover: 1265
+  Inf proof: 566
+2026-06-21 20:46:36 - INFO -   Inf proof: 566
+  Zero half: 79
+2026-06-21 20:46:36 - INFO -   Zero half: 79
+  RLT: 44
+2026-06-21 20:46:36 - INFO -   RLT: 44
+  Relax-and-lift: 159
+2026-06-21 20:46:36 - INFO -   Relax-and-lift: 159
+  PSD: 2
+2026-06-21 20:46:36 - INFO -   PSD: 2
+
+2026-06-21 20:46:36 - INFO - 
+Explored 83724 nodes (4089415 simplex iterations) in 42.92 seconds (67.50 work units)
+2026-06-21 20:46:36 - INFO - Explored 83724 nodes (4089415 simplex iterations) in 42.92 seconds (67.50 work units)
+Thread count was 28 (of 28 available processors)
+2026-06-21 20:46:36 - INFO - Thread count was 28 (of 28 available processors)
+
+2026-06-21 20:46:36 - INFO - 
+Solution count 10: 8.63117 8.63117 8.63117 ... 8.6731
+2026-06-21 20:46:36 - INFO - Solution count 10: 8.63117 8.63117 8.63117 ... 8.6731
+
+2026-06-21 20:46:36 - INFO - 
+Optimal solution found (tolerance 0.00e+00)
+2026-06-21 20:46:36 - INFO - Optimal solution found (tolerance 0.00e+00)
+Best objective 8.631172071416e+00, best bound 8.631172071416e+00, gap 0.0000%
+2026-06-21 20:46:36 - INFO - Best objective 8.631172071416e+00, best bound 8.631172071416e+00, gap 0.0000%
+[EMIB] Solve done: MIPGap=0.0, status=Optimal, Obj=8.631172, time=42.93s, SolCount=10
+
+
+================================================================================
+ILP MODEL ANALYSIS REPORT - Chiplet Placement ILP (Gap=0.0)
+Generated: 2026-06-21 20:46:36
+================================================================================
+
+[MODEL STRUCTURE]
+  Constraints (rows):                   1063
+  Variables (columns):                   498
+  Non-zero elements:                    3539
+  Objective coefficients:                  4
+
+[VARIABLE TYPES]
+  Continuous:                            222
+  Integer:                                 0
+  Binary:                                276
+
+[CONSTRAINT TYPES]
+  <= constraints:                              556
+  == constraints:                              164
+  >= constraints:                              343
+
+[COEFFICIENT STATISTICS]
+  Matrix range:              [5.00e-01, 2.25e+04]
+  Objective range:           [1.81e-07, 1.22e-01]
+  Bounds range:              [-2.10e+02, 6.88e+06]
+
+[SOLVE STATISTICS]
+  Status:                    Optimal
+  Objective value:                  8.631172
+  Best bound:                       8.631172
+  MIP gap:                           0.0000%
+  Solve time (s):                      42.93
+  Solutions found:                        10
+  Nodes explored:                    83724.0
+  Simplex iterations:              4089415.0
+
+[MEMORY USAGE]
+  Initial memory:                     97.04 MB
+  Peak memory:                       516.68 MB
+  Final memory:                      516.68 MB
+  Peak increase:                     419.64 MB
+  Final increase:                    419.64 MB
+
+================================================================================
+
+================================================================================
+[OBJECTIVE FUNCTION BREAKDOWN - SOLUTION VALUES]
+================================================================================
+
+[Actual Variable Values]
+  wirelength: 4.907587e+04
+  bbox_area_proxy_t: 4.268424e+01
+  aspect_ratio_penalty: 1.447000e-01
+  power_aware_penalty: 2.706973e+06
+
+[Normalized Values]
+  norm_wirelength = 4.907587e+04 / 6.287654e+04 = 7.805116e-01
+  norm_t = 4.268424e+01 / 4.912230e+01 = 8.689382e-01
+  norm_aspect = 1.447000e-01 / 3.000000e+00 = 4.823333e-02
+  norm_power = 2.706973e+06 / 2.763129e+06 = 9.796765e-01
+
+[Weighted Contributions]
+  1. Wirelength: 5.000000e+00 * 7.805116e-01 = 3.902558e+00
+  2. Area: 6.000000e+00 * 8.689382e-01 = 5.213629e+00
+  3. Aspect Ratio: 1.000000e-01 * 4.823333e-02 = 4.823333e-03
+  4. Power Awareness: -5.000000e-01 * 9.796765e-01 = -4.898383e-01
+
+[Total Objective Value]
+  3.902558e+00 + 5.213629e+00 + 4.823333e-03 - 4.898383e-01
+  = 8.631172e+00
+================================================================================
+
+[EMIB] Solve succeeded (Optimal)
+[EMIB] placement JSON saved: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_05/placement/sys_micro150.json
+[EMIB] Layout figure saved: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_05/fig/sys_micro150_core/solution_1_layout_gurobi.png
+2026-06-21 20:46:39 - INFO - 
+EMIB returned 1 solution(s) (max 1).
+  ✓ EMIB: 1 solution(s)
+
+================================================================================
+Batch test done (Gurobi)
+  Total time: 45.83 s
+================================================================================
+File summary:
+  Success: 1/1
+  Failed: 0/1
+Solution count:
+  Found: 1/1
+
+Details:
+  ✓ sys_micro150.json -> sys_micro150_core: 1 solution(s)
+    Log dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_05/log/sys_micro150_core
+    LP dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_05/lp/sys_micro150_core
+    Fig dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_05/fig/sys_micro150_core
+    Placement: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_05/placement/sys_micro150.json
+================================================================================
+
