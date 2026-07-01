@@ -1,0 +1,83 @@
+[
+    {
+        "folder": "output_gurobi_EMIB_chiplet_5_6_01_01",
+        "file": "acend910.json",
+        "wirelength": 22452.38,
+        "area": 1271.7,
+        "aspect_ratio": 1.29,
+        "max_temperature_K": 340.04,
+        "max_temperature_C": 66.89
+    },
+    {
+        "folder": "output_gurobi_EMIB_chiplet_5_6_01_01",
+        "file": "syn1.json",
+        "wirelength": 46148.09,
+        "area": 896.0,
+        "aspect_ratio": 0.875,
+        "max_temperature_K": 357.78,
+        "max_temperature_C": 84.63
+    },
+    {
+        "folder": "output_gurobi_EMIB_chiplet_5_6_01_01",
+        "file": "cpu-dram.json",
+        "wirelength": 52215.63,
+        "area": 612.0,
+        "aspect_ratio": 0.529,
+        "max_temperature_K": 378.61,
+        "max_temperature_C": 105.46
+    },
+    {
+        "folder": "output_gurobi_EMIB_chiplet_5_6_01_01",
+        "file": "hp6_m.json",
+        "wirelength": 10325.19,
+        "area": 471.81,
+        "aspect_ratio": 0.432,
+        "max_temperature_K": 359.47,
+        "max_temperature_C": 86.32
+    },
+    {
+        "folder": "output_gurobi_EMIB_chiplet_5_6_01_01",
+        "file": "syn5.json",
+        "wirelength": 71030.6,
+        "area": 756.0,
+        "aspect_ratio": 0.964,
+        "max_temperature_K": 355.17,
+        "max_temperature_C": 82.02
+    },
+    {
+        "folder": "output_gurobi_EMIB_chiplet_5_6_01_01",
+        "file": "sys_micro150.json",
+        "wirelength": 52215.63,
+        "area": 612.0,
+        "aspect_ratio": 0.529,
+        "max_temperature_K": 378.61,
+        "max_temperature_C": 105.46
+    },
+    {
+        "folder": "output_gurobi_EMIB_chiplet_5_6_01_01",
+        "file": "hp8_m.json",
+        "wirelength": 43367.04,
+        "area": 720.83,
+        "aspect_ratio": 0.411,
+        "max_temperature_K": 359.68,
+        "max_temperature_C": 86.53
+    },
+    {
+        "folder": "output_gurobi_EMIB_chiplet_5_6_01_01",
+        "file": "hp11_m.json",
+        "wirelength": 90393.26,
+        "area": 1075.33,
+        "aspect_ratio": 0.85,
+        "max_temperature_K": 361.66,
+        "max_temperature_C": 88.51
+    },
+    {
+        "folder": "output_gurobi_EMIB_chiplet_5_6_01_01",
+        "file": "multigpu.json",
+        "wirelength": 54064.65,
+        "area": 1381.38,
+        "aspect_ratio": 1.043,
+        "max_temperature_K": 356.01,
+        "max_temperature_C": 82.86
+    }
+]
