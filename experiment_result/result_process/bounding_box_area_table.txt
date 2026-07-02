@@ -1,0 +1,61 @@
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\begin{table*}[t]
+\centering
+\caption{\textcolor{blue}{Block Area Comparison of Six Placement Methods}}
+\label{tab:comp_ba_six_methods}
+\setlength{\tabcolsep}{3pt} % 列间距
+\renewcommand{\arraystretch}{1.25}
+
+% --- 修改开始 ---
+% 这里的宽度需要根据你的实际页面宽度微调
+% 假设第一列 1.7cm，剩下6列平分剩余空间，或者按需分配
+% 例如：1.7 + 2.5*6 = 16.7cm (适合双栏)
+\begin{tabularx}{\textwidth}{
+    >{\centering\arraybackslash}p{2.0cm}|
+    >{\centering\arraybackslash}p{2.7cm}| % BT
+    >{\centering\arraybackslash}p{2.5cm}| % RLP
+    >{\centering\arraybackslash}p{2.0cm}| % OM
+    >{\centering\arraybackslash}p{2.5cm}| % PM
+    >{\centering\arraybackslash}p{2.7cm}| % PmdM
+    >{\centering\arraybackslash}p{2.5cm}  % PcaM
+}
+% --- 修改结束 ---
+
+\toprule
+\multirow{2}{*}{\textbf{\textcolor{blue}{Test Case}}}
+& \multicolumn{6}{c}{\textbf{\textcolor{blue}{Bounding Box Area, BA ($\mathrm{mm}^2$)}}} \\
+\cmidrule(lr){2-7}
+& \textbf{\textcolor{blue}{BT}} & \textbf{\textcolor{blue}{RLP}} & \textbf{\textcolor{blue}{OM}} & \textbf{\textcolor{blue}{PM}} & \textbf{\textcolor{blue}{PmdM}} & \textbf{\textcolor{blue}{PcaM}} \\
+\midrule
+
+\textcolor{blue}{$acend910$} & \textcolor{blue}{1257.00 (+8.58\%)} & \textcolor{blue}{1282.71 (+10.80\%)} & \textcolor{blue}{1157.72 (ref.)} & \textcolor{blue}{1282.16 (+10.75\%)} & \textcolor{blue}{1157.72 (0.00\%)} & \textcolor{blue}{1282.16 (+10.75\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$cpu\text{-}dram$} & \textcolor{blue}{1119.63 (+82.95\%)} & \textcolor{blue}{1070.00 (+74.84\%)} & \textcolor{blue}{612.00 (ref.)} & \textcolor{blue}{707.72 (+15.64\%)} & \textcolor{blue}{707.72 (+15.64\%)} & \textcolor{blue}{612.00 (0.00\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp11\_m$} & \textcolor{blue}{--} & \textcolor{blue}{--} & \textcolor{blue}{1075.33 (ref.)} & \textcolor{blue}{1462.04 (+35.96\%)} & \textcolor{blue}{1418.65 (+31.93\%)} & \textcolor{blue}{1627.86 (+51.38\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp6\_m$} & \textcolor{blue}{596.70 (+26.47\%)} & \textcolor{blue}{787.05 (+66.82\%)} & \textcolor{blue}{471.81 (ref.)} & \textcolor{blue}{471.81 (0.00\%)} & \textcolor{blue}{471.81 (0.00\%)} & \textcolor{blue}{471.81 (0.00\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp8\_m$} & \textcolor{blue}{2528.77 (+250.81\%)} & \textcolor{blue}{--} & \textcolor{blue}{720.83 (ref.)} & \textcolor{blue}{712.50 (-1.16\%)} & \textcolor{blue}{712.50 (-1.16\%)} & \textcolor{blue}{820.46 (+13.82\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$multigpu$} & \textcolor{blue}{1255.98 (-9.08\%)} & \textcolor{blue}{1663.48 (+20.42\%)} & \textcolor{blue}{1381.38 (ref.)} & \textcolor{blue}{1364.80 (-1.20\%)} & \textcolor{blue}{19881.00 (+1339.21\%)} & \textcolor{blue}{1255.98 (-9.08\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn1$} & \textcolor{blue}{1480.00 (+74.12\%)} & \textcolor{blue}{--} & \textcolor{blue}{850.00 (ref.)} & \textcolor{blue}{957.00 (+12.59\%)} & \textcolor{blue}{989.93 (+16.46\%)} & \textcolor{blue}{960.00 (+12.94\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn5$} & \textcolor{blue}{--} & \textcolor{blue}{--} & \textcolor{blue}{696.00 (ref.)} & \textcolor{blue}{769.50 (+10.56\%)} & \textcolor{blue}{696.00 (0.00\%)} & \textcolor{blue}{756.00 (+8.62\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$sys\_micro150$} & \textcolor{blue}{1119.63 (+82.95\%)} & \textcolor{blue}{977.50 (+59.72\%)} & \textcolor{blue}{612.00 (ref.)} & \textcolor{blue}{707.72 (+15.64\%)} & \textcolor{blue}{707.72 (+15.64\%)} & \textcolor{blue}{612.00 (0.00\%)} \\
+\addlinespace[2pt]
+
+\bottomrule
+\end{tabularx}
+\vspace{1mm}
+\end{table*}

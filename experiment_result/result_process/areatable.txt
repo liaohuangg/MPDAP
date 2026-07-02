@@ -1,0 +1,120 @@
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\begin{table}[t]
+\centering
+\caption{\textcolor{blue}{Block Area Comparison of Six Placement Methods}}
+\label{tab:comp_ba_six_methods}
+\setlength{\tabcolsep}{3pt}
+% 首列固定宽度，剩余6列为自适应居中列
+\begin{tabularx}{\linewidth}{
+    >{\centering\arraybackslash}p{1.65cm}
+    Y Y Y Y Y Y
+}
+\toprule
+\multirow{2}{*}{\textbf{\textcolor{blue}{Test Case}}}
+& \multicolumn{6}{c}{\textbf{\textcolor{blue}{Bounding Box Area, BA ($\mathrm{mm}^2$)}}}
+\\
+\cmidrule(lr){2-7}
+& \textbf{\textcolor{blue}{BT}}
+& \textbf{\textcolor{blue}{RLP}}
+& \textbf{\textcolor{blue}{OM}}
+& \textbf{\textcolor{blue}{PM}}
+& \textbf{\textcolor{blue}{PmdM}}
+& \textbf{\textcolor{blue}{PcaM}}
+\\
+\midrule
+\renewcommand{\arraystretch}{1.9}
+
+\textcolor{blue}{$acend910$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1257.00\\[-1pt]\scriptsize (+8.58\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1282.71\\[-1pt]\scriptsize (+10.8\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1157.72\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1271.70\\[-1pt]\scriptsize (+9.85\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$cpu\text{-}dram$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1119.63\\[-1pt]\scriptsize (+82.95\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1070.00\\[-1pt]\scriptsize (+74.84\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 612.00\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 707.83\\[-1pt]\scriptsize (+15.66\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp11\_m$}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1075.33\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1976.21\\[-1pt]\scriptsize (+83.78\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp6\_m$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 596.70\\[-1pt]\scriptsize (+26.47\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 787.05\\[-1pt]\scriptsize (+66.82\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 471.81\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 471.81\\[-1pt]\scriptsize (0.0\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp8\_m$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 2528.77\\[-1pt]\scriptsize (+250.81\%)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 720.83\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 712.50\\[-1pt]\scriptsize (-1.16\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$multigpu$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1255.98\\[-1pt]\scriptsize (-9.08\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1663.48\\[-1pt]\scriptsize (+20.42\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1381.38\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1362.14\\[-1pt]\scriptsize (-1.39\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn1$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1480.00\\[-1pt]\scriptsize (+65.18\%)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 896.00\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1137.50\\[-1pt]\scriptsize (+26.95\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn5$}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 702.00\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 895.17\\[-1pt]\scriptsize (+27.52\%)}}
+\\
+\addlinespace[2pt]
+
+\textcolor{blue}{$sys\_micro150$}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 1119.63\\[-1pt]\scriptsize (+82.95\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 977.50\\[-1pt]\scriptsize (+59.72\%)}}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 612.00\\[-1pt]\scriptsize (ref.)}}
+& \textcolor{blue}{--}
+& \textcolor{blue}{--}
+& \textcolor{blue}{\parbox{\linewidth}{\centering 707.83\\[-1pt]\scriptsize (+15.66\%)}}
+\\
+\addlinespace[2pt]
+
+\bottomrule
+\end{tabularx}
+\vspace{1mm}
+\end{table}

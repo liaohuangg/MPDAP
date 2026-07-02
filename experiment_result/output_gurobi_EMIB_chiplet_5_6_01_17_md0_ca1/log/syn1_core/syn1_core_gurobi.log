@@ -1,0 +1,387 @@
+[EMIB] Config mutual_distancing_enabled=False
+[EMIB] Config c2026-07-02 13:12:05 - INFO - Set parameter Username
+2026-07-02 13:12:05 - INFO - Set parameter LicenseID to value 2840060
+2026-07-02 13:12:05 - INFO - Academic license - for non-commercial use only - expires 2027-07-01
+2026-07-02 13:12:05 - INFO - Set parameter TimeLimit to value 300
+2026-07-02 13:12:05 - INFO - Set parameter MIPGap to value 0
+2026-07-02 13:12:05 - INFO - Set parameter MIPFocus to value 3
+2026-07-02 13:12:05 - INFO - Set parameter Heuristics to value 0.5
+2026-07-02 13:12:05 - INFO - Set parameter LogToConsole to value 1
+2026-07-02 13:12:05 - INFO - Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-07-02 13:12:05 - INFO - 
+2026-07-02 13:12:05 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-07-02 13:12:05 - INFO - Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+2026-07-02 13:12:05 - INFO - 
+2026-07-02 13:12:05 - INFO - Non-default parameters:
+2026-07-02 13:12:05 - INFO - TimeLimit  300
+2026-07-02 13:12:05 - INFO - MIPGap  0
+2026-07-02 13:12:05 - INFO - Heuristics  0.5
+2026-07-02 13:12:05 - INFO - MIPFocus  3
+2026-07-02 13:12:05 - INFO - 
+2026-07-02 13:12:05 - INFO - Optimize a model with 1168 rows, 546 columns and 3947 nonzeros (Min)
+2026-07-02 13:12:05 - INFO - Model fingerprint: 0xe6a458de
+2026-07-02 13:12:05 - INFO - Model has 4 linear objective coefficients
+2026-07-02 13:12:05 - INFO - Variable types: 225 continuous, 321 integer (321 binary)
+2026-07-02 13:12:05 - INFO - Coefficient statistics:
+2026-07-02 13:12:05 - INFO -   Matrix range     [3e-01, 6e+03]
+2026-07-02 13:12:05 - INFO -   Objective range  [9e-06, 1e-01]
+2026-07-02 13:12:05 - INFO -   Bounds range     [9e-01, 2e+07]
+2026-07-02 13:12:05 - INFO -   RHS range        [9e-01, 2e+02]
+2026-07-02 13:12:05 - INFO - 
+2026-07-02 13:12:05 - INFO - Presolve removed 100 rows and 81 columns
+2026-07-02 13:12:05 - INFO - Presolve time: 0.01s
+2026-07-02 13:12:05 - INFO - Presolved: 1068 rows, 465 columns, 3624 nonzeros
+2026-07-02 13:12:05 - INFO - Variable types: 159 continuous, 306 integer (306 binary)
+2026-07-02 13:12:05 - INFO - Root relaxation presolve removed 166 rows and 46 columns
+2026-07-02 13:12:05 - INFO - Root relaxation presolved: 902 rows, 431 columns, 3224 nonzeros
+2026-07-02 13:12:05 - INFO - 
+2026-07-02 13:12:05 - INFO - 
+2026-07-02 13:12:05 - INFO - Root relaxation: objective -2.576626e+01, 237 iterations, 0.00 seconds (0.01 work units)
+2026-07-02 13:12:05 - INFO - 
+2026-07-02 13:12:05 - INFO -     Nodes    |    Current Node    |     Objective Bounds      |     Work
+2026-07-02 13:12:05 - INFO -  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+2026-07-02 13:12:05 - INFO - 
+2026-07-02 13:12:05 - INFO -      0     0  -25.76626    0  131          -  -25.76626      -     -    0s
+2026-07-02 13:12:05 - INFO - H    0     0                      15.3204766  -25.76626   268%     -    0s
+2026-07-02 13:12:05 - INFO -      0     0  -12.99462    0  134   15.32048  -12.99462   185%     -    0s
+2026-07-02 13:12:05 - INFO -      0     0  -12.99462    0  133   15.32048  -12.99462   185%     -    0s
+2026-07-02 13:12:05 - INFO -      0     0   -7.56528    0  136   15.32048   -7.56528   149%     -    0s
+2026-07-02 13:12:05 - INFO -      0     0   -2.13588    0  151   15.32048   -2.13588   114%     -    0s
+2026-07-02 13:12:05 - INFO -      0     0   -2.13588    0  136   15.32048   -2.13588   114%     -    0s
+2026-07-02 13:12:06 - INFO - H    0     0                      10.1341043    1.86437  81.6%     -    0s
+2026-07-02 13:12:06 - INFO -      0     0    1.86437    0  136   10.13410    1.86437  81.6%     -    0s
+2026-07-02 13:12:06 - INFO -      0     0    1.86437    0  137   10.13410    1.86437  81.6%     -    0s
+2026-07-02 13:12:06 - INFO -      0     0    1.86437    0  141   10.13410    1.86437  81.6%     -    0s
+2026-07-02 13:12:06 - INFO -      0     0    1.86437    0  143   10.13410    1.86437  81.6%     -    0s
+2026-07-02 13:12:06 - INFO -      0     0    1.86437    0  145   10.13410    1.86437  81.6%     -    0s
+2026-07-02 13:12:06 - INFO - H    0     0                       9.8524398    1.86437  81.1%     -    0s
+2026-07-02 13:12:06 - INFO -      0     0    1.92202    0  162    9.85244    1.92202  80.5%     -    0s
+2026-07-02 13:12:06 - INFO -      0     0    1.92202    0  162    9.85244    1.92202  80.5%     -    0s
+2026-07-02 13:12:06 - INFO -      0     0    1.92202    0  148    9.85244    1.92202  80.5%     -    0s
+2026-07-02 13:12:06 - INFO -      0     0    1.99887    0  148    9.85244    1.99887  79.7%     -    0s
+2026-07-02 13:12:06 - INFO -      0     0    1.99887    0  148    9.85244    1.99887  79.7%     -    0s
+2026-07-02 13:12:06 - INFO - H    0     0                       9.3286566    1.99887  78.6%     -    0s
+2026-07-02 13:12:06 - INFO -      0     2    1.99887    0  141    9.32866    1.99887  78.6%     -    0s
+2026-07-02 13:12:07 - INFO - H   57   104                       9.0824618    2.39351  73.6%   395    1s
+2026-07-02 13:12:07 - INFO - H   68   104                       8.7131696    2.63743  69.7%   351    1s
+2026-07-02 13:12:07 - INFO - H   74   104                       8.7123862    2.64820  69.6%   329    1s
+2026-07-02 13:12:07 - INFO - H  137   196                       8.6188640    2.68960  68.8%   215    1s
+2026-07-02 13:12:07 - INFO - H  308   325                       8.2837279    2.81804  66.0%   142    1s
+2026-07-02 13:12:07 - INFO - H  320   325                       8.2657517    2.82719  65.8%   141    1s
+2026-07-02 13:12:07 - INFO - H  358   389                       8.0303436    2.84046  64.6%   136    2s
+2026-07-02 13:12:07 - INFO - H  448   463                       7.8959456    2.87230  63.6%   127    2s
+2026-07-02 13:12:07 - INFO - H  471   477                       7.8615960    2.89211  63.2%   129    2s
+2026-07-02 13:12:08 - INFO - H  591   600                       7.7614423    2.94645  62.0%   128    2s
+2026-07-02 13:12:10 - INFO -   1723  1736    3.51695    9  152    7.76144    3.20287  58.7%  98.2    5s
+2026-07-02 13:12:10 - INFO - H 1784  1793                       7.6472802    3.22463  57.8%  99.3    5s
+2026-07-02 13:12:11 - INFO - H 1795  1942                       7.4988914    3.22521  57.0%  99.2    5s
+2026-07-02 13:12:11 - INFO - H 1943  1942                       7.4344927    3.23556  56.5%  96.1    6s
+2026-07-02 13:12:15 - INFO -   1969  1960    3.40030   11  189    7.43449    3.25981  56.2%  94.8   10s
+2026-07-02 13:12:17 - INFO - H 1982  1870                       7.4179937    3.51288  52.6%  98.5   11s
+2026-07-02 13:12:18 - INFO - H 1987  1781                       7.4178170    3.52723  52.4%   101   12s
+2026-07-02 13:12:18 - INFO - H 1992  1694                       7.3700285    3.52723  52.1%   100   12s
+2026-07-02 13:12:18 - INFO - H 1994  1610                       7.3213645    3.56601  51.3%   100   13s
+2026-07-02 13:12:18 - INFO - H 1995  1531                       7.2882396    3.57767  50.9%   100   13s
+2026-07-02 13:12:19 - INFO - H 1997  1455                       7.2678107    3.62624  50.1%   100   13s
+2026-07-02 13:12:19 - INFO - H 1997  1382                       7.2331406    3.62624  49.9%   100   13s
+2026-07-02 13:12:19 - INFO - H 1997  1313                       7.2216907    3.62624  49.8%   100   13s
+2026-07-02 13:12:20 - INFO -   2200  1438    4.25633   44  164    7.22169    3.94194  45.4%   114   15s
+2026-07-02 13:12:25 - INFO -   3958  2701    4.69502   47  177    7.22169    4.67741  35.2%   153   20s
+2026-07-02 13:12:30 - INFO -  13739 11340    5.16217   47  126    7.22169    5.05399  30.0%   135   25s
+2026-07-02 13:12:31 - INFO - H15125 12295                       7.2216907    5.09275  29.5%   134   26s
+2026-07-02 13:12:33 - INFO - H16069 12724                       7.2216907    5.13270  28.9%   134   27s
+2026-07-02 13:12:33 - INFO - H16087 12755                       7.2216907    5.13516  28.9%   135   27s
+2026-07-02 13:12:33 - INFO - H16100 12755                       7.2216907    5.13635  28.9%   135   27s
+2026-07-02 13:12:33 - INFO - H16125 12793                       7.2216907    5.13824  28.8%   135   28s
+2026-07-02 13:12:33 - INFO - H16127 12793                       7.2216907    5.13884  28.8%   135   28s
+2026-07-02 13:12:34 - INFO - H16180 12822                       7.2216907    5.14293  28.8%   136   28s
+2026-07-02 13:12:34 - INFO - H16203 12851                       7.2216907    5.14619  28.7%   136   28s
+2026-07-02 13:12:34 - INFO - H16230 12895                       7.2216907    5.14966  28.7%   136   29s
+2026-07-02 13:12:34 - INFO - H16244 12895                       7.2216907    5.15070  28.7%   136   29s
+2026-07-02 13:12:35 - INFO - H16342 13249                       7.2216907    5.15399  28.6%   137   29s
+2026-07-02 13:12:35 - INFO -  17096 14131    5.27173   47  115    7.22169    5.16211  28.5%   136   30s
+2026-07-02 13:12:35 - INFO - H17449 14131                       7.2216907    5.16715  28.4%   136   30s
+2026-07-02 13:12:36 - INFO - H18731 15945                       7.2216907    5.18614  28.2%   135   30s
+2026-07-02 13:12:36 - INFO - H18776 15945                       7.2216907    5.18695  28.2%   135   30s
+2026-07-02 13:12:36 - INFO - H19906 16824                       7.2216906    5.21188  27.8%   135   31s
+2026-07-02 13:12:37 - INFO - H20988 17669                       7.2216906    5.23136  27.6%   135   31s
+2026-07-02 13:12:37 - INFO - H21173 17669                       7.2216906    5.23410  27.5%   135   31s
+2026-07-02 13:12:37 - INFO - H21307 17669                       7.2216906    5.23565  27.5%   135   31s
+2026-07-02 13:12:37 - INFO - H21634 18704                       7.2216905    5.24041  27.4%   135   31s
+2026-07-02 13:12:37 - INFO - H22952 19745                       7.2216905    5.26064  27.2%   135   32s
+2026-07-02 13:12:38 - INFO - H23979 20700                       7.2216905    5.27961  26.9%   135   32s
+2026-07-02 13:12:38 - INFO - H25264 21835                       7.2216904    5.29826  26.6%   135   33s
+2026-07-02 13:12:39 - INFO - H28341 24828                       7.2216904    5.33395  26.1%   135   34s
+2026-07-02 13:12:40 - INFO - H29638 25900                       7.2216904    5.35353  25.9%   135   34s
+2026-07-02 13:12:40 - INFO - H31025 26344                       7.2216904    5.37623  25.6%   136   34s
+2026-07-02 13:12:40 - INFO - H31236 26344                       7.2216904    5.37723  25.5%   136   34s
+2026-07-02 13:12:41 - INFO -  31382 27513    5.91968   54   85    7.22169    5.38075  25.5%   136   35s
+2026-07-02 13:12:41 - INFO - H32479 27513                       7.2216904    5.38381  25.4%   136   35s
+2026-07-02 13:12:41 - INFO - H32804 28032                       7.2216904    5.39667  25.3%   136   35s
+2026-07-02 13:12:42 - INFO - H35361 30097                       7.2216904    5.42728  24.8%   137   37s
+2026-07-02 13:12:43 - INFO - H37841 32676                       7.2216903    5.46513  24.3%   137   38s
+2026-07-02 13:12:44 - INFO - H40240 34050                       7.2216903    5.48349  24.1%   138   38s
+2026-07-02 13:12:45 - INFO -  40547 34396 infeasible   54         7.22169    5.50338  23.8%   138   40s
+2026-07-02 13:12:45 - INFO - H40881 34396                       7.2216903    5.50499  23.8%   138   40s
+2026-07-02 13:12:47 - INFO - H42819 36500                       7.2216903    5.50895  23.7%   138   41s
+2026-07-02 13:12:48 - INFO - H43567 38212                       7.2216903    5.51167  23.7%   138   42s
+2026-07-02 13:12:51 - INFO -  51626 43360    6.85692   53  103    7.22169    5.63598  22.0%   139   45s
+2026-07-02 13:12:52 - INFO - H51685 43977                       7.2216903    5.64017  21.9%   139   46s
+2026-07-02 13:12:56 - INFO -  60518 52720 infeasible   59         7.22169    5.70586  21.0%   138   50s
+2026-07-02 13:13:00 - INFO -  69267 59761    6.07888   55  115    7.22169    5.76776  20.1%   137   55s
+2026-07-02 13:13:05 - INFO -  76044 66806    5.91671   56  104    7.22169    5.80866  19.6%   134   60s
+2026-07-02 13:13:11 - INFO -  92913 79348    6.32483   48  117    7.22169    5.87984  18.6%   130   65s
+2026-07-02 13:13:15 - INFO -  104162 87231    6.36371   48   98    7.22169    5.92524  18.0%   127   70s
+2026-07-02 13:13:20 - INFO -  110871 92793    6.18772   61   99    7.22169    5.95222  17.6%   126   75s
+2026-07-02 13:13:20 - INFO - H110911 92787                       7.2205431    5.95311  17.6%   126   75s
+2026-07-02 13:13:26 - INFO -  115290 101376 infeasible   54         7.22054    5.96781  17.3%   125   80s
+2026-07-02 13:13:31 - INFO -  131521 112852    7.07474   57   60    7.22054    6.01428  16.7%   123   85s
+2026-07-02 13:13:36 - INFO -  143315 120640    6.84981   63   63    7.22054    6.04784  16.2%   121   91s
+2026-07-02 13:13:41 - INFO -  153938 130789    6.44383   56   96    7.22054    6.07036  15.9%   119   95s
+2026-07-02 13:13:46 - INFO -  164407 139054    7.16390   56   83    7.22054    6.09395  15.6%   118  100s
+2026-07-02 13:13:51 - INFO -  175570 150008    6.52862   56   89    7.22054    6.11589  15.3%   116  105s
+2026-07-02 13:13:53 - INFO - H179258 151180                       7.2205431    6.12385  15.2%   116  108s
+2026-07-02 13:13:56 - INFO -  182708 156767    6.73305   58   80    7.22054    6.12518  15.2%   115  110s
+2026-07-02 13:14:00 - INFO -  197353 165699    6.88168   55  103    7.22054    6.15712  14.7%   114  115s
+2026-07-02 13:14:03 - INFO - H201824 169246                       7.2205430    6.16397  14.6%   114  117s
+2026-07-02 13:14:03 - INFO - H201954 169246                       7.2205430    6.16464  14.6%   114  117s
+2026-07-02 13:14:08 - INFO -  201956 174143    6.31760   58   83    7.22054    6.16469  14.6%   114  123s
+2026-07-02 13:14:08 - INFO - H202593 174143                       7.2205430    6.16471  14.6%   114  123s
+2026-07-02 13:14:08 - INFO - H203560 174143                       7.2205430    6.16474  14.6%   113  123s
+2026-07-02 13:14:10 - INFO -  208366 177507    6.35650   59   46    7.22054    6.17476  14.5%   113  125s
+2026-07-02 13:14:10 - INFO - H208817 177507                       7.2205430    6.17476  14.5%   113  125s
+2026-07-02 13:14:14 - INFO - H215465 179991                       7.2205430    6.18153  14.4%   112  128s
+2026-07-02 13:14:16 - INFO -  215609 184196    6.26179   53   81    7.22054    6.18165  14.4%   112  130s
+2026-07-02 13:14:16 - INFO - H216455 184196                       7.2205429    6.18190  14.4%   112  130s
+2026-07-02 13:14:18 - INFO - H220870 186759                       7.2205429    6.18302  14.4%   112  132s
+2026-07-02 13:14:19 - INFO - H223988 189024                       7.2205429    6.19725  14.2%   112  134s
+2026-07-02 13:14:21 - INFO -  226803 192772    6.29608   52   70    7.22054    6.19831  14.2%   111  135s
+2026-07-02 13:14:21 - INFO - H227246 192772                       7.2205429    6.19839  14.2%   111  135s
+2026-07-02 13:14:21 - INFO - H227610 192772                       7.2205429    6.19858  14.2%   111  135s
+2026-07-02 13:14:21 - INFO - H230658 192772                       7.2205428    6.19938  14.1%   111  136s
+2026-07-02 13:14:26 - INFO -  242298 203608    6.29324   57   75    7.22054    6.22459  13.8%   110  140s
+2026-07-02 13:14:26 - INFO - H244501 203608                       7.2205428    6.22523  13.8%   110  141s
+2026-07-02 13:14:27 - INFO - H247507 206064                       7.2205428    6.22881  13.7%   110  142s
+2026-07-02 13:14:31 - INFO -  250698 209233    6.32074   53  104    7.22054    6.23393  13.7%   110  145s
+2026-07-02 13:14:31 - INFO - H251397 209233                       7.2205428    6.23417  13.7%   110  145s
+2026-07-02 13:14:32 - INFO - H252340 211398                       7.2205427    6.23468  13.7%   110  146s
+2026-07-02 13:14:33 - INFO - H255481 213059                       7.2205427    6.24112  13.6%   110  148s
+2026-07-02 13:14:33 - INFO - H255707 213059                       7.2205427    6.24133  13.6%   109  148s
+2026-07-02 13:14:35 - INFO - H257160 214603                       7.2205427    6.24498  13.5%   109  149s
+2026-07-02 13:14:35 - INFO - H258641 214603                       7.2205427    6.24547  13.5%   109  149s
+2026-07-02 13:14:36 - INFO -  259134 217185    6.66492   57  134    7.22054    6.24559  13.5%   109  150s
+2026-07-02 13:14:41 - INFO -  269810 225732     cutoff   63         7.22054    6.26138  13.3%   109  155s
+2026-07-02 13:14:46 - INFO -  278771 230244    6.31685   55   78    7.22054    6.27221  13.1%   108  160s
+2026-07-02 13:14:51 - INFO -  279296 230714 infeasible   56         7.22054    6.27312  13.1%   108  165s
+2026-07-02 13:14:55 - INFO -  286448 238849    6.54762   52  117    7.22054    6.27591  13.1%   108  170s
+2026-07-02 13:15:00 - INFO - H298131 244776                       7.2205427    6.29473  12.8%   107  174s
+2026-07-02 13:15:01 - INFO -  298420 245943    6.30428   51   84    7.22054    6.29476  12.8%   107  175s
+2026-07-02 13:15:04 - INFO - H305245 251643                       7.2205427    6.29919  12.8%   107  178s
+2026-07-02 13:15:05 - INFO -  307479 253936    6.55003   61   56    7.22054    6.30535  12.7%   107  180s
+2026-07-02 13:15:13 - INFO -  316164 262668     cutoff   61         7.22054    6.31325  12.6%   107  187s
+2026-07-02 13:15:13 - INFO - H318297 262668                       7.2205427    6.31352  12.6%   107  187s
+2026-07-02 13:15:14 - INFO - H323070 265308                       7.2205427    6.32073  12.5%   107  189s
+2026-07-02 13:15:16 - INFO -  325848 267891    7.00387   61   71    7.22054    6.32524  12.4%   106  190s
+2026-07-02 13:15:16 - INFO - H328896 267891                       7.2205427    6.32560  12.4%   106  190s
+2026-07-02 13:15:19 - INFO - H332528 270708                       7.2205427    6.32995  12.3%   106  193s
+2026-07-02 13:15:22 - INFO -  333448 273108    6.73523   58   94    7.22054    6.33195  12.3%   106  196s
+2026-07-02 13:15:26 - INFO -  339663 278769     cutoff   64         7.22054    6.33433  12.3%   106  201s
+2026-07-02 13:15:30 - INFO -  351255 285801    6.47870   55   94    7.22054    6.35051  12.0%   106  205s
+2026-07-02 13:15:31 - INFO - H353978 286175                       7.2205427    6.35320  12.0%   106  206s
+2026-07-02 13:15:35 - INFO -  358488 290845    6.36805   59   85    7.22054    6.35718  12.0%   105  210s
+2026-07-02 13:15:39 - INFO - H367222 297431                       7.2205426    6.36575  11.8%   105  213s
+2026-07-02 13:15:40 - INFO -  370292 300124    6.71217   61   82    7.22054    6.36841  11.8%   105  215s
+2026-07-02 13:15:42 - INFO - H374166 300152                       7.2205426    6.37247  11.7%   105  216s
+2026-07-02 13:15:48 - INFO -  374196 304764    6.47982   61   91    7.22054    6.37264  11.7%   105  222s
+2026-07-02 13:15:51 - INFO -  385686 310549    6.41334   58   75    7.22054    6.38171  11.6%   105  226s
+2026-07-02 13:15:56 - INFO -  394738 314841     cutoff   58         7.22054    6.38875  11.5%   105  230s
+2026-07-02 13:16:01 - INFO -  399851 318160    7.02845   55   83    7.22054    6.39279  11.5%   104  235s
+2026-07-02 13:16:03 - INFO - H400449 321275                       7.2205426    6.39412  11.4%   104  237s
+2026-07-02 13:16:04 - INFO - H406625 323780                       7.2205426    6.39633  11.4%   104  239s
+2026-07-02 13:16:06 - INFO -  408615 325719     cutoff   60         7.22054    6.40167  11.3%   104  240s
+2026-07-02 13:16:08 - INFO - H416641 330122                       7.2205426    6.40718  11.3%   104  243s
+2026-07-02 13:16:11 - INFO -  420887 333697     cutoff   56         7.22054    6.41142  11.2%   104  245s
+2026-07-02 13:16:16 - INFO -  426102 337222    6.46080   53   72    7.22054    6.41649  11.1%   104  250s
+2026-07-02 13:16:22 - INFO -  434083 342986    6.45091   58   74    7.22054    6.42372  11.0%   105  256s
+2026-07-02 13:16:25 - INFO -  439030 346971    6.62236   54   84    7.22054    6.42807  11.0%   105  260s
+2026-07-02 13:16:30 - INFO -  449403 353021    6.67297   54   75    7.22054    6.43674  10.9%   105  265s
+2026-07-02 13:16:31 - INFO - H450318 353021                       7.2205426    6.43710  10.9%   105  265s
+2026-07-02 13:16:36 - INFO -  458399 358889    6.61659   54  108    7.22054    6.44421  10.8%   105  270s
+2026-07-02 13:16:39 - INFO - H465747 362710                       7.2205426    6.44987  10.7%   106  273s
+2026-07-02 13:16:40 - INFO -  467393 362837    6.54233   59   62    7.22054    6.45199  10.6%   106  275s
+2026-07-02 13:16:40 - INFO - H467590 362837                       7.2205426    6.45233  10.6%   106  275s
+2026-07-02 13:16:46 - INFO -  473084 367707    6.69446   53   90    7.22054    6.45666  10.6%   106  280s
+2026-07-02 13:16:53 - INFO -  478662 371682    6.82158   55   76    7.22054    6.46037  10.5%   106  287s
+2026-07-02 13:16:57 - INFO -  485581 375006     cutoff   57         7.22054    6.46681  10.4%   106  291s
+2026-07-02 13:17:01 - INFO -  491037 377683    6.53271   52   86    7.22054    6.47105  10.4%   107  295s
+2026-07-02 13:17:05 - INFO -  496973 382310    7.08461   69   36    7.22054    6.47624  10.3%   107  300s
+2026-07-02 13:17:05 - INFO - 
+2026-07-02 13:17:05 - INFO - Cutting planes:
+2026-07-02 13:17:05 - INFO -   Learned: 208
+2026-07-02 13:17:05 - INFO -   Gomory: 209
+2026-07-02 13:17:05 - INFO -   Lift-and-project: 370
+2026-07-02 13:17:05 - INFO -   Cover: 418
+2026-07-02 13:17:05 - INFO -   Implied bound: 33
+2026-07-02 13:17:05 - INFO -   Clique: 2
+2026-07-02 13:17:05 - INFO -   MIR: 754
+2026-07-02 13:17:05 - INFO -   Mixing: 43
+2026-07-02 13:17:05 - INFO -   StrongCG: 7
+2026-07-02 13:17:05 - INFO -   Flow cover: 3038
+2026-07-02 13:17:05 - INFO -   Inf proof: 1059
+2026-07-02 13:17:05 - INFO -   Zero half: 392
+2026-07-02 13:17:05 - INFO -   Network: 1
+2026-07-02 13:17:05 - INFO -   RLT: 54
+2026-07-02 13:17:05 - INFO -   Relax-and-lift: 334
+2026-07-02 13:17:05 - INFO -   PSD: 4
+2026-07-02 13:17:05 - INFO - 
+2026-07-02 13:17:05 - INFO - Explored 498995 nodes (53326712 simplex iterations) in 300.14 seconds (506.81 work units)
+2026-07-02 13:17:05 - INFO - Thread count was 28 (of 28 available processors)
+2026-07-02 13:17:05 - INFO - 
+2026-07-02 13:17:05 - INFO - Solution count 10: 7.22054 7.22054 7.22054 ... 7.22169
+2026-07-02 13:17:05 - INFO - 
+2026-07-02 13:17:05 - INFO - Time limit reached
+2026-07-02 13:17:05 - INFO - Best objective 7.220542579779e+00, best bound 6.477509708377e+00, gap 10.2905%
+2026-07-02 13:17:05 - INFO - 
+2026-07-02 13:17:05 - INFO - User-callback calls 1083049, time in user-callback 1.96 sec
+2026-07-02 13:17:05 - DEBUG - Loaded backend Agg version v2.2.
+2026-07-02 13:17:05 - DEBUG - findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0.
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf', name='cmex10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf', name='cmss10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf', name='cmb10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf', name='STIXGeneral', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf', name='DejaVu Sans Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf', name='STIXSizeFiveSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf', name='cmsy10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf', name='cmr10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf', name='STIXGeneral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=700, stretch='normal', size='scalabl[EMIB] Layout figure saved: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_17_md0_ca1/fig/syn1_core/solution_1_layout_gurobi.png
+  ✓ EMIB: 1 solution(s)
+ymBol.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf', name='STIXGeneral', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf', name='DejaVu Serif Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf', name='cmmi10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf', name='cmtt10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf', name='STIXGeneral', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 1.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 1.335
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:05 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:05 - DEBUG - findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0 to DejaVu Sans ('/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf') with score of 0.050000.
+2026-07-02 13:17:06 - DEBUG - findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=12.0.
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf', name='cmex10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf', name='cmss10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf', name='cmb10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf', name='STIXGeneral', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf', name='DejaVu Sans Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf', name='STIXSizeFiveSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf', name='cmsy10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf', name='cmr10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf', name='STIXGeneral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf', name='STIXGeneral', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf', name='DejaVu Serif Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf', name='cmmi10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf', name='cmtt10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf', name='STIXGeneral', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 1.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 1.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=12.0 to DejaVu Sans ('/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf') with score of 0.050000.
+2026-07-02 13:17:06 - DEBUG - findfont: Matching sans\-serif:style=normal:variant=normal:weight=bold:stretch=normal:size=9.0.
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf', name='cmex10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf', name='cmss10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf', name='cmb10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.33499999999999996
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf', name='STIXGeneral', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf', name='DejaVu Sans Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf', name='STIXSizeFiveSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf', name='cmsy10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf', name='cmr10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf', name='STIXGeneral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf', name='STIXGeneral', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf', name='DejaVu Serif Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf', name='cmmi10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf', name='cmtt10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf', name='STIXGeneral', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 1.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 1.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.33499999999999996
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.335
+2026-07-02 13:17:06 - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.05
+2026-07-02 13:17:06 - DEBUG - findfont: Matching sans\-serif:style=normal:variant=normal:weight=bold:stretch=normal:size=9.0 to DejaVu Sans ('/root/anaconda3/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf') with score of 0.050000.
+2026-07-02 13:17:07 - INFO - 
+EMIB returned 1 solution(s) (max 1).

@@ -1,0 +1,64 @@
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\begin{table*}[t]
+\centering
+\caption{\textcolor{blue}{Wirelength Comparison of Six Placement Methods}}
+\label{tab:comp_wl_six_methods}
+\setlength{\tabcolsep}{3pt} % 列间距
+\renewcommand{\arraystretch}{1.25}
+
+% --- 修改开始 ---
+% 这里的宽度需要根据你的实际页面宽度微调
+% 假设第一列 1.7cm，剩下6列平分剩余空间，或者按需分配
+% 例如：1.7 + 2.5*6 = 16.7cm (适合双栏)
+\begin{tabularx}{\textwidth}{
+    >{\centering\arraybackslash}p{1.7cm}|
+    >{\centering\arraybackslash}p{2.7cm}| % BT
+    >{\centering\arraybackslash}p{2.2cm}| % RLP
+    >{\centering\arraybackslash}p{2.2cm}| % OM
+    >{\centering\arraybackslash}p{2.2cm}| % PM
+    >{\centering\arraybackslash}p{2.7cm}| % PmdM
+    >{\centering\arraybackslash}p{2.2cm}  % PcaM
+}
+% --- 修改结束 ---
+
+\toprule
+\multirow{2}{*}{\textbf{\textcolor{blue}{Test Case}}}
+& \multicolumn{6}{c}{\textbf{\textcolor{blue}{Wirelength, WL}}} \\
+\cmidrule(lr){2-7}
+& \textbf{\textcolor{blue}{BT}} & \textbf{\textcolor{blue}{RLP}} & \textbf{\textcolor{blue}{OM}} & \textbf{\textcolor{blue}{PM}} & \textbf{\textcolor{blue}{PmdM}} & \textbf{\textcolor{blue}{PcaM}} \\
+\midrule
+
+\textcolor{blue}{$acend910$} & \textcolor{blue}{24239.47 (+3.15\%)} & \textcolor{blue}{24324.94 (+3.52\%)} & \textcolor{blue}{23498.84 (ref.)} & \textcolor{blue}{24964.25 (+6.24\%)} & \textcolor{blue}{23277.60 (-0.94\%)} & \textcolor{blue}{24964.25 (+6.24\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$cpu\text{-}dram$} & \textcolor{blue}{54492.72 (+4.36\%)} & \textcolor{blue}{54739.50 (+4.83\%)} & \textcolor{blue}{52215.63 (ref.)} & \textcolor{blue}{54712.48 (+4.78\%)} & \textcolor{blue}{54712.58 (+4.78\%)} & \textcolor{blue}{52215.53 (0.00\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp11\_m$} & \textcolor{blue}{--} & \textcolor{blue}{--} & \textcolor{blue}{91045.65 (ref.)} & \textcolor{blue}{99416.90 (+9.19\%)} & \textcolor{blue}{98276.52 (+7.94\%)} & \textcolor{blue}{97170.41 (+6.73\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp6\_m$} & \textcolor{blue}{10291.63 (-0.33\%)} & \textcolor{blue}{14353.76 (+39.02\%)} & \textcolor{blue}{10325.31 (ref.)} & \textcolor{blue}{9850.71 (-4.60\%)} & \textcolor{blue}{10325.19 (0.00\%)} & \textcolor{blue}{9850.71 (-4.60\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$hp8\_m$} & \textcolor{blue}{53830.70 (+24.52\%)} & \textcolor{blue}{--} & \textcolor{blue}{43228.95 (ref.)} & \textcolor{blue}{44477.37 (+2.89\%)} & \textcolor{blue}{44088.95 (+1.99\%)} & \textcolor{blue}{43647.63 (+0.97\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$multigpu$} & \textcolor{blue}{54874.77 (+1.50\%)} & \textcolor{blue}{57735.00 (+6.79\%)} & \textcolor{blue}{54064.82 (ref.)} & \textcolor{blue}{55238.75 (+2.17\%)} & \textcolor{blue}{108413.62 (+100.53\%)} & \textcolor{blue}{53270.88 (-1.47\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn1$} & \textcolor{blue}{55408.79 (+17.44\%)} & \textcolor{blue}{--} & \textcolor{blue}{47180.81 (ref.)} & \textcolor{blue}{48502.02 (+2.80\%)} & \textcolor{blue}{48812.69 (+3.46\%)} & \textcolor{blue}{51260.74 (+8.65\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$syn5$} & \textcolor{blue}{--} & \textcolor{blue}{--} & \textcolor{blue}{69609.06 (ref.)} & \textcolor{blue}{69496.09 (-0.16\%)} & \textcolor{blue}{69760.47 (+0.22\%)} & \textcolor{blue}{70443.13 (+1.20\%)} \\
+\addlinespace[2pt]
+
+\textcolor{blue}{$sys\_micro150$} & \textcolor{blue}{54299.35 (+3.99\%)} & \textcolor{blue}{55311.38 (+5.93\%)} & \textcolor{blue}{52215.63 (ref.)} & \textcolor{blue}{54712.48 (+4.78\%)} & \textcolor{blue}{54712.58 (+4.78\%)} & \textcolor{blue}{52215.53 (0.00\%)} \\
+\addlinespace[2pt]
+
+\bottomrule
+\end{tabularx}
+\vspace{1mm}
+\begin{flushleft}
+\footnotesize\textcolor{blue}{Note: Numbers in parentheses (or second row) indicate percentage change relative to the OM method.}
+\end{flushleft}
+\end{table*}
