@@ -36,9 +36,6 @@ def read_flp(flp_path):
             # Convert to mm for plotting
             w, h, x, y = w * 1000, h * 1000, x * 1000, y * 1000
             
-            
-            
-            
             if name.startswith("chiplet") or (len(name) == 1 and name.isupper()):
                 chiplets.append((name, w, h, x, y))
             elif name.startswith("TIM") or (name.startswith("T") and len(name) > 1 and name[1:].isdigit()):

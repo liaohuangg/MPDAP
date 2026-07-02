@@ -524,10 +524,16 @@ def solve_placement_ilp_from_model(
             GRB.INTERRUPTED: "Interrupted",
         }
         status_str = status_map.get(model.status, f"Unknown({model.status})")
+        sol_count = int(getattr(model, "SolCount", 0))
+        has_solution = sol_count > 0 and model.status in (
+            GRB.OPTIMAL,
+            GRB.SUBOPTIMAL,
+            GRB.TIME_LIMIT,
+        )
 
         if verbose:
             print(f"[EMIB] Optimization completed: {status_str}")
-        if model.status == GRB.OPTIMAL or model.status == GRB.FEASIBLE:
+        if has_solution:
             log_objective_breakdown(ctx, model)
 
     
@@ -536,7 +542,7 @@ def solve_placement_ilp_from_model(
         cx_grid_val: Dict[str, float] = {}
         cy_grid_val: Dict[str, float] = {}
         for k, node in enumerate(nodes):
-            if model.status == GRB.OPTIMAL:
+            if has_solution:
                 x_val = float(x_grid_var[k].X) if x_grid_var[k] is not None else 0.0
                 y_val = float(y_grid_var[k].X) if y_grid_var[k] is not None else 0.0
                 r_val = float(r[k].X) if r[k] is not None else 0.0
@@ -551,9 +557,7 @@ def solve_placement_ilp_from_model(
                 rotations[node.name] = False
                 cx_grid_val[node.name] = 0.0
                 cy_grid_val[node.name] = 0.0
-        obj_value = (
-            model.ObjVal if model.status == GRB.OPTIMAL else float("inf")
-        )
+        obj_value = model.ObjVal if has_solution else float("inf")
 
     
         try:
@@ -616,6 +620,8 @@ def solve_placement_ilp_from_model(
             status="Error",
             solve_time=solve_time,
             bounding_box=(W if W else 100.0, H if H else 100.0),
+            cx_grid_var={node.name: 0.0 for node in nodes},
+            cy_grid_var={node.name: 0.0 for node in nodes},
         )
 
 

@@ -199,6 +199,14 @@ def run_batch_tests(
     test_input_dir: Optional[Path] = None,
     output_base_dir: Optional[Path] = None,
     json_files: Optional[List[str]] = None,
+    mutual_distancing_enabled: bool = True,
+    central_avoidance_enabled: bool = True,
+    total_time_limit: int = 3600,
+    stage1_gap: float = 0.0,
+    stage1_time_limit: int = 300,
+    stage2_gap: float = 0.3,
+    stage2_time_limit: int = 300,
+    stage3_gap: float = 0.8,
 ):
     """
     Run batch tests (Gurobi). EMIB: at most 1 solution per case.
@@ -210,6 +218,14 @@ def run_batch_tests(
         test_input_dir: test input dir (default if None)
         output_base_dir: output base dir (default if None)
         json_files: JSON file list to process (None = all)
+        mutual_distancing_enabled: enable high-power mutual distancing term
+        central_avoidance_enabled: enable high-power central avoidance term
+        total_time_limit: total budget for three-phase solve
+        stage1_gap: phase 1 MIP gap
+        stage1_time_limit: phase 1 max seconds
+        stage2_gap: phase 2 MIP gap
+        stage2_time_limit: phase 2 max seconds
+        stage3_gap: phase 3 MIP gap; time is remaining total budget
     """
     # Project root
     project_root = Path(__file__).parent.parent
@@ -422,6 +438,14 @@ def run_batch_tests(
                 output_dir=str(lp_dir_relative),
                 image_output_dir=str(fig_dir_relative),
                 placement_output_path=str(placement_path_relative),
+                mutual_distancing_enabled=mutual_distancing_enabled,
+                central_avoidance_enabled=central_avoidance_enabled,
+                total_time_limit=total_time_limit,
+                stage1_gap=stage1_gap,
+                stage1_time_limit=stage1_time_limit,
+                stage2_gap=stage2_gap,
+                stage2_time_limit=stage2_time_limit,
+                stage3_gap=stage3_gap,
             )
             time_end = time.time()
             logger.info(f"\nEMIB returned {len(sols)} solution(s) (max 1).")
@@ -515,6 +539,16 @@ def run_batch_tests(
 
 def main():
     """Main: parse CLI and run batch test."""
+    def str2bool(value):
+        if isinstance(value, bool):
+            return value
+        normalized = value.strip().lower()
+        if normalized in ('true', '1', 'yes', 'y', 'on'):
+            return True
+        if normalized in ('false', '0', 'no', 'n', 'off'):
+            return False
+        raise argparse.ArgumentTypeError(f"expected true/false, got '{value}'")
+
     parser = argparse.ArgumentParser(
         description='Batch test: EMIB placement solve on test_input (Gurobi)',
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -582,6 +616,54 @@ Examples:
         metavar='FILE',
         help='JSON files to process (e.g. --files 5core.json 6core or --files 5core 6core)'
     )
+
+    parser.add_argument(
+        '--mutual-distancing-enabled',
+        type=str2bool,
+        default=True,
+        help='Enable high-power mutual distancing constraints/objective term (default: true)'
+    )
+
+    parser.add_argument(
+        '--central-avoidance-enabled',
+        type=str2bool,
+        default=True,
+        help='Enable high-power central avoidance constraints/objective term (default: true)'
+    )
+
+    parser.add_argument(
+        '--timeout',
+        type=int,
+        default=3600,
+        help='Total time budget for the three-phase solve in seconds (default: 3600)'
+    )
+
+    parser.add_argument(
+        '--stage1',
+        type=float,
+        nargs=2,
+        metavar=('GAP', 'TIME_LIMIT'),
+        default=(0.0, 300),
+        help='Stage 1 MIP gap and time limit seconds (default: 0.0 300)'
+    )
+
+    parser.add_argument(
+        '--stage2',
+        type=float,
+        nargs=2,
+        metavar=('GAP', 'TIME_LIMIT'),
+        default=(0.3, 300),
+        help='Stage 2 MIP gap and time limit seconds (default: 0.3 300)'
+    )
+
+    parser.add_argument(
+        '--stage3',
+        type=float,
+        nargs='+',
+        metavar='VALUE',
+        default=(0.8,),
+        help='Stage 3 MIP gap; an optional second value is accepted but ignored because time is remaining timeout (default: 0.8)'
+    )
     
     # Log raw CLI args
     # print(f"\n{'='*80}")
@@ -590,6 +672,8 @@ Examples:
     # print(f"{'='*80}\n")
     
     args = parser.parse_args()
+    if len(args.stage3) > 2:
+        parser.error("--stage3 accepts GAP and an optional ignored TIME_LIMIT value")
     
     # Log parsed args
     # print(f"\n{'='*80}")
@@ -623,9 +707,16 @@ Examples:
         test_input_dir=test_input_dir,
         output_base_dir=output_dir,
         json_files=args.files,
+        mutual_distancing_enabled=args.mutual_distancing_enabled,
+        central_avoidance_enabled=args.central_avoidance_enabled,
+        total_time_limit=args.timeout,
+        stage1_gap=args.stage1[0],
+        stage1_time_limit=int(args.stage1[1]),
+        stage2_gap=args.stage2[0],
+        stage2_time_limit=int(args.stage2[1]),
+        stage3_gap=args.stage3[0],
     )
 
 
 if __name__ == "__main__":
     main()
-

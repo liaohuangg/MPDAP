@@ -142,6 +142,11 @@ def _run_three_phase_solve(
     ctx: ILPModelContext,
     nodes: List,
     total_time_limit: int = 3600,
+    stage1_gap: float = 0.0,
+    stage1_time_limit: int = 300,
+    stage2_gap: float = 0.3,
+    stage2_time_limit: int = 300,
+    stage3_gap: float = 0.8,
 ) -> ILPPlacementResult:
     """Three-phase solve with a shared total time budget."""
     import time as _time
@@ -151,16 +156,40 @@ def _run_three_phase_solve(
     def _remaining_time_limit() -> int:
         return max(0, math.floor(deadline - _time.monotonic()))
 
-    result = _solve_once_with_gap(ctx=ctx, nodes=nodes, gap=0.0, time_limit=min(300, _remaining_time_limit()))
-    #result = _solve_once_with_gap(ctx=ctx, nodes=nodes, gap=0.8, time_limit=3600)
+    print(
+        f"[EMIB] Three-phase config: timeout={total_time_limit}, "
+        f"stage1=(gap={stage1_gap}, time={stage1_time_limit}), "
+        f"stage2=(gap={stage2_gap}, time={stage2_time_limit}), "
+        f"stage3=(gap={stage3_gap}, time=remaining)"
+    )
+
+    result = _solve_once_with_gap(
+        ctx=ctx,
+        nodes=nodes,
+        stage_label="stage1",
+        gap=stage1_gap,
+        time_limit=min(stage1_time_limit, _remaining_time_limit()),
+    )
     remaining = _remaining_time_limit()
     if result.status == "NoSolution" and remaining > 0:
-        print(f"[EMIB] Phase 1 no feasible solution, switching to phase 2 MIPGap=0.3.")
-        result = _solve_once_with_gap(ctx=ctx, nodes=nodes, gap=0.3, time_limit=min(300, remaining))
+        print(f"[EMIB] Phase 1 no feasible solution, switching to phase 2 MIPGap={stage2_gap}.")
+        result = _solve_once_with_gap(
+            ctx=ctx,
+            nodes=nodes,
+            stage_label="stage2",
+            gap=stage2_gap,
+            time_limit=min(stage2_time_limit, remaining),
+        )
     remaining = _remaining_time_limit()
     if result.status == "NoSolution" and remaining > 0:
-        print(f"[EMIB] Phase 2 no feasible solution, switching to phase 3 MIPGap=0.8.")
-        result = _solve_once_with_gap(ctx=ctx, nodes=nodes, gap=0.8, time_limit=remaining)
+        print(f"[EMIB] Phase 2 no feasible solution, switching to phase 3 MIPGap={stage3_gap}.")
+        result = _solve_once_with_gap(
+            ctx=ctx,
+            nodes=nodes,
+            stage_label="stage3",
+            gap=stage3_gap,
+            time_limit=remaining,
+        )
     return result
 
 
@@ -171,6 +200,7 @@ def _solve_once_with_gap(
     nodes: List,
     gap: float,
     time_limit: int = 60,
+    stage_label: str = "single",
     mip_focus: int = 3,
     heuristics: float = 0.5,
     enable_model_analysis: bool = True,
@@ -193,6 +223,7 @@ def _solve_once_with_gap(
     model.Params.MIPFocus = mip_focus
     model.Params.Heuristics = heuristics
     model.Params.LogToConsole = True
+    print(f"[EMIB] Solve stage: {stage_label}, MIPGap={gap}, TimeLimit={time_limit}s")
 
     # Initialize memory tracker for analysis
     memory_tracker = MemoryTracker() if enable_model_analysis else None
@@ -227,7 +258,7 @@ def _solve_once_with_gap(
         print("\n")
         print_model_report(
             model,
-            model_name=f"Chiplet Placement ILP (After Optimize, Gap={gap})",
+            model_name=f"Chiplet Placement ILP (After Optimize, Stage={stage_label}, Gap={gap})",
             memory_tracker=memory_tracker,
         )
 
@@ -255,7 +286,7 @@ def _solve_once_with_gap(
         status_str = "Optimal" if status == GRB.OPTIMAL else "Feasible"
         obj_val = float(model.ObjVal)
         print(
-            f"[EMIB] Solve done: MIPGap={gap}, status={status_str}, Obj={obj_val:.6f}, time={solve_time:.2f}s, SolCount={sol_count}"
+            f"[EMIB] Solve done: stage={stage_label}, MIPGap={gap}, status={status_str}, Obj={obj_val:.6f}, time={solve_time:.2f}s, SolCount={sol_count}"
         )
 
         log_objective_breakdown(ctx, model)
@@ -303,7 +334,7 @@ def _solve_once_with_gap(
         )
 
     # No feasible solution
-    print(f"[EMIB] No feasible solution: MIPGap={gap}, status={status}, time={solve_time:.2f}s, SolCount={sol_count}")
+    print(f"[EMIB] No feasible solution: stage={stage_label}, MIPGap={gap}, status={status}, time={solve_time:.2f}s, SolCount={sol_count}")
     empty_layout = {node.name: (0.0, 0.0) for node in nodes}
     empty_rot = {node.name: False for node in nodes}
     return ILPPlacementResult(
@@ -333,6 +364,14 @@ def search_multiple_solutions(
     image_output_dir: Optional[str] = None,  # Image output dir
     placement_output_path: Optional[str] = None,  # Full path for placement JSON
     bbox_relax_factor: float = DEFAULT_BBOX_RELAX_FACTOR,  # Bbox relax factor on retry (W, H multiplied)
+    mutual_distancing_enabled: bool = True,
+    central_avoidance_enabled: bool = True,
+    total_time_limit: int = 3600,
+    stage1_gap: float = 0.0,
+    stage1_time_limit: int = 300,
+    stage2_gap: float = 0.3,
+    stage2_time_limit: int = 300,
+    stage3_gap: float = 0.8,
 ) -> List[ILPPlacementResult]:
     """
     Search for multiple solutions.
@@ -357,47 +396,21 @@ def search_multiple_solutions(
 
     nodes, edges, edge_map, name_to_idx = load_emib_placement_json(input_json_path)
 
-    
-    # Preprocess edges: cap EMIB_max_width by min chiplet width/height
-    # min_width = float("inf")
-    # min_height = float("inf")
-    # for i, node in enumerate(nodes):
-    #     min_width = min(float(node.dimensions.get("x", 0.0)), min_width)
-    #     min_height = min(float(node.dimensions.get("y", 0.0)), min_height)
-    # # edges 为键值对列表（字典），可原地修改
-    # for edge in edges:
-    #     edge["EMIB_max_width"] = min(edge["EMIB_max_width"], min_width, min_height)
-    # print("预处理完成，EMIB_max_width更新为最小值:", min_width, min_height)
-
-    # Compact solve: EMIB_max_width can be set to 0.0 to ignore spacing
-    # for edge in edges:
-    #     edge["EMIB_max_width"] = 0.0
-    # # 输出硅桥互联信息（edge_map 中每条连接）
-    # print("[EMIB] 硅桥互联信息：")
-    # for (a, b), e in sorted(edge_map.items()):
-    #     print(f"  ({a}, {b}): node1={e.get('node1')}, node2={e.get('node2')}, "
-    #           f"wireCount={e.get('wireCount')}, EMIBType={e.get('EMIBType')}, "
-    #           f"EMIB_length={e.get('EMIB_length')}, EMIB_max_width={e.get('EMIB_max_width')}, "
-    #           f"EMIB_bump_width={e.get('EMIB_bump_width')}, EMIB_width={e.get('EMIB_width')}")
-
     solutions = []
     
     # Default min_pair_dist_diff to 1.0 if None
     if min_pair_dist_diff is None:
         min_pair_dist_diff = 1.0
 
-    # edges 已是 6 元组：(node1, node2, wireCount, EMIBType, EMIB_length, EMIB_max_width)
-    # print(f"\n[EMIB] 求解：{len(edges)} 条连接")
-
     # 1. Build EMIBNode dict from JSON: key=(i,j), value=EMIBNode
     emib_node_dict = build_emib_node_dict(edge_map, name_to_idx)
-    # print(f"[EMIB] EMIBNode 字典：{len(emib_node_dict)} 条互联")
 
     # 2. Initial bbox size
     W_initial, H_initial = _compute_initial_bbox(nodes)
-    # print(f"[EMIB] 初始边界框 W={W_initial:.2f}, H={H_initial:.2f}")
 
     # 3. First ILP solve (with EMIBNode dict)
+    print(f"[EMIB] Config mutual_distancing_enabled={mutual_distancing_enabled}")
+    print(f"[EMIB] Config central_avoidance_enabled={central_avoidance_enabled}")
     ctx = build_placement_ilp_model(
         nodes=nodes,
         emib_nodes=emib_node_dict,
@@ -405,6 +418,8 @@ def search_multiple_solutions(
         H=H_initial,
         fixed_chiplet_idx=fixed_chiplet_idx,
         min_shared_length=min_shared_length,
+        mutual_distancing_enabled=mutual_distancing_enabled,
+        central_avoidance_enabled=central_avoidance_enabled,
     )
     project_root = Path(__file__).parent.parent
     output_base = _resolve_output_base(project_root)
@@ -418,7 +433,16 @@ def search_multiple_solutions(
     lp_file = output_dir_path / "constraints_gurobi.lp"
     ctx.model.write(str(lp_file))
 
-    result = _run_three_phase_solve(ctx=ctx, nodes=nodes)
+    result = _run_three_phase_solve(
+        ctx=ctx,
+        nodes=nodes,
+        total_time_limit=total_time_limit,
+        stage1_gap=stage1_gap,
+        stage1_time_limit=stage1_time_limit,
+        stage2_gap=stage2_gap,
+        stage2_time_limit=stage2_time_limit,
+        stage3_gap=stage3_gap,
+    )
 
     # 3. On first failure, relax bbox and retry (commented out)
     # if result.status == "NoSolution":

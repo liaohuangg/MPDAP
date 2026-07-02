@@ -1,0 +1,230 @@
+[EMIB] Config mutual_distancing_enabled=False
+[EMIB] Config c2026-07-02 14:01:44 - INFO - Set parameter Username
+2026-07-02 14:01:44 - INFO - Set parameter LicenseID to value 2840060
+2026-07-02 14:01:44 - INFO - Academic license - for non-commercial use only - expires 2027-07-01
+2026-07-02 14:01:44 - INFO - Set parameter TimeLimit to value 300
+2026-07-02 14:01:44 - INFO - Set parameter MIPGap to value 0
+2026-07-02 14:01:44 - INFO - Set parameter MIPFocus to value 3
+2026-07-02 14:01:44 - INFO - Set parameter Heuristics to value 0.5
+2026-07-02 14:01:44 - INFO - Set parameter LogToConsole to value 1
+2026-07-02 14:01:44 - INFO - Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-07-02 14:01:44 - INFO - 
+2026-07-02 14:01:44 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-07-02 14:01:44 - INFO - Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+2026-07-02 14:01:44 - INFO - 
+2026-07-02 14:01:44 - INFO - Non-default parameters:
+2026-07-02 14:01:44 - INFO - TimeLimit  300
+2026-07-02 14:01:44 - INFO - MIPGap  0
+2026-07-02 14:01:44 - INFO - Heuristics  0.5
+2026-07-02 14:01:44 - INFO - MIPFocus  3
+2026-07-02 14:01:44 - INFO - 
+2026-07-02 14:01:44 - INFO - Optimize a model with 2256 rows, 1025 columns and 7826 nonzeros (Min)
+2026-07-02 14:01:44 - INFO - Model fingerprint: 0x33e3f9b4
+2026-07-02 14:01:44 - INFO - Model has 3 linear objective coefficients
+2026-07-02 14:01:44 - INFO - Variable types: 367 continuous, 658 integer (658 binary)
+2026-07-02 14:01:44 - INFO - Coefficient statistics:
+2026-07-02 14:01:44 - INFO -   Matrix range     [3e-01, 5e+02]
+2026-07-02 14:01:44 - INFO -   Objective range  [4e-05, 9e-02]
+2026-07-02 14:01:44 - INFO -   Bounds range     [9e-01, 3e+07]
+2026-07-02 14:01:44 - INFO -   RHS range        [9e-01, 3e+02]
+2026-07-02 14:01:44 - INFO - 
+2026-07-02 14:01:44 - INFO - Presolve removed 172 rows and 150 columns
+2026-07-02 14:01:44 - INFO - Presolve time: 0.01s
+2026-07-02 14:01:44 - INFO - Presolved: 2084 rows, 875 columns, 7284 nonzeros
+2026-07-02 14:01:44 - INFO - Variable types: 255 continuous, 620 integer (620 binary)
+2026-07-02 14:01:44 - INFO - Root relaxation presolve removed 176 rows and 36 columns
+2026-07-02 14:01:44 - INFO - Root relaxation presolved: 1908 rows, 871 columns, 6892 nonzeros
+2026-07-02 14:01:44 - INFO - 
+2026-07-02 14:01:44 - INFO - 
+2026-07-02 14:01:44 - INFO - Root relaxation: objective 1.770005e+00, 421 iterations, 0.01 seconds (0.01 work units)
+2026-07-02 14:01:44 - INFO - 
+2026-07-02 14:01:44 - INFO -     Nodes    |    Current Node    |     Objective Bounds      |     Work
+2026-07-02 14:01:44 - INFO -  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+2026-07-02 14:01:44 - INFO - 
+2026-07-02 14:01:44 - INFO -      0     0    1.77001    0  252          -    1.77001      -     -    0s
+2026-07-02 14:01:44 - INFO -      0     0    3.23837    0  265          -    3.23837      -     -    0s
+2026-07-02 14:01:44 - INFO -      0     0    3.23837    0  257          -    3.23837      -     -    0s
+2026-07-02 14:01:44 - INFO -      0     0    3.25988    0  266          -    3.25988      -     -    0s
+2026-07-02 14:01:44 - INFO -      0     0    3.32332    0  319          -    3.32332      -     -    0s
+2026-07-02 14:01:45 - INFO -      0     0    3.32332    0  277          -    3.32332      -     -    0s
+2026-07-02 14:01:45 - INFO -      0     0    3.76024    0  291          -    3.76024      -     -    0s
+2026-07-02 14:01:45 - INFO -      0     0    3.91124    0  325          -    3.91124      -     -    0s
+2026-07-02 14:01:45 - INFO -      0     0    3.91124    0  325          -    3.91124      -     -    0s
+2026-07-02 14:01:45 - INFO -      0     0    3.91124    0  317          -    3.91124      -     -    1s
+2026-07-02 14:01:45 - INFO -      0     0    4.08078    0  317          -    4.08078      -     -    1s
+2026-07-02 14:01:45 - INFO -      0     0    4.08078    0  298          -    4.08078      -     -    1s
+2026-07-02 14:01:47 - INFO -      0     2    4.08078    0  301          -    4.08078      -     -    2s
+2026-07-02 14:01:49 - INFO -   2108  1988    5.23136   13  331          -    4.65269      -  93.6    5s
+2026-07-02 14:01:54 - INFO -   2736  2382    5.45207   22  267          -    5.27213      -   132   10s
+2026-07-02 14:01:59 - INFO -   4860  3515 infeasible   23               -    5.61103      -   151   15s
+[B, E, 512, interfaceB, 1.7067, 3.0]
+  (1,11): [B, L, 256, interfaceB, 0.8533, 3.0]
+  (2,7): [C, H, 256, interfaceB, 0.8533, 3.0]
+  (2,9): [C, J, 128, interfaceC, 3.2, 99.0]
+  (2,11): [C, L, 512, interfaceB, 1.7067, 3.0]
+  (3,6): [D, G, 256, interfaceB, 0.8533, 3.0]
+  (3,7): [D, H, 256, interfaceB, 0.8533, 3.0]
+  (3,8): [D, I, 512, interfaceB, 1.7067, 3.0]
+  (4,5): [E, F, 512, interfaceB, 1.7067, 3.0]
+  (4,6): [E, G, 512, interfaceB, 1.7067, 3.0]
+  (4,8): [E, I, 128, interfaceC, 3.2, 99.0]
+  (4,11): [E, L, 256, interfaceB, 0.8533, 3.0]
+  (5,10): [F, K, 256, interfaceB, 0.8533, 3.0]
+  (6,8): [G, I, 256, interfaceB, 0.8533, 3.0]
+  (6,10): [G, K, 256, interfaceB, 0.8533, 3.0]
+  (6,11): [G, L, 128, interfaceC, 3.2, 99.0]
+  (7,9): [H, J, 128, interfaceC, 3.2, 99.0]
+  (8,10): [I, K, 256, interfaceB, 0.8533, 3.0]
+  (10,11): [K, L, 128, interfaceC, 3.2, 99.0]
+Set parameter Username
+Set parameter LicenseID to value 2840060
+Academic license - for non-commercial use only - expires 2027-07-01
+EMIB_w_var: {(0, 5): <gurobi.Var *Awaiting Model Update*>, (0, 7): <gurobi.Var *Awaiting Model Update*>, (0, 8): <gurobi.Var *Awaiting Model Update*>, (1, 2): <gurobi.Var *Awaiting Model Update*>, (1, 4): <gurobi.Var *Awaiting Model Update*>, (1, 11): <gurobi.Var *Awaiting Model Update*>, (2, 7): <gurobi.Var *Awaiting Model Update*>, (2, 11): <gurobi.Var *Awaiting Model Update*>, (3, 6): <gurobi.Var *Awaiting Model Update*>, (3, 7): <gurobi.Var *Awaiting Model Update*>, (3, 8): <gurobi.Var *Awaiting Model Update*>, (4, 5): <gurobi.Var *Awaiting Model Update*>, (4, 6): <gurobi.Var *Awaiting Model Update*>, (4, 11): <gurobi.Var *Awaiting Model Update*>, (5, 10): <gurobi.Var *Awaiting Model Update*>, (6, 8): <gurobi.Var *Awaiting Model Update*>, (6, 10): <gurobi.Var *Awaiting Model Update*>, (8, 10): <gurobi.Var *Awaiting Model Update*>}
+EMIB_h_var: {(0, 5): <gurobi.Var *Awaiting Model Update*>, (0, 7): <gurobi.Var *Awaiting Model Update*>, (0, 8): <gurobi.Var *Awaiting Model Update*>, (1, 2): <gurobi.Var *Awaiting Model Update*>, (1, 4): <gurobi.Var *Awaiting Model Update*>, (1, 11): <gurobi.Var *Awaiting Model Update*>, (2, 7): <gurobi.Var *Awaiting Model Update*>, (2, 11): <gurobi.Var *Awaiting Model Update*>, (3, 6): <gurobi.Var *Awaiting Model Update*>, (3, 7): <gurobi.Var *Awaiting Model Update*>, (3, 8): <gurobi.Var *Awaiting Model Update*>, (4, 5): <gurobi.Var *Awaiting Model Update*>, (4, 6): <gurobi.Var *Awaiting Model Update*>, (4, 11): <gurobi.Var *Awaiting Model Update*>, (5, 10): <gurobi.Var *Awaiting Model Update*>, (6, 8): <gurobi.Var *Awaiting Model Update*>, (6, 10): <gurobi.Var *Awaiting Model Update*>, (8, 10): <gurobi.Var *Awaiting Model Update*>}
+EMIB_connected_pairs: {(0, 5): EMIBNode(node1='A', node2='F', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (0, 7): EMIBNode(node1='A', node2='H', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (0, 8): EMIBNode(node1='A', node2='I', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (1, 2): EMIBNode(node1='B', node2='C', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (1, 4): EMIBNode(node1='B', node2='E', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (1, 11): EMIBNode(node1='B', node2='L', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (2, 7): EMIBNode(node1='C', node2='H', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (2, 11): EMIBNode(node1='C', node2='L', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (3, 6): EMIBNode(node1='D', node2='G', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (3, 7): EMIBNode(node1='D', node2='H', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (3, 8): EMIBNode(node1='D', node2='I', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (4, 5): EMIBNode(node1='E', node2='F', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (4, 6): EMIBNode(node1='E', node2='G', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (4, 11): EMIBNode(node1='E', node2='L', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (5, 10): EMIBNode(node1='F', node2='K', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (6, 8): EMIBNode(node1='G', node2='I', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (6, 10): EMIBNode(node1='G', node2='K', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (8, 10): EMIBNode(node1='I', node2='K', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533)}
+[POWER_AWARE] Mutual Distancing: DISABLED
+[POWER_AWARE] Central Avoidance: DISABLED
+[POWER_AWARE] Power Aware Optimization: DISABLED
+[DEBUG] L_avg: 32.54228019054596
+[DEBUG] total_area: 1059.0
+[DEBUG] ref_wirelength: 120796.9440673066
+[DEBUG] ref_t: 65.08456038109192
+[DEBUG] ref_power: 1.0
+[DEBUG] ref_aspect: 23.0
+
+================================================================================
+[OBJECTIVE FUNCTION DETAILS]
+================================================================================
+
+[Normalization Reference Values]
+  ref_wirelength: 1.207969e+05
+  ref_t (area proxy): 6.508456e+01
+  ref_power: 1.000000e+00
+  ref_aspect: 2.300000e+01
+
+[Beta Weights]
+  beta_wire: 5.000000e+00
+  beta_area: 6.000000e+00
+  beta_aspect: 1.000000e-01
+  beta_power: 0.000000e+00
+
+[Objective Function Components]
+  1. Wirelength term:
+     norm_wirelength = wirelength / ref_wirelength
+     contribution = beta_wire * norm_wirelength = 5.0 * norm_wirelength
+  2. Area term:
+     norm_t = t / ref_t
+     contribution = beta_area * norm_t = 6.0 * norm_t
+  3. Aspect Ratio term:
+     norm_aspect = aspect_ratio_penalty / ref_aspect
+     contribution = beta_aspect * norm_aspect = 0.1 * norm_aspect
+  4. Power Awareness term: NOT USED (power_aware_penalty is None)
+
+[Objective Function Formula]
+  minimize: 5.0 * wirelength/ref_wirelength
+          + 6.0 * t/ref_t
+          + 0.1 * aspect_ratio_penalty/ref_aspect
+================================================================================
+
+
+[EMIB] ILP Model construction completed. Analyzing model structure...
+================================================================================
+ILP MODEL ANALYSIS REPORT - Chiplet Placement ILP (Construction Complete)
+Generated: 2026-07-02 14:01:44
+================================================================================
+
+[MODEL STRUCTURE]
+  Constraints (rows):                   2256
+  Variables (columns):                  1025
+  Non-zero elements:                    7826
+  Objective coefficients:                  3
+
+[VARIABLE TYPES]
+  Continuous:                            367
+  Integer:                                 0
+  Binary:                                658
+
+[CONSTRAINT TYPES]
+  <= constraints:                             1284
+  == constraints:                              285
+  >= constraints:                              687
+
+[COEFFICIENT STATISTICS]
+  Matrix range:              [2.93e-01, 5.12e+02]
+  Objective range:           [4.14e-05, 9.22e-02]
+  Bounds range:              [-2.82e+02, 3.00e+07]
+
+[SOLVE STATISTICS]
+  Status:                    Unknown(1)
+  Solve time (s):                       0.00
+  Solutions found:                         0
+  Nodes explored:            (not available)
+  Simplex iterations:        (not available)
+
+[MEMORY USAGE]
+  Initial memory:                     90.35 MB
+  Peak memory:                        94.93 MB
+  Final memory:                       94.93 MB
+  Peak increase:                       4.58 MB
+  Final increase:                      4.58 MB
+  Gurobi memory:                       0.00 MB
+  Gurobi peak memory:                  0.00 MB
+
+================================================================================
+[EMIB] Three-phase config: timeout=3600, stage1=(gap=0.0, time=300), stage2=(gap=0.3, time=300), stage3=(gap=0.8, time=remaining)
+Set parameter TimeLimit to value 300
+Set parameter MIPGap to value 0
+Set parameter MIPFocus to value 3
+Set parameter Heuristics to value 0.5
+Set parameter LogToConsole to value 1
+[EMIB] Solve stage: stage1, MIPGap=0.0, TimeLimit=300s
+Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+
+CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+
+Non-default parameters:
+TimeLimit  300
+MIPGap  0
+Heuristics  0.5
+MIPFocus  3
+
+Optimize a model with 2256 rows, 1025 columns and 7826 nonzeros (Min)
+Model fingerprint: 0x33e3f9b4
+Model has 3 linear objective coefficients
+Variable types: 367 continuous, 658 integer (658 binary)
+Coefficient statistics:
+  Matrix range     [3e-01, 5e+02]
+  Objective range  [4e-05, 9e-02]
+  Bounds range     [9e-01, 3e+07]
+  RHS range        [9e-01, 3e+02]
+
+Presolve removed 172 rows and 150 columns
+Presolve time: 0.01s
+Presolved: 2084 rows, 875 columns, 7284 nonzeros
+Variable types: 255 continuous, 620 integer (620 binary)
+Root relaxation presolve removed 176 rows and 36 columns
+Root relaxation presolved: 1908 rows, 871 columns, 6892 nonzeros
+
+
+Root relaxation: objective 1.770005e+00, 421 iterations, 0.01 seconds (0.01 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    1.77001    0  252          -    1.77001      -     -    0s
+     0     0    3.23837    0  265          -    3.23837      -     -    0s
+     0     0    3.23837    0  257          -    3.23837      -     -    0s
+     0     0    3.25988    0  266          -    3.25988      -     -    0s
+     0     0    3.32332    0  319          -    3.32332      -     -    0s
+     0     0    3.32332    0  277          -    3.32332      -     -    0s
+     0     0    3.76024    0  291          -    3.76024      -     -    0s
+     0     0    3.91124    0  325          -    3.91124      -     -    0s
+     0     0    3.91124    0  325          -    3.91124      -     -    0s
+     0     0    3.91124    0  317          -    3.91124      -     -    1s
+     0     0    4.08078    0  317          -    4.08078      -     -    1s
+     0     0    4.08078    0  298          -    4.08078      -     -    1s
+     0     2    4.08078    0  301          -    4.08078      -     -    2s
+  2108  1988    5.23136   13  331          -    4.65269      -  93.6    5s
+  2736  2382    5.45207   22  267          -    5.27213      -   132   10s
+  4860  3515 infeasible   23               -    5.61103      -   151   15s
