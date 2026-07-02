@@ -442,26 +442,76 @@ def solve_placement_ilp_from_model(
         print("[EMIB] Optimization starting...")
         print(f"[EMIB] Time limit: {time_limit}s")
 
+    def log_solve_memory_usage():
+        if not memory_tracker:
+            return
+        lines = ["\n[GUROBI SOLVE MEMORY USAGE]"]
+        if not memory_tracker.available:
+            lines.append("  (psutil not available - install psutil for memory tracking)")
+        else:
+            stats = memory_tracker.get_stats()
+            lines.append("  Scope:                     model.optimize() only")
+            lines.append(
+                f"  Sampling interval:         {stats['sample_interval_seconds']:>14.3f} s"
+            )
+            lines.append(f"  Samples collected:         {stats['samples_collected']:>14}")
+            lines.append(f"  Initial solve memory:      {stats['initial_memory_mb']:>14.2f} MB")
+            lines.append(f"  Peak solve memory:         {stats['peak_memory_mb']:>14.2f} MB")
+            lines.append(f"  Final solve memory:        {stats['final_memory_mb']:>14.2f} MB")
+            lines.append(f"  Peak solve increase:       {stats['peak_increase_mb']:>14.2f} MB")
+            lines.append(f"  Final solve increase:      {stats['final_increase_mb']:>14.2f} MB")
+            try:
+                lines.append(f"  Gurobi memory:             {model.MemUsed * 1024:>14.2f} MB")
+            except Exception:
+                pass
+            try:
+                lines.append(f"  Gurobi peak memory:        {model.MaxMemUsed * 1024:>14.2f} MB")
+            except Exception:
+                pass
+
+        text = "\n".join(lines)
+        print(text)
+        if report_file:
+            try:
+                with open(report_file, 'a') as f:
+                    f.write(text + "\n\n")
+            except Exception as e:
+                print(f"Warning: Could not write solve memory report to {report_file}: {e}")
+
     model.setParam('TimeLimit', time_limit)
     model.setParam('OutputFlag', 1 if verbose else 0)
     model.setParam('LogToConsole', 1 if verbose else 0)
 
+    def memory_sampling_callback(model, where):
+        if memory_tracker:
+            memory_tracker.record_peak_throttled()
+
     try:
-        model.optimize()
+        if memory_tracker:
+            memory_tracker.start()
+            memory_tracker.start_sampling()
+        if memory_tracker and memory_tracker.available:
+            model.optimize(memory_sampling_callback)
+        else:
+            model.optimize()
+        if memory_tracker:
+            memory_tracker.stop_sampling()
         solve_time = time.time() - start_time
 
         # Track final memory
         if memory_tracker:
             memory_tracker.finish()
+            log_solve_memory_usage()
 
-        # Print model analysis report (skip if already printed at build time)
+        # Print model analysis after every optimize call, including infeasible and
+        # time-limit runs with no incumbent. Memory values cover model.optimize().
         # Note: Always print analysis report to stdout regardless of verbose flag
         # This allows shell script redirection to capture the output
-        if enable_model_analysis and not ctx.metrics_printed:
+        if enable_model_analysis:
             print("\n")
             print_model_report(
                 model,
-                model_name="Chiplet Placement ILP",
+                model_name="Chiplet Placement ILP (After Optimize)",
                 memory_tracker=memory_tracker,
                 log_file=report_file,
             )
@@ -533,7 +583,9 @@ def solve_placement_ilp_from_model(
 
         # Track error memory state
         if memory_tracker:
+            memory_tracker.stop_sampling()
             memory_tracker.finish()
+            log_solve_memory_usage()
 
         # Always output error and analysis info regardless of verbose flag
         # This allows shell script redirection to capture the output
@@ -542,8 +594,8 @@ def solve_placement_ilp_from_model(
             import traceback
             traceback.print_exc()
 
-        # Still print model analysis even on error (skip if already printed at build time)
-        if enable_model_analysis and not ctx.metrics_printed:
+        # Still print model analysis even on error.
+        if enable_model_analysis:
             print("\n[EMIB] Pre-solve ILP Model Statistics (before error):")
             try:
                 print_model_report(
@@ -601,6 +653,10 @@ def build_placement_ilp_model(
     Other parameters are the same as build_placement_ilp_model.
     """
     import math
+
+    model_build_tracker = MemoryTracker()
+    model_build_tracker.start()
+    model_build_tracker.start_sampling()
     
     n = len(nodes)
     name_to_idx = {node.name: i for i, node in enumerate(nodes)}
@@ -1491,15 +1547,15 @@ def build_placement_ilp_model(
     # Output model metrics at build time (always output for log capture)
     print("\n")
     print("[EMIB] ILP Model construction completed. Analyzing model structure...")
-    model_build_tracker = MemoryTracker()
-    model_build_tracker.start()
+    model.update()
+    model_build_tracker.stop_sampling()
+    model_build_tracker.finish()
     print_model_report(
         model,
         model_name="Chiplet Placement ILP (Construction Complete)",
         memory_tracker=model_build_tracker,
         log_file=None,
     )
-    model_build_tracker.finish()
     metrics_printed_at_build = True
 
     return ILPModelContext(
@@ -1632,4 +1688,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -1,0 +1,2091 @@
+
+================================================================================
+Batch test start (Gurobi)
+================================================================================
+Test input dir: /root/placement/MPDAP/benchmark/test_input
+Output base dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_17
+Found 1 test file(s)
+Files to process: syn4.json
+================================================================================
+
+
+[1/1] Processing: syn4.json
+  Core name: syn4_core
+  Log dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_17/log/syn4_core
+  LP dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_17/lp/syn4_core
+  Fig dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_17/fig/syn4_core
+  Placement file: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_17/placement/syn4.json
+2026-07-02 05:51:13 - INFO - Calling EMIB solver (Gurobi)...
+node 0 w: 9.0, h: 7.0
+node 1 w: 8.0, h: 7.0
+node 2 w: 7.0, h: 6.0
+node 3 w: 7.0, h: 7.0
+node 4 w: 6.0, h: 8.0
+node 5 w: 7.0, h: 7.0
+node 6 w: 9.0, h: 5.0
+node 7 w: 7.0, h: 5.0
+node 8 w: 9.0, h: 5.0
+node 9 w: 7.0, h: 7.0
+node 10 w: 8.0, h: 7.0
+node 11 w: 6.0, h: 5.0
+node 12 w: 9.0, h: 8.0
+  (A,I): node1=A, node2=I, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (A,L): node1=A, node2=L, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (B,D): node1=B, node2=D, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (B,E): node1=B, node2=E, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (B,G): node1=B, node2=G, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (B,I): node1=B, node2=I, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (B,M): node1=B, node2=M, wireCount=512, EMIBType=interfaceB, EMIB_length=1.7067, EMIB_max_width=3.0, width=2.0, height=1.7067, bump_width=1.0000
+  (C,D): node1=C, node2=D, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (C,F): node1=C, node2=F, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (C,H): node1=C, node2=H, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (C,I): node1=C, node2=I, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (C,J): node1=C, node2=J, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (D,F): node1=D, node2=F, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (D,L): node1=D, node2=L, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (E,H): node1=E, node2=H, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (E,I): node1=E, node2=I, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (E,J): node1=E, node2=J, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (F,M): node1=F, node2=M, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (G,H): node1=G, node2=H, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (G,I): node1=G, node2=I, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (G,J): node1=G, node2=J, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (G,K): node1=G, node2=K, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (H,I): node1=H, node2=I, wireCount=512, EMIBType=interfaceB, EMIB_length=1.7067, EMIB_max_width=3.0, width=2.0, height=1.7067, bump_width=1.0000
+  (H,J): node1=H, node2=J, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (H,L): node1=H, node2=L, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (I,L): node1=I, node2=L, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (J,L): node1=J, node2=L, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (J,M): node1=J, node2=M, wireCount=256, EMIBType=interfaceB, EMIB_length=0.8533, EMIB_max_width=3.0, width=2.0, height=0.8533, bump_width=1.0000
+  (K,L): node1=K, node2=L, wireCount=128, EMIBType=interfaceC, EMIB_length=3.2, EMIB_max_width=99.0, width=1.0, height=3.2, bump_width=0.5000
+  (L,M): node1=L, node2=M, wireCount=512, EMIBType=interfaceB, EMIB_length=1.7067, EMIB_max_width=3.0, width=2.0, height=1.7067, bump_width=1.0000
+  (0,8): [A, I, 256, interfaceB, 0.8533, 3.0]
+  (0,11): [A, L, 128, interfaceC, 3.2, 99.0]
+  (1,3): [B, D, 128, interfaceC, 3.2, 99.0]
+  (1,4): [B, E, 256, interfaceB, 0.8533, 3.0]
+  (1,6): [B, G, 128, interfaceC, 3.2, 99.0]
+  (1,8): [B, I, 128, interfaceC, 3.2, 99.0]
+  (1,12): [B, M, 512, interfaceB, 1.7067, 3.0]
+  (2,3): [C, D, 128, interfaceC, 3.2, 99.0]
+  (2,5): [C, F, 128, interfaceC, 3.2, 99.0]
+  (2,7): [C, H, 128, interfaceC, 3.2, 99.0]
+  (2,8): [C, I, 128, interfaceC, 3.2, 99.0]
+  (2,9): [C, J, 256, interfaceB, 0.8533, 3.0]
+  (3,5): [D, F, 128, interfaceC, 3.2, 99.0]
+  (3,11): [D, L, 256, interfaceB, 0.8533, 3.0]
+  (4,7): [E, H, 256, interfaceB, 0.8533, 3.0]
+  (4,8): [E, I, 128, interfaceC, 3.2, 99.0]
+  (4,9): [E, J, 256, interfaceB, 0.8533, 3.0]
+  (5,12): [F, M, 256, interfaceB, 0.8533, 3.0]
+  (6,7): [G, H, 256, interfaceB, 0.8533, 3.0]
+  (6,8): [G, I, 256, interfaceB, 0.8533, 3.0]
+  (6,9): [G, J, 128, interfaceC, 3.2, 99.0]
+  (6,10): [G, K, 256, interfaceB, 0.8533, 3.0]
+  (7,8): [H, I, 512, interfaceB, 1.7067, 3.0]
+  (7,9): [H, J, 128, interfaceC, 3.2, 99.0]
+  (7,11): [H, L, 256, interfaceB, 0.8533, 3.0]
+  (8,11): [I, L, 128, interfaceC, 3.2, 99.0]
+  (9,11): [J, L, 128, interfaceC, 3.2, 99.0]
+  (9,12): [J, M, 256, interfaceB, 0.8533, 3.0]
+  (10,11): [K, L, 128, interfaceC, 3.2, 99.0]
+  (11,12): [L, M, 512, interfaceB, 1.7067, 3.0]
+Set parameter Username
+2026-07-02 05:51:13 - INFO - Set parameter Username
+Set parameter LicenseID to value 2840060
+2026-07-02 05:51:13 - INFO - Set parameter LicenseID to value 2840060
+Academic license - for non-commercial use only - expires 2027-07-01
+2026-07-02 05:51:13 - INFO - Academic license - for non-commercial use only - expires 2027-07-01
+EMIB_w_var: {(0, 8): <gurobi.Var *Awaiting Model Update*>, (1, 4): <gurobi.Var *Awaiting Model Update*>, (1, 12): <gurobi.Var *Awaiting Model Update*>, (2, 9): <gurobi.Var *Awaiting Model Update*>, (3, 11): <gurobi.Var *Awaiting Model Update*>, (4, 7): <gurobi.Var *Awaiting Model Update*>, (4, 9): <gurobi.Var *Awaiting Model Update*>, (5, 12): <gurobi.Var *Awaiting Model Update*>, (6, 7): <gurobi.Var *Awaiting Model Update*>, (6, 8): <gurobi.Var *Awaiting Model Update*>, (6, 10): <gurobi.Var *Awaiting Model Update*>, (7, 8): <gurobi.Var *Awaiting Model Update*>, (7, 11): <gurobi.Var *Awaiting Model Update*>, (9, 12): <gurobi.Var *Awaiting Model Update*>, (11, 12): <gurobi.Var *Awaiting Model Update*>}
+EMIB_h_var: {(0, 8): <gurobi.Var *Awaiting Model Update*>, (1, 4): <gurobi.Var *Awaiting Model Update*>, (1, 12): <gurobi.Var *Awaiting Model Update*>, (2, 9): <gurobi.Var *Awaiting Model Update*>, (3, 11): <gurobi.Var *Awaiting Model Update*>, (4, 7): <gurobi.Var *Awaiting Model Update*>, (4, 9): <gurobi.Var *Awaiting Model Update*>, (5, 12): <gurobi.Var *Awaiting Model Update*>, (6, 7): <gurobi.Var *Awaiting Model Update*>, (6, 8): <gurobi.Var *Awaiting Model Update*>, (6, 10): <gurobi.Var *Awaiting Model Update*>, (7, 8): <gurobi.Var *Awaiting Model Update*>, (7, 11): <gurobi.Var *Awaiting Model Update*>, (9, 12): <gurobi.Var *Awaiting Model Update*>, (11, 12): <gurobi.Var *Awaiting Model Update*>}
+EMIB_connected_pairs: {(0, 8): EMIBNode(node1='A', node2='I', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (1, 4): EMIBNode(node1='B', node2='E', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (1, 12): EMIBNode(node1='B', node2='M', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (2, 9): EMIBNode(node1='C', node2='J', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (3, 11): EMIBNode(node1='D', node2='L', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (4, 7): EMIBNode(node1='E', node2='H', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (4, 9): EMIBNode(node1='E', node2='J', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (5, 12): EMIBNode(node1='F', node2='M', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (6, 7): EMIBNode(node1='G', node2='H', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (6, 8): EMIBNode(node1='G', node2='I', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (6, 10): EMIBNode(node1='G', node2='K', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (7, 8): EMIBNode(node1='H', node2='I', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067), (7, 11): EMIBNode(node1='H', node2='L', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (9, 12): EMIBNode(node1='J', node2='M', wireCount=256, EMIBType='interfaceB', EMIB_length=0.8533, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=0.8533), (11, 12): EMIBNode(node1='L', node2='M', wireCount=512, EMIBType='interfaceB', EMIB_length=1.7067, EMIB_bump_width=1.0, EMIB_max_width=3.0, width=2.0, height=1.7067)}
+[POWER_AWARE] Mutual Distancing: ENABLED
+[POWER_AWARE] Central Avoidance: ENABLED
+[POWER_AWARE] Power Aware Optimization: ENABLED
+[POWER_AWARE] Selected high-power chiplets: 3 (density threshold: 1.0357142857142858)
+[POWER_AWARE] High-power chiplet indices: [7, 10, 11]
+[POWER_AWARE] Mutual Distancing: Creating constraints for 3 high-power chiplets
+[POWER_AWARE] Mutual Distancing: Added distance constraints for all high-power pairs
+[POWER_AWARE] Central Avoidance: Creating away-from-center constraints for 3 high-power chiplets
+[DEBUG] chiplet 7 in top 30% power density, add away-from-center constraint
+[DEBUG] chiplet 10 in top 30% power density, add away-from-center constraint
+[DEBUG] chiplet 11 in top 30% power density, add away-from-center constraint
+[POWER_AWARE] Central Avoidance: Added away-from-center constraints for 3 high-power chiplets
+[DEBUG] L_avg: 25.278449319529077
+[DEBUG] total_area: 639.0
+[POWER_AWARE] Normalization factor calculation:
+[POWER_AWARE]   - High-power chiplets: 3
+[POWER_AWARE]   - Mutual Distancing enabled: True
+[POWER_AWARE]   - Central Avoidance enabled: True
+[POWER_AWARE]   - pair_sum (MD): 6.516000e+03
+[POWER_AWARE]   - self_sum (CA): 6.849000e+03
+[POWER_AWARE]   - total_sum (pair + self): 1.336500e+04
+[POWER_AWARE]   - ref_power: 1.689232e+05
+[DEBUG] ref_wirelength: 82508.8585789429
+[DEBUG] ref_t: 50.556898639058154
+[DEBUG] ref_power: 168923.23757775305
+[DEBUG] ref_aspect: 19.0
+
+================================================================================
+[OBJECTIVE FUNCTION DETAILS]
+================================================================================
+
+[Normalization Reference Values]
+  ref_wirelength: 8.250886e+04
+  ref_t (area proxy): 5.055690e+01
+  ref_power: 1.689232e+05
+  ref_aspect: 1.900000e+01
+
+[Beta Weights]
+  beta_wire: 5.000000e+00
+  beta_area: 6.000000e+00
+  beta_aspect: 1.000000e-01
+  beta_power: 1.700000e+00
+
+[Objective Function Components]
+  1. Wirelength term:
+     norm_wirelength = wirelength / ref_wirelength
+     contribution = beta_wire * norm_wirelength = 5.0 * norm_wirelength
+  2. Area term:
+     norm_t = t / ref_t
+     contribution = beta_area * norm_t = 6.0 * norm_t
+  3. Aspect Ratio term:
+     norm_aspect = aspect_ratio_penalty / ref_aspect
+     contribution = beta_aspect * norm_aspect = 0.1 * norm_aspect
+  4. Power Awareness term:
+     norm_power = power_aware_penalty / ref_power
+     contribution = - beta_power * norm_power = - 1.7 * norm_power
+
+[Objective Function Formula]
+  minimize: 5.0 * wirelength/ref_wirelength
+          + 6.0 * t/ref_t
+          + 0.1 * aspect_ratio_penalty/ref_aspect
+          - 1.7 * power_aware_penalty/ref_power
+================================================================================
+
+
+[EMIB] ILP Model construction completed. Analyzing model structure...
+================================================================================
+ILP MODEL ANALYSIS REPORT - Chiplet Placement ILP (Construction Complete)
+Generated: 2026-07-02 05:51:13
+================================================================================
+
+[MODEL STRUCTURE]
+  Constraints (rows):                      0
+  Variables (columns):                     0
+  Non-zero elements:                       0
+  Objective coefficients:                  0
+
+[VARIABLE TYPES]
+  Continuous:                              0
+  Integer:                                 0
+  Binary:                                  0
+
+[CONSTRAINT TYPES]
+
+[COEFFICIENT STATISTICS]
+
+[SOLVE STATISTICS]
+  Status:                    Unknown(1)
+  Solve time (s):                       0.00
+  Solutions found:                         0
+  Nodes explored:            (not available)
+  Simplex iterations:        (not available)
+
+[MEMORY USAGE]
+  Initial memory:                     90.13 MB
+  Peak memory:                        94.21 MB
+  Final memory:                       94.21 MB
+  Peak increase:                       4.07 MB
+  Final increase:                      4.07 MB
+  Gurobi memory:                       0.00 MB
+  Gurobi peak memory:                  0.00 MB
+
+================================================================================
+Set parameter TimeLimit to value 300
+2026-07-02 05:51:13 - INFO - Set parameter TimeLimit to value 300
+Set parameter MIPGap to value 0
+2026-07-02 05:51:13 - INFO - Set parameter MIPGap to value 0
+Set parameter MIPFocus to value 3
+2026-07-02 05:51:13 - INFO - Set parameter MIPFocus to value 3
+Set parameter Heuristics to value 0.5
+2026-07-02 05:51:13 - INFO - Set parameter Heuristics to value 0.5
+Set parameter LogToConsole to value 1
+2026-07-02 05:51:13 - INFO - Set parameter LogToConsole to value 1
+Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-07-02 05:51:13 - INFO - Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+
+2026-07-02 05:51:13 - INFO - 
+CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-07-02 05:51:13 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+2026-07-02 05:51:13 - INFO - Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+
+2026-07-02 05:51:13 - INFO - 
+Non-default parameters:
+2026-07-02 05:51:13 - INFO - Non-default parameters:
+TimeLimit  300
+2026-07-02 05:51:13 - INFO - TimeLimit  300
+MIPGap  0
+2026-07-02 05:51:13 - INFO - MIPGap  0
+Heuristics  0.5
+2026-07-02 05:51:13 - INFO - Heuristics  0.5
+MIPFocus  3
+2026-07-02 05:51:13 - INFO - MIPFocus  3
+
+2026-07-02 05:51:13 - INFO - 
+Optimize a model with 2263 rows, 1034 columns and 7757 nonzeros (Min)
+2026-07-02 05:51:13 - INFO - Optimize a model with 2263 rows, 1034 columns and 7757 nonzeros (Min)
+Model fingerprint: 0xd441619d
+2026-07-02 05:51:13 - INFO - Model fingerprint: 0xd441619d
+Model has 4 linear objective coefficients
+2026-07-02 05:51:13 - INFO - Model has 4 linear objective coefficients
+Variable types: 390 continuous, 644 integer (644 binary)
+2026-07-02 05:51:13 - INFO - Variable types: 390 continuous, 644 integer (644 binary)
+Coefficient statistics:
+2026-07-02 05:51:13 - INFO - Coefficient statistics:
+  Matrix range     [3e-01, 3e+03]
+2026-07-02 05:51:13 - INFO -   Matrix range     [3e-01, 3e+03]
+  Objective range  [1e-05, 1e-01]
+2026-07-02 05:51:13 - INFO -   Objective range  [1e-05, 1e-01]
+  Bounds range     [9e-01, 3e+07]
+2026-07-02 05:51:13 - INFO -   Bounds range     [9e-01, 3e+07]
+  RHS range        [9e-01, 2e+02]
+2026-07-02 05:51:13 - INFO -   RHS range        [9e-01, 2e+02]
+
+2026-07-02 05:51:13 - INFO - 
+Presolve removed 163 rows and 140 columns
+2026-07-02 05:51:13 - INFO - Presolve removed 163 rows and 140 columns
+Presolve time: 0.01s
+2026-07-02 05:51:13 - INFO - Presolve time: 0.01s
+Presolved: 2100 rows, 894 columns, 7114 nonzeros
+2026-07-02 05:51:13 - INFO - Presolved: 2100 rows, 894 columns, 7114 nonzeros
+Variable types: 283 continuous, 611 integer (611 binary)
+2026-07-02 05:51:13 - INFO - Variable types: 283 continuous, 611 integer (611 binary)
+Root relaxation presolve removed 324 rows and 86 columns
+2026-07-02 05:51:13 - INFO - Root relaxation presolve removed 324 rows and 86 columns
+Root relaxation presolved: 1776 rows, 842 columns, 6356 nonzeros
+2026-07-02 05:51:13 - INFO - Root relaxation presolved: 1776 rows, 842 columns, 6356 nonzeros
+
+2026-07-02 05:51:13 - INFO - 
+
+2026-07-02 05:51:13 - INFO - 
+Root relaxation: objective -2.566769e+01, 436 iterations, 0.01 seconds (0.01 work units)
+2026-07-02 05:51:13 - INFO - Root relaxation: objective -2.566769e+01, 436 iterations, 0.01 seconds (0.01 work units)
+
+2026-07-02 05:51:13 - INFO - 
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+2026-07-02 05:51:13 - INFO -     Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+2026-07-02 05:51:13 - INFO -  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+2026-07-02 05:51:13 - INFO - 
+     0     0  -25.66769    0  259          -  -25.66769      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0  -25.66769    0  259          -  -25.66769      -     -    0s
+     0     0  -14.52373    0  283          -  -14.52373      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0  -14.52373    0  283          -  -14.52373      -     -    0s
+     0     0  -14.52373    0  273          -  -14.52373      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0  -14.52373    0  273          -  -14.52373      -     -    0s
+     0     0  -12.75949    0  277          -  -12.75949      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0  -12.75949    0  277          -  -12.75949      -     -    0s
+     0     0  -12.75949    0  280          -  -12.75949      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0  -12.75949    0  280          -  -12.75949      -     -    0s
+     0     0  -12.75949    0  290          -  -12.75949      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0  -12.75949    0  290          -  -12.75949      -     -    0s
+     0     0  -12.75949    0  294          -  -12.75949      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0  -12.75949    0  294          -  -12.75949      -     -    0s
+     0     0  -12.75949    0  299          -  -12.75949      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0  -12.75949    0  299          -  -12.75949      -     -    0s
+     0     0  -12.75949    0  299          -  -12.75949      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0  -12.75949    0  299          -  -12.75949      -     -    0s
+     0     0  -12.75949    0  303          -  -12.75949      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0  -12.75949    0  303          -  -12.75949      -     -    0s
+     0     0  -11.80836    0  304          -  -11.80836      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0  -11.80836    0  304          -  -11.80836      -     -    0s
+     0     0  -11.80836    0  304          -  -11.80836      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0  -11.80836    0  304          -  -11.80836      -     -    0s
+     0     0  -11.80836    0  269          -  -11.80836      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0  -11.80836    0  269          -  -11.80836      -     -    0s
+     0     0   -6.55225    0  270          -   -6.55225      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0   -6.55225    0  270          -   -6.55225      -     -    0s
+     0     0   -6.55225    0  271          -   -6.55225      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0   -6.55225    0  271          -   -6.55225      -     -    0s
+     0     0   -6.55225    0  273          -   -6.55225      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0   -6.55225    0  273          -   -6.55225      -     -    0s
+     0     0   -6.55225    0  276          -   -6.55225      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0   -6.55225    0  276          -   -6.55225      -     -    0s
+     0     0   -6.55225    0  276          -   -6.55225      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0   -6.55225    0  276          -   -6.55225      -     -    0s
+     0     0   -4.96434    0  293          -   -4.96434      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0   -4.96434    0  293          -   -4.96434      -     -    0s
+     0     0   -4.96434    0  289          -   -4.96434      -     -    0s
+2026-07-02 05:51:13 - INFO -      0     0   -4.96434    0  289          -   -4.96434      -     -    0s
+     0     0   -4.96434    0  278          -   -4.96434      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0   -4.96434    0  278          -   -4.96434      -     -    1s
+     0     0   -1.20666    0  293          -   -1.20666      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0   -1.20666    0  293          -   -1.20666      -     -    1s
+     0     0   -1.20666    0  286          -   -1.20666      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0   -1.20666    0  286          -   -1.20666      -     -    1s
+     0     0   -1.20666    0  299          -   -1.20666      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0   -1.20666    0  299          -   -1.20666      -     -    1s
+     0     0   -1.20666    0  287          -   -1.20666      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0   -1.20666    0  287          -   -1.20666      -     -    1s
+     0     0   -1.16310    0  307          -   -1.16310      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0   -1.16310    0  307          -   -1.16310      -     -    1s
+     0     0   -1.16310    0  307          -   -1.16310      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0   -1.16310    0  307          -   -1.16310      -     -    1s
+     0     0   -1.16310    0  291          -   -1.16310      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0   -1.16310    0  291          -   -1.16310      -     -    1s
+     0     0    0.06823    0  303          -    0.06823      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0    0.06823    0  303          -    0.06823      -     -    1s
+     0     0    0.08026    0  327          -    0.08026      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0    0.08026    0  327          -    0.08026      -     -    1s
+     0     0    0.09104    0  330          -    0.09104      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0    0.09104    0  330          -    0.09104      -     -    1s
+     0     0    0.09104    0  329          -    0.09104      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0    0.09104    0  329          -    0.09104      -     -    1s
+     0     0    0.09104    0  344          -    0.09104      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0    0.09104    0  344          -    0.09104      -     -    1s
+     0     0    0.09104    0  343          -    0.09104      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0    0.09104    0  343          -    0.09104      -     -    1s
+     0     0    0.09104    0  350          -    0.09104      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0    0.09104    0  350          -    0.09104      -     -    1s
+     0     0    0.39379    0  324          -    0.39379      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0    0.39379    0  324          -    0.39379      -     -    1s
+     0     0    0.39379    0  323          -    0.39379      -     -    1s
+2026-07-02 05:51:14 - INFO -      0     0    0.39379    0  323          -    0.39379      -     -    1s
+     0     0    0.39379    0  322          -    0.39379      -     -    1s
+2026-07-02 05:51:15 - INFO -      0     0    0.39379    0  322          -    0.39379      -     -    1s
+     0     0    0.82444    0  337          -    0.82444      -     -    2s
+2026-07-02 05:51:15 - INFO -      0     0    0.82444    0  337          -    0.82444      -     -    2s
+     0     0    0.88631    0  325          -    0.88631      -     -    2s
+2026-07-02 05:51:15 - INFO -      0     0    0.88631    0  325          -    0.88631      -     -    2s
+     0     0    0.88631    0  324          -    0.88631      -     -    2s
+2026-07-02 05:51:15 - INFO -      0     0    0.88631    0  324          -    0.88631      -     -    2s
+     0     0    0.88631    0  301          -    0.88631      -     -    2s
+2026-07-02 05:51:15 - INFO -      0     0    0.88631    0  301          -    0.88631      -     -    2s
+     0     0    0.94581    0  316          -    0.94581      -     -    2s
+2026-07-02 05:51:15 - INFO -      0     0    0.94581    0  316          -    0.94581      -     -    2s
+     0     0    0.94581    0  316          -    0.94581      -     -    2s
+2026-07-02 05:51:15 - INFO -      0     0    0.94581    0  316          -    0.94581      -     -    2s
+     0     0    1.16229    0  329          -    1.16229      -     -    2s
+2026-07-02 05:51:15 - INFO -      0     0    1.16229    0  329          -    1.16229      -     -    2s
+     0     0    1.16229    0  328          -    1.16229      -     -    2s
+2026-07-02 05:51:15 - INFO -      0     0    1.16229    0  328          -    1.16229      -     -    2s
+     0     0    1.16229    0  305          -    1.16229      -     -    2s
+2026-07-02 05:51:16 - INFO -      0     0    1.16229    0  305          -    1.16229      -     -    2s
+     0     0    1.23482    0  315          -    1.23482      -     -    3s
+2026-07-02 05:51:16 - INFO -      0     0    1.23482    0  315          -    1.23482      -     -    3s
+     0     0    1.23482    0  339          -    1.23482      -     -    3s
+2026-07-02 05:51:16 - INFO -      0     0    1.23482    0  339          -    1.23482      -     -    3s
+     0     0    1.26875    0  333          -    1.26875      -     -    3s
+2026-07-02 05:51:16 - INFO -      0     0    1.26875    0  333          -    1.26875      -     -    3s
+     0     0    1.26875    0  324          -    1.26875      -     -    3s
+2026-07-02 05:51:16 - INFO -      0     0    1.26875    0  324          -    1.26875      -     -    3s
+     0     0    1.30111    0  327          -    1.30111      -     -    3s
+2026-07-02 05:51:16 - INFO -      0     0    1.30111    0  327          -    1.30111      -     -    3s
+     0     0    1.30111    0  354          -    1.30111      -     -    3s
+2026-07-02 05:51:16 - INFO -      0     0    1.30111    0  354          -    1.30111      -     -    3s
+     0     0    1.30111    0  351          -    1.30111      -     -    3s
+2026-07-02 05:51:16 - INFO -      0     0    1.30111    0  351          -    1.30111      -     -    3s
+     0     0    1.30111    0  338          -    1.30111      -     -    3s
+2026-07-02 05:51:16 - INFO -      0     0    1.30111    0  338          -    1.30111      -     -    3s
+     0     0    1.30111    0  337          -    1.30111      -     -    3s
+2026-07-02 05:51:16 - INFO -      0     0    1.30111    0  337          -    1.30111      -     -    3s
+     0     0    1.30111    0  337          -    1.30111      -     -    3s
+2026-07-02 05:51:16 - INFO -      0     0    1.30111    0  337          -    1.30111      -     -    3s
+     0     0    1.30126    0  337          -    1.30126      -     -    3s
+2026-07-02 05:51:17 - INFO -      0     0    1.30126    0  337          -    1.30126      -     -    3s
+     0     0    1.30126    0  304          -    1.30126      -     -    4s
+2026-07-02 05:51:17 - INFO -      0     0    1.30126    0  304          -    1.30126      -     -    4s
+     0     2    1.30126    0  300          -    1.30126      -     -    5s
+2026-07-02 05:51:18 - INFO -      0     2    1.30126    0  300          -    1.30126      -     -    5s
+  1959  1943    3.33501   15  332          -    2.58212      -  82.5   10s
+2026-07-02 05:51:23 - INFO -   1959  1943    3.33501   15  332          -    2.58212      -  82.5   10s
+  2448  2302    3.09092   18  269          -    3.01003      -  94.4   15s
+2026-07-02 05:51:28 - INFO -   2448  2302    3.09092   18  269          -    3.01003      -  94.4   15s
+  3752  3190    3.43201   18  293          -    3.19057      -   101   20s
+2026-07-02 05:51:33 - INFO -   3752  3190    3.43201   18  293          -    3.19057      -   101   20s
+  8124  6121    3.36364   24  289          -    3.27365      -  93.2   25s
+2026-07-02 05:51:38 - INFO -   8124  6121    3.36364   24  289          -    3.27365      -  93.2   25s
+ 14886 12785    4.28517   19  253          -    3.32009      -  83.9   30s
+2026-07-02 05:51:43 - INFO -  14886 12785    4.28517   19  253          -    3.32009      -  83.9   30s
+ 49036 38167    3.49064   21  318          -    3.41713      -  62.6   35s
+2026-07-02 05:51:48 - INFO -  49036 38167    3.49064   21  318          -    3.41713      -  62.6   35s
+ 71495 52956    3.95897   25  256          -    3.46168      -  60.5   40s
+2026-07-02 05:51:53 - INFO -  71495 52956    3.95897   25  256          -    3.46168      -  60.5   40s
+ 85525 63956    3.82458   32  279          -    3.48695      -  61.1   45s
+2026-07-02 05:51:58 - INFO -  85525 63956    3.82458   32  279          -    3.48695      -  61.1   45s
+ 91978 66204    4.16179   24  216          -    3.50878      -  63.0   50s
+2026-07-02 05:52:03 - INFO -  91978 66204    4.16179   24  216          -    3.50878      -  63.0   50s
+ 98129 69614    3.95627   24  273          -    3.52385      -  65.0   55s
+2026-07-02 05:52:08 - INFO -  98129 69614    3.95627   24  273          -    3.52385      -  65.0   55s
+ 99208 70770    3.88056   26  267          -    3.53056      -  65.7   60s
+2026-07-02 05:52:13 - INFO -  99208 70770    3.88056   26  267          -    3.53056      -  65.7   60s
+ 102947 74672    3.67991   22  312          -    3.53810      -  66.9   65s
+2026-07-02 05:52:18 - INFO -  102947 74672    3.67991   22  312          -    3.53810      -  66.9   65s
+ 114892 79854    3.78336   21  290          -    3.56123      -  68.7   71s
+2026-07-02 05:52:24 - INFO -  114892 79854    3.78336   21  290          -    3.56123      -  68.7   71s
+ 135323 92160    3.69504   21  344          -    3.58466      -  68.3   75s
+2026-07-02 05:52:28 - INFO -  135323 92160    3.69504   21  344          -    3.58466      -  68.3   75s
+ 153162 102568    3.78746   26  271          -    3.60759      -  68.9   80s
+2026-07-02 05:52:33 - INFO -  153162 102568    3.78746   26  271          -    3.60759      -  68.9   80s
+ 178894 117449    3.74171   24  314          -    3.63526      -  69.0   85s
+2026-07-02 05:52:38 - INFO -  178894 117449    3.74171   24  314          -    3.63526      -  69.0   85s
+ 179286 117765    3.88419   24  309          -    3.64121      -  69.6   90s
+2026-07-02 05:52:43 - INFO -  179286 117765    3.88419   24  309          -    3.64121      -  69.6   90s
+ 181407 119332    4.04926   29  226          -    3.64771      -  70.5   95s
+2026-07-02 05:52:48 - INFO -  181407 119332    4.04926   29  226          -    3.64771      -  70.5   95s
+ 188921 123853    3.88924   27  296          -    3.65722      -  72.0  100s
+2026-07-02 05:52:54 - INFO -  188921 123853    3.88924   27  296          -    3.65722      -  72.0  100s
+ 194155 125391    3.71358   27  281          -    3.66441      -  73.0  105s
+2026-07-02 05:52:58 - INFO -  194155 125391    3.71358   27  281          -    3.66441      -  73.0  105s
+ 200316 129580    4.37002   29  290          -    3.67074      -  74.4  110s
+2026-07-02 05:53:03 - INFO -  200316 129580    4.37002   29  290          -    3.67074      -  74.4  110s
+ 209481 132056    3.95437   22  305          -    3.68313      -  75.8  115s
+2026-07-02 05:53:08 - INFO -  209481 132056    3.95437   22  305          -    3.68313      -  75.8  115s
+ 211085 132980    3.84831   25  269          -    3.68614      -  76.3  121s
+2026-07-02 05:53:14 - INFO -  211085 132980    3.84831   25  269          -    3.68614      -  76.3  121s
+ 212245 134729    3.95175   29  263          -    3.68932      -  76.7  126s
+2026-07-02 05:53:19 - INFO -  212245 134729    3.95175   29  263          -    3.68932      -  76.7  126s
+ 222778 139732    3.90297   26  293          -    3.69802      -  78.1  131s
+2026-07-02 05:53:24 - INFO -  222778 139732    3.90297   26  293          -    3.69802      -  78.1  131s
+ 228833 141072    4.56145   23  207          -    3.70430      -  79.1  136s
+2026-07-02 05:53:29 - INFO -  228833 141072    4.56145   23  207          -    3.70430      -  79.1  136s
+ 231552 144186    3.85421   26  308          -    3.70594      -  79.5  140s
+2026-07-02 05:53:33 - INFO -  231552 144186    3.85421   26  308          -    3.70594      -  79.5  140s
+ 243637 148448    4.21617   23  274          -    3.71904      -  81.1  145s
+2026-07-02 05:53:38 - INFO -  243637 148448    4.21617   23  274          -    3.71904      -  81.1  145s
+ 261199 155808    4.03914   21  255          -    3.73242      -  81.1  151s
+2026-07-02 05:53:44 - INFO -  261199 155808    4.03914   21  255          -    3.73242      -  81.1  151s
+ 263148 156641    4.20873   22  294          -    3.73389      -  81.5  155s
+2026-07-02 05:53:48 - INFO -  263148 156641    4.20873   22  294          -    3.73389      -  81.5  155s
+ 263474 157349    3.84537   27  302          -    3.73585      -  81.6  160s
+2026-07-02 05:53:53 - INFO -  263474 157349    3.84537   27  302          -    3.73585      -  81.6  160s
+ 270616 161578    4.23230   26  299          -    3.73984      -  82.5  165s
+2026-07-02 05:53:58 - INFO -  270616 161578    4.23230   26  299          -    3.73984      -  82.5  165s
+ 276096 163126    4.00436   27  278          -    3.74901      -  83.1  171s
+2026-07-02 05:54:04 - INFO -  276096 163126    4.00436   27  278          -    3.74901      -  83.1  171s
+ 282922 166636    4.40289   25  285          -    3.75228      -  83.8  175s
+2026-07-02 05:54:08 - INFO -  282922 166636    4.40289   25  285          -    3.75228      -  83.8  175s
+ 295868 170924    4.03176   22  279          -    3.76491      -  85.0  181s
+2026-07-02 05:54:14 - INFO -  295868 170924    4.03176   22  279          -    3.76491      -  85.0  181s
+ 299182 173357    3.97785   26  315          -    3.76750      -  85.2  185s
+2026-07-02 05:54:18 - INFO -  299182 173357    3.97785   26  315          -    3.76750      -  85.2  185s
+ 318182 182713    4.06714   26  291          -    3.77925      -  84.9  190s
+2026-07-02 05:54:23 - INFO -  318182 182713    4.06714   26  291          -    3.77925      -  84.9  190s
+ 340068 192569    3.81868   20  337          -    3.79318      -  84.8  195s
+2026-07-02 05:54:29 - INFO -  340068 192569    3.81868   20  337          -    3.79318      -  84.8  195s
+ 340247 192737    5.04818   32  192          -    3.79583      -  85.0  200s
+2026-07-02 05:54:33 - INFO -  340247 192737    5.04818   32  192          -    3.79583      -  85.0  200s
+ 340487 192891    4.21908   25  263          -    3.79761      -  85.2  205s
+2026-07-02 05:54:38 - INFO -  340487 192891    4.21908   25  263          -    3.79761      -  85.2  205s
+ 342290 194627    4.17888   25  269          -    3.79994      -  85.6  210s
+2026-07-02 05:54:44 - INFO -  342290 194627    4.17888   25  269          -    3.79994      -  85.6  210s
+ 348175 197712    4.04874   27  278          -    3.80373      -  86.1  215s
+2026-07-02 05:54:48 - INFO -  348175 197712    4.04874   27  278          -    3.80373      -  86.1  215s
+ 354323 199851 infeasible   23               -    3.80874      -  86.6  221s
+2026-07-02 05:54:54 - INFO -  354323 199851 infeasible   23               -    3.80874      -  86.6  221s
+ 359267 202886    4.21237   26  239          -    3.81129      -  87.0  225s
+2026-07-02 05:54:58 - INFO -  359267 202886    4.21237   26  239          -    3.81129      -  87.0  225s
+ 370255 207193    4.06878   28  316          -    3.81892      -  87.6  230s
+2026-07-02 05:55:03 - INFO -  370255 207193    4.06878   28  316          -    3.81892      -  87.6  230s
+ 382204 211887    4.28215   29  270          -    3.82620      -  88.1  236s
+2026-07-02 05:55:09 - INFO -  382204 211887    4.28215   29  270          -    3.82620      -  88.1  236s
+ 388474 219541    4.13791   25  314          -    3.83007      -  88.6  240s
+2026-07-02 05:55:13 - INFO -  388474 219541    4.13791   25  314          -    3.83007      -  88.6  240s
+ 398923 219679    4.04908   26  311          -    3.83580      -  88.2  245s
+2026-07-02 05:55:18 - INFO -  398923 219679    4.04908   26  311          -    3.83580      -  88.2  245s
+ 399090 219925    3.93597   26  306          -    3.83721      -  88.4  250s
+2026-07-02 05:55:23 - INFO -  399090 219925    3.93597   26  306          -    3.83721      -  88.4  250s
+ 399949 220256    4.09601   23  266          -    3.83916      -  88.6  255s
+2026-07-02 05:55:28 - INFO -  399949 220256    4.09601   23  266          -    3.83916      -  88.6  255s
+ 401094 223989    4.37787   26  271          -    3.83997      -  88.7  260s
+2026-07-02 05:55:34 - INFO -  401094 223989    4.37787   26  271          -    3.83997      -  88.7  260s
+ 415395 226568    4.12474   29  311          -    3.84805      -  89.6  266s
+2026-07-02 05:55:39 - INFO -  415395 226568    4.12474   29  311          -    3.84805      -  89.6  266s
+ 417674 228971    4.22169   27  239          -    3.84998      -  89.8  271s
+2026-07-02 05:55:44 - INFO -  417674 228971    4.22169   27  239          -    3.84998      -  89.8  271s
+ 425033 232077    4.14565   28  303          -    3.85384      -  90.3  275s
+2026-07-02 05:55:48 - INFO -  425033 232077    4.14565   28  303          -    3.85384      -  90.3  275s
+ 437296 237012    4.03184   30  281          -    3.86134      -  91.0  281s
+2026-07-02 05:55:54 - INFO -  437296 237012    4.03184   30  281          -    3.86134      -  91.0  281s
+ 440465 237592 infeasible   26               -    3.86442      -  91.2  285s
+2026-07-02 05:55:59 - INFO -  440465 237592 infeasible   26               -    3.86442      -  91.2  285s
+ 446376 241159    4.06939   26  301          -    3.86674      -  91.6  291s
+2026-07-02 05:56:04 - INFO -  446376 241159    4.06939   26  301          -    3.86674      -  91.6  291s
+ 453712 242510    4.20876   26  300          -    3.87129      -  92.0  295s
+2026-07-02 05:56:08 - INFO -  453712 242510    4.20876   26  300          -    3.87129      -  92.0  295s
+ 453864 242637    4.15639   32  267          -    3.87330      -  92.2  300s
+2026-07-02 05:56:13 - INFO -  453864 242637    4.15639   32  267          -    3.87330      -  92.2  300s
+
+2026-07-02 05:56:13 - INFO - 
+Cutting planes:
+2026-07-02 05:56:13 - INFO - Cutting planes:
+  Learned: 91
+2026-07-02 05:56:13 - INFO -   Learned: 91
+  Gomory: 232
+2026-07-02 05:56:13 - INFO -   Gomory: 232
+  Lift-and-project: 88
+2026-07-02 05:56:13 - INFO -   Lift-and-project: 88
+  Cover: 35
+2026-07-02 05:56:13 - INFO -   Cover: 35
+  Implied bound: 1
+2026-07-02 05:56:13 - INFO -   Implied bound: 1
+  MIR: 124
+2026-07-02 05:56:13 - INFO -   MIR: 124
+  Flow cover: 852
+2026-07-02 05:56:13 - INFO -   Flow cover: 852
+  Inf proof: 62
+2026-07-02 05:56:13 - INFO -   Inf proof: 62
+  Network: 1
+2026-07-02 05:56:13 - INFO -   Network: 1
+  RLT: 2
+2026-07-02 05:56:13 - INFO -   RLT: 2
+  Relax-and-lift: 9
+2026-07-02 05:56:13 - INFO -   Relax-and-lift: 9
+
+2026-07-02 05:56:13 - INFO - 
+Explored 453896 nodes (41861989 simplex iterations) in 300.02 seconds (568.40 work units)
+2026-07-02 05:56:13 - INFO - Explored 453896 nodes (41861989 simplex iterations) in 300.02 seconds (568.40 work units)
+Thread count was 28 (of 28 available processors)
+2026-07-02 05:56:13 - INFO - Thread count was 28 (of 28 available processors)
+
+2026-07-02 05:56:13 - INFO - 
+Solution count 0
+2026-07-02 05:56:13 - INFO - Solution count 0
+
+2026-07-02 05:56:13 - INFO - 
+Time limit reached
+2026-07-02 05:56:13 - INFO - Time limit reached
+Best objective -, best bound 3.873477843734e+00, gap -
+2026-07-02 05:56:13 - INFO - Best objective -, best bound 3.873477843734e+00, gap -
+[EMIB] No feasible solution: MIPGap=0.0, status=9, time=300.03s, SolCount=0
+[EMIB] Phase 1 no feasible solution, switching to phase 2 MIPGap=0.3.
+Set parameter TimeLimit to value 300
+2026-07-02 05:56:13 - INFO - Set parameter TimeLimit to value 300
+Set parameter MIPGap to value 0.3
+2026-07-02 05:56:13 - INFO - Set parameter MIPGap to value 0.3
+Set parameter MIPFocus to value 3
+2026-07-02 05:56:13 - INFO - Set parameter MIPFocus to value 3
+Set parameter Heuristics to value 0.5
+2026-07-02 05:56:13 - INFO - Set parameter Heuristics to value 0.5
+Set parameter LogToConsole to value 1
+2026-07-02 05:56:13 - INFO - Set parameter LogToConsole to value 1
+Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-07-02 05:56:13 - INFO - Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+
+2026-07-02 05:56:13 - INFO - 
+CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-07-02 05:56:13 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+2026-07-02 05:56:13 - INFO - Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+
+2026-07-02 05:56:13 - INFO - 
+Non-default parameters:
+2026-07-02 05:56:13 - INFO - Non-default parameters:
+TimeLimit  300
+2026-07-02 05:56:13 - INFO - TimeLimit  300
+MIPGap  0.3
+2026-07-02 05:56:13 - INFO - MIPGap  0.3
+Heuristics  0.5
+2026-07-02 05:56:13 - INFO - Heuristics  0.5
+MIPFocus  3
+2026-07-02 05:56:13 - INFO - MIPFocus  3
+
+2026-07-02 05:56:13 - INFO - 
+Optimize a model with 2263 rows, 1034 columns and 7757 nonzeros (Min)
+2026-07-02 05:56:13 - INFO - Optimize a model with 2263 rows, 1034 columns and 7757 nonzeros (Min)
+Model fingerprint: 0xd441619d
+2026-07-02 05:56:13 - INFO - Model fingerprint: 0xd441619d
+Model has 4 linear objective coefficients
+2026-07-02 05:56:13 - INFO - Model has 4 linear objective coefficients
+Variable types: 390 continuous, 644 integer (644 binary)
+2026-07-02 05:56:13 - INFO - Variable types: 390 continuous, 644 integer (644 binary)
+Coefficient statistics:
+2026-07-02 05:56:13 - INFO - Coefficient statistics:
+  Matrix range     [3e-01, 3e+03]
+2026-07-02 05:56:13 - INFO -   Matrix range     [3e-01, 3e+03]
+  Objective range  [1e-05, 1e-01]
+2026-07-02 05:56:13 - INFO -   Objective range  [1e-05, 1e-01]
+  Bounds range     [9e-01, 3e+07]
+2026-07-02 05:56:13 - INFO -   Bounds range     [9e-01, 3e+07]
+  RHS range        [9e-01, 2e+02]
+2026-07-02 05:56:13 - INFO -   RHS range        [9e-01, 2e+02]
+
+2026-07-02 05:56:13 - INFO - 
+Presolved: 2100 rows, 894 columns, 7114 nonzeros
+2026-07-02 05:56:13 - INFO - Presolved: 2100 rows, 894 columns, 7114 nonzeros
+
+2026-07-02 05:56:13 - INFO - 
+Continuing optimization...
+2026-07-02 05:56:13 - INFO - Continuing optimization...
+
+2026-07-02 05:56:13 - INFO - 
+ 453896 243488    4.34373   25  284          -    3.87348      -  92.2  301s
+2026-07-02 05:56:14 - INFO -  453896 243488    4.34373   25  284          -    3.87348      -  92.2  301s
+ 456828 244087    4.03842   30  284          -    3.87487      -  92.3  305s
+2026-07-02 05:56:18 - INFO -  456828 244087    4.03842   30  284          -    3.87487      -  92.3  305s
+ 459546 246287    3.88326   25  303          -    3.87581      -  92.4  310s
+2026-07-02 05:56:23 - INFO -  459546 246287    3.88326   25  303          -    3.87581      -  92.4  310s
+ 468144 249678 infeasible   26               -    3.88082      -  92.7  316s
+2026-07-02 05:56:29 - INFO -  468144 249678 infeasible   26               -    3.88082      -  92.7  316s
+ 473065 251146    4.45128   26  267          -    3.88326      -  92.9  321s
+2026-07-02 05:56:34 - INFO -  473065 251146    4.45128   26  267          -    3.88326      -  92.9  321s
+ 473450 252994    4.75361   26  256          -    3.88352      -  92.9  325s
+2026-07-02 05:56:38 - INFO -  473450 252994    4.75361   26  256          -    3.88352      -  92.9  325s
+ 484001 256199    4.55373   21  303          -    3.88885      -  93.4  330s
+2026-07-02 05:56:43 - INFO -  484001 256199    4.55373   21  303          -    3.88885      -  93.4  330s
+ 488832 257916    4.16942   23  354          -    3.89135      -  93.6  335s
+2026-07-02 05:56:49 - INFO -  488832 257916    4.16942   23  354          -    3.89135      -  93.6  335s
+ 495145 260619    4.07541   24  291          -    3.89517      -  93.9  340s
+2026-07-02 05:56:53 - INFO -  495145 260619    4.07541   24  291          -    3.89517      -  93.9  340s
+ 498659 262137    4.42866   28  277          -    3.89710      -  94.1  345s
+2026-07-02 05:56:58 - INFO -  498659 262137    4.42866   28  277          -    3.89710      -  94.1  345s
+ 506103 265164    4.12207   25  296          -    3.90117      -  94.4  350s
+2026-07-02 05:57:03 - INFO -  506103 265164    4.12207   25  296          -    3.90117      -  94.4  350s
+ 514507 270958    4.35689   32  281          -    3.90451      -  94.3  355s
+2026-07-02 05:57:08 - INFO -  514507 270958    4.35689   32  281          -    3.90451      -  94.3  355s
+ 519519 271073    4.08253   26  285          -    3.90770      -  94.2  360s
+2026-07-02 05:57:13 - INFO -  519519 271073    4.08253   26  285          -    3.90770      -  94.2  360s
+ 519709 271224    4.39301   29  285          -    3.90860      -  94.3  365s
+2026-07-02 05:57:18 - INFO -  519709 271224    4.39301   29  285          -    3.90860      -  94.3  365s
+ 520037 271391    4.27679   28  275          -    3.90906      -  94.4  370s
+2026-07-02 05:57:23 - INFO -  520037 271391    4.27679   28  275          -    3.90906      -  94.4  370s
+ 520964 272035    4.29205   27  257          -    3.90983      -  94.5  375s
+2026-07-02 05:57:28 - INFO -  520964 272035    4.29205   27  257          -    3.90983      -  94.5  375s
+ 525514 274190    4.33285   23  299          -    3.91200      -  94.7  380s
+2026-07-02 05:57:33 - INFO -  525514 274190    4.33285   23  299          -    3.91200      -  94.7  380s
+ 531757 276753    4.09089   29  291          -    3.91528      -  95.0  385s
+2026-07-02 05:57:38 - INFO -  531757 276753    4.09089   29  291          -    3.91528      -  95.0  385s
+ 537034 278804    4.11262   26  265          -    3.91801      -  95.2  390s
+2026-07-02 05:57:43 - INFO -  537034 278804    4.11262   26  265          -    3.91801      -  95.2  390s
+ 542246 281234 infeasible   28               -    3.92041      -  95.4  395s
+2026-07-02 05:57:48 - INFO -  542246 281234 infeasible   28               -    3.92041      -  95.4  395s
+ 547955 283104    4.31531   27  278          -    3.92296      -  95.6  400s
+2026-07-02 05:57:53 - INFO -  547955 283104    4.31531   27  278          -    3.92296      -  95.6  400s
+ 552943 285425    4.42590   24  293          -    3.92580      -  95.8  405s
+2026-07-02 05:57:58 - INFO -  552943 285425    4.42590   24  293          -    3.92580      -  95.8  405s
+ 558555 287356    4.87375   27  236          -    3.92831      -  96.0  410s
+2026-07-02 05:58:03 - INFO -  558555 287356    4.87375   27  236          -    3.92831      -  96.0  410s
+ 560547 287965    4.60115   38  237          -    3.92967      -  96.1  416s
+2026-07-02 05:58:09 - INFO -  560547 287965    4.60115   38  237          -    3.92967      -  96.1  416s
+ 561260 288705    4.39025   25  256          -    3.93027      -  96.1  420s
+2026-07-02 05:58:13 - INFO -  561260 288705    4.39025   25  256          -    3.93027      -  96.1  420s
+ 567399 290783    4.27360   25  269          -    3.93279      -  96.3  425s
+2026-07-02 05:58:18 - INFO -  567399 290783    4.27360   25  269          -    3.93279      -  96.3  425s
+ 573361 293414    4.38156   33  258          -    3.93601      -  96.6  431s
+2026-07-02 05:58:24 - INFO -  573361 293414    4.38156   33  258          -    3.93601      -  96.6  431s
+ 578618 295382    3.98040   26  290          -    3.93870      -  96.7  435s
+2026-07-02 05:58:29 - INFO -  578618 295382    3.98040   26  290          -    3.93870      -  96.7  435s
+ 579662 295603    4.35402   28  236          -    3.93948      -  96.7  440s
+2026-07-02 05:58:33 - INFO -  579662 295603    4.35402   28  236          -    3.93948      -  96.7  440s
+ 580790 295965    4.32041   32  279          -    3.94009      -  96.8  445s
+2026-07-02 05:58:38 - INFO -  580790 295965    4.32041   32  279          -    3.94009      -  96.8  445s
+ 582648 297497 infeasible   32               -    3.94094      -  96.8  450s
+2026-07-02 05:58:43 - INFO -  582648 297497 infeasible   32               -    3.94094      -  96.8  450s
+ 588471 299829    4.07223   31  262          -    3.94334      -  97.0  455s
+2026-07-02 05:58:48 - INFO -  588471 299829    4.07223   31  262          -    3.94334      -  97.0  455s
+ 595005 302307    4.07544   28  287          -    3.94651      -  97.2  461s
+2026-07-02 05:58:54 - INFO -  595005 302307    4.07544   28  287          -    3.94651      -  97.2  461s
+ 600600 304471 infeasible   34               -    3.94886      -  97.3  465s
+2026-07-02 05:58:58 - INFO -  600600 304471 infeasible   34               -    3.94886      -  97.3  465s
+ 606904 306206 infeasible   31               -    3.95206      -  97.4  470s
+2026-07-02 05:59:03 - INFO -  606904 306206 infeasible   31               -    3.95206      -  97.4  470s
+ 606980 306323    4.08662   28  292          -    3.95270      -  97.5  475s
+2026-07-02 05:59:08 - INFO -  606980 306323    4.08662   28  292          -    3.95270      -  97.5  475s
+ 608642 306948    4.15776   31  268          -    3.95343      -  97.6  481s
+2026-07-02 05:59:14 - INFO -  608642 306948    4.15776   31  268          -    3.95343      -  97.6  481s
+ 611703 308685    4.18570   31  273          -    3.95496      -  97.7  485s
+2026-07-02 05:59:18 - INFO -  611703 308685    4.18570   31  273          -    3.95496      -  97.7  485s
+ 617608 310788    4.19079   31  257          -    3.95755      -  97.9  490s
+2026-07-02 05:59:23 - INFO -  617608 310788    4.19079   31  257          -    3.95755      -  97.9  490s
+ 622925 312839    4.79394   29  198          -    3.95981      -  98.0  495s
+2026-07-02 05:59:28 - INFO -  622925 312839    4.79394   29  198          -    3.95981      -  98.0  495s
+ 627718 314743    4.35407   26  271          -    3.96207      -  98.2  500s
+2026-07-02 05:59:33 - INFO -  627718 314743    4.35407   26  271          -    3.96207      -  98.2  500s
+ 631321 315781    4.46165   26  310          -    3.96423      -  98.3  506s
+2026-07-02 05:59:39 - INFO -  631321 315781    4.46165   26  310          -    3.96423      -  98.3  506s
+ 634848 317785    4.02699   30  284          -    3.96535      -  98.4  510s
+2026-07-02 05:59:43 - INFO -  634848 317785    4.02699   30  284          -    3.96535      -  98.4  510s
+ 642678 320108 infeasible   25               -    3.96920      -  98.5  515s
+2026-07-02 05:59:49 - INFO -  642678 320108 infeasible   25               -    3.96920      -  98.5  515s
+ 643085 320290 infeasible   28               -    3.96976      -  98.6  520s
+2026-07-02 05:59:53 - INFO -  643085 320290 infeasible   28               -    3.96976      -  98.6  520s
+ 644537 321092    4.08796   26  271          -    3.97053      -  98.7  526s
+2026-07-02 05:59:59 - INFO -  644537 321092    4.08796   26  271          -    3.97053      -  98.7  526s
+ 647448 322939    4.16531   29  275          -    3.97148      -  98.8  531s
+2026-07-02 06:00:04 - INFO -  647448 322939    4.16531   29  275          -    3.97148      -  98.8  531s
+ 653607 324871    4.26408   28  283          -    3.97411      -  98.9  535s
+2026-07-02 06:00:08 - INFO -  653607 324871    4.26408   28  283          -    3.97411      -  98.9  535s
+ 658543 326854    4.94211   27  238          -    3.97635      -  99.0  541s
+2026-07-02 06:00:14 - INFO -  658543 326854    4.94211   27  238          -    3.97635      -  99.0  541s
+ 663543 328676    4.09418   30  248          -    3.97845      -  99.1  545s
+2026-07-02 06:00:18 - INFO -  663543 328676    4.09418   30  248          -    3.97845      -  99.1  545s
+ 666766 329751    4.07160   29  303          -    3.97991      -  99.2  550s
+2026-07-02 06:00:23 - INFO -  666766 329751    4.07160   29  303          -    3.97991      -  99.2  550s
+ 672731 332230    4.28847   32  252          -    3.98188      -  99.3  556s
+2026-07-02 06:00:29 - INFO -  672731 332230    4.28847   32  252          -    3.98188      -  99.3  556s
+ 681714 335482    4.55621   44  219          -    3.98458      -  99.2  560s
+2026-07-02 06:00:33 - INFO -  681714 335482    4.55621   44  219          -    3.98458      -  99.2  560s
+ 682362 335821    4.44807   31  280          -    3.98611      -  99.3  565s
+2026-07-02 06:00:38 - INFO -  682362 335821    4.44807   31  280          -    3.98611      -  99.3  565s
+ 683281 336569 infeasible   26               -    3.98715      -  99.4  570s
+2026-07-02 06:00:43 - INFO -  683281 336569 infeasible   26               -    3.98715      -  99.4  570s
+ 688563 338596    5.04433   32  251          -    3.98947      -   100  576s
+2026-07-02 06:00:49 - INFO -  688563 338596    5.04433   32  251          -    3.98947      -   100  576s
+ 691846 340003    5.10277   31  215          -    3.99134      -   100  580s
+2026-07-02 06:00:53 - INFO -  691846 340003    5.10277   31  215          -    3.99134      -   100  580s
+ 698039 342433    4.26772   23  306          -    3.99385      -   100  585s
+2026-07-02 06:00:59 - INFO -  698039 342433    4.26772   23  306          -    3.99385      -   100  585s
+ 703814 344522    4.92147   31  212          -    3.99675      -   100  590s
+2026-07-02 06:01:04 - INFO -  703814 344522    4.92147   31  212          -    3.99675      -   100  590s
+ 710033 346679    4.40500   29  294          -    3.99942      -   100  595s
+2026-07-02 06:01:09 - INFO -  710033 346679    4.40500   29  294          -    3.99942      -   100  595s
+ 712694 348361    4.50528   29  295          -    4.00009      -   100  600s
+2026-07-02 06:01:13 - INFO -  712694 348361    4.50528   29  295          -    4.00009      -   100  600s
+
+2026-07-02 06:01:13 - INFO - 
+Cutting planes:
+2026-07-02 06:01:13 - INFO - Cutting planes:
+  Learned: 94
+2026-07-02 06:01:13 - INFO -   Learned: 94
+  Gomory: 240
+2026-07-02 06:01:13 - INFO -   Gomory: 240
+  Lift-and-project: 96
+2026-07-02 06:01:13 - INFO -   Lift-and-project: 96
+  Cover: 43
+2026-07-02 06:01:13 - INFO -   Cover: 43
+  Implied bound: 2
+2026-07-02 06:01:13 - INFO -   Implied bound: 2
+  MIR: 139
+2026-07-02 06:01:13 - INFO -   MIR: 139
+  Flow cover: 932
+2026-07-02 06:01:13 - INFO -   Flow cover: 932
+  Inf proof: 78
+2026-07-02 06:01:13 - INFO -   Inf proof: 78
+  Network: 1
+2026-07-02 06:01:13 - INFO -   Network: 1
+  RLT: 2
+2026-07-02 06:01:13 - INFO -   RLT: 2
+  Relax-and-lift: 10
+2026-07-02 06:01:13 - INFO -   Relax-and-lift: 10
+
+2026-07-02 06:01:13 - INFO - 
+Explored 714792 nodes (71571966 simplex iterations) in 600.04 seconds (1348.22 work units)
+2026-07-02 06:01:13 - INFO - Explored 714792 nodes (71571966 simplex iterations) in 600.04 seconds (1348.22 work units)
+Most recent optimization runtime was 300.02 seconds (779.82 work units)
+2026-07-02 06:01:13 - INFO - Most recent optimization runtime was 300.02 seconds (779.82 work units)
+Thread count was 28 (of 28 available processors)
+2026-07-02 06:01:13 - INFO - Thread count was 28 (of 28 available processors)
+
+2026-07-02 06:01:13 - INFO - 
+Solution count 0
+2026-07-02 06:01:13 - INFO - Solution count 0
+
+2026-07-02 06:01:13 - INFO - 
+Time limit reached
+2026-07-02 06:01:13 - INFO - Time limit reached
+Best objective -, best bound 4.000792412626e+00, gap -
+2026-07-02 06:01:13 - INFO - Best objective -, best bound 4.000792412626e+00, gap -
+[EMIB] No feasible solution: MIPGap=0.3, status=9, time=300.02s, SolCount=0
+[EMIB] Phase 2 no feasible solution, switching to phase 3 MIPGap=0.8.
+Set parameter TimeLimit to value 2999
+2026-07-02 06:01:13 - INFO - Set parameter TimeLimit to value 2999
+Set parameter MIPGap to value 0.8
+2026-07-02 06:01:13 - INFO - Set parameter MIPGap to value 0.8
+Set parameter MIPFocus to value 3
+2026-07-02 06:01:13 - INFO - Set parameter MIPFocus to value 3
+Set parameter Heuristics to value 0.5
+2026-07-02 06:01:13 - INFO - Set parameter Heuristics to value 0.5
+Set parameter LogToConsole to value 1
+2026-07-02 06:01:13 - INFO - Set parameter LogToConsole to value 1
+Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-07-02 06:01:13 - INFO - Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+
+2026-07-02 06:01:13 - INFO - 
+CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-07-02 06:01:13 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+2026-07-02 06:01:13 - INFO - Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+
+2026-07-02 06:01:13 - INFO - 
+Non-default parameters:
+2026-07-02 06:01:13 - INFO - Non-default parameters:
+TimeLimit  2999
+2026-07-02 06:01:13 - INFO - TimeLimit  2999
+MIPGap  0.8
+2026-07-02 06:01:13 - INFO - MIPGap  0.8
+Heuristics  0.5
+2026-07-02 06:01:13 - INFO - Heuristics  0.5
+MIPFocus  3
+2026-07-02 06:01:13 - INFO - MIPFocus  3
+
+2026-07-02 06:01:13 - INFO - 
+Optimize a model with 2263 rows, 1034 columns and 7757 nonzeros (Min)
+2026-07-02 06:01:13 - INFO - Optimize a model with 2263 rows, 1034 columns and 7757 nonzeros (Min)
+Model fingerprint: 0xd441619d
+2026-07-02 06:01:13 - INFO - Model fingerprint: 0xd441619d
+Model has 4 linear objective coefficients
+2026-07-02 06:01:13 - INFO - Model has 4 linear objective coefficients
+Variable types: 390 continuous, 644 integer (644 binary)
+2026-07-02 06:01:13 - INFO - Variable types: 390 continuous, 644 integer (644 binary)
+Coefficient statistics:
+2026-07-02 06:01:13 - INFO - Coefficient statistics:
+  Matrix range     [3e-01, 3e+03]
+2026-07-02 06:01:13 - INFO -   Matrix range     [3e-01, 3e+03]
+  Objective range  [1e-05, 1e-01]
+2026-07-02 06:01:13 - INFO -   Objective range  [1e-05, 1e-01]
+  Bounds range     [9e-01, 3e+07]
+2026-07-02 06:01:13 - INFO -   Bounds range     [9e-01, 3e+07]
+  RHS range        [9e-01, 2e+02]
+2026-07-02 06:01:13 - INFO -   RHS range        [9e-01, 2e+02]
+
+2026-07-02 06:01:13 - INFO - 
+Presolved: 2100 rows, 894 columns, 7114 nonzeros
+2026-07-02 06:01:13 - INFO - Presolved: 2100 rows, 894 columns, 7114 nonzeros
+
+2026-07-02 06:01:13 - INFO - 
+Continuing optimization...
+2026-07-02 06:01:13 - INFO - Continuing optimization...
+
+2026-07-02 06:01:13 - INFO - 
+ 714792 348374 infeasible   34               -    4.00098      -   100  601s
+2026-07-02 06:01:14 - INFO -  714792 348374 infeasible   34               -    4.00098      -   100  601s
+ 714807 353318    4.76392   32  195          -    4.00146      -   100  615s
+2026-07-02 06:01:28 - INFO -  714807 353318    4.76392   32  195          -    4.00146      -   100  615s
+ 730070 353977    4.14594   27  380          -    4.00650      -   100  621s
+2026-07-02 06:01:34 - INFO -  730070 353977    4.14594   27  380          -    4.00650      -   100  621s
+ 730923 354244 infeasible   26               -    4.00695      -   100  625s
+2026-07-02 06:01:38 - INFO -  730923 354244 infeasible   26               -    4.00695      -   100  625s
+ 731188 357910    4.14335   29  322          -    4.00716      -   100  632s
+2026-07-02 06:01:45 - INFO -  731188 357910    4.14335   29  322          -    4.00716      -   100  632s
+ 741124 358146    4.25063   27  280          -    4.01028      -   100  636s
+2026-07-02 06:01:49 - INFO -  741124 358146    4.25063   27  280          -    4.01028      -   100  636s
+ 745878 360412 infeasible   31               -    4.01238      -   101  641s
+2026-07-02 06:01:54 - INFO -  745878 360412 infeasible   31               -    4.01238      -   101  641s
+ 750924 364775    4.04938   31  293          -    4.01439      -   101  645s
+2026-07-02 06:01:58 - INFO -  750924 364775    4.04938   31  293          -    4.01439      -   101  645s
+ 759862 366097    4.45277   31  276          -    4.01790      -   100  650s
+2026-07-02 06:02:03 - INFO -  759862 366097    4.45277   31  276          -    4.01790      -   100  650s
+ 760804 366344 infeasible   29               -    4.01904      -   101  655s
+2026-07-02 06:02:08 - INFO -  760804 366344 infeasible   29               -    4.01904      -   101  655s
+ 761616 366745 infeasible   20               -    4.01989      -   101  661s
+2026-07-02 06:02:14 - INFO -  761616 366745 infeasible   20               -    4.01989      -   101  661s
+ 762463 367252    4.76531   30  206          -    4.02064      -   101  665s
+2026-07-02 06:02:18 - INFO -  762463 367252    4.76531   30  206          -    4.02064      -   101  665s
+ 766911 369396 infeasible   29               -    4.02215      -   101  670s
+2026-07-02 06:02:24 - INFO -  766911 369396 infeasible   29               -    4.02215      -   101  670s
+ 770921 371459    4.03876   26  289          -    4.02383      -   101  675s
+2026-07-02 06:02:28 - INFO -  770921 371459    4.03876   26  289          -    4.02383      -   101  675s
+ 775919 372489    4.58645   31  273          -    4.02607      -   101  681s
+2026-07-02 06:02:34 - INFO -  775919 372489    4.58645   31  273          -    4.02607      -   101  681s
+ 780964 374438 infeasible   28               -    4.02768      -   101  685s
+2026-07-02 06:02:38 - INFO -  780964 374438 infeasible   28               -    4.02768      -   101  685s
+ 785787 376054 infeasible   27               -    4.02970      -   101  690s
+2026-07-02 06:02:43 - INFO -  785787 376054 infeasible   27               -    4.02970      -   101  690s
+ 792610 378551    4.59913   31  262          -    4.03252      -   101  695s
+2026-07-02 06:02:48 - INFO -  792610 378551    4.59913   31  262          -    4.03252      -   101  695s
+ 797493 380388    4.38623   25  264          -    4.03419      -   101  700s
+2026-07-02 06:02:53 - INFO -  797493 380388    4.38623   25  264          -    4.03419      -   101  700s
+ 798887 380493    4.14129   31  275          -    4.03522      -   101  705s
+2026-07-02 06:02:59 - INFO -  798887 380493    4.14129   31  275          -    4.03522      -   101  705s
+ 799444 380991    4.34280   24  253          -    4.03569      -   101  710s
+2026-07-02 06:03:03 - INFO -  799444 380991    4.34280   24  253          -    4.03569      -   101  710s
+ 801221 381969    4.85505   24  266          -    4.03640      -   101  716s
+2026-07-02 06:03:09 - INFO -  801221 381969    4.85505   24  266          -    4.03640      -   101  716s
+ 806858 384304 infeasible   25               -    4.03791      -   101  720s
+2026-07-02 06:03:14 - INFO -  806858 384304 infeasible   25               -    4.03791      -   101  720s
+ 811759 386037    4.74805   24  228          -    4.04015      -   102  725s
+2026-07-02 06:03:18 - INFO -  811759 386037    4.74805   24  228          -    4.04015      -   102  725s
+ 818293 388080    4.76706   31  212          -    4.04237      -   102  730s
+2026-07-02 06:03:23 - INFO -  818293 388080    4.76706   31  212          -    4.04237      -   102  730s
+ 824682 390514 infeasible   32               -    4.04456      -   102  736s
+2026-07-02 06:03:29 - INFO -  824682 390514 infeasible   32               -    4.04456      -   102  736s
+ 829221 392579    4.59362   24  279          -    4.04628      -   102  741s
+2026-07-02 06:03:34 - INFO -  829221 392579    4.59362   24  279          -    4.04628      -   102  741s
+ 836380 395295    4.30587   27  299          -    4.04836      -   102  745s
+2026-07-02 06:03:38 - INFO -  836380 395295    4.30587   27  299          -    4.04836      -   102  745s
+ 837462 395707    4.18017   30  316          -    4.04946      -   102  750s
+2026-07-02 06:03:43 - INFO -  837462 395707    4.18017   30  316          -    4.04946      -   102  750s
+ 838140 396041 infeasible   31               -    4.05003      -   102  755s
+2026-07-02 06:03:48 - INFO -  838140 396041 infeasible   31               -    4.05003      -   102  755s
+ 842371 398107    4.41933   27  265          -    4.05136      -   102  761s
+2026-07-02 06:03:54 - INFO -  842371 398107    4.41933   27  265          -    4.05136      -   102  761s
+ 846764 399597    4.36285   34  265          -    4.05282      -   102  765s
+2026-07-02 06:03:58 - INFO -  846764 399597    4.36285   34  265          -    4.05282      -   102  765s
+ 852010 401820    4.20856   29  260          -    4.05494      -   102  770s
+2026-07-02 06:04:03 - INFO -  852010 401820    4.20856   29  260          -    4.05494      -   102  770s
+ 858467 403596    4.18843   33  256          -    4.05732      -   102  775s
+2026-07-02 06:04:08 - INFO -  858467 403596    4.18843   33  256          -    4.05732      -   102  775s
+ 858527 403645    4.24866   24  351          -    4.05804      -   102  780s
+2026-07-02 06:04:13 - INFO -  858527 403645    4.24866   24  351          -    4.05804      -   102  780s
+ 859698 404351    5.05493   35  192          -    4.05858      -   102  786s
+2026-07-02 06:04:19 - INFO -  859698 404351    5.05493   35  192          -    4.05858      -   102  786s
+ 861709 405632    4.23088   23  291          -    4.05923      -   102  791s
+2026-07-02 06:04:24 - INFO -  861709 405632    4.23088   23  291          -    4.05923      -   102  791s
+ 866428 407497    5.63100   32  197          -    4.06046      -   102  795s
+2026-07-02 06:04:28 - INFO -  866428 407497    5.63100   32  197          -    4.06046      -   102  795s
+ 872734 409263    5.19615   32  243          -    4.06313      -   102  801s
+2026-07-02 06:04:34 - INFO -  872734 409263    5.19615   32  243          -    4.06313      -   102  801s
+ 877351 411364    5.52900   28  243          -    4.06482      -   102  805s
+2026-07-02 06:04:38 - INFO -  877351 411364    5.52900   28  243          -    4.06482      -   102  805s
+ 883331 413653 infeasible   29               -    4.06655      -   103  810s
+2026-07-02 06:04:43 - INFO -  883331 413653 infeasible   29               -    4.06655      -   103  810s
+ 887671 415278    4.65962   26  279          -    4.06790      -   103  815s
+2026-07-02 06:04:49 - INFO -  887671 415278    4.65962   26  279          -    4.06790      -   103  815s
+ 892284 417003    4.19784   23  295          -    4.06957      -   103  820s
+2026-07-02 06:04:53 - INFO -  892284 417003    4.19784   23  295          -    4.06957      -   103  820s
+ 898438 418681    4.09587   27  275          -    4.07151      -   103  825s
+2026-07-02 06:04:58 - INFO -  898438 418681    4.09587   27  275          -    4.07151      -   103  825s
+ 898973 419152    4.50878   27  271          -    4.07225      -   103  830s
+2026-07-02 06:05:03 - INFO -  898973 419152    4.50878   27  271          -    4.07225      -   103  830s
+ 902050 420542    4.12567   27  250          -    4.07300      -   103  835s
+2026-07-02 06:05:09 - INFO -  902050 420542    4.12567   27  250          -    4.07300      -   103  835s
+ 906604 422365    4.39942   26  259          -    4.07415      -   103  840s
+2026-07-02 06:05:13 - INFO -  906604 422365    4.39942   26  259          -    4.07415      -   103  840s
+ 913682 424911    4.87556   26  237          -    4.07696      -   103  845s
+2026-07-02 06:05:18 - INFO -  913682 424911    4.87556   26  237          -    4.07696      -   103  845s
+ 918149 426686    4.42359   24  279          -    4.07842      -   103  850s
+2026-07-02 06:05:23 - INFO -  918149 426686    4.42359   24  279          -    4.07842      -   103  850s
+ 919698 426770    4.11322   24  286          -    4.07950      -   103  855s
+2026-07-02 06:05:28 - INFO -  919698 426770    4.11322   24  286          -    4.07950      -   103  855s
+ 920233 427040    4.26759   28  289          -    4.07984      -   103  860s
+2026-07-02 06:05:33 - INFO -  920233 427040    4.26759   28  289          -    4.07984      -   103  860s
+ 921752 428018    4.36538   26  249          -    4.08039      -   103  866s
+2026-07-02 06:05:39 - INFO -  921752 428018    4.36538   26  249          -    4.08039      -   103  866s
+ 926374 430183    4.41444   30  259          -    4.08171      -   103  870s
+2026-07-02 06:05:43 - INFO -  926374 430183    4.41444   30  259          -    4.08171      -   103  870s
+ 931756 431811 infeasible   38               -    4.08339      -   103  875s
+2026-07-02 06:05:48 - INFO -  931756 431811 infeasible   38               -    4.08339      -   103  875s
+ 938074 434042    4.84086   34  250          -    4.08564      -   103  880s
+2026-07-02 06:05:53 - INFO -  938074 434042    4.84086   34  250          -    4.08564      -   103  880s
+ 942665 435717    4.49862   26  266          -    4.08714      -   104  885s
+2026-07-02 06:05:58 - INFO -  942665 435717    4.49862   26  266          -    4.08714      -   104  885s
+ 948393 437899 infeasible   25               -    4.08902      -   104  890s
+2026-07-02 06:06:03 - INFO -  948393 437899 infeasible   25               -    4.08902      -   104  890s
+ 953409 439167 infeasible   29               -    4.09019      -   104  895s
+2026-07-02 06:06:08 - INFO -  953409 439167 infeasible   29               -    4.09019      -   104  895s
+ 953477 439210    4.12391   28  304          -    4.09105      -   104  900s
+2026-07-02 06:06:13 - INFO -  953477 439210    4.12391   28  304          -    4.09105      -   104  900s
+ 954475 439646    4.63114   27  227          -    4.09136      -   104  906s
+2026-07-02 06:06:19 - INFO -  954475 439646    4.63114   27  227          -    4.09136      -   104  906s
+ 955294 440226    4.51998   24  313          -    4.09183      -   104  910s
+2026-07-02 06:06:23 - INFO -  955294 440226    4.51998   24  313          -    4.09183      -   104  910s
+ 961145 442592    5.21824   31  245          -    4.09336      -   104  916s
+2026-07-02 06:06:29 - INFO -  961145 442592    5.21824   31  245          -    4.09336      -   104  916s
+ 967497 444210 infeasible   25               -    4.09531      -   104  921s
+2026-07-02 06:06:34 - INFO -  967497 444210 infeasible   25               -    4.09531      -   104  921s
+ 971018 445815    4.45271   25  241          -    4.09661      -   104  925s
+2026-07-02 06:06:38 - INFO -  971018 445815    4.45271   25  241          -    4.09661      -   104  925s
+ 976061 447398    4.36773   36  255          -    4.09855      -   104  931s
+2026-07-02 06:06:44 - INFO -  976061 447398    4.36773   36  255          -    4.09855      -   104  931s
+ 979629 448930    4.55107   25  280          -    4.09926      -   104  935s
+2026-07-02 06:06:48 - INFO -  979629 448930    4.55107   25  280          -    4.09926      -   104  935s
+ 985792 451197    5.17456   31  263          -    4.10145      -   104  940s
+2026-07-02 06:06:53 - INFO -  985792 451197    5.17456   31  263          -    4.10145      -   104  940s
+ 991862 453362    4.21241   34  287          -    4.10300      -   104  945s
+2026-07-02 06:06:58 - INFO -  991862 453362    4.21241   34  287          -    4.10300      -   104  945s
+ 994387 453963    4.29818   29  283          -    4.10427      -   104  950s
+2026-07-02 06:07:04 - INFO -  994387 453963    4.29818   29  283          -    4.10427      -   104  950s
+ 994827 454315    4.50219   31  259          -    4.10468      -   104  955s
+2026-07-02 06:07:08 - INFO -  994827 454315    4.50219   31  259          -    4.10468      -   104  955s
+ 995810 454899    5.35488   23  262          -    4.10509      -   104  960s
+2026-07-02 06:07:14 - INFO -  995810 454899    5.35488   23  262          -    4.10509      -   104  960s
+ 1000251 456896    4.46002   29  242          -    4.10594      -   104  965s
+2026-07-02 06:07:19 - INFO -  1000251 456896    4.46002   29  242          -    4.10594      -   104  965s
+ 1006417 458900    5.06473   36  175          -    4.10801      -   104  970s
+2026-07-02 06:07:23 - INFO -  1006417 458900    5.06473   36  175          -    4.10801      -   104  970s
+ 1012450 461272    4.32220   27  280          -    4.10975      -   104  976s
+2026-07-02 06:07:29 - INFO -  1012450 461272    4.32220   27  280          -    4.10975      -   104  976s
+ 1017243 462889 infeasible   33               -    4.11128      -   104  980s
+2026-07-02 06:07:33 - INFO -  1017243 462889 infeasible   33               -    4.11128      -   104  980s
+ 1022747 464965    4.14433   26  311          -    4.11294      -   105  985s
+2026-07-02 06:07:39 - INFO -  1022747 464965    4.14433   26  311          -    4.11294      -   105  985s
+ 1027453 466809    4.32487   34  251          -    4.11447      -   105  990s
+2026-07-02 06:07:43 - INFO -  1027453 466809    4.32487   34  251          -    4.11447      -   105  990s
+ 1034197 468705    4.13167   30  264          -    4.11626      -   105  996s
+2026-07-02 06:07:49 - INFO -  1034197 468705    4.13167   30  264          -    4.11626      -   105  996s
+ 1035118 468884    4.19538   35  274          -    4.11696      -   105 1000s
+2026-07-02 06:07:54 - INFO -  1035118 468884    4.19538   35  274          -    4.11696      -   105 1000s
+ 1035585 469256    4.21864   32  289          -    4.11736      -   105 1006s
+2026-07-02 06:07:59 - INFO -  1035585 469256    4.21864   32  289          -    4.11736      -   105 1006s
+ 1037513 470622    4.46521   26  288          -    4.11775      -   105 1010s
+2026-07-02 06:08:03 - INFO -  1037513 470622    4.46521   26  288          -    4.11775      -   105 1010s
+ 1044310 473009 infeasible   33               -    4.11958      -   105 1015s
+2026-07-02 06:08:08 - INFO -  1044310 473009 infeasible   33               -    4.11958      -   105 1015s
+ 1050856 475231 infeasible   31               -    4.12159      -   105 1020s
+2026-07-02 06:08:14 - INFO -  1050856 475231 infeasible   31               -    4.12159      -   105 1020s
+ 1054816 476517    4.14972   28  307          -    4.12306      -   105 1025s
+2026-07-02 06:08:19 - INFO -  1054816 476517    4.14972   28  307          -    4.12306      -   105 1025s
+ 1060259 478529 infeasible   25               -    4.12461      -   105 1031s
+2026-07-02 06:08:24 - INFO -  1060259 478529 infeasible   25               -    4.12461      -   105 1031s
+ 1061930 478663    4.64600   29  314          -    4.12565      -   105 1035s
+2026-07-02 06:08:29 - INFO -  1061930 478663    4.64600   29  314          -    4.12565      -   105 1035s
+ 1062161 478772    4.40185   30  280          -    4.12593      -   105 1040s
+2026-07-02 06:08:33 - INFO -  1062161 478772    4.40185   30  280          -    4.12593      -   105 1040s
+ 1063003 479593 infeasible   32               -    4.12624      -   105 1045s
+2026-07-02 06:08:38 - INFO -  1063003 479593 infeasible   32               -    4.12624      -   105 1045s
+ 1068133 481711    4.16189   26  278          -    4.12757      -   105 1050s
+2026-07-02 06:08:43 - INFO -  1068133 481711    4.16189   26  278          -    4.12757      -   105 1050s
+ 1070937 483121 infeasible   28               -    4.12848      -   105 1055s
+2026-07-02 06:08:48 - INFO -  1070937 483121 infeasible   28               -    4.12848      -   105 1055s
+ 1079703 485515    4.39861   29  297          -    4.13073      -   105 1061s
+2026-07-02 06:08:54 - INFO -  1079703 485515    4.39861   29  297          -    4.13073      -   105 1061s
+ 1084320 486743    4.48746   25  273          -    4.13182      -   105 1065s
+2026-07-02 06:08:58 - INFO -  1084320 486743    4.48746   25  273          -    4.13182      -   105 1065s
+ 1087999 488599    4.25462   25  289          -    4.13290      -   105 1070s
+2026-07-02 06:09:03 - INFO -  1087999 488599    4.25462   25  289          -    4.13290      -   105 1070s
+ 1094111 490796 infeasible   31               -    4.13477      -   105 1075s
+2026-07-02 06:09:08 - INFO -  1094111 490796 infeasible   31               -    4.13477      -   105 1075s
+ 1099616 492396    4.67651   25  229          -    4.13646      -   105 1080s
+2026-07-02 06:09:13 - INFO -  1099616 492396    4.67651   25  229          -    4.13646      -   105 1080s
+ 1103784 493715    4.36962   27  290          -    4.13747      -   105 1085s
+2026-07-02 06:09:18 - INFO -  1103784 493715    4.36962   27  290          -    4.13747      -   105 1085s
+ 1103868 493795    4.51346   34  244          -    4.13814      -   105 1090s
+2026-07-02 06:09:24 - INFO -  1103868 493795    4.51346   34  244          -    4.13814      -   105 1090s
+ 1104203 493892    4.63547   29  241          -    4.13837      -   105 1095s
+2026-07-02 06:09:28 - INFO -  1104203 493892    4.63547   29  241          -    4.13837      -   105 1095s
+ 1107287 495623    4.43490   28  263          -    4.13889      -   105 1101s
+2026-07-02 06:09:34 - INFO -  1107287 495623    4.43490   28  263          -    4.13889      -   105 1101s
+ 1111738 497158    4.25809   26  269          -    4.14041      -   105 1105s
+2026-07-02 06:09:38 - INFO -  1111738 497158    4.25809   26  269          -    4.14041      -   105 1105s
+ 1116959 499289    4.33417   31  273          -    4.14181      -   106 1110s
+2026-07-02 06:09:43 - INFO -  1116959 499289    4.33417   31  273          -    4.14181      -   106 1110s
+ 1123673 501528    4.41503   29  261          -    4.14347      -   106 1116s
+2026-07-02 06:09:49 - INFO -  1123673 501528    4.41503   29  261          -    4.14347      -   106 1116s
+ 1127658 503086    4.36716   26  280          -    4.14486      -   106 1120s
+2026-07-02 06:09:53 - INFO -  1127658 503086    4.36716   26  280          -    4.14486      -   106 1120s
+ 1134829 505390    4.26135   27  281          -    4.14686      -   106 1126s
+2026-07-02 06:09:59 - INFO -  1134829 505390    4.26135   27  281          -    4.14686      -   106 1126s
+ 1139651 506622    4.30932   25  331          -    4.14797      -   106 1130s
+2026-07-02 06:10:03 - INFO -  1139651 506622    4.30932   25  331          -    4.14797      -   106 1130s
+ 1142423 507558    4.45227   27  282          -    4.14901      -   106 1135s
+2026-07-02 06:10:09 - INFO -  1142423 507558    4.45227   27  282          -    4.14901      -   106 1135s
+ 1142614 507588    5.06479   27  220          -    4.14929      -   106 1140s
+2026-07-02 06:10:13 - INFO -  1142614 507588    5.06479   27  220          -    4.14929      -   106 1140s
+ 1143444 508071    4.35335   28  307          -    4.14960      -   106 1145s
+2026-07-02 06:10:18 - INFO -  1143444 508071    4.35335   28  307          -    4.14960      -   106 1145s
+ 1146148 509564    5.98481   27  233          -    4.15001      -   106 1150s
+2026-07-02 06:10:23 - INFO -  1146148 509564    5.98481   27  233          -    4.15001      -   106 1150s
+ 1153231 511979    4.39000   30  249          -    4.15234      -   106 1156s
+2026-07-02 06:10:29 - INFO -  1153231 511979    4.39000   30  249          -    4.15234      -   106 1156s
+ 1158039 513674    4.97637   24  262          -    4.15346      -   106 1160s
+2026-07-02 06:10:33 - INFO -  1158039 513674    4.97637   24  262          -    4.15346      -   106 1160s
+ 1163244 515417    4.85492   30  270          -    4.15506      -   106 1165s
+2026-07-02 06:10:38 - INFO -  1163244 515417    4.85492   30  270          -    4.15506      -   106 1165s
+ 1166618 516787    4.24375   27  289          -    4.15598      -   106 1170s
+2026-07-02 06:10:43 - INFO -  1166618 516787    4.24375   27  289          -    4.15598      -   106 1170s
+ 1173144 518993    4.41201   25  281          -    4.15786      -   106 1175s
+2026-07-02 06:10:48 - INFO -  1173144 518993    4.41201   25  281          -    4.15786      -   106 1175s
+ 1176628 520472    4.33725   29  282          -    4.15902      -   106 1181s
+2026-07-02 06:10:54 - INFO -  1176628 520472    4.33725   29  282          -    4.15902      -   106 1181s
+ 1181753 521956 infeasible   34               -    4.16008      -   106 1185s
+2026-07-02 06:10:58 - INFO -  1181753 521956 infeasible   34               -    4.16008      -   106 1185s
+ 1184184 522558    4.45481   28  264          -    4.16110      -   106 1190s
+2026-07-02 06:11:03 - INFO -  1184184 522558    4.45481   28  264          -    4.16110      -   106 1190s
+ 1184253 522715    4.33873   25  296          -    4.16145      -   106 1195s
+2026-07-02 06:11:08 - INFO -  1184253 522715    4.33873   25  296          -    4.16145      -   106 1195s
+ 1185282 523070    4.62399   25  262          -    4.16180      -   106 1200s
+2026-07-02 06:11:13 - INFO -  1185282 523070    4.62399   25  262          -    4.16180      -   106 1200s
+ 1187815 524482    4.26445   28  277          -    4.16225      -   106 1205s
+2026-07-02 06:11:18 - INFO -  1187815 524482    4.26445   28  277          -    4.16225      -   106 1205s
+ 1194335 526781    5.00514   31  250          -    4.16394      -   106 1210s
+2026-07-02 06:11:23 - INFO -  1194335 526781    5.00514   31  250          -    4.16394      -   106 1210s
+ 1199245 528570 infeasible   30               -    4.16528      -   106 1215s
+2026-07-02 06:11:28 - INFO -  1199245 528570 infeasible   30               -    4.16528      -   106 1215s
+ 1205360 530782 infeasible   26               -    4.16665      -   106 1220s
+2026-07-02 06:11:33 - INFO -  1205360 530782 infeasible   26               -    4.16665      -   106 1220s
+ 1208908 532273    4.68806   29  252          -    4.16747      -   106 1225s
+2026-07-02 06:11:38 - INFO -  1208908 532273    4.68806   29  252          -    4.16747      -   106 1225s
+ 1214461 534005    4.18666   31  249          -    4.16916      -   106 1230s
+2026-07-02 06:11:43 - INFO -  1214461 534005    4.18666   31  249          -    4.16916      -   106 1230s
+ 1220408 536122 infeasible   32               -    4.17065      -   106 1235s
+2026-07-02 06:11:48 - INFO -  1220408 536122 infeasible   32               -    4.17065      -   106 1235s
+ 1226167 538069    4.37463   36  268          -    4.17214      -   106 1240s
+2026-07-02 06:11:53 - INFO -  1226167 538069    4.37463   36  268          -    4.17214      -   106 1240s
+ 1229029 543223 infeasible   27               -    4.17321      -   106 1260s
+2026-07-02 06:12:14 - INFO -  1229029 543223 infeasible   27               -    4.17321      -   106 1260s
+ 1244016 543555    4.27813   26  295          -    4.17617      -   106 1265s
+2026-07-02 06:12:18 - INFO -  1244016 543555    4.27813   26  295          -    4.17617      -   106 1265s
+ 1244673 544253    4.31827   24  292          -    4.17640      -   106 1270s
+2026-07-02 06:12:23 - INFO -  1244673 544253    4.31827   24  292          -    4.17640      -   106 1270s
+ 1250335 546216    4.81016   25  325          -    4.17793      -   107 1275s
+2026-07-02 06:12:28 - INFO -  1250335 546216    4.81016   25  325          -    4.17793      -   107 1275s
+ 1257289 548423    4.73527   26  273          -    4.17994      -   107 1280s
+2026-07-02 06:12:33 - INFO -  1257289 548423    4.73527   26  273          -    4.17994      -   107 1280s
+ 1261923 550250    4.46027   30  301          -    4.18103      -   107 1285s
+2026-07-02 06:12:38 - INFO -  1261923 550250    4.46027   30  301          -    4.18103      -   107 1285s
+ 1264297 550724    4.29220   29  259          -    4.18184      -   107 1291s
+2026-07-02 06:12:44 - INFO -  1264297 550724    4.29220   29  259          -    4.18184      -   107 1291s
+ 1268027 551845    4.46543   27  267          -    4.18277      -   107 1295s
+2026-07-02 06:12:48 - INFO -  1268027 551845    4.46543   27  267          -    4.18277      -   107 1295s
+ 1268041 556421    4.92975   29  232          -    4.18306      -   107 1310s
+2026-07-02 06:13:04 - INFO -  1268041 556421    4.92975   29  232          -    4.18306      -   107 1310s
+ 1283403 557022    5.89873   30  134          -    4.18590      -   107 1316s
+2026-07-02 06:13:09 - INFO -  1283403 557022    5.89873   30  134          -    4.18590      -   107 1316s
+ 1284360 557914 infeasible   28               -    4.18632      -   107 1321s
+2026-07-02 06:13:14 - INFO -  1284360 557914 infeasible   28               -    4.18632      -   107 1321s
+ 1289483 559478    4.47148   25  313          -    4.18727      -   107 1325s
+2026-07-02 06:13:19 - INFO -  1289483 559478    4.47148   25  313          -    4.18727      -   107 1325s
+ 1294424 561551    4.27335   30  306          -    4.18874      -   107 1331s
+2026-07-02 06:13:24 - INFO -  1294424 561551    4.27335   30  306          -    4.18874      -   107 1331s
+ 1298303 562797    4.50669   24  241          -    4.18967      -   107 1335s
+2026-07-02 06:13:28 - INFO -  1298303 562797    4.50669   24  241          -    4.18967      -   107 1335s
+ 1303648 564728    4.27416   32  317          -    4.19120      -   107 1340s
+2026-07-02 06:13:33 - INFO -  1303648 564728    4.27416   32  317          -    4.19120      -   107 1340s
+ 1307618 569939    4.74666   33  229          -    4.19244      -   107 1360s
+2026-07-02 06:13:53 - INFO -  1307618 569939    4.74666   33  229          -    4.19244      -   107 1360s
+ 1322531 570265    4.58421   25  272          -    4.19534      -   107 1365s
+2026-07-02 06:13:58 - INFO -  1322531 570265    4.58421   25  272          -    4.19534      -   107 1365s
+ 1324822 571605    4.25134   25  322          -    4.19566      -   107 1370s
+2026-07-02 06:14:03 - INFO -  1324822 571605    4.25134   25  322          -    4.19566      -   107 1370s
+ 1331817 573583    4.46725   24  314          -    4.19769      -   107 1376s
+2026-07-02 06:14:09 - INFO -  1331817 573583    4.46725   24  314          -    4.19769      -   107 1376s
+ 1337333 575859    4.67266   34  217          -    4.19929      -   107 1380s
+2026-07-02 06:14:13 - INFO -  1337333 575859    4.67266   34  217          -    4.19929      -   107 1380s
+ 1342828 577476    4.48911   33  282          -    4.20048      -   107 1386s
+2026-07-02 06:14:19 - INFO -  1342828 577476    4.48911   33  282          -    4.20048      -   107 1386s
+ 1346419 578881    4.32348   26  318          -    4.20115      -   107 1390s
+2026-07-02 06:14:23 - INFO -  1346419 578881    4.32348   26  318          -    4.20115      -   107 1390s
+ 1347832 578922    4.21110   28  267          -    4.20195      -   107 1396s
+2026-07-02 06:14:29 - INFO -  1347832 578922    4.21110   28  267          -    4.20195      -   107 1396s
+ 1348781 579265    4.30821   29  308          -    4.20212      -   107 1400s
+2026-07-02 06:14:34 - INFO -  1348781 579265    4.30821   29  308          -    4.20212      -   107 1400s
+ 1349488 580253    4.52446   27  276          -    4.20234      -   107 1407s
+2026-07-02 06:14:40 - INFO -  1349488 580253    4.52446   27  276          -    4.20234      -   107 1407s
+ 1354593 581588    4.38625   25  282          -    4.20297      -   107 1412s
+2026-07-02 06:14:45 - INFO -  1354593 581588    4.38625   25  282          -    4.20297      -   107 1412s
+ 1359360 583261 infeasible   37               -    4.20480      -   107 1416s
+2026-07-02 06:14:49 - INFO -  1359360 583261 infeasible   37               -    4.20480      -   107 1416s
+ 1365847 585159    4.41218   26  271          -    4.20619      -   107 1421s
+2026-07-02 06:14:54 - INFO -  1365847 585159    4.41218   26  271          -    4.20619      -   107 1421s
+ 1370550 586881    4.87369   27  249          -    4.20717      -   107 1426s
+2026-07-02 06:14:59 - INFO -  1370550 586881    4.87369   27  249          -    4.20717      -   107 1426s
+ 1377664 588877    4.61670   30  291          -    4.20900      -   107 1431s
+2026-07-02 06:15:04 - INFO -  1377664 588877    4.61670   30  291          -    4.20900      -   107 1431s
+ 1380871 590216    5.01889   31  211          -    4.20996      -   107 1435s
+2026-07-02 06:15:08 - INFO -  1380871 590216    5.01889   31  211          -    4.20996      -   107 1435s
+ 1387817 592289 infeasible   40               -    4.21140      -   107 1440s
+2026-07-02 06:15:13 - INFO -  1387817 592289 infeasible   40               -    4.21140      -   107 1440s
+ 1389764 592904    5.01608   29  264          -    4.21235      -   107 1446s
+2026-07-02 06:15:19 - INFO -  1389764 592904    5.01608   29  264          -    4.21235      -   107 1446s
+ 1390619 593300 infeasible   31               -    4.21251      -   107 1450s
+2026-07-02 06:15:23 - INFO -  1390619 593300 infeasible   31               -    4.21251      -   107 1450s
+ 1392198 593727    4.52424   35  251          -    4.21274      -   107 1455s
+2026-07-02 06:15:28 - INFO -  1392198 593727    4.52424   35  251          -    4.21274      -   107 1455s
+ 1395544 595481    5.04417   28  211          -    4.21372      -   107 1460s
+2026-07-02 06:15:33 - INFO -  1395544 595481    5.04417   28  211          -    4.21372      -   107 1460s
+ 1401805 597122    4.22577   27  319          -    4.21539      -   107 1465s
+2026-07-02 06:15:38 - INFO -  1401805 597122    4.22577   27  319          -    4.21539      -   107 1465s
+ 1408724 599398    4.45172   31  282          -    4.21725      -   107 1470s
+2026-07-02 06:15:44 - INFO -  1408724 599398    4.45172   31  282          -    4.21725      -   107 1470s
+ 1413873 601063    4.98222   30  242          -    4.21832      -   108 1475s
+2026-07-02 06:15:48 - INFO -  1413873 601063    4.98222   30  242          -    4.21832      -   108 1475s
+ 1418236 602499    4.55721   29  295          -    4.21964      -   108 1480s
+2026-07-02 06:15:54 - INFO -  1418236 602499    4.55721   29  295          -    4.21964      -   108 1480s
+ 1421722 603837    4.61089   27  301          -    4.22031      -   108 1485s
+2026-07-02 06:15:58 - INFO -  1421722 603837    4.61089   27  301          -    4.22031      -   108 1485s
+ 1426017 604716    4.97017   26  278          -    4.22158      -   108 1491s
+2026-07-02 06:16:04 - INFO -  1426017 604716    4.97017   26  278          -    4.22158      -   108 1491s
+ 1426111 604802    4.37282   30  286          -    4.22177      -   108 1496s
+2026-07-02 06:16:09 - INFO -  1426111 604802    4.37282   30  286          -    4.22177      -   108 1496s
+ 1427532 605580    4.83623   31  268          -    4.22197      -   108 1503s
+2026-07-02 06:16:16 - INFO -  1427532 605580    4.83623   31  268          -    4.22197      -   108 1503s
+ 1428932 606773    4.47394   29  277          -    4.22225      -   108 1506s
+2026-07-02 06:16:19 - INFO -  1428932 606773    4.47394   29  277          -    4.22225      -   108 1506s
+ 1435814 608724    4.28934   28  269          -    4.22368      -   108 1510s
+2026-07-02 06:16:24 - INFO -  1435814 608724    4.28934   28  269          -    4.22368      -   108 1510s
+ 1442748 610571    4.36688   24  329          -    4.22560      -   108 1515s
+2026-07-02 06:16:28 - INFO -  1442748 610571    4.36688   24  329          -    4.22560      -   108 1515s
+ 1447711 611840    4.87766   27  255          -    4.22703      -   108 1521s
+2026-07-02 06:16:34 - INFO -  1447711 611840    4.87766   27  255          -    4.22703      -   108 1521s
+ 1450172 613345    4.48971   33  271          -    4.22750      -   108 1526s
+2026-07-02 06:16:39 - INFO -  1450172 613345    4.48971   33  271          -    4.22750      -   108 1526s
+ 1454426 614399    4.66871   29  274          -    4.22846      -   108 1530s
+2026-07-02 06:16:43 - INFO -  1454426 614399    4.66871   29  274          -    4.22846      -   108 1530s
+ 1459256 616086    5.10064   28  263          -    4.22984      -   108 1535s
+2026-07-02 06:16:48 - INFO -  1459256 616086    5.10064   28  263          -    4.22984      -   108 1535s
+ 1465196 618709    4.29804   27  272          -    4.23123      -   108 1542s
+2026-07-02 06:16:55 - INFO -  1465196 618709    4.29804   27  272          -    4.23123      -   108 1542s
+ 1470390 619709    4.57640   28  254          -    4.23208      -   108 1545s
+2026-07-02 06:16:58 - INFO -  1470390 619709    4.57640   28  254          -    4.23208      -   108 1545s
+ 1472043 619752    4.36335   31  270          -    4.23304      -   108 1550s
+2026-07-02 06:17:03 - INFO -  1472043 619752    4.36335   31  270          -    4.23304      -   108 1550s
+ 1472257 619929    5.27517   28  151          -    4.23325      -   108 1555s
+2026-07-02 06:17:08 - INFO -  1472257 619929    5.27517   28  151          -    4.23325      -   108 1555s
+ 1473380 620620    4.74068   28  248          -    4.23360      -   108 1560s
+2026-07-02 06:17:13 - INFO -  1473380 620620    4.74068   28  248          -    4.23360      -   108 1560s
+ 1478666 622296    4.36204   30  237          -    4.23460      -   108 1566s
+2026-07-02 06:17:19 - INFO -  1478666 622296    4.36204   30  237          -    4.23460      -   108 1566s
+ 1484122 623991    4.69510   23  316          -    4.23583      -   108 1570s
+2026-07-02 06:17:24 - INFO -  1484122 623991    4.69510   23  316          -    4.23583      -   108 1570s
+ 1488873 625647    4.31131   33  336          -    4.23707      -   108 1575s
+2026-07-02 06:17:28 - INFO -  1488873 625647    4.31131   33  336          -    4.23707      -   108 1575s
+ 1494817 627757    4.33135   32  280          -    4.23836      -   108 1581s
+2026-07-02 06:17:34 - INFO -  1494817 627757    4.33135   32  280          -    4.23836      -   108 1581s
+ 1498663 628932 infeasible   34               -    4.23937      -   108 1585s
+2026-07-02 06:17:38 - INFO -  1498663 628932 infeasible   34               -    4.23937      -   108 1585s
+ 1505593 630991    4.31212   27  310          -    4.24092      -   108 1590s
+2026-07-02 06:17:43 - INFO -  1505593 630991    4.31212   27  310          -    4.24092      -   108 1590s
+ 1510063 632457 infeasible   27               -    4.24200      -   108 1596s
+2026-07-02 06:17:49 - INFO -  1510063 632457 infeasible   27               -    4.24200      -   108 1596s
+ 1515151 634117    4.60189   28  283          -    4.24319      -   108 1600s
+2026-07-02 06:17:53 - INFO -  1515151 634117    4.60189   28  283          -    4.24319      -   108 1600s
+ 1519628 635232    4.84395   28  243          -    4.24438      -   108 1605s
+2026-07-02 06:17:58 - INFO -  1519628 635232    4.84395   28  243          -    4.24438      -   108 1605s
+ 1520641 635748    4.61708   35  225          -    4.24474      -   108 1611s
+2026-07-02 06:18:04 - INFO -  1520641 635748    4.61708   35  225          -    4.24474      -   108 1611s
+ 1523706 637171 infeasible   32               -    4.24544      -   108 1615s
+2026-07-02 06:18:09 - INFO -  1523706 637171 infeasible   32               -    4.24544      -   108 1615s
+ 1529667 638623    4.46185   40  241          -    4.24697      -   108 1621s
+2026-07-02 06:18:14 - INFO -  1529667 638623    4.46185   40  241          -    4.24697      -   108 1621s
+ 1532849 639919 infeasible   33               -    4.24783      -   108 1625s
+2026-07-02 06:18:18 - INFO -  1532849 639919 infeasible   33               -    4.24783      -   108 1625s
+ 1539240 641561    4.40309   28  315          -    4.24923      -   108 1630s
+2026-07-02 06:18:24 - INFO -  1539240 641561    4.40309   28  315          -    4.24923      -   108 1630s
+ 1539785 642085    4.84398   31  214          -    4.24952      -   108 1635s
+2026-07-02 06:18:28 - INFO -  1539785 642085    4.84398   31  214          -    4.24952      -   108 1635s
+ 1543310 643571 infeasible   32               -    4.25002      -   108 1641s
+2026-07-02 06:18:34 - INFO -  1543310 643571 infeasible   32               -    4.25002      -   108 1641s
+ 1548739 645279 infeasible   28               -    4.25148      -   108 1646s
+2026-07-02 06:18:39 - INFO -  1548739 645279 infeasible   28               -    4.25148      -   108 1646s
+ 1551451 645669    4.54244   35  276          -    4.25220      -   108 1650s
+2026-07-02 06:18:43 - INFO -  1551451 645669    4.54244   35  276          -    4.25220      -   108 1650s
+ 1552350 646238    4.42118   24  307          -    4.25256      -   108 1656s
+2026-07-02 06:18:49 - INFO -  1552350 646238    4.42118   24  307          -    4.25256      -   108 1656s
+ 1554601 647179    4.48848   31  219          -    4.25298      -   108 1661s
+2026-07-02 06:18:54 - INFO -  1554601 647179    4.48848   31  219          -    4.25298      -   108 1661s
+ 1559475 648840    5.14127   33  227          -    4.25408      -   108 1666s
+2026-07-02 06:18:59 - INFO -  1559475 648840    5.14127   33  227          -    4.25408      -   108 1666s
+ 1565066 650418    4.52123   26  311          -    4.25529      -   109 1670s
+2026-07-02 06:19:03 - INFO -  1565066 650418    4.52123   26  311          -    4.25529      -   109 1670s
+ 1569119 651377    4.61757   27  307          -    4.25663      -   109 1675s
+2026-07-02 06:19:08 - INFO -  1569119 651377    4.61757   27  307          -    4.25663      -   109 1675s
+ 1571768 652777 infeasible   24               -    4.25709      -   109 1681s
+2026-07-02 06:19:14 - INFO -  1571768 652777 infeasible   24               -    4.25709      -   109 1681s
+ 1576336 654295    4.56994   35  279          -    4.25829      -   109 1685s
+2026-07-02 06:19:18 - INFO -  1576336 654295    4.56994   35  279          -    4.25829      -   109 1685s
+ 1580783 655618    4.54435   29  262          -    4.25916      -   109 1690s
+2026-07-02 06:19:23 - INFO -  1580783 655618    4.54435   29  262          -    4.25916      -   109 1690s
+ 1584651 656344    4.82193   37  245          -    4.26035      -   109 1695s
+2026-07-02 06:19:28 - INFO -  1584651 656344    4.82193   37  245          -    4.26035      -   109 1695s
+ 1585138 656920    4.38478   27  288          -    4.26060      -   109 1701s
+2026-07-02 06:19:34 - INFO -  1585138 656920    4.38478   27  288          -    4.26060      -   109 1701s
+ 1587919 657357 infeasible   32               -    4.26093      -   109 1705s
+2026-07-02 06:19:38 - INFO -  1587919 657357 infeasible   32               -    4.26093      -   109 1705s
+ 1589522 658503    4.68800   28  234          -    4.26139      -   109 1710s
+2026-07-02 06:19:44 - INFO -  1589522 658503    4.68800   28  234          -    4.26139      -   109 1710s
+ 1594680 660000    4.42757   27  278          -    4.26249      -   109 1716s
+2026-07-02 06:19:49 - INFO -  1594680 660000    4.42757   27  278          -    4.26249      -   109 1716s
+ 1598647 661380    4.55592   32  272          -    4.26349      -   109 1720s
+2026-07-02 06:19:53 - INFO -  1598647 661380    4.55592   32  272          -    4.26349      -   109 1720s
+ 1606161 663354    4.35798   33  281          -    4.26538      -   109 1725s
+2026-07-02 06:19:58 - INFO -  1606161 663354    4.35798   33  281          -    4.26538      -   109 1725s
+ 1611263 665186    4.41446   24  307          -    4.26651      -   109 1730s
+2026-07-02 06:20:03 - INFO -  1611263 665186    4.41446   24  307          -    4.26651      -   109 1730s
+ 1616205 666612    4.53933   34  278          -    4.26764      -   109 1735s
+2026-07-02 06:20:08 - INFO -  1616205 666612    4.53933   34  278          -    4.26764      -   109 1735s
+ 1620037 667919    4.31198   21  341          -    4.26842      -   109 1741s
+2026-07-02 06:20:14 - INFO -  1620037 667919    4.31198   21  341          -    4.26842      -   109 1741s
+ 1624738 669364    4.91005   27  255          -    4.26969      -   109 1745s
+2026-07-02 06:20:18 - INFO -  1624738 669364    4.91005   27  255          -    4.26969      -   109 1745s
+ 1627971 669987    4.70988   27  275          -    4.27051      -   109 1750s
+2026-07-02 06:20:23 - INFO -  1627971 669987    4.70988   27  275          -    4.27051      -   109 1750s
+ 1628648 670504 infeasible   31               -    4.27078      -   109 1755s
+2026-07-02 06:20:28 - INFO -  1628648 670504 infeasible   31               -    4.27078      -   109 1755s
+ 1632727 672104 infeasible   33               -    4.27134      -   109 1760s
+2026-07-02 06:20:33 - INFO -  1632727 672104 infeasible   33               -    4.27134      -   109 1760s
+ 1637966 673706    4.46482   34  236          -    4.27284      -   109 1765s
+2026-07-02 06:20:38 - INFO -  1637966 673706    4.46482   34  236          -    4.27284      -   109 1765s
+ 1642459 675073    4.45743   28  285          -    4.27366      -   109 1770s
+2026-07-02 06:20:43 - INFO -  1642459 675073    4.45743   28  285          -    4.27366      -   109 1770s
+ 1647967 676867 infeasible   31               -    4.27515      -   109 1776s
+2026-07-02 06:20:49 - INFO -  1647967 676867 infeasible   31               -    4.27515      -   109 1776s
+ 1652359 678062    4.87301   37  268          -    4.27602      -   109 1780s
+2026-07-02 06:20:53 - INFO -  1652359 678062    4.87301   37  268          -    4.27602      -   109 1780s
+ 1655771 679291    4.61583   30  303          -    4.27685      -   109 1785s
+2026-07-02 06:20:58 - INFO -  1655771 679291    4.61583   30  303          -    4.27685      -   109 1785s
+ 1660038 680731    4.67934   27  229          -    4.27783      -   109 1790s
+2026-07-02 06:21:03 - INFO -  1660038 680731    4.67934   27  229          -    4.27783      -   109 1790s
+ 1662226 682262    4.79376   35  239          -    4.27858      -   109 1800s
+2026-07-02 06:21:13 - INFO -  1662226 682262    4.79376   35  239          -    4.27858      -   109 1800s
+ 1670821 684159    4.45811   28  276          -    4.28038      -   109 1806s
+2026-07-02 06:21:19 - INFO -  1670821 684159    4.45811   28  276          -    4.28038      -   109 1806s
+ 1674191 685306    4.52788   30  273          -    4.28094      -   109 1810s
+2026-07-02 06:21:23 - INFO -  1674191 685306    4.52788   30  273          -    4.28094      -   109 1810s
+ 1681067 687281    4.42774   32  302          -    4.28247      -   109 1816s
+2026-07-02 06:21:29 - INFO -  1681067 687281    4.42774   32  302          -    4.28247      -   109 1816s
+ 1685326 688741    4.37786   30  277          -    4.28359      -   109 1821s
+2026-07-02 06:21:34 - INFO -  1685326 688741    4.37786   30  277          -    4.28359      -   109 1821s
+ 1688916 689697    4.54216   28  274          -    4.28437      -   109 1825s
+2026-07-02 06:21:38 - INFO -  1688916 689697    4.54216   28  274          -    4.28437      -   109 1825s
+ 1693127 691083    5.85305   34  229          -    4.28528      -   109 1830s
+2026-07-02 06:21:43 - INFO -  1693127 691083    5.85305   34  229          -    4.28528      -   109 1830s
+ 1694982 691283    4.89195   30  236          -    4.28594      -   109 1835s
+2026-07-02 06:21:48 - INFO -  1694982 691283    4.89195   30  236          -    4.28594      -   109 1835s
+ 1696488 692125    4.53992   26  285          -    4.28628      -   109 1840s
+2026-07-02 06:21:53 - INFO -  1696488 692125    4.53992   26  285          -    4.28628      -   109 1840s
+ 1701614 693832    4.52609   23  320          -    4.28729      -   109 1845s
+2026-07-02 06:21:59 - INFO -  1701614 693832    4.52609   23  320          -    4.28729      -   109 1845s
+ 1707073 695323    4.91623   31  269          -    4.28859      -   109 1850s
+2026-07-02 06:22:04 - INFO -  1707073 695323    4.91623   31  269          -    4.28859      -   109 1850s
+ 1712968 697265    4.38846   30  292          -    4.28987      -   109 1856s
+2026-07-02 06:22:09 - INFO -  1712968 697265    4.38846   30  292          -    4.28987      -   109 1856s
+ 1717004 698317    4.48112   29  269          -    4.29071      -   109 1860s
+2026-07-02 06:22:13 - INFO -  1717004 698317    4.48112   29  269          -    4.29071      -   109 1860s
+ 1721461 700114    4.77259   36  241          -    4.29169      -   109 1866s
+2026-07-02 06:22:19 - INFO -  1721461 700114    4.77259   36  241          -    4.29169      -   109 1866s
+ 1727112 701646    4.54614   33  275          -    4.29278      -   109 1871s
+2026-07-02 06:22:24 - INFO -  1727112 701646    4.54614   33  275          -    4.29278      -   109 1871s
+ 1729719 702216    6.09172   31  230          -    4.29365      -   109 1875s
+2026-07-02 06:22:28 - INFO -  1729719 702216    6.09172   31  230          -    4.29365      -   109 1875s
+ 1730899 702630    4.74459   27  292          -    4.29402      -   109 1880s
+2026-07-02 06:22:33 - INFO -  1730899 702630    4.74459   27  292          -    4.29402      -   109 1880s
+ 1734352 703870    4.44908   30  277          -    4.29483      -   109 1885s
+2026-07-02 06:22:38 - INFO -  1734352 703870    4.44908   30  277          -    4.29483      -   109 1885s
+ 1738205 705167    4.80155   32  228          -    4.29569      -   109 1890s
+2026-07-02 06:22:43 - INFO -  1738205 705167    4.80155   32  228          -    4.29569      -   109 1890s
+ 1743236 706570 infeasible   29               -    4.29659      -   109 1895s
+2026-07-02 06:22:48 - INFO -  1743236 706570 infeasible   29               -    4.29659      -   109 1895s
+ 1747672 708241    4.80307   29  237          -    4.29790      -   109 1900s
+2026-07-02 06:22:54 - INFO -  1747672 708241    4.80307   29  237          -    4.29790      -   109 1900s
+ 1751756 709444    5.00896   31  257          -    4.29855      -   109 1905s
+2026-07-02 06:22:58 - INFO -  1751756 709444    5.00896   31  257          -    4.29855      -   109 1905s
+ 1754661 709890    4.88587   30  215          -    4.29945      -   109 1911s
+2026-07-02 06:23:04 - INFO -  1754661 709890    4.88587   30  215          -    4.29945      -   109 1911s
+ 1754722 709971    4.87460   24  242          -    4.29962      -   109 1915s
+2026-07-02 06:23:08 - INFO -  1754722 709971    4.87460   24  242          -    4.29962      -   109 1915s
+ 1757038 711120    4.37500   28  264          -    4.29985      -   109 1920s
+2026-07-02 06:23:13 - INFO -  1757038 711120    4.37500   28  264          -    4.29985      -   109 1920s
+ 1762899 712744    4.46149   29  278          -    4.30138      -   109 1926s
+2026-07-02 06:23:19 - INFO -  1762899 712744    4.46149   29  278          -    4.30138      -   109 1926s
+ 1764889 713687 infeasible   43               -    4.30171      -   109 1930s
+2026-07-02 06:23:23 - INFO -  1764889 713687 infeasible   43               -    4.30171      -   109 1930s
+ 1770697 715275    4.87867   33  224          -    4.30284      -   109 1935s
+2026-07-02 06:23:28 - INFO -  1770697 715275    4.87867   33  224          -    4.30284      -   109 1935s
+ 1776784 717157    4.32939   27  322          -    4.30434      -   109 1940s
+2026-07-02 06:23:33 - INFO -  1776784 717157    4.32939   27  322          -    4.30434      -   109 1940s
+ 1780928 718649    4.69665   25  310          -    4.30515      -   109 1945s
+2026-07-02 06:23:38 - INFO -  1780928 718649    4.69665   25  310          -    4.30515      -   109 1945s
+ 1786440 720029    4.65789   33  253          -    4.30627      -   109 1950s
+2026-07-02 06:23:43 - INFO -  1786440 720029    4.65789   33  253          -    4.30627      -   109 1950s
+ 1790558 721505    5.01118   32  241          -    4.30710      -   109 1955s
+2026-07-02 06:23:48 - INFO -  1790558 721505    5.01118   32  241          -    4.30710      -   109 1955s
+ 1796271 723171    4.75465   28  284          -    4.30859      -   109 1960s
+2026-07-02 06:23:53 - INFO -  1796271 723171    4.75465   28  284          -    4.30859      -   109 1960s
+ 1800166 724480    4.41818   27  271          -    4.30948      -   110 1965s
+2026-07-02 06:23:58 - INFO -  1800166 724480    4.41818   27  271          -    4.30948      -   110 1965s
+ 1805611 725753    4.70474   34  274          -    4.31051      -   110 1971s
+2026-07-02 06:24:04 - INFO -  1805611 725753    4.70474   34  274          -    4.31051      -   110 1971s
+ 1806449 725947    4.43928   34  239          -    4.31110      -   110 1975s
+2026-07-02 06:24:08 - INFO -  1806449 725947    4.43928   34  239          -    4.31110      -   110 1975s
+ 1807139 726609    4.71260   34  261          -    4.31133      -   110 1981s
+2026-07-02 06:24:14 - INFO -  1807139 726609    4.71260   34  261          -    4.31133      -   110 1981s
+ 1810312 727713    5.18779   32  192          -    4.31182      -   110 1985s
+2026-07-02 06:24:18 - INFO -  1810312 727713    5.18779   32  192          -    4.31182      -   110 1985s
+ 1817294 729703    4.79312   29  224          -    4.31317      -   110 1990s
+2026-07-02 06:24:23 - INFO -  1817294 729703    4.79312   29  224          -    4.31317      -   110 1990s
+ 1819974 731192    4.33582   24  299          -    4.31394      -   110 1996s
+2026-07-02 06:24:29 - INFO -  1819974 731192    4.33582   24  299          -    4.31394      -   110 1996s
+ 1827095 732592    4.53996   28  258          -    4.31504      -   110 2001s
+2026-07-02 06:24:34 - INFO -  1827095 732592    4.53996   28  258          -    4.31504      -   110 2001s
+ 1832960 734350    4.85247   35  257          -    4.31632      -   110 2005s
+2026-07-02 06:24:38 - INFO -  1832960 734350    4.85247   35  257          -    4.31632      -   110 2005s
+ 1837078 735604    4.65650   30  266          -    4.31705      -   110 2011s
+2026-07-02 06:24:44 - INFO -  1837078 735604    4.65650   30  266          -    4.31705      -   110 2011s
+ 1839712 736575 infeasible   30               -    4.31771      -   110 2015s
+2026-07-02 06:24:48 - INFO -  1839712 736575 infeasible   30               -    4.31771      -   110 2015s
+ 1846454 738086    5.18661   31  248          -    4.31885      -   110 2020s
+2026-07-02 06:24:53 - INFO -  1846454 738086    5.18661   31  248          -    4.31885      -   110 2020s
+ 1850428 739114    4.68785   29  215          -    4.32000      -   110 2026s
+2026-07-02 06:24:59 - INFO -  1850428 739114    4.68785   29  215          -    4.32000      -   110 2026s
+ 1850837 739207 infeasible   29               -    4.32024      -   110 2030s
+2026-07-02 06:25:03 - INFO -  1850837 739207 infeasible   29               -    4.32024      -   110 2030s
+ 1851768 739754 infeasible   30               -    4.32048      -   110 2035s
+2026-07-02 06:25:09 - INFO -  1851768 739754 infeasible   30               -    4.32048      -   110 2035s
+ 1855034 741096    4.50007   33  286          -    4.32106      -   110 2041s
+2026-07-02 06:25:14 - INFO -  1855034 741096    4.50007   33  286          -    4.32106      -   110 2041s
+ 1859569 742442    4.48605   27  276          -    4.32230      -   110 2045s
+2026-07-02 06:25:18 - INFO -  1859569 742442    4.48605   27  276          -    4.32230      -   110 2045s
+ 1866568 744361    4.70366   33  308          -    4.32359      -   110 2051s
+2026-07-02 06:25:24 - INFO -  1866568 744361    4.70366   33  308          -    4.32359      -   110 2051s
+ 1870125 745416    5.38223   26  248          -    4.32435      -   110 2055s
+2026-07-02 06:25:28 - INFO -  1870125 745416    5.38223   26  248          -    4.32435      -   110 2055s
+ 1875667 747263    4.53860   27  279          -    4.32538      -   110 2060s
+2026-07-02 06:25:33 - INFO -  1875667 747263    4.53860   27  279          -    4.32538      -   110 2060s
+ 1880575 748654    4.72806   27  276          -    4.32642      -   110 2065s
+2026-07-02 06:25:38 - INFO -  1880575 748654    4.72806   27  276          -    4.32642      -   110 2065s
+ 1885490 750193    4.48769   29  257          -    4.32752      -   110 2070s
+2026-07-02 06:25:43 - INFO -  1885490 750193    4.48769   29  257          -    4.32752      -   110 2070s
+ 1890733 751280    5.18465   29  231          -    4.32844      -   110 2076s
+2026-07-02 06:25:49 - INFO -  1890733 751280    5.18465   29  231          -    4.32844      -   110 2076s
+ 1891270 751521    4.43426   34  277          -    4.32891      -   110 2080s
+2026-07-02 06:25:54 - INFO -  1891270 751521    4.43426   34  277          -    4.32891      -   110 2080s
+ 1891885 751720 infeasible   32               -    4.32909      -   110 2085s
+2026-07-02 06:25:58 - INFO -  1891885 751720 infeasible   32               -    4.32909      -   110 2085s
+ 1894227 752987    4.83292   27  259          -    4.32946      -   110 2091s
+2026-07-02 06:26:04 - INFO -  1894227 752987    4.83292   27  259          -    4.32946      -   110 2091s
+ 1899071 753684    4.52290   28  220          -    4.33050      -   110 2095s
+2026-07-02 06:26:08 - INFO -  1899071 753684    4.52290   28  220          -    4.33050      -   110 2095s
+ 1899140 757785 infeasible   24               -    4.33059      -   110 2107s
+2026-07-02 06:26:20 - INFO -  1899140 757785 infeasible   24               -    4.33059      -   110 2107s
+ 1913746 758086 infeasible   37               -    4.33260      -   110 2111s
+2026-07-02 06:26:24 - INFO -  1913746 758086 infeasible   37               -    4.33260      -   110 2111s
+ 1916309 759049    4.65218   29  316          -    4.33301      -   110 2115s
+2026-07-02 06:26:28 - INFO -  1916309 759049    4.65218   29  316          -    4.33301      -   110 2115s
+ 1920430 760733    4.55528   26  275          -    4.33386      -   110 2120s
+2026-07-02 06:26:33 - INFO -  1920430 760733    4.55528   26  275          -    4.33386      -   110 2120s
+ 1925212 762014    5.53663   30  204          -    4.33462      -   110 2126s
+2026-07-02 06:26:39 - INFO -  1925212 762014    5.53663   30  204          -    4.33462      -   110 2126s
+ 1931219 763391    4.36990   27  291          -    4.33610      -   110 2130s
+2026-07-02 06:26:43 - INFO -  1931219 763391    4.36990   27  291          -    4.33610      -   110 2130s
+ 1933561 763899    4.35520   27  311          -    4.33684      -   110 2136s
+2026-07-02 06:26:49 - INFO -  1933561 763899    4.35520   27  311          -    4.33684      -   110 2136s
+ 1934378 764446    4.39997   36  260          -    4.33705      -   110 2141s
+2026-07-02 06:26:54 - INFO -  1934378 764446    4.39997   36  260          -    4.33705      -   110 2141s
+ 1939269 765577    4.37258   28  268          -    4.33810      -   110 2146s
+2026-07-02 06:26:59 - INFO -  1939269 765577    4.37258   28  268          -    4.33810      -   110 2146s
+ 1939502 769154    4.55522   29  254          -    4.33819      -   110 2155s
+2026-07-02 06:27:08 - INFO -  1939502 769154    4.55522   29  254          -    4.33819      -   110 2155s
+ 1955431 770811    5.08764   32  285          -    4.34051      -   110 2160s
+2026-07-02 06:27:14 - INFO -  1955431 770811    5.08764   32  285          -    4.34051      -   110 2160s
+ 1958249 771399    4.55168   33  260          -    4.34131      -   110 2166s
+2026-07-02 06:27:19 - INFO -  1958249 771399    4.55168   33  260          -    4.34131      -   110 2166s
+ 1961774 772857    4.38895   27  329          -    4.34184      -   110 2171s
+2026-07-02 06:27:24 - INFO -  1961774 772857    4.38895   27  329          -    4.34184      -   110 2171s
+ 1965847 774027    4.44815   27  285          -    4.34282      -   110 2175s
+2026-07-02 06:27:28 - INFO -  1965847 774027    4.44815   27  285          -    4.34282      -   110 2175s
+ 1969739 775422    4.57771   32  242          -    4.34357      -   110 2180s
+2026-07-02 06:27:33 - INFO -  1969739 775422    4.57771   32  242          -    4.34357      -   110 2180s
+ 1972865 776181 infeasible   33               -    4.34438      -   110 2186s
+2026-07-02 06:27:39 - INFO -  1972865 776181 infeasible   33               -    4.34438      -   110 2186s
+ 1975737 777294    4.77452   32  275          -    4.34486      -   110 2191s
+2026-07-02 06:27:44 - INFO -  1975737 777294    4.77452   32  275          -    4.34486      -   110 2191s
+ 1981411 778933    4.58274   32  248          -    4.34616      -   110 2195s
+2026-07-02 06:27:48 - INFO -  1981411 778933    4.58274   32  248          -    4.34616      -   110 2195s
+ 1986415 780130    4.57554   28  309          -    4.34708      -   110 2201s
+2026-07-02 06:27:54 - INFO -  1986415 780130    4.57554   28  309          -    4.34708      -   110 2201s
+ 1989023 781040    4.51152   31  255          -    4.34771      -   110 2205s
+2026-07-02 06:27:58 - INFO -  1989023 781040    4.51152   31  255          -    4.34771      -   110 2205s
+ 1992624 781860 infeasible   36               -    4.34865      -   110 2210s
+2026-07-02 06:28:03 - INFO -  1992624 781860 infeasible   36               -    4.34865      -   110 2210s
+ 1996616 783354 infeasible   35               -    4.34911      -   110 2217s
+2026-07-02 06:28:10 - INFO -  1996616 783354 infeasible   35               -    4.34911      -   110 2217s
+ 1999492 784134    5.70432   34  234          -    4.34966      -   110 2220s
+2026-07-02 06:28:13 - INFO -  1999492 784134    5.70432   34  234          -    4.34966      -   110 2220s
+ 2004262 785663 infeasible   31               -    4.35071      -   110 2225s
+2026-07-02 06:28:19 - INFO -  2004262 785663 infeasible   31               -    4.35071      -   110 2225s
+ 2009370 787296    4.66086   30  250          -    4.35195      -   110 2230s
+2026-07-02 06:28:23 - INFO -  2009370 787296    4.66086   30  250          -    4.35195      -   110 2230s
+ 2013814 788439    4.75596   32  293          -    4.35283      -   110 2236s
+2026-07-02 06:28:29 - INFO -  2013814 788439    4.75596   32  293          -    4.35283      -   110 2236s
+ 2015409 788677 infeasible   29               -    4.35333      -   110 2240s
+2026-07-02 06:28:33 - INFO -  2015409 788677 infeasible   29               -    4.35333      -   110 2240s
+ 2017553 789252    4.89583   32  239          -    4.35361      -   110 2245s
+2026-07-02 06:28:38 - INFO -  2017553 789252    4.89583   32  239          -    4.35361      -   110 2245s
+ 2020898 790669    4.71810   31  260          -    4.35417      -   110 2250s
+2026-07-02 06:28:44 - INFO -  2020898 790669    4.71810   31  260          -    4.35417      -   110 2250s
+ 2025528 791975    4.61613   26  306          -    4.35515      -   110 2255s
+2026-07-02 06:28:49 - INFO -  2025528 791975    4.61613   26  306          -    4.35515      -   110 2255s
+ 2030558 793604    4.37649   27  290          -    4.35622      -   110 2260s
+2026-07-02 06:28:53 - INFO -  2030558 793604    4.37649   27  290          -    4.35622      -   110 2260s
+ 2036388 795132    4.95088   33  287          -    4.35744      -   110 2266s
+2026-07-02 06:28:59 - INFO -  2036388 795132    4.95088   33  287          -    4.35744      -   110 2266s
+ 2040465 796308    4.57717   23  299          -    4.35812      -   110 2270s
+2026-07-02 06:29:04 - INFO -  2040465 796308    4.57717   23  299          -    4.35812      -   110 2270s
+ 2044789 797150    4.70273   30  287          -    4.35916      -   110 2275s
+2026-07-02 06:29:08 - INFO -  2044789 797150    4.70273   30  287          -    4.35916      -   110 2275s
+ 2045539 797477    4.60378   30  268          -    4.35954      -   110 2281s
+2026-07-02 06:29:14 - INFO -  2045539 797477    4.60378   30  268          -    4.35954      -   110 2281s
+ 2047530 798497 infeasible   31               -    4.35976      -   110 2285s
+2026-07-02 06:29:18 - INFO -  2047530 798497 infeasible   31               -    4.35976      -   110 2285s
+ 2052978 800075    4.64261   27  267          -    4.36081      -   110 2290s
+2026-07-02 06:29:23 - INFO -  2052978 800075    4.64261   27  267          -    4.36081      -   110 2290s
+ 2058804 801808    4.53652   33  272          -    4.36190      -   110 2296s
+2026-07-02 06:29:29 - INFO -  2058804 801808    4.53652   33  272          -    4.36190      -   110 2296s
+ 2063338 803111    4.63214   33  256          -    4.36280      -   110 2300s
+2026-07-02 06:29:33 - INFO -  2063338 803111    4.63214   33  256          -    4.36280      -   110 2300s
+ 2068971 804357    4.68832   31  270          -    4.36382      -   110 2306s
+2026-07-02 06:29:39 - INFO -  2068971 804357    4.68832   31  270          -    4.36382      -   110 2306s
+ 2072347 805863    4.95291   27  261          -    4.36463      -   110 2310s
+2026-07-02 06:29:43 - INFO -  2072347 805863    4.95291   27  261          -    4.36463      -   110 2310s
+ 2078839 807709 infeasible   32               -    4.36587      -   110 2315s
+2026-07-02 06:29:48 - INFO -  2078839 807709 infeasible   32               -    4.36587      -   110 2315s
+ 2084784 808895    4.78516   30  249          -    4.36687      -   110 2321s
+2026-07-02 06:29:54 - INFO -  2084784 808895    4.78516   30  249          -    4.36687      -   110 2321s
+ 2085245 809223 infeasible   30               -    4.36718      -   110 2325s
+2026-07-02 06:29:58 - INFO -  2085245 809223 infeasible   30               -    4.36718      -   110 2325s
+ 2086913 809839 infeasible   42               -    4.36751      -   110 2330s
+2026-07-02 06:30:04 - INFO -  2086913 809839 infeasible   42               -    4.36751      -   110 2330s
+ 2089295 810270    4.61584   30  299          -    4.36780      -   110 2335s
+2026-07-02 06:30:08 - INFO -  2089295 810270    4.61584   30  299          -    4.36780      -   110 2335s
+ 2092693 811507 infeasible   32               -    4.36849      -   110 2341s
+2026-07-02 06:30:14 - INFO -  2092693 811507 infeasible   32               -    4.36849      -   110 2341s
+ 2096586 812649    4.65712   26  265          -    4.36910      -   110 2345s
+2026-07-02 06:30:18 - INFO -  2096586 812649    4.65712   26  265          -    4.36910      -   110 2345s
+ 2102466 814423    4.38566   30  313          -    4.37046      -   110 2350s
+2026-07-02 06:30:23 - INFO -  2102466 814423    4.38566   30  313          -    4.37046      -   110 2350s
+ 2107787 815911    4.53809   31  319          -    4.37141      -   110 2356s
+2026-07-02 06:30:29 - INFO -  2107787 815911    4.53809   31  319          -    4.37141      -   110 2356s
+ 2112401 817179    4.72685   32  250          -    4.37227      -   110 2360s
+2026-07-02 06:30:33 - INFO -  2112401 817179    4.72685   32  250          -    4.37227      -   110 2360s
+ 2117159 818631    4.79484   27  252          -    4.37340      -   110 2366s
+2026-07-02 06:30:39 - INFO -  2117159 818631    4.79484   27  252          -    4.37340      -   110 2366s
+ 2121280 819225    4.45869   30  277          -    4.37437      -   110 2370s
+2026-07-02 06:30:43 - INFO -  2121280 819225    4.45869   30  277          -    4.37437      -   110 2370s
+ 2121356 819281    4.74315   25  318          -    4.37463      -   110 2375s
+2026-07-02 06:30:48 - INFO -  2121356 819281    4.74315   25  318          -    4.37463      -   110 2375s
+ 2121782 819544    4.63560   31  248          -    4.37477      -   110 2380s
+2026-07-02 06:30:53 - INFO -  2121782 819544    4.63560   31  248          -    4.37477      -   110 2380s
+ 2125008 820791    4.68213   32  238          -    4.37507      -   110 2386s
+2026-07-02 06:30:59 - INFO -  2125008 820791    4.68213   32  238          -    4.37507      -   110 2386s
+ 2128887 822056    5.23550   35  204          -    4.37584      -   110 2390s
+2026-07-02 06:31:03 - INFO -  2128887 822056    5.23550   35  204          -    4.37584      -   110 2390s
+ 2136232 824290    4.62566   34  268          -    4.37729      -   110 2396s
+2026-07-02 06:31:09 - INFO -  2136232 824290    4.62566   34  268          -    4.37729      -   110 2396s
+ 2141393 825376    4.47671   30  264          -    4.37801      -   110 2400s
+2026-07-02 06:31:13 - INFO -  2141393 825376    4.47671   30  264          -    4.37801      -   110 2400s
+ 2144911 826456    4.47238   28  268          -    4.37878      -   110 2405s
+2026-07-02 06:31:18 - INFO -  2144911 826456    4.47238   28  268          -    4.37878      -   110 2405s
+ 2150688 828286    5.52481   30  201          -    4.37996      -   110 2411s
+2026-07-02 06:31:24 - INFO -  2150688 828286    5.52481   30  201          -    4.37996      -   110 2411s
+ 2156202 829850    4.44042   31  295          -    4.38099      -   110 2415s
+2026-07-02 06:31:28 - INFO -  2156202 829850    4.44042   31  295          -    4.38099      -   110 2415s
+ 2161516 831479    4.53068   29  273          -    4.38204      -   110 2421s
+2026-07-02 06:31:34 - INFO -  2161516 831479    4.53068   29  273          -    4.38204      -   110 2421s
+ 2166078 832758    4.63607   27  267          -    4.38292      -   110 2425s
+2026-07-02 06:31:38 - INFO -  2166078 832758    4.63607   27  267          -    4.38292      -   110 2425s
+ 2172514 834350    5.14872   32  265          -    4.38399      -   110 2430s
+2026-07-02 06:31:43 - INFO -  2172514 834350    5.14872   32  265          -    4.38399      -   110 2430s
+ 2174856 834997    4.64767   31  289          -    4.38477      -   110 2436s
+2026-07-02 06:31:49 - INFO -  2174856 834997    4.64767   31  289          -    4.38477      -   110 2436s
+ 2177196 835914    4.41909   27  292          -    4.38502      -   110 2440s
+2026-07-02 06:31:54 - INFO -  2177196 835914    4.41909   27  292          -    4.38502      -   110 2440s
+ 2182611 837729 infeasible   35               -    4.38601      -   110 2445s
+2026-07-02 06:31:59 - INFO -  2182611 837729 infeasible   35               -    4.38601      -   110 2445s
+ 2187035 838686    5.22844   27  221          -    4.38682      -   110 2450s
+2026-07-02 06:32:03 - INFO -  2187035 838686    5.22844   27  221          -    4.38682      -   110 2450s
+ 2190843 840008 infeasible   38               -    4.38763      -   110 2455s
+2026-07-02 06:32:09 - INFO -  2190843 840008 infeasible   38               -    4.38763      -   110 2455s
+ 2193922 840454 infeasible   34               -    4.38835      -   111 2460s
+2026-07-02 06:32:13 - INFO -  2193922 840454 infeasible   34               -    4.38835      -   111 2460s
+ 2197163 841702    5.04822   34  245          -    4.38882      -   111 2466s
+2026-07-02 06:32:19 - INFO -  2197163 841702    5.04822   34  245          -    4.38882      -   111 2466s
+ 2199903 842585    4.65188   31  282          -    4.38929      -   111 2470s
+2026-07-02 06:32:23 - INFO -  2199903 842585    4.65188   31  282          -    4.38929      -   111 2470s
+ 2205420 844230    4.58290   33  282          -    4.39031      -   111 2475s
+2026-07-02 06:32:28 - INFO -  2205420 844230    4.58290   33  282          -    4.39031      -   111 2475s
+ 2210025 845469    4.51556   34  220          -    4.39117      -   111 2480s
+2026-07-02 06:32:33 - INFO -  2210025 845469    4.51556   34  220          -    4.39117      -   111 2480s
+ 2215517 846991    4.78161   32  252          -    4.39226      -   111 2485s
+2026-07-02 06:32:38 - INFO -  2215517 846991    4.78161   32  252          -    4.39226      -   111 2485s
+ 2218102 847236    4.80757   31  251          -    4.39291      -   111 2490s
+2026-07-02 06:32:43 - INFO -  2218102 847236    4.80757   31  251          -    4.39291      -   111 2490s
+ 2218314 848006 infeasible   31               -    4.39307      -   111 2497s
+2026-07-02 06:32:50 - INFO -  2218314 848006 infeasible   31               -    4.39307      -   111 2497s
+ 2221475 848964    4.66696   32  256          -    4.39338      -   111 2503s
+2026-07-02 06:32:56 - INFO -  2221475 848964    4.66696   32  256          -    4.39338      -   111 2503s
+ 2224204 849531    4.57026   35  284          -    4.39364      -   111 2506s
+2026-07-02 06:32:59 - INFO -  2224204 849531    4.57026   35  284          -    4.39364      -   111 2506s
+ 2229068 851082    4.83270   30  243          -    4.39464      -   111 2510s
+2026-07-02 06:33:03 - INFO -  2229068 851082    4.83270   30  243          -    4.39464      -   111 2510s
+ 2235410 852829    4.56738   34  264          -    4.39573      -   111 2516s
+2026-07-02 06:33:09 - INFO -  2235410 852829    4.56738   34  264          -    4.39573      -   111 2516s
+ 2240532 854025 infeasible   28               -    4.39699      -   111 2520s
+2026-07-02 06:33:13 - INFO -  2240532 854025 infeasible   28               -    4.39699      -   111 2520s
+ 2243566 854924 infeasible   29               -    4.39758      -   111 2525s
+2026-07-02 06:33:18 - INFO -  2243566 854924 infeasible   29               -    4.39758      -   111 2525s
+ 2249684 856664    4.42476   30  270          -    4.39881      -   111 2531s
+2026-07-02 06:33:24 - INFO -  2249684 856664    4.42476   30  270          -    4.39881      -   111 2531s
+ 2254537 857940    4.51352   34  247          -    4.39958      -   111 2535s
+2026-07-02 06:33:28 - INFO -  2254537 857940    4.51352   34  247          -    4.39958      -   111 2535s
+ 2261209 859830    4.60220   26  301          -    4.40078      -   111 2540s
+2026-07-02 06:33:34 - INFO -  2261209 859830    4.60220   26  301          -    4.40078      -   111 2540s
+ 2262660 859906    4.41761   33  237          -    4.40140      -   111 2545s
+2026-07-02 06:33:38 - INFO -  2262660 859906    4.41761   33  237          -    4.40140      -   111 2545s
+ 2262943 860058    4.51837   30  244          -    4.40158      -   111 2550s
+2026-07-02 06:33:43 - INFO -  2262943 860058    4.51837   30  244          -    4.40158      -   111 2550s
+ 2263937 860416    4.63049   28  273          -    4.40177      -   111 2555s
+2026-07-02 06:33:48 - INFO -  2263937 860416    4.63049   28  273          -    4.40177      -   111 2555s
+ 2266644 861699    4.78645   30  249          -    4.40210      -   111 2561s
+2026-07-02 06:33:54 - INFO -  2266644 861699    4.78645   30  249          -    4.40210      -   111 2561s
+ 2272932 863661    4.88407   29  243          -    4.40338      -   111 2566s
+2026-07-02 06:33:59 - INFO -  2272932 863661    4.88407   29  243          -    4.40338      -   111 2566s
+ 2277452 864721    4.76375   30  255          -    4.40402      -   111 2571s
+2026-07-02 06:34:04 - INFO -  2277452 864721    4.76375   30  255          -    4.40402      -   111 2571s
+ 2282414 866241    4.83382   32  242          -    4.40503      -   111 2575s
+2026-07-02 06:34:08 - INFO -  2282414 866241    4.83382   32  242          -    4.40503      -   111 2575s
+ 2287545 867334    4.79111   31  238          -    4.40595      -   111 2581s
+2026-07-02 06:34:14 - INFO -  2287545 867334    4.79111   31  238          -    4.40595      -   111 2581s
+ 2290821 868352 infeasible   31               -    4.40671      -   111 2585s
+2026-07-02 06:34:18 - INFO -  2290821 868352 infeasible   31               -    4.40671      -   111 2585s
+ 2294750 869232    5.19880   33  247          -    4.40727      -   111 2590s
+2026-07-02 06:34:23 - INFO -  2294750 869232    5.19880   33  247          -    4.40727      -   111 2590s
+ 2300562 870925    5.01007   34  246          -    4.40851      -   111 2595s
+2026-07-02 06:34:29 - INFO -  2300562 870925    5.01007   34  246          -    4.40851      -   111 2595s
+ 2304125 871518    4.94021   30  261          -    4.40915      -   111 2600s
+2026-07-02 06:34:33 - INFO -  2304125 871518    4.94021   30  261          -    4.40915      -   111 2600s
+ 2304410 871718    4.75398   27  205          -    4.40951      -   111 2605s
+2026-07-02 06:34:38 - INFO -  2304410 871718    4.75398   27  205          -    4.40951      -   111 2605s
+ 2305882 872664    4.53130   35  258          -    4.40966      -   111 2610s
+2026-07-02 06:34:43 - INFO -  2305882 872664    4.53130   35  258          -    4.40966      -   111 2610s
+ 2311685 874275 infeasible   36               -    4.41049      -   111 2615s
+2026-07-02 06:34:48 - INFO -  2311685 874275 infeasible   36               -    4.41049      -   111 2615s
+ 2317976 875889    4.58724   29  322          -    4.41160      -   111 2621s
+2026-07-02 06:34:54 - INFO -  2317976 875889    4.58724   29  322          -    4.41160      -   111 2621s
+ 2323178 877477    4.67850   32  254          -    4.41245      -   111 2625s
+2026-07-02 06:34:58 - INFO -  2323178 877477    4.67850   32  254          -    4.41245      -   111 2625s
+ 2327523 878533    5.03409   31  269          -    4.41327      -   111 2631s
+2026-07-02 06:35:04 - INFO -  2327523 878533    5.03409   31  269          -    4.41327      -   111 2631s
+ 2331540 879699    4.56870   30  275          -    4.41392      -   111 2635s
+2026-07-02 06:35:08 - INFO -  2331540 879699    4.56870   30  275          -    4.41392      -   111 2635s
+ 2335271 880560 infeasible   34               -    4.41458      -   111 2640s
+2026-07-02 06:35:13 - INFO -  2335271 880560 infeasible   34               -    4.41458      -   111 2640s
+ 2339747 881901    4.50655   32  315          -    4.41526      -   111 2645s
+2026-07-02 06:35:18 - INFO -  2339747 881901    4.50655   32  315          -    4.41526      -   111 2645s
+ 2344934 883468    4.94632   26  247          -    4.41651      -   111 2650s
+2026-07-02 06:35:23 - INFO -  2344934 883468    4.94632   26  247          -    4.41651      -   111 2650s
+ 2348321 884118    6.30514   33  238          -    4.41717      -   111 2656s
+2026-07-02 06:35:29 - INFO -  2348321 884118    6.30514   33  238          -    4.41717      -   111 2656s
+ 2348955 884338    4.85468   28  276          -    4.41739      -   111 2661s
+2026-07-02 06:35:34 - INFO -  2348955 884338    4.85468   28  276          -    4.41739      -   111 2661s
+ 2352998 885840 infeasible   41               -    4.41810      -   111 2666s
+2026-07-02 06:35:39 - INFO -  2352998 885840 infeasible   41               -    4.41810      -   111 2666s
+ 2357861 886861 infeasible   38               -    4.41887      -   111 2670s
+2026-07-02 06:35:44 - INFO -  2357861 886861 infeasible   38               -    4.41887      -   111 2670s
+ 2361706 888121    5.11977   27  297          -    4.41968      -   111 2675s
+2026-07-02 06:35:48 - INFO -  2361706 888121    5.11977   27  297          -    4.41968      -   111 2675s
+ 2366806 889605    4.47499   27  285          -    4.42050      -   111 2681s
+2026-07-02 06:35:54 - INFO -  2366806 889605    4.47499   27  285          -    4.42050      -   111 2681s
+ 2370214 890507    4.68112   32  261          -    4.42120      -   111 2685s
+2026-07-02 06:35:58 - INFO -  2370214 890507    4.68112   32  261          -    4.42120      -   111 2685s
+ 2374571 891969    4.67475   31  236          -    4.42213      -   111 2690s
+2026-07-02 06:36:03 - INFO -  2374571 891969    4.67475   31  236          -    4.42213      -   111 2690s
+ 2380303 893619    4.82358   32  241          -    4.42316      -   111 2696s
+2026-07-02 06:36:09 - INFO -  2380303 893619    4.82358   32  241          -    4.42316      -   111 2696s
+ 2383817 894101    5.22689   35  173          -    4.42388      -   111 2700s
+2026-07-02 06:36:13 - INFO -  2383817 894101    5.22689   35  173          -    4.42388      -   111 2700s
+ 2383907 894228    5.05862   33  258          -    4.42410      -   111 2706s
+2026-07-02 06:36:19 - INFO -  2383907 894228    5.05862   33  258          -    4.42410      -   111 2706s
+ 2385255 894609 infeasible   36               -    4.42432      -   111 2710s
+2026-07-02 06:36:24 - INFO -  2385255 894609 infeasible   36               -    4.42432      -   111 2710s
+ 2386981 895441    5.12320   27  291          -    4.42459      -   111 2716s
+2026-07-02 06:36:29 - INFO -  2386981 895441    5.12320   27  291          -    4.42459      -   111 2716s
+ 2392000 896638    5.07640   26  225          -    4.42544      -   111 2721s
+2026-07-02 06:36:34 - INFO -  2392000 896638    5.07640   26  225          -    4.42544      -   111 2721s
+ 2395230 897590    4.76747   26  271          -    4.42591      -   111 2725s
+2026-07-02 06:36:38 - INFO -  2395230 897590    4.76747   26  271          -    4.42591      -   111 2725s
+ 2400051 899146    4.81288   29  259          -    4.42665      -   111 2730s
+2026-07-02 06:36:43 - INFO -  2400051 899146    4.81288   29  259          -    4.42665      -   111 2730s
+ 2406144 900734    4.58046   31  253          -    4.42798      -   111 2735s
+2026-07-02 06:36:48 - INFO -  2406144 900734    4.58046   31  253          -    4.42798      -   111 2735s
+ 2411785 902120    4.90297   39  190          -    4.42896      -   111 2741s
+2026-07-02 06:36:54 - INFO -  2411785 902120    4.90297   39  190          -    4.42896      -   111 2741s
+ 2416617 903546    4.73433   30  283          -    4.42996      -   111 2745s
+2026-07-02 06:36:58 - INFO -  2416617 903546    4.73433   30  283          -    4.42996      -   111 2745s
+ 2421410 904643 infeasible   33               -    4.43076      -   111 2750s
+2026-07-02 06:37:03 - INFO -  2421410 904643 infeasible   33               -    4.43076      -   111 2750s
+ 2426396 906217    4.52654   29  308          -    4.43175      -   111 2755s
+2026-07-02 06:37:08 - INFO -  2426396 906217    4.52654   29  308          -    4.43175      -   111 2755s
+ 2431986 907758    5.48749   35  191          -    4.43279      -   111 2760s
+2026-07-02 06:37:14 - INFO -  2431986 907758    5.48749   35  191          -    4.43279      -   111 2760s
+ 2433805 907963    4.54021   28  262          -    4.43325      -   111 2765s
+2026-07-02 06:37:18 - INFO -  2433805 907963    4.54021   28  262          -    4.43325      -   111 2765s
+ 2434190 909339    4.82768   27  236          -    4.43330      -   111 2771s
+2026-07-02 06:37:24 - INFO -  2434190 909339    4.82768   27  236          -    4.43330      -   111 2771s
+ 2441136 910476    4.86314   29  208          -    4.43435      -   111 2775s
+2026-07-02 06:37:28 - INFO -  2441136 910476    4.86314   29  208          -    4.43435      -   111 2775s
+ 2448474 912060 infeasible   36               -    4.43555      -   111 2780s
+2026-07-02 06:37:34 - INFO -  2448474 912060 infeasible   36               -    4.43555      -   111 2780s
+ 2452078 913427 infeasible   26               -    4.43624      -   111 2785s
+2026-07-02 06:37:38 - INFO -  2452078 913427 infeasible   26               -    4.43624      -   111 2785s
+ 2458640 915148    4.90136   34  256          -    4.43745      -   111 2791s
+2026-07-02 06:37:44 - INFO -  2458640 915148    4.90136   34  256          -    4.43745      -   111 2791s
+ 2461737 915690 infeasible   31               -    4.43814      -   111 2795s
+2026-07-02 06:37:48 - INFO -  2461737 915690 infeasible   31               -    4.43814      -   111 2795s
+ 2464371 916562    4.84209   31  281          -    4.43854      -   111 2800s
+2026-07-02 06:37:54 - INFO -  2464371 916562    4.84209   31  281          -    4.43854      -   111 2800s
+ 2466272 917473    4.53849   27  301          -    4.43893      -   111 2806s
+2026-07-02 06:37:59 - INFO -  2466272 917473    4.53849   27  301          -    4.43893      -   111 2806s
+ 2471784 918786    5.31980   29  232          -    4.43988      -   111 2811s
+2026-07-02 06:38:04 - INFO -  2471784 918786    5.31980   29  232          -    4.43988      -   111 2811s
+ 2476463 920041    4.64366   28  309          -    4.44077      -   111 2815s
+2026-07-02 06:38:08 - INFO -  2476463 920041    4.64366   28  309          -    4.44077      -   111 2815s
+ 2481756 921766    4.85400   31  254          -    4.44159      -   111 2820s
+2026-07-02 06:38:13 - INFO -  2481756 921766    4.85400   31  254          -    4.44159      -   111 2820s
+ 2486211 922785    5.19126   26  227          -    4.44246      -   111 2826s
+2026-07-02 06:38:19 - INFO -  2486211 922785    5.19126   26  227          -    4.44246      -   111 2826s
+ 2490017 924027    4.50025   31  287          -    4.44300      -   111 2830s
+2026-07-02 06:38:23 - INFO -  2490017 924027    4.50025   31  287          -    4.44300      -   111 2830s
+ 2492047 924297    4.84806   31  263          -    4.44354      -   111 2835s
+2026-07-02 06:38:28 - INFO -  2492047 924297    4.84806   31  263          -    4.44354      -   111 2835s
+ 2494337 925277    4.76755   26  256          -    4.44376      -   111 2840s
+2026-07-02 06:38:33 - INFO -  2494337 925277    4.76755   26  256          -    4.44376      -   111 2840s
+ 2499698 926774    4.60785   25  282          -    4.44463      -   111 2846s
+2026-07-02 06:38:39 - INFO -  2499698 926774    4.60785   25  282          -    4.44463      -   111 2846s
+ 2503013 927527    5.15903   35  222          -    4.44557      -   111 2850s
+2026-07-02 06:38:43 - INFO -  2503013 927527    5.15903   35  222          -    4.44557      -   111 2850s
+ 2508789 929217    4.49281   30  272          -    4.44641      -   111 2855s
+2026-07-02 06:38:48 - INFO -  2508789 929217    4.49281   30  272          -    4.44641      -   111 2855s
+ 2513651 930415 infeasible   37               -    4.44725      -   111 2860s
+2026-07-02 06:38:53 - INFO -  2513651 930415 infeasible   37               -    4.44725      -   111 2860s
+ 2518860 931471 infeasible   27               -    4.44839      -   111 2866s
+2026-07-02 06:38:59 - INFO -  2518860 931471 infeasible   27               -    4.44839      -   111 2866s
+ 2518931 931506    4.77800   34  198          -    4.44855      -   111 2870s
+2026-07-02 06:39:03 - INFO -  2518931 931506    4.77800   34  198          -    4.44855      -   111 2870s
+ 2519283 931606    4.89127   30  260          -    4.44865      -   111 2875s
+2026-07-02 06:39:08 - INFO -  2519283 931606    4.89127   30  260          -    4.44865      -   111 2875s
+ 2520491 932591    4.64220   32  237          -    4.44883      -   111 2880s
+2026-07-02 06:39:13 - INFO -  2520491 932591    4.64220   32  237          -    4.44883      -   111 2880s
+ 2526275 934219    4.64963   28  215          -    4.44957      -   111 2885s
+2026-07-02 06:39:18 - INFO -  2526275 934219    4.64963   28  215          -    4.44957      -   111 2885s
+ 2531003 935359    4.47059   33  269          -    4.45065      -   111 2890s
+2026-07-02 06:39:24 - INFO -  2531003 935359    4.47059   33  269          -    4.45065      -   111 2890s
+ 2534823 936762    4.50617   30  235          -    4.45115      -   111 2895s
+2026-07-02 06:39:29 - INFO -  2534823 936762    4.50617   30  235          -    4.45115      -   111 2895s
+ 2539258 937694 infeasible   27               -    4.45210      -   111 2900s
+2026-07-02 06:39:33 - INFO -  2539258 937694 infeasible   27               -    4.45210      -   111 2900s
+ 2546153 939560    4.47856   30  290          -    4.45336      -   111 2906s
+2026-07-02 06:39:39 - INFO -  2546153 939560    4.47856   30  290          -    4.45336      -   111 2906s
+ 2552339 941087    4.62797   30  243          -    4.45430      -   111 2911s
+2026-07-02 06:39:44 - INFO -  2552339 941087    4.62797   30  243          -    4.45430      -   111 2911s
+ 2556930 942348    4.73741   30  234          -    4.45509      -   111 2915s
+2026-07-02 06:39:48 - INFO -  2556930 942348    4.73741   30  234          -    4.45509      -   111 2915s
+ 2560818 943522    4.52494   31  241          -    4.45568      -   111 2920s
+2026-07-02 06:39:53 - INFO -  2560818 943522    4.52494   31  241          -    4.45568      -   111 2920s
+ 2567325 945312    4.76052   33  237          -    4.45682      -   111 2925s
+2026-07-02 06:39:59 - INFO -  2567325 945312    4.76052   33  237          -    4.45682      -   111 2925s
+ 2568855 945430    4.67366   30  248          -    4.45732      -   111 2930s
+2026-07-02 06:40:03 - INFO -  2568855 945430    4.67366   30  248          -    4.45732      -   111 2930s
+ 2568971 945512    5.02563   37  250          -    4.45749      -   111 2935s
+2026-07-02 06:40:08 - INFO -  2568971 945512    5.02563   37  250          -    4.45749      -   111 2935s
+ 2570065 945932 infeasible   31               -    4.45765      -   111 2942s
+2026-07-02 06:40:15 - INFO -  2570065 945932 infeasible   31               -    4.45765      -   111 2942s
+ 2570671 946244    4.61767   32  268          -    4.45786      -   111 2946s
+2026-07-02 06:40:19 - INFO -  2570671 946244    4.61767   32  268          -    4.45786      -   111 2946s
+ 2573316 947176    5.13225   31  197          -    4.45810      -   111 2950s
+2026-07-02 06:40:23 - INFO -  2573316 947176    5.13225   31  197          -    4.45810      -   111 2950s
+ 2580432 948797    4.95664   32  230          -    4.45933      -   111 2956s
+2026-07-02 06:40:29 - INFO -  2580432 948797    4.95664   32  230          -    4.45933      -   111 2956s
+ 2583901 950175    4.86807   37  280          -    4.45998      -   111 2960s
+2026-07-02 06:40:33 - INFO -  2583901 950175    4.86807   37  280          -    4.45998      -   111 2960s
+ 2589688 951503 infeasible   27               -    4.46101      -   111 2966s
+2026-07-02 06:40:39 - INFO -  2589688 951503 infeasible   27               -    4.46101      -   111 2966s
+ 2594563 952911    4.60351   34  244          -    4.46174      -   111 2970s
+2026-07-02 06:40:43 - INFO -  2594563 952911    4.60351   34  244          -    4.46174      -   111 2970s
+ 2598939 954360    4.63860   30  260          -    4.46267      -   111 2975s
+2026-07-02 06:40:48 - INFO -  2598939 954360    4.63860   30  260          -    4.46267      -   111 2975s
+ 2604727 955797    4.55362   33  251          -    4.46355      -   111 2980s
+2026-07-02 06:40:53 - INFO -  2604727 955797    4.55362   33  251          -    4.46355      -   111 2980s
+ 2609883 957170    6.00639   31  192          -    4.46451      -   111 2985s
+2026-07-02 06:40:59 - INFO -  2609883 957170    6.00639   31  192          -    4.46451      -   111 2985s
+ 2615069 958544    4.64749   28  299          -    4.46521      -   111 2990s
+2026-07-02 06:41:03 - INFO -  2615069 958544    4.64749   28  299          -    4.46521      -   111 2990s
+ 2620177 959537 infeasible   25               -    4.46640      -   111 2996s
+2026-07-02 06:41:09 - INFO -  2620177 959537 infeasible   25               -    4.46640      -   111 2996s
+ 2620598 959718    4.70531   29  254          -    4.46659      -   111 3001s
+2026-07-02 06:41:14 - INFO -  2620598 959718    4.70531   29  254          -    4.46659      -   111 3001s
+ 2621657 960123    6.33184   32  230          -    4.46674      -   112 3005s
+2026-07-02 06:41:18 - INFO -  2621657 960123    6.33184   32  230          -    4.46674      -   112 3005s
+ 2623449 960890    4.57525   32  322          -    4.46722      -   112 3011s
+2026-07-02 06:41:24 - INFO -  2623449 960890    4.57525   32  322          -    4.46722      -   112 3011s
+ 2629296 962560 infeasible   35               -    4.46793      -   112 3016s
+2026-07-02 06:41:29 - INFO -  2629296 962560 infeasible   35               -    4.46793      -   112 3016s
+ 2635849 963689    4.64407   28  268          -    4.46913      -   112 3020s
+2026-07-02 06:41:33 - INFO -  2635849 963689    4.64407   28  268          -    4.46913      -   112 3020s
+ 2638896 964997    4.82853   30  256          -    4.46974      -   112 3026s
+2026-07-02 06:41:39 - INFO -  2638896 964997    4.82853   30  256          -    4.46974      -   112 3026s
+ 2644549 966343    4.87409   33  254          -    4.47075      -   112 3030s
+2026-07-02 06:41:43 - INFO -  2644549 966343    4.87409   33  254          -    4.47075      -   112 3030s
+ 2650371 967914    4.74017   29  228          -    4.47164      -   112 3035s
+2026-07-02 06:41:48 - INFO -  2650371 967914    4.74017   29  228          -    4.47164      -   112 3035s
+ 2655213 968850    4.86535   37  220          -    4.47259      -   112 3041s
+2026-07-02 06:41:54 - INFO -  2655213 968850    4.86535   37  220          -    4.47259      -   112 3041s
+ 2658849 970272    4.54556   34  241          -    4.47306      -   112 3046s
+2026-07-02 06:41:59 - INFO -  2658849 970272    4.54556   34  241          -    4.47306      -   112 3046s
+ 2664632 971204    4.99554   30  237          -    4.47418      -   112 3050s
+2026-07-02 06:42:03 - INFO -  2664632 971204    4.99554   30  237          -    4.47418      -   112 3050s
+ 2665177 971457    5.20531   29  254          -    4.47453      -   112 3056s
+2026-07-02 06:42:09 - INFO -  2665177 971457    5.20531   29  254          -    4.47453      -   112 3056s
+ 2666394 971913    5.41101   31  239          -    4.47473      -   112 3061s
+2026-07-02 06:42:14 - INFO -  2666394 971913    5.41101   31  239          -    4.47473      -   112 3061s
+ 2667719 972332    4.84185   29  187          -    4.47505      -   112 3065s
+2026-07-02 06:42:18 - INFO -  2667719 972332    4.84185   29  187          -    4.47505      -   112 3065s
+ 2672556 973785 infeasible   31               -    4.47583      -   112 3070s
+2026-07-02 06:42:23 - INFO -  2672556 973785 infeasible   31               -    4.47583      -   112 3070s
+ 2679002 975289    4.70637   32  249          -    4.47703      -   112 3075s
+2026-07-02 06:42:28 - INFO -  2679002 975289    4.70637   32  249          -    4.47703      -   112 3075s
+ 2683926 976786 infeasible   28               -    4.47785      -   112 3080s
+2026-07-02 06:42:33 - INFO -  2683926 976786 infeasible   28               -    4.47785      -   112 3080s
+ 2689533 978298    4.67805   39  267          -    4.47897      -   112 3085s
+2026-07-02 06:42:38 - INFO -  2689533 978298    4.67805   39  267          -    4.47897      -   112 3085s
+ 2694587 979291    4.99580   28  254          -    4.47986      -   112 3090s
+2026-07-02 06:42:43 - INFO -  2694587 979291    4.99580   28  254          -    4.47986      -   112 3090s
+ 2698804 980813    4.96526   27  238          -    4.48034      -   112 3096s
+2026-07-02 06:42:49 - INFO -  2698804 980813    4.96526   27  238          -    4.48034      -   112 3096s
+ 2704326 982296    4.66953   29  285          -    4.48132      -   112 3100s
+2026-07-02 06:42:53 - INFO -  2704326 982296    4.66953   29  285          -    4.48132      -   112 3100s
+ 2705772 982426    5.10757   35  226          -    4.48169      -   112 3105s
+2026-07-02 06:42:58 - INFO -  2705772 982426    5.10757   35  226          -    4.48169      -   112 3105s
+ 2706135 982618    4.57530   30  284          -    4.48188      -   112 3112s
+2026-07-02 06:43:05 - INFO -  2706135 982618    4.57530   30  284          -    4.48188      -   112 3112s
+ 2706660 982768    4.62465   32  301          -    4.48205      -   112 3116s
+2026-07-02 06:43:10 - INFO -  2706660 982768    4.62465   32  301          -    4.48205      -   112 3116s
+ 2707387 983258    4.58748   30  275          -    4.48222      -   112 3120s
+2026-07-02 06:43:14 - INFO -  2707387 983258    4.58748   30  275          -    4.48222      -   112 3120s
+ 2713110 984640    4.83055   32  252          -    4.48325      -   112 3125s
+2026-07-02 06:43:19 - INFO -  2713110 984640    4.83055   32  252          -    4.48325      -   112 3125s
+ 2718602 986232    4.73462   29  286          -    4.48395      -   112 3131s
+2026-07-02 06:43:24 - INFO -  2718602 986232    4.73462   29  286          -    4.48395      -   112 3131s
+ 2721276 986842    4.98606   27  236          -    4.48453      -   112 3135s
+2026-07-02 06:43:28 - INFO -  2721276 986842    4.98606   27  236          -    4.48453      -   112 3135s
+ 2728160 988795    4.70918   28  241          -    4.48563      -   112 3140s
+2026-07-02 06:43:33 - INFO -  2728160 988795    4.70918   28  241          -    4.48563      -   112 3140s
+ 2735210 990118 infeasible   26               -    4.48676      -   112 3146s
+2026-07-02 06:43:39 - INFO -  2735210 990118 infeasible   26               -    4.48676      -   112 3146s
+ 2738518 991353    4.97899   35  220          -    4.48725      -   112 3150s
+2026-07-02 06:43:43 - INFO -  2738518 991353    4.97899   35  220          -    4.48725      -   112 3150s
+ 2745426 992714    4.55385   31  270          -    4.48861      -   112 3155s
+2026-07-02 06:43:49 - INFO -  2745426 992714    4.55385   31  270          -    4.48861      -   112 3155s
+ 2746730 993271    4.93798   28  269          -    4.48890      -   112 3161s
+2026-07-02 06:43:54 - INFO -  2746730 993271    4.93798   28  269          -    4.48890      -   112 3161s
+ 2750963 994555    5.01690   39  206          -    4.48957      -   112 3165s
+2026-07-02 06:43:58 - INFO -  2750963 994555    5.01690   39  206          -    4.48957      -   112 3165s
+ 2755715 995346    4.98595   33  223          -    4.49026      -   112 3170s
+2026-07-02 06:44:03 - INFO -  2755715 995346    4.98595   33  223          -    4.49026      -   112 3170s
+ 2755778 995407    4.70359   30  232          -    4.49066      -   112 3175s
+2026-07-02 06:44:09 - INFO -  2755778 995407    4.70359   30  232          -    4.49066      -   112 3175s
+ 2757939 996245    4.68667   31  281          -    4.49082      -   112 3181s
+2026-07-02 06:44:14 - INFO -  2757939 996245    4.68667   31  281          -    4.49082      -   112 3181s
+ 2762114 997476    5.65067   30  159          -    4.49146      -   112 3185s
+2026-07-02 06:44:18 - INFO -  2762114 997476    5.65067   30  159          -    4.49146      -   112 3185s
+ 2766585 998638    4.76767   37  241          -    4.49227      -   112 3191s
+2026-07-02 06:44:24 - INFO -  2766585 998638    4.76767   37  241          -    4.49227      -   112 3191s
+ 2771945 999882    4.63286   34  233          -    4.49314      -   112 3196s
+2026-07-02 06:44:29 - INFO -  2771945 999882    4.63286   34  233          -    4.49314      -   112 3196s
+ 2778201 1001476    4.82240   28  295          -    4.49448      -   112 3200s
+2026-07-02 06:44:34 - INFO -  2778201 1001476    4.82240   28  295          -    4.49448      -   112 3200s
+ 2783423 1002837 infeasible   28               -    4.49525      -   112 3205s
+2026-07-02 06:44:38 - INFO -  2783423 1002837 infeasible   28               -    4.49525      -   112 3205s
+ 2788527 1004009    4.97762   33  239          -    4.49626      -   112 3210s
+2026-07-02 06:44:43 - INFO -  2788527 1004009    4.97762   33  239          -    4.49626      -   112 3210s
+ 2793449 1005019    5.32765   28  243          -    4.49688      -   112 3215s
+2026-07-02 06:44:48 - INFO -  2793449 1005019    5.32765   28  243          -    4.49688      -   112 3215s
+ 2799667 1006834    4.69078   25  246          -    4.49820      -   112 3220s
+2026-07-02 06:44:53 - INFO -  2799667 1006834    4.69078   25  246          -    4.49820      -   112 3220s
+ 2803535 1007663    4.74364   41  239          -    4.49888      -   112 3225s
+2026-07-02 06:44:58 - INFO -  2803535 1007663    4.74364   41  239          -    4.49888      -   112 3225s
+ 2806028 1008348    5.21031   35  241          -    4.49938      -   112 3231s
+2026-07-02 06:45:04 - INFO -  2806028 1008348    5.21031   35  241          -    4.49938      -   112 3231s
+ 2808234 1008948 infeasible   28               -    4.49959      -   112 3235s
+2026-07-02 06:45:08 - INFO -  2808234 1008948 infeasible   28               -    4.49959      -   112 3235s
+ 2810115 1009631    5.10250   31  279          -    4.50002      -   112 3240s
+2026-07-02 06:45:13 - INFO -  2810115 1009631    5.10250   31  279          -    4.50002      -   112 3240s
+ 2816411 1011147    4.89688   31  273          -    4.50104      -   112 3246s
+2026-07-02 06:45:19 - INFO -  2816411 1011147    4.89688   31  273          -    4.50104      -   112 3246s
+ 2821296 1012366    4.84785   26  206          -    4.50178      -   112 3251s
+2026-07-02 06:45:24 - INFO -  2821296 1012366    4.84785   26  206          -    4.50178      -   112 3251s
+ 2825444 1013481    4.50433   32  240          -    4.50257      -   112 3255s
+2026-07-02 06:45:28 - INFO -  2825444 1013481    4.50433   32  240          -    4.50257      -   112 3255s
+ 2831406 1015048 infeasible   31               -    4.50354      -   112 3260s
+2026-07-02 06:45:34 - INFO -  2831406 1015048 infeasible   31               -    4.50354      -   112 3260s
+ 2835297 1015782 infeasible   29               -    4.50437      -   112 3265s
+2026-07-02 06:45:38 - INFO -  2835297 1015782 infeasible   29               -    4.50437      -   112 3265s
+ 2836308 1016028 infeasible   35               -    4.50463      -   112 3271s
+2026-07-02 06:45:44 - INFO -  2836308 1016028 infeasible   35               -    4.50463      -   112 3271s
+ 2836692 1016162    6.34420   35  212          -    4.50472      -   112 3275s
+2026-07-02 06:45:48 - INFO -  2836692 1016162    6.34420   35  212          -    4.50472      -   112 3275s
+ 2838103 1016745    5.01621   29  273          -    4.50497      -   112 3280s
+2026-07-02 06:45:53 - INFO -  2838103 1016745    5.01621   29  273          -    4.50497      -   112 3280s
+ 2840922 1017853    5.29652   27  187          -    4.50520      -   112 3285s
+2026-07-02 06:45:58 - INFO -  2840922 1017853    5.29652   27  187          -    4.50520      -   112 3285s
+ 2847541 1019513    4.77878   25  260          -    4.50635      -   112 3291s
+2026-07-02 06:46:04 - INFO -  2847541 1019513    4.77878   25  260          -    4.50635      -   112 3291s
+ 2852737 1020829    4.76254   38  273          -    4.50717      -   112 3296s
+2026-07-02 06:46:09 - INFO -  2852737 1020829    4.76254   38  273          -    4.50717      -   112 3296s
+ 2858564 1021924    5.16589   30  217          -    4.50827      -   112 3300s
+2026-07-02 06:46:13 - INFO -  2858564 1021924    5.16589   30  217          -    4.50827      -   112 3300s
+ 2864835 1024023    4.97060   33  244          -    4.50926      -   112 3306s
+2026-07-02 06:46:19 - INFO -  2864835 1024023    4.97060   33  244          -    4.50926      -   112 3306s
+ 2869284 1025127    4.76815   28  275          -    4.51007      -   112 3310s
+2026-07-02 06:46:23 - INFO -  2869284 1025127    4.76815   28  275          -    4.51007      -   112 3310s
+ 2875611 1026674    4.65072   29  273          -    4.51097      -   112 3316s
+2026-07-02 06:46:29 - INFO -  2875611 1026674    4.65072   29  273          -    4.51097      -   112 3316s
+ 2880142 1027898    6.88055   28  256          -    4.51179      -   112 3320s
+2026-07-02 06:46:33 - INFO -  2880142 1027898    6.88055   28  256          -    4.51179      -   112 3320s
+ 2882702 1028287    4.69227   27  283          -    4.51243      -   112 3325s
+2026-07-02 06:46:39 - INFO -  2882702 1028287    4.69227   27  283          -    4.51243      -   112 3325s
+ 2883127 1028358    5.19452   37  171          -    4.51261      -   112 3330s
+2026-07-02 06:46:43 - INFO -  2883127 1028358    5.19452   37  171          -    4.51261      -   112 3330s
+ 2884261 1028620    4.64441   41  248          -    4.51280      -   112 3335s
+2026-07-02 06:46:48 - INFO -  2884261 1028620    4.64441   41  248          -    4.51280      -   112 3335s
+ 2886451 1029817    4.71230   30  249          -    4.51314      -   112 3340s
+2026-07-02 06:46:54 - INFO -  2886451 1029817    4.71230   30  249          -    4.51314      -   112 3340s
+ 2892832 1031063    5.15908   43  179          -    4.51427      -   112 3345s
+2026-07-02 06:46:58 - INFO -  2892832 1031063    5.15908   43  179          -    4.51427      -   112 3345s
+ 2898878 1032577    4.72911   31  277          -    4.51533      -   112 3350s
+2026-07-02 06:47:03 - INFO -  2898878 1032577    4.72911   31  277          -    4.51533      -   112 3350s
+ 2903796 1033973 infeasible   26               -    4.51618      -   112 3355s
+2026-07-02 06:47:08 - INFO -  2903796 1033973 infeasible   26               -    4.51618      -   112 3355s
+ 2908476 1035268    4.88729   28  277          -    4.51688      -   112 3360s
+2026-07-02 06:47:13 - INFO -  2908476 1035268    4.88729   28  277          -    4.51688      -   112 3360s
+ 2914510 1036922    4.54279   37  267          -    4.51775      -   112 3365s
+2026-07-02 06:47:18 - INFO -  2914510 1036922    4.54279   37  267          -    4.51775      -   112 3365s
+ 2918417 1037982    4.90835   36  221          -    4.51829      -   112 3371s
+2026-07-02 06:47:24 - INFO -  2918417 1037982    4.90835   36  221          -    4.51829      -   112 3371s
+ 2920204 1038105 infeasible   31               -    4.51879      -   112 3375s
+2026-07-02 06:47:28 - INFO -  2920204 1038105 infeasible   31               -    4.51879      -   112 3375s
+ 2921411 1038424    4.82688   29  264          -    4.51898      -   112 3381s
+2026-07-02 06:47:34 - INFO -  2921411 1038424    4.82688   29  264          -    4.51898      -   112 3381s
+ 2921859 1038869    4.84947   35  250          -    4.51913      -   112 3385s
+2026-07-02 06:47:38 - INFO -  2921859 1038869    4.84947   35  250          -    4.51913      -   112 3385s
+ 2927589 1040575 infeasible   37               -    4.52005      -   112 3390s
+2026-07-02 06:47:43 - INFO -  2927589 1040575 infeasible   37               -    4.52005      -   112 3390s
+ 2929947 1043992    4.69902   28  264          -    4.52051      -   112 3403s
+2026-07-02 06:47:56 - INFO -  2929947 1043992    4.69902   28  264          -    4.52051      -   112 3403s
+ 2944392 1044361    5.21898   33  248          -    4.52188      -   112 3405s
+2026-07-02 06:47:58 - INFO -  2944392 1044361    5.21898   33  248          -    4.52188      -   112 3405s
+ 2949734 1046136    4.85384   35  232          -    4.52264      -   112 3411s
+2026-07-02 06:48:04 - INFO -  2949734 1046136    4.85384   35  232          -    4.52264      -   112 3411s
+ 2952712 1046601    4.62199   27  275          -    4.52325      -   112 3415s
+2026-07-02 06:48:08 - INFO -  2952712 1046601    4.62199   27  275          -    4.52325      -   112 3415s
+ 2958387 1048247    4.73135   25  257          -    4.52405      -   112 3420s
+2026-07-02 06:48:14 - INFO -  2958387 1048247    4.73135   25  257          -    4.52405      -   112 3420s
+ 2962844 1048977    4.66375   24  264          -    4.52481      -   112 3425s
+2026-07-02 06:48:18 - INFO -  2962844 1048977    4.66375   24  264          -    4.52481      -   112 3425s
+ 2963913 1049434    5.04716   30  287          -    4.52518      -   112 3430s
+2026-07-02 06:48:24 - INFO -  2963913 1049434    5.04716   30  287          -    4.52518      -   112 3430s
+ 2964733 1049635    4.72401   30  241          -    4.52540      -   112 3436s
+2026-07-02 06:48:29 - INFO -  2964733 1049635    4.72401   30  241          -    4.52540      -   112 3436s
+ 2965744 1049989    4.81828   34  241          -    4.52557      -   112 3440s
+2026-07-02 06:48:33 - INFO -  2965744 1049989    4.81828   34  241          -    4.52557      -   112 3440s
+ 2970765 1051528    5.10250   31  253          -    4.52627      -   112 3446s
+2026-07-02 06:48:39 - INFO -  2970765 1051528    5.10250   31  253          -    4.52627      -   112 3446s
+ 2976037 1052631    5.76354   31  264          -    4.52722      -   112 3450s
+2026-07-02 06:48:43 - INFO -  2976037 1052631    5.76354   31  264          -    4.52722      -   112 3450s
+ 2980883 1053840    4.81292   27  335          -    4.52805      -   112 3455s
+2026-07-02 06:48:48 - INFO -  2980883 1053840    4.81292   27  335          -    4.52805      -   112 3455s
+ 2985728 1055317    4.65777   29  234          -    4.52891      -   112 3460s
+2026-07-02 06:48:53 - INFO -  2985728 1055317    4.65777   29  234          -    4.52891      -   112 3460s
+ 2991819 1057021    4.60681   33  274          -    4.52989      -   112 3465s
+2026-07-02 06:48:59 - INFO -  2991819 1057021    4.60681   33  274          -    4.52989      -   112 3465s
+ 2996649 1058377    4.81321   22  299          -    4.53069      -   112 3470s
+2026-07-02 06:49:04 - INFO -  2996649 1058377    4.81321   22  299          -    4.53069      -   112 3470s
+ 3002007 1059745    5.22288   31  212          -    4.53142      -   112 3476s
+2026-07-02 06:49:09 - INFO -  3002007 1059745    5.22288   31  212          -    4.53142      -   112 3476s
+ 3006411 1060822    5.18827   31  300          -    4.53214      -   112 3480s
+2026-07-02 06:49:13 - INFO -  3006411 1060822    5.18827   31  300          -    4.53214      -   112 3480s
+ 3007984 1063075 infeasible   31               -    4.53258      -   112 3495s
+2026-07-02 06:49:28 - INFO -  3007984 1063075 infeasible   31               -    4.53258      -   112 3495s
+ 3017193 1063403    4.90647   30  276          -    4.53327      -   112 3501s
+2026-07-02 06:49:34 - INFO -  3017193 1063403    4.90647   30  276          -    4.53327      -   112 3501s
+ 3018910 1064311    4.96757   28  298          -    4.53391      -   112 3506s
+2026-07-02 06:49:39 - INFO -  3018910 1064311    4.96757   28  298          -    4.53391      -   112 3506s
+ 3023275 1065449    5.12795   28  278          -    4.53428      -   112 3511s
+2026-07-02 06:49:44 - INFO -  3023275 1065449    5.12795   28  278          -    4.53428      -   112 3511s
+ 3028318 1066481    4.77969   33  264          -    4.53518      -   112 3515s
+2026-07-02 06:49:48 - INFO -  3028318 1066481    4.77969   33  264          -    4.53518      -   112 3515s
+ 3034779 1067850 infeasible   34               -    4.53649      -   112 3520s
+2026-07-02 06:49:53 - INFO -  3034779 1067850 infeasible   34               -    4.53649      -   112 3520s
+ 3040408 1069520 infeasible   29               -    4.53741      -   112 3525s
+2026-07-02 06:49:58 - INFO -  3040408 1069520 infeasible   29               -    4.53741      -   112 3525s
+ 3046059 1070987    4.86758   29  250          -    4.53818      -   112 3530s
+2026-07-02 06:50:03 - INFO -  3046059 1070987    4.86758   29  250          -    4.53818      -   112 3530s
+ 3052510 1072486 infeasible   37               -    4.53922      -   112 3536s
+2026-07-02 06:50:09 - INFO -  3052510 1072486 infeasible   37               -    4.53922      -   112 3536s
+ 3056541 1073207    6.37727   31  204          -    4.53991      -   112 3540s
+2026-07-02 06:50:13 - INFO -  3056541 1073207    6.37727   31  204          -    4.53991      -   112 3540s
+ 3057411 1073460    4.92356   31  237          -    4.54026      -   112 3545s
+2026-07-02 06:50:18 - INFO -  3057411 1073460    4.92356   31  237          -    4.54026      -   112 3545s
+ 3058052 1073761    4.86586   34  245          -    4.54046      -   112 3550s
+2026-07-02 06:50:23 - INFO -  3058052 1073761    4.86586   34  245          -    4.54046      -   112 3550s
+ 3060934 1074968 infeasible   35               -    4.54080      -   112 3555s
+2026-07-02 06:50:28 - INFO -  3060934 1074968 infeasible   35               -    4.54080      -   112 3555s
+ 3069110 1076898    4.66602   27  300          -    4.54204      -   112 3561s
+2026-07-02 06:50:34 - INFO -  3069110 1076898    4.66602   27  300          -    4.54204      -   112 3561s
+ 3072701 1077748    4.84440   32  298          -    4.54270      -   112 3565s
+2026-07-02 06:50:38 - INFO -  3072701 1077748    4.84440   32  298          -    4.54270      -   112 3565s
+ 3077616 1079247    5.90198   35  194          -    4.54323      -   112 3571s
+2026-07-02 06:50:44 - INFO -  3077616 1079247    5.90198   35  194          -    4.54323      -   112 3571s
+ 3082196 1080642    4.77728   31  273          -    4.54406      -   112 3575s
+2026-07-02 06:50:48 - INFO -  3082196 1080642    4.77728   31  273          -    4.54406      -   112 3575s
+ 3088786 1081736    5.17713   34  201          -    4.54509      -   112 3581s
+2026-07-02 06:50:54 - INFO -  3088786 1081736    5.17713   34  201          -    4.54509      -   112 3581s
+ 3088838 1081765    5.23251   30  182          -    4.54536      -   112 3585s
+2026-07-02 06:50:58 - INFO -  3088838 1081765    5.23251   30  182          -    4.54536      -   112 3585s
+ 3089403 1082074    5.06455   33  230          -    4.54553      -   112 3592s
+2026-07-02 06:51:05 - INFO -  3089403 1082074    5.06455   33  230          -    4.54553      -   112 3592s
+ 3089842 1082326    4.88837   29  284          -    4.54562      -   112 3596s
+2026-07-02 06:51:09 - INFO -  3089842 1082326    4.88837   29  284          -    4.54562      -   112 3596s
+
+2026-07-02 06:51:12 - INFO - 
+Cutting planes:
+2026-07-02 06:51:12 - INFO - Cutting planes:
+  Learned: 115
+2026-07-02 06:51:12 - INFO -   Learned: 115
+  Gomory: 294
+2026-07-02 06:51:12 - INFO -   Gomory: 294
+  Lift-and-project: 131
+2026-07-02 06:51:12 - INFO -   Lift-and-project: 131
+  Cover: 75
+2026-07-02 06:51:12 - INFO -   Cover: 75
+  Implied bound: 4
+2026-07-02 06:51:12 - INFO -   Implied bound: 4
+  MIR: 212
+2026-07-02 06:51:12 - INFO -   MIR: 212
+  Mixing: 2
+2026-07-02 06:51:12 - INFO -   Mixing: 2
+  Flow cover: 1386
+2026-07-02 06:51:12 - INFO -   Flow cover: 1386
+  Inf proof: 200
+2026-07-02 06:51:12 - INFO -   Inf proof: 200
+  Zero half: 1
+2026-07-02 06:51:12 - INFO -   Zero half: 1
+  Network: 2
+2026-07-02 06:51:12 - INFO -   Network: 2
+  RLT: 2
+2026-07-02 06:51:12 - INFO -   RLT: 2
+  Relax-and-lift: 13
+2026-07-02 06:51:12 - INFO -   Relax-and-lift: 13
+
+2026-07-02 06:51:12 - INFO - 
+Explored 3093350 nodes (347799453 simplex iterations) in 3599.06 seconds (9234.41 work units)
+2026-07-02 06:51:12 - INFO - Explored 3093350 nodes (347799453 simplex iterations) in 3599.06 seconds (9234.41 work units)
+Most recent optimization runtime was 2999.01 seconds (7886.18 work units)
+2026-07-02 06:51:12 - INFO - Most recent optimization runtime was 2999.01 seconds (7886.18 work units)
+Thread count was 28 (of 28 available processors)
+2026-07-02 06:51:12 - INFO - Thread count was 28 (of 28 available processors)
+
+2026-07-02 06:51:12 - INFO - 
+Solution count 0
+2026-07-02 06:51:12 - INFO - Solution count 0
+
+2026-07-02 06:51:12 - INFO - 
+Time limit reached
+2026-07-02 06:51:12 - INFO - Time limit reached
+Best objective -, best bound 4.545846464366e+00, gap -
+2026-07-02 06:51:12 - INFO - Best objective -, best bound 4.545846464366e+00, gap -
+[EMIB] No feasible solution: MIPGap=0.8, status=9, time=2999.02s, SolCount=0
+[EMIB] Search failed, no feasible solution
+2026-07-02 06:51:13 - INFO - 
+EMIB returned 0 solution(s) (max 1).
+  ✓ EMIB: 0 solution(s)
+
+================================================================================
+Batch test done (Gurobi)
+  Total time: 3600.54 s
+================================================================================
+File summary:
+  Success: 1/1
+  Failed: 0/1
+Solution count:
+  Found: 0/1
+
+Details:
+  ✓ syn4.json -> syn4_core: 0 solution(s)
+    Log dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_17/log/syn4_core
+    LP dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_17/lp/syn4_core
+    Fig dir: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_17/fig/syn4_core
+    Placement: /root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_17/placement/syn4.json
+================================================================================
+

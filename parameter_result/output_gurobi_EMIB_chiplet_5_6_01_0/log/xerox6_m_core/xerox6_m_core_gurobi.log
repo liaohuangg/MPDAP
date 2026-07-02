@@ -1,0 +1,285 @@
+node 0 w: 6.16, h: 12.95
+node 1 w: 4.9, h: 12.95
+node 2 w: 8.2026-07-01 20:04:38 - INFO - Set parameter Username
+2026-07-01 20:04:38 - INFO - Set parameter LicenseID to value 2840060
+2026-07-01 20:04:38 - INFO - Academic license - for non-commercial use only - expires 2027-07-01
+2026-07-01 20:04:38 - INFO - Set parameter TimeLimit to value 300
+2026-07-01 20:04:38 - INFO - Set parameter MIPGap to value 0
+2026-07-01 20:04:38 - INFO - Set parameter MIPFocus to value 3
+2026-07-01 20:04:38 - INFO - Set parameter Heuristics to value 0.5
+2026-07-01 20:04:38 - INFO - Set parameter LogToConsole to value 1
+2026-07-01 20:04:38 - INFO - Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-07-01 20:04:38 - INFO - 
+2026-07-01 20:04:38 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-07-01 20:04:38 - INFO - Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+2026-07-01 20:04:38 - INFO - 
+2026-07-01 20:04:38 - INFO - Non-default parameters:
+2026-07-01 20:04:38 - INFO - TimeLimit  300
+2026-07-01 20:04:38 - INFO - MIPGap  0
+2026-07-01 20:04:38 - INFO - Heuristics  0.5
+2026-07-01 20:04:38 - INFO - MIPFocus  3
+2026-07-01 20:04:38 - INFO - 
+2026-07-01 20:04:38 - INFO - Optimize a model with 836 rows, 389 columns and 2833 nonzeros (Min)
+2026-07-01 20:04:38 - INFO - Model fingerprint: 0x531bc946
+2026-07-01 20:04:38 - INFO - Model has 3 linear objective coefficients
+2026-07-01 20:04:38 - INFO - Variable types: 165 continuous, 224 integer (224 binary)
+2026-07-01 20:04:38 - INFO - Coefficient statistics:
+2026-07-01 20:04:38 - INFO -   Matrix range     [3e-01, 8e+03]
+2026-07-01 20:04:38 - INFO -   Objective range  [1e-04, 1e-01]
+2026-07-01 20:04:38 - INFO -   Bounds range     [9e-01, 8e+06]
+2026-07-01 20:04:38 - INFO -   RHS range        [9e-01, 2e+02]
+2026-07-01 20:04:38 - INFO - 
+2026-07-01 20:04:38 - INFO - Presolve removed 86 rows and 74 columns
+2026-07-01 20:04:38 - INFO - Presolve time: 0.01s
+2026-07-01 20:04:38 - INFO - Presolved: 750 rows, 315 columns, 2666 nonzeros
+2026-07-01 20:04:38 - INFO - Variable types: 107 continuous, 208 integer (208 binary)
+2026-07-01 20:04:38 - INFO - Root relaxation presolve removed 42 rows and 10 columns
+2026-07-01 20:04:38 - INFO - Root relaxation presolved: 708 rows, 317 columns, 2576 nonzeros
+2026-07-01 20:04:38 - INFO - 
+2026-07-01 20:04:38 - INFO - 
+2026-07-01 20:04:38 - INFO - Root relaxation: objective 2.718799e+00, 177 iterations, 0.00 seconds (0.01 work units)
+2026-07-01 20:04:38 - INFO - 
+2026-07-01 20:04:38 - INFO -     Nodes    |    Current Node    |     Objective Bounds      |     Work
+2026-07-01 20:04:38 - INFO -  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+2026-07-01 20:04:38 - INFO - 
+2026-07-01 20:04:38 - INFO -      0     0    2.71880    0   82          -    2.71880      -     -    0s
+2026-07-01 20:04:38 - INFO -      0     0    4.98601    0   96          -    4.98601      -     -    0s
+2026-07-01 20:04:38 - INFO -      0     0    4.98601    0   84          -    4.98601      -     -    0s
+2026-07-01 20:04:38 - INFO -      0     0    4.98601    0   89          -    4.98601      -     -    0s
+2026-07-01 20:04:38 - INFO -      0     0    5.76755    0  108          -    5.76755      -     -    0s
+2026-07-01 20:04:38 - INFO -      0     0    5.76755    0   89          -    5.76755      -     -    0s
+2026-07-01 20:04:38 - INFO -      0     0    6.36224    0   90          -    6.36224      -     -    0s
+2026-07-01 20:04:39 - INFO -      0     0    6.71560    0  106          -    6.71560      -     -    0s
+2026-07-01 20:04:39 - INFO -      0     0    6.71560    0  106          -    6.71560      -     -    0s
+2026-07-01 20:04:39 - INFO -      0     0    6.71560    0  101          -    6.71560      -     -    0s
+2026-07-01 20:04:39 - INFO -      0     0    7.19921    0  101          -    7.19921      -     -    0s
+2026-07-01 20:04:39 - INFO -      0     0    7.19921    0  101          -    7.19921      -     -    0s
+2026-07-01 20:04:39 - INFO -      0     2    7.19921    0  101          -    7.19921      -     -    1s
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Cutting planes:
+2026-07-01 20:04:43 - INFO -   Learned: 8
+2026-07-01 20:04:43 - INFO -   Gomory: 84
+2026-07-01 20:04:43 - INFO -   Lift-and-project: 49
+2026-07-01 20:04:43 - INFO -   Cover: 1
+2026-07-01 20:04:43 - INFO -   Implied bound: 5
+2026-07-01 20:04:43 - INFO -   MIR: 50
+2026-07-01 20:04:43 - INFO -   Flow cover: 289
+2026-07-01 20:04:43 - INFO -   Inf proof: 10
+2026-07-01 20:04:43 - INFO -   RLT: 6
+2026-07-01 20:04:43 - INFO -   Relax-and-lift: 1
+2026-07-01 20:04:43 - INFO -   PSD: 1
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Explored 7090 nodes (220434 simplex iterations) in 4.67 seconds (6.82 work units)
+2026-07-01 20:04:43 - INFO - Thread count was 28 (of 28 available processors)
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Solution count 0
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Model is infeasible
+2026-07-01 20:04:43 - INFO - Best objective -, best bound -, gap -
+2026-07-01 20:04:43 - INFO - Set parameter TimeLimit to value 300
+2026-07-01 20:04:43 - INFO - Set parameter MIPGap to value 0.3
+2026-07-01 20:04:43 - INFO - Set parameter MIPFocus to value 3
+2026-07-01 20:04:43 - INFO - Set parameter Heuristics to value 0.5
+2026-07-01 20:04:43 - INFO - Set parameter LogToConsole to value 1
+2026-07-01 20:04:43 - INFO - Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-07-01 20:04:43 - INFO - Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Non-default parameters:
+2026-07-01 20:04:43 - INFO - TimeLimit  300
+2026-07-01 20:04:43 - INFO - MIPGap  0.3
+2026-07-01 20:04:43 - INFO - Heuristics  0.5
+2026-07-01 20:04:43 - INFO - MIPFocus  3
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Optimize a model with 836 rows, 389 columns and 2833 nonzeros (Min)
+2026-07-01 20:04:43 - INFO - Model fingerprint: 0x531bc946
+2026-07-01 20:04:43 - INFO - Model has 3 linear objective coefficients
+2026-07-01 20:04:43 - INFO - Variable types: 165 continuous, 224 integer (224 binary)
+2026-07-01 20:04:43 - INFO - Coefficient statistics:
+2026-07-01 20:04:43 - INFO -   Matrix range     [3e-01, 8e+03]
+2026-07-01 20:04:43 - INFO -   Objective range  [1e-04, 1e-01]
+2026-07-01 20:04:43 - INFO -   Bounds range     [9e-01, 8e+06]
+2026-07-01 20:04:43 - INFO -   RHS range        [9e-01, 2e+02]
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Presolved: 750 rows, 315 columns, 2666 nonzeros
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Continuing optimization...
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Cutting planes:
+2026-07-01 20:04:43 - INFO -   Learned: 8
+2026-07-01 20:04:43 - INFO -   Gomory: 84
+2026-07-01 20:04:43 - INFO -   Lift-and-project: 49
+2026-07-01 20:04:43 - INFO -   Cover: 1
+2026-07-01 20:04:43 - INFO -   Implied bound: 5
+2026-07-01 20:04:43 - INFO -   MIR: 50
+2026-07-01 20:04:43 - INFO -   Flow cover: 289
+2026-07-01 20:04:43 - INFO -   Inf proof: 10
+2026-07-01 20:04:43 - INFO -   RLT: 6
+2026-07-01 20:04:43 - INFO -   Relax-and-lift: 1
+2026-07-01 20:04:43 - INFO -   PSD: 1
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Explored 7090 nodes (220434 simplex iterations) in 4.68 seconds (6.82 work units)
+2026-07-01 20:04:43 - INFO - Most recent optimization runtime was 0.00 seconds (0.00 work units)
+2026-07-01 20:04:43 - INFO - Thread count was 28 (of 28 available processors)
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Solution count 0
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Model is infeasible
+2026-07-01 20:04:43 - INFO - Best objective -, best bound -, gap -
+2026-07-01 20:04:43 - INFO - Set parameter TimeLimit to value 3595
+2026-07-01 20:04:43 - INFO - Set parameter MIPGap to value 0.8
+2026-07-01 20:04:43 - INFO - Set parameter MIPFocus to value 3
+2026-07-01 20:04:43 - INFO - Set parameter Heuristics to value 0.5
+2026-07-01 20:04:43 - INFO - Set parameter LogToConsole to value 1
+2026-07-01 20:04:43 - INFO - Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-07-01 20:04:43 - INFO - Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Non-default parameters:
+2026-07-01 20:04:43 - INFO - TimeLimit  3595
+2026-07-01 20:04:43 - INFO - MIPGap  0.8
+2026-07-01 20:04:43 - INFO - Heuristics  0.5
+2026-07-01 20:04:43 - INFO - MIPFocus  3
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Optimize a model with 836 rows, 389 columns and 2833 nonzeros (Min)
+2026-07-01 20:04:43 - INFO - Model fingerprint: 0x531bc946
+2026-07-01 20:04:43 - INFO - Model has 3 linear objective coefficients
+2026-07-01 20:04:43 - INFO - Variable types: 165 continuous, 224 integer (224 binary)
+2026-07-01 20:04:43 - INFO - Coefficient statistics:
+2026-07-01 20:04:43 - INFO -   Matrix range     [3e-01, 8e+03]
+2026-07-01 20:04:43 - INFO -   Objective range  [1e-04, 1e-01]
+2026-07-01 20:04:43 - INFO -   Bounds range     [9e-01, 8e+06]
+2026-07-01 20:04:43 - INFO -   RHS range        [9e-01, 2e+02]
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Presolved: 750 rows, 315 columns, 2666 nonzeros
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Continuing optimization...
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Cutting planes:
+2026-07-01 20:04:43 - INFO -   Learned: 8
+2026-07-01 20:04:43 - INFO -   Gomory: 84
+2026-07-01 20:04:43 - INFO -   Lift-and-project: 49
+2026-07-01 20:04:43 - INFO -   Cover: 1
+2026-07-01 20:04:43 - INFO -   Implied bound: 5
+2026-07-01 20:04:43 - INFO -   MIR: 50
+2026-07-01 20:04:43 - INFO -   Flow cover: 289
+2026-07-01 20:04:43 - INFO -   Inf proof: 10
+2026-07-01 20:04:43 - INFO -   RLT: 6
+2026-07-01 20:04:43 - INFO -   Relax-and-lift: 1
+2026-07-01 20:04:43 - INFO -   PSD: 1
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Explored 7090 nodes (220434 simplex iterations) in 4.68 seconds (6.83 work units)
+2026-07-01 20:04:43 - INFO - Most recent optimization runtime was 0.00 seconds (0.00 work units)
+2026-07-01 20:04:43 - INFO - Thread count was 28 (of 28 available processors)
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Solution count 0
+2026-07-01 20:04:43 - INFO - 
+2026-07-01 20:04:43 - INFO - Model is infeasible
+2026-07-01 20:04:43 - INFO - Best objective -, best bound -, gap -
+2026-07-01 20:04:43 - INFO - 
+EMIB returned 0 solution(s) (max 1).
+es, 28 logical processors, using up to 28 threads
+
+Non-default parameters:
+TimeLimit  300
+MIPGap  0.3
+Heuristics  0.5
+MIPFocus  3
+
+Optimize a model with 836 rows, 389 columns and 2833 nonzeros (Min)
+Model fingerprint: 0x531bc946
+Model has 3 linear objective coefficients
+Variable types: 165 continuous, 224 integer (224 binary)
+Coefficient statistics:
+  Matrix range     [3e-01, 8e+03]
+  Objective range  [1e-04, 1e-01]
+  Bounds range     [9e-01, 8e+06]
+  RHS range        [9e-01, 2e+02]
+
+Presolved: 750 rows, 315 columns, 2666 nonzeros
+
+Continuing optimization...
+
+
+Cutting planes:
+  Learned: 8
+  Gomory: 84
+  Lift-and-project: 49
+  Cover: 1
+  Implied bound: 5
+  MIR: 50
+  Flow cover: 289
+  Inf proof: 10
+  RLT: 6
+  Relax-and-lift: 1
+  PSD: 1
+
+Explored 7090 nodes (220434 simplex iterations) in 4.68 seconds (6.82 work units)
+Most recent optimization runtime was 0.00 seconds (0.00 work units)
+Thread count was 28 (of 28 available processors)
+
+Solution count 0
+
+Model is infeasible
+Best objective -, best bound -, gap -
+[EMIB] No feasible solution: MIPGap=0.3, status=3, time=0.00s, SolCount=0
+[EMIB] Phase 2 no feasible solution, switching to phase 3 MIPGap=0.8.
+Set parameter TimeLimit to value 3595
+Set parameter MIPGap to value 0.8
+Set parameter MIPFocus to value 3
+Set parameter Heuristics to value 0.5
+Set parameter LogToConsole to value 1
+Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+
+CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+
+Non-default parameters:
+TimeLimit  3595
+MIPGap  0.8
+Heuristics  0.5
+MIPFocus  3
+
+Optimize a model with 836 rows, 389 columns and 2833 nonzeros (Min)
+Model fingerprint: 0x531bc946
+Model has 3 linear objective coefficients
+Variable types: 165 continuous, 224 integer (224 binary)
+Coefficient statistics:
+  Matrix range     [3e-01, 8e+03]
+  Objective range  [1e-04, 1e-01]
+  Bounds range     [9e-01, 8e+06]
+  RHS range        [9e-01, 2e+02]
+
+Presolved: 750 rows, 315 columns, 2666 nonzeros
+
+Continuing optimization...
+
+
+Cutting planes:
+  Learned: 8
+  Gomory: 84
+  Lift-and-project: 49
+  Cover: 1
+  Implied bound: 5
+  MIR: 50
+  Flow cover: 289
+  Inf proof: 10
+  RLT: 6
+  Relax-and-lift: 1
+  PSD: 1
+
+Explored 7090 nodes (220434 simplex iterations) in 4.68 seconds (6.83 work units)
+Most recent optimization runtime was 0.00 seconds (0.00 work units)
+Thread count was 28 (of 28 available processors)
+
+Solution count 0
+
+Model is infeasible
+Best objective -, best bound -, gap -
+[EMIB] No feasible solution: MIPGap=0.8, status=3, time=0.00s, SolCount=0
+[EMIB] Search failed, no feasible solution
+  ✓ EMIB: 0 solution(s)

@@ -141,16 +141,26 @@ def _compute_initial_bbox(nodes: List) -> Tuple[float, float]:
 def _run_three_phase_solve(
     ctx: ILPModelContext,
     nodes: List,
+    total_time_limit: int = 3600,
 ) -> ILPPlacementResult:
-    """Three-phase solve (MIPGap relaxed step by step), return result."""
-    result = _solve_once_with_gap(ctx=ctx, nodes=nodes, gap=0.0, time_limit=300)
+    """Three-phase solve with a shared total time budget."""
+    import time as _time
+
+    deadline = _time.monotonic() + total_time_limit
+
+    def _remaining_time_limit() -> int:
+        return max(0, math.floor(deadline - _time.monotonic()))
+
+    result = _solve_once_with_gap(ctx=ctx, nodes=nodes, gap=0.0, time_limit=min(300, _remaining_time_limit()))
     #result = _solve_once_with_gap(ctx=ctx, nodes=nodes, gap=0.8, time_limit=3600)
-    if result.status == "NoSolution":
+    remaining = _remaining_time_limit()
+    if result.status == "NoSolution" and remaining > 0:
         print(f"[EMIB] Phase 1 no feasible solution, switching to phase 2 MIPGap=0.3.")
-        result = _solve_once_with_gap(ctx=ctx, nodes=nodes, gap=0.3, time_limit=300)
-    if result.status == "NoSolution":
+        result = _solve_once_with_gap(ctx=ctx, nodes=nodes, gap=0.3, time_limit=min(300, remaining))
+    remaining = _remaining_time_limit()
+    if result.status == "NoSolution" and remaining > 0:
         print(f"[EMIB] Phase 2 no feasible solution, switching to phase 3 MIPGap=0.8.")
-        result = _solve_once_with_gap(ctx=ctx, nodes=nodes, gap=0.8, time_limit=3600)
+        result = _solve_once_with_gap(ctx=ctx, nodes=nodes, gap=0.8, time_limit=remaining)
     return result
 
 
@@ -190,7 +200,18 @@ def _solve_once_with_gap(
         memory_tracker.start()
 
     start = _time.time()
-    model.optimize()
+    if memory_tracker:
+        memory_tracker.start_sampling()
+    try:
+        if memory_tracker and memory_tracker.available:
+            def memory_sampling_callback(model, where):
+                memory_tracker.record_peak_throttled()
+            model.optimize(memory_sampling_callback)
+        else:
+            model.optimize()
+    finally:
+        if memory_tracker:
+            memory_tracker.stop_sampling()
     solve_time = _time.time() - start
 
     # Track final memory
@@ -199,6 +220,16 @@ def _solve_once_with_gap(
 
     status = model.Status
     sol_count = int(getattr(model, "SolCount", 0))
+
+    # Print model analysis after every solve attempt, including infeasible and
+    # time-limit runs with no incumbent. Memory values cover model.optimize().
+    if enable_model_analysis and memory_tracker:
+        print("\n")
+        print_model_report(
+            model,
+            model_name=f"Chiplet Placement ILP (After Optimize, Gap={gap})",
+            memory_tracker=memory_tracker,
+        )
 
     # Feasible solution (optimal / suboptimal / time limit with solution)
     if sol_count > 0 and status in (GRB.OPTIMAL, GRB.SUBOPTIMAL, GRB.TIME_LIMIT):
@@ -226,15 +257,6 @@ def _solve_once_with_gap(
         print(
             f"[EMIB] Solve done: MIPGap={gap}, status={status_str}, Obj={obj_val:.6f}, time={solve_time:.2f}s, SolCount={sol_count}"
         )
-
-        # Print model analysis report if enabled
-        if enable_model_analysis and memory_tracker:
-            print("\n")
-            print_model_report(
-                model,
-                model_name=f"Chiplet Placement ILP (Gap={gap})",
-                memory_tracker=memory_tracker,
-            )
 
         log_objective_breakdown(ctx, model)
 

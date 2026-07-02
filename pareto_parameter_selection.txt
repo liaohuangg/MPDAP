@@ -1,0 +1,37 @@
+Pareto Parameter Selection Summary
+
+Input files:
+- /root/placement/MPDAP/thermal_sim/config_sum/temperature.txt
+- /root/placement/MPDAP/parameter_result/area.txt
+- /root/placement/MPDAP/parameter_result/aspect_ratio.txt
+- /root/placement/MPDAP/parameter_result/wirelength.txt
+
+Method:
+Each parameter value was evaluated across 9 benchmark cases. For each parameter, the following aggregate metrics were computed as the average across all cases:
+- Maximum temperature in Celsius, minimized
+- Area, minimized
+- Aspect ratio metric, minimized
+- Wirelength, minimized
+
+Pareto dominance was evaluated on these four averaged metrics, with all objectives treated as minimization objectives. A final balanced recommendation was selected from the Pareto set using an equal-weight min-max normalized score over the four metrics.
+
+Pareto-optimal parameter values:
+0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.6, 1.7, 1.9, 2, 2.1, 2.2, 2.3
+
+Recommended balanced parameter:
+0.6
+
+Metrics for parameter 0.6:
+- Average maximum temperature: 86.8078 C
+- Average area: 888.5378
+- Average aspect ratio metric: 0.3841
+- Average wirelength: 49485.69
+
+Rationale:
+Parameter 0.6 gives the best balanced tradeoff among the Pareto-optimal candidates under equal weighting of temperature, area, aspect ratio, and wirelength. It is not the absolute best parameter for any single objective, but it avoids the large tradeoffs seen in single-objective choices.
+
+Reference single-objective choices:
+- Lowest average temperature: parameter 1.7, average maximum temperature 84.3878 C
+- Lowest average area: parameter 0, average area 841.8967
+- Lowest average wirelength: parameter 0.1, average wirelength 49134.72
+- Best balanced tradeoff: parameter 0.6

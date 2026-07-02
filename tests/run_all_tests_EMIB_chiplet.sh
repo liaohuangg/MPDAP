@@ -123,30 +123,30 @@ if [ $# -gt 0 ]; then
     esac
 else
     # No arg: run all tests
-    if [ -f "$log_dir/acend910.log" ]; then rm -f "$log_dir/acend910.log"; fi
-    touch "$log_dir/acend910.log"
-    python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files acend910.json > "$log_dir/acend910.log" 2>&1
-    echo "acend910.log solve done"
+    # if [ -f "$log_dir/acend910.log" ]; then rm -f "$log_dir/acend910.log"; fi
+    # touch "$log_dir/acend910.log"
+    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files acend910.json > "$log_dir/acend910.log" 2>&1
+    # echo "acend910.log solve done"
     
-    if [ -f "$log_dir/cpu-dram.log" ]; then rm -f "$log_dir/cpu-dram.log"; fi
-    touch "$log_dir/cpu-dram.log"
-    python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files cpu-dram.json > "$log_dir/cpu-dram.log" 2>&1
-    echo "cpu-dram.log solve done"
+    # if [ -f "$log_dir/cpu-dram.log" ]; then rm -f "$log_dir/cpu-dram.log"; fi
+    # touch "$log_dir/cpu-dram.log"
+    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files cpu-dram.json > "$log_dir/cpu-dram.log" 2>&1
+    # echo "cpu-dram.log solve done"
     
-    if [ -f "$log_dir/hp6_m.log" ]; then rm -f "$log_dir/hp6_m.log"; fi
-    touch "$log_dir/hp6_m.log"
-    python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files hp6_m.json > "$log_dir/hp6_m.log" 2>&1
-    echo "hp6_m.log solve done"
+    # if [ -f "$log_dir/hp6_m.log" ]; then rm -f "$log_dir/hp6_m.log"; fi
+    # touch "$log_dir/hp6_m.log"
+    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files hp6_m.json > "$log_dir/hp6_m.log" 2>&1
+    # echo "hp6_m.log solve done"
     
-    if [ -f "$log_dir/hp8_m.log" ]; then rm -f "$log_dir/hp8_m.log"; fi
-    touch "$log_dir/hp8_m.log"
-    python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files hp8_m.json > "$log_dir/hp8_m.log" 2>&1
-    echo "hp8_m.log solve done"
+    # if [ -f "$log_dir/hp8_m.log" ]; then rm -f "$log_dir/hp8_m.log"; fi
+    # touch "$log_dir/hp8_m.log"
+    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files hp8_m.json > "$log_dir/hp8_m.log" 2>&1
+    # echo "hp8_m.log solve done"
     
-    if [ -f "$log_dir/multigpu.log" ]; then rm -f "$log_dir/multigpu.log"; fi
-    touch "$log_dir/multigpu.log"
-    python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files multigpu.json > "$log_dir/multigpu.log" 2>&1
-    echo "multigpu.log solve done"
+    # if [ -f "$log_dir/multigpu.log" ]; then rm -f "$log_dir/multigpu.log"; fi
+    # touch "$log_dir/multigpu.log"
+    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files multigpu.json > "$log_dir/multigpu.log" 2>&1
+    # echo "multigpu.log solve done"
     
     # if [ -f "$log_dir/xerox6_m.log" ]; then rm -f "$log_dir/xerox6_m.log"; fi
     # touch "$log_dir/xerox6_m.log"
@@ -163,25 +163,25 @@ else
     # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files xerox8_m.json > "$log_dir/xerox8_m.log" 2>&1
     # echo "xerox8_m.log solve done"
 
-    if [ -f "$log_dir/hp11_m.log" ]; then rm -f "$log_dir/hp11_m.log"; fi
-    touch "$log_dir/hp11_m.log"
-    python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files hp11_m.json > "$log_dir/hp11_m.log" 2>&1
-    echo "hp11_m.log solve done"
+    # if [ -f "$log_dir/hp11_m.log" ]; then rm -f "$log_dir/hp11_m.log"; fi
+    # touch "$log_dir/hp11_m.log"
+    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files hp11_m.json > "$log_dir/hp11_m.log" 2>&1
+    # echo "hp11_m.log solve done"
 
-    if [ -f "$log_dir/sys_micro150.log" ]; then rm -f "$log_dir/sys_micro150.log"; fi
-    touch "$log_dir/sys_micro150.log"
-    python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files sys_micro150.json > "$log_dir/sys_micro150.log" 2>&1
-    echo "sys_micro150.log solve done"
+    # if [ -f "$log_dir/sys_micro150.log" ]; then rm -f "$log_dir/sys_micro150.log"; fi
+    # touch "$log_dir/sys_micro150.log"
+    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files sys_micro150.json > "$log_dir/sys_micro150.log" 2>&1
+    # echo "sys_micro150.log solve done"
 
-    if [ -f "$log_dir/syn1.log" ]; then rm -f "$log_dir/syn1.log"; fi
-    touch "$log_dir/syn1.log"
-    python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn1.json > "$log_dir/syn1.log" 2>&1
-    echo "syn1.log solve done"
+    # if [ -f "$log_dir/syn1.log" ]; then rm -f "$log_dir/syn1.log"; fi
+    # touch "$log_dir/syn1.log"
+    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn1.json > "$log_dir/syn1.log" 2>&1
+    # echo "syn1.log solve done"
 
-    # if [ -f "$log_dir/syn2.log" ]; then rm -f "$log_dir/syn2.log"; fi
-    # touch "$log_dir/syn2.log"
-    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn2.json > "$log_dir/syn2.log" 2>&1
-    # echo "syn2.log solve done"
+    if [ -f "$log_dir/syn2.log" ]; then rm -f "$log_dir/syn2.log"; fi
+    touch "$log_dir/syn2.log"
+    python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn2.json > "$log_dir/syn2.log" 2>&1
+    echo "syn2.log solve done"
 
     # if [ -f "$log_dir/syn3.log" ]; then rm -f "$log_dir/syn3.log"; fi
     # touch "$log_dir/syn3.log"
@@ -193,10 +193,10 @@ else
     # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn4.json > "$log_dir/syn4.log" 2>&1
     # echo "syn4.log solve done"
 
-    if [ -f "$log_dir/syn5.log" ]; then rm -f "$log_dir/syn5.log"; fi
-    touch "$log_dir/syn5.log"
-    python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn5.json > "$log_dir/syn5.log" 2>&1
-    echo "syn5.log solve done"
+    # if [ -f "$log_dir/syn5.log" ]; then rm -f "$log_dir/syn5.log"; fi
+    # touch "$log_dir/syn5.log"
+    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5  --files syn5.json > "$log_dir/syn5.log" 2>&1
+    # echo "syn5.log solve done"
 
     # if [ -f "$log_dir/syn6.log" ]; then rm -f "$log_dir/syn6.log"; fi
     # touch "$log_dir/syn6.log"

@@ -9,6 +9,8 @@ Provides detailed analysis of Gurobi ILP models including:
 """
 
 import os
+import threading
+import time
 from datetime import datetime
 from typing import Dict, Optional
 
@@ -24,21 +26,32 @@ except ImportError:
 
 
 class MemoryTracker:
-    """Track memory usage before and after optimization using psutil."""
+    """Track memory usage with optional periodic sampling using psutil."""
 
-    def __init__(self):
+    def __init__(self, sample_interval: float = 0.05):
         self.process = psutil.Process(os.getpid()) if HAS_PSUTIL else None
         self.initial_memory = None
         self.peak_memory = None
         self.final_memory = None
         self.available = HAS_PSUTIL
+        self.sample_interval = sample_interval
+        self.samples_collected = 0
+        self._last_sample_time = 0.0
+        self._lock = threading.Lock()
+        self._stop_sampling = None
+        self._sampling_thread = None
 
     def start(self):
         """Record initial memory."""
         if not self.available or self.process is None:
             return
         try:
-            self.initial_memory = self.process.memory_info().rss / (1024 ** 2)  # MB
+            with self._lock:
+                self.initial_memory = self.process.memory_info().rss / (1024 ** 2)  # MB
+                self.peak_memory = self.initial_memory
+                self.final_memory = None
+                self.samples_collected = 0
+                self._last_sample_time = time.monotonic()
         except Exception:
             self.available = False
 
@@ -48,19 +61,71 @@ class MemoryTracker:
             return
         try:
             current = self.process.memory_info().rss / (1024 ** 2)
-            if self.peak_memory is None:
-                self.peak_memory = current
-            else:
-                self.peak_memory = max(self.peak_memory, current)
+            with self._lock:
+                if self.peak_memory is None:
+                    self.peak_memory = current
+                else:
+                    self.peak_memory = max(self.peak_memory, current)
+                self.samples_collected += 1
+                self._last_sample_time = time.monotonic()
         except Exception:
             self.available = False
+
+    def record_peak_throttled(self, min_interval: Optional[float] = None):
+        """Record memory if enough time has elapsed since the previous sample."""
+        if not self.available or self.process is None:
+            return
+        interval = self.sample_interval if min_interval is None else min_interval
+        now = time.monotonic()
+        with self._lock:
+            last_sample_time = self._last_sample_time
+        if now - last_sample_time >= interval:
+            self.record_peak()
+
+    def start_sampling(self, sample_interval: Optional[float] = None):
+        """Start background memory sampling until stop_sampling() is called."""
+        if not self.available or self.process is None:
+            return
+        if sample_interval is not None:
+            self.sample_interval = sample_interval
+        if self.initial_memory is None:
+            self.start()
+        if self._sampling_thread and self._sampling_thread.is_alive():
+            return
+
+        self._stop_sampling = threading.Event()
+        self.record_peak()
+
+        def _sample_loop():
+            while not self._stop_sampling.wait(self.sample_interval):
+                self.record_peak()
+
+        self._sampling_thread = threading.Thread(
+            target=_sample_loop,
+            name="MemoryTrackerSampler",
+            daemon=True,
+        )
+        self._sampling_thread.start()
+
+    def stop_sampling(self):
+        """Stop background memory sampling and take one final sample."""
+        if self._stop_sampling is not None:
+            self._stop_sampling.set()
+        if self._sampling_thread and self._sampling_thread.is_alive():
+            self._sampling_thread.join(timeout=max(self.sample_interval * 2, 1.0))
+        self.record_peak()
+        self._sampling_thread = None
+        self._stop_sampling = None
 
     def finish(self):
         """Record final memory."""
         if not self.available or self.process is None:
             return
         try:
-            self.final_memory = self.process.memory_info().rss / (1024 ** 2)
+            if self._sampling_thread and self._sampling_thread.is_alive():
+                self.stop_sampling()
+            with self._lock:
+                self.final_memory = self.process.memory_info().rss / (1024 ** 2)
             self.record_peak()  # Ensure peak is at least the final
         except Exception:
             self.available = False
@@ -74,13 +139,22 @@ class MemoryTracker:
                 'final_memory_mb': None,
                 'peak_increase_mb': None,
                 'final_increase_mb': None,
+                'samples_collected': None,
+                'sample_interval_seconds': None,
             }
+        with self._lock:
+            initial_memory = self.initial_memory or 0
+            peak_memory = self.peak_memory or 0
+            final_memory = self.final_memory or 0
+            samples_collected = self.samples_collected
         return {
-            'initial_memory_mb': self.initial_memory or 0,
-            'peak_memory_mb': self.peak_memory or 0,
-            'final_memory_mb': self.final_memory or 0,
-            'peak_increase_mb': (self.peak_memory or 0) - (self.initial_memory or 0),
-            'final_increase_mb': (self.final_memory or 0) - (self.initial_memory or 0),
+            'initial_memory_mb': initial_memory,
+            'peak_memory_mb': peak_memory,
+            'final_memory_mb': final_memory,
+            'peak_increase_mb': peak_memory - initial_memory,
+            'final_increase_mb': final_memory - initial_memory,
+            'samples_collected': samples_collected,
+            'sample_interval_seconds': self.sample_interval,
         }
 
 
@@ -237,6 +311,16 @@ def get_solve_statistics(model: gp.Model) -> Dict:
     except:
         stats['simplex_iterations'] = None
 
+    try:
+        stats['gurobi_memory_mb'] = model.MemUsed * 1024
+    except:
+        stats['gurobi_memory_mb'] = None
+
+    try:
+        stats['gurobi_peak_memory_mb'] = model.MaxMemUsed * 1024
+    except:
+        stats['gurobi_peak_memory_mb'] = None
+
     # === Presolve Statistics ===
     try:
         stats['rows_presolved'] = getattr(model, 'PresolveRows', None)
@@ -367,6 +451,14 @@ def print_model_report(
             if memory_stats['final_increase_mb'] is not None:
                 report_lines.append(
                     f"  Final increase:            {memory_stats['final_increase_mb']:>14.2f} MB"
+                )
+            if solve_stats.get('gurobi_memory_mb') is not None:
+                report_lines.append(
+                    f"  Gurobi memory:             {solve_stats['gurobi_memory_mb']:>14.2f} MB"
+                )
+            if solve_stats.get('gurobi_peak_memory_mb') is not None:
+                report_lines.append(
+                    f"  Gurobi peak memory:        {solve_stats['gurobi_peak_memory_mb']:>14.2f} MB"
                 )
         else:
             report_lines.append("\n[MEMORY USAGE]")
