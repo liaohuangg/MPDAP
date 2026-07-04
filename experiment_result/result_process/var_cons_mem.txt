@@ -1,0 +1,35 @@
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{table}[h!t]
+  \centering
+  \textcolor{blue}{\caption{ILP Model Size, Peak Memory, and Solve Quality of Test Cases}}
+  \label{tab:var_cons_mem}
+  \begin{tabularx}{\linewidth}{C{1.25cm}C{1.05cm}C{1.05cm}C{1.15cm}C{1.05cm}C{0.95cm}}
+    \toprule
+    \textbf{\textcolor{blue}{Test Case}}
+    & \textbf{\textcolor{blue}{Cons.}}
+    & \textbf{\textcolor{blue}{Vars.}}
+    & \textbf{\textcolor{blue}{Peak Mem.}}
+    & \textbf{\textcolor{blue}{Gap}}
+    & \textbf{\textcolor{blue}{Stage}}\\
+    \midrule
+    \textcolor{blue}{$acend910$} & \textcolor{blue}{503} & \textcolor{blue}{243} & \textcolor{blue}{357.00} & \textcolor{blue}{0.0000\%} & \textcolor{blue}{stage1} \\
+    \textcolor{blue}{$cpu\text{-}dram$} & \textcolor{blue}{912} & \textcolor{blue}{427} & \textcolor{blue}{615.98} & \textcolor{blue}{0.0000\%} & \textcolor{blue}{stage1} \\
+    \textcolor{blue}{$hp11\_m$} & \textcolor{blue}{1754} & \textcolor{blue}{803} & \textcolor{blue}{1306.28} & \textcolor{blue}{0.0000\%} & \textcolor{blue}{stage1} \\
+    \textcolor{blue}{$hp6\_m$} & \textcolor{blue}{423} & \textcolor{blue}{208} & \textcolor{blue}{199.18} & \textcolor{blue}{0.0000\%} & \textcolor{blue}{stage1} \\
+    \textcolor{blue}{$hp8\_m$} & \textcolor{blue}{897} & \textcolor{blue}{420} & \textcolor{blue}{452.98} & \textcolor{blue}{0.0000\%} & \textcolor{blue}{stage1} \\
+    \textcolor{blue}{$multigpu$} & \textcolor{blue}{419} & \textcolor{blue}{206} & \textcolor{blue}{209.80} & \textcolor{blue}{0.0000\%} & \textcolor{blue}{stage1} \\
+    \textcolor{blue}{$syn1$} & \textcolor{blue}{1122} & \textcolor{blue}{524} & \textcolor{blue}{2350.32} & \textcolor{blue}{8.1023\%} & \textcolor{blue}{stage1} \\
+    \textcolor{blue}{$syn2$} & \textcolor{blue}{1962} & \textcolor{blue}{894} & \textcolor{blue}{559.42} & \textcolor{blue}{infeasible} & \textcolor{blue}{stage3} \\
+    \textcolor{blue}{$syn3$} & \textcolor{blue}{2256} & \textcolor{blue}{1025} & \textcolor{blue}{825.42} & \textcolor{blue}{infeasible} & \textcolor{blue}{stage3} \\
+    \textcolor{blue}{$syn4$} & \textcolor{blue}{2172} & \textcolor{blue}{991} & \textcolor{blue}{3825.54} & \textcolor{blue}{infeasible} & \textcolor{blue}{stage3} \\
+    \textcolor{blue}{$syn5$} & \textcolor{blue}{2098} & \textcolor{blue}{962} & \textcolor{blue}{2359.50} & \textcolor{blue}{26.1998\%} & \textcolor{blue}{stage1} \\
+    \textcolor{blue}{$syn6$} & \textcolor{blue}{3320} & \textcolor{blue}{1499} & \textcolor{blue}{1857.33} & \textcolor{blue}{infeasible} & \textcolor{blue}{stage3} \\
+    \textcolor{blue}{$sys\_micro150$} & \textcolor{blue}{912} & \textcolor{blue}{427} & \textcolor{blue}{631.73} & \textcolor{blue}{0.0000\%} & \textcolor{blue}{stage1} \\
+    \textcolor{blue}{$xerox6\_m$} & \textcolor{blue}{820} & \textcolor{blue}{381} & \textcolor{blue}{269.49} & \textcolor{blue}{infeasible} & \textcolor{blue}{stage3} \\
+    \textcolor{blue}{$xerox7\_m$} & \textcolor{blue}{1091} & \textcolor{blue}{502} & \textcolor{blue}{346.22} & \textcolor{blue}{infeasible} & \textcolor{blue}{stage3} \\
+    \textcolor{blue}{$xerox8\_m$} & \textcolor{blue}{1424} & \textcolor{blue}{650} & \textcolor{blue}{453.16} & \textcolor{blue}{infeasible} & \textcolor{blue}{stage3} \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+

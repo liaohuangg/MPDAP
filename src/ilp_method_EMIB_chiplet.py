@@ -232,6 +232,28 @@ def select_high_power_indices_by_density(
     return high_indices, density_threshold
 
 
+def _format_high_power_chiplet_details(
+    high_power_indices: set[int],
+    nodes: List,
+    chiplet_w_orig_grid: Dict[int, float],
+    chiplet_h_orig_grid: Dict[int, float],
+) -> List[str]:
+    """Format selected high-power-density chiplets for logs."""
+    details = []
+    for i in sorted(high_power_indices):
+        node = nodes[i]
+        name = getattr(node, "name", str(i))
+        power = float(getattr(node, "power", 0.0) or 0.0)
+        area = float(chiplet_w_orig_grid.get(i, 0.0) or 0.0) * float(
+            chiplet_h_orig_grid.get(i, 0.0) or 0.0
+        )
+        density = power / area if area > 0.0 else 0.0
+        details.append(
+            f"{name}(idx={i}, power={power:.6e}, area={area:.6e}, density={density:.6e})"
+        )
+    return details
+
+
 def compute_normalization_factors(
     n: int,
     nodes: List,
@@ -310,8 +332,15 @@ def compute_normalization_factors(
             ref_power = max((L_avg / 2.0) * (pair_sum + self_sum), 1.0)
 
             # Log normalization factor calculation details
+            high_power_details = _format_high_power_chiplet_details(
+                high_idxs, nodes, chiplet_w_orig_grid, chiplet_h_orig_grid
+            )
             print(f"[POWER_AWARE] Normalization factor calculation:")
             print(f"[POWER_AWARE]   - High-power chiplets: {len(high_list)}")
+            print(
+                "[POWER_AWARE]   - High-power chiplet names: "
+                + ", ".join(high_power_details)
+            )
             print(f"[POWER_AWARE]   - Mutual Distancing enabled: {mutual_distancing_enabled}")
             print(f"[POWER_AWARE]   - Central Avoidance enabled: {central_avoidance_enabled}")
             print(f"[POWER_AWARE]   - pair_sum (MD): {pair_sum:.6e}")
@@ -1224,7 +1253,14 @@ def build_placement_ilp_model(
         )
         print(f"[POWER_AWARE] Selected high-power chiplets: {len(high_power_indices)} (density threshold: {density_threshold})")
         if high_power_indices:
+            high_power_details = _format_high_power_chiplet_details(
+                high_power_indices, nodes, chiplet_w_orig_grid, chiplet_h_orig_grid
+            )
             print(f"[POWER_AWARE] High-power chiplet indices: {sorted(high_power_indices)}")
+            print(
+                "[POWER_AWARE] High-power chiplet names: "
+                + ", ".join(high_power_details)
+            )
 
         # Mutual Distancing - ONLY ADD IF ENABLED AND SUFFICIENT CHIPLETS FOUND
         if mutual_distancing_enabled and len(high_power_indices) >= 2:
@@ -1312,7 +1348,7 @@ def build_placement_ilp_model(
                 p_i = float(getattr(nodes[i], "power", 0.0) or 0.0)
                 high_power_count += 1
                 print(
-                    f"[DEBUG] chiplet {i} in top 30% power density, add away-from-center constraint"
+                    f"[DEBUG] chiplet {getattr(nodes[i], 'name', i)} (idx={i}) in top 30% power density, add away-from-center constraint"
                 )
 
             
