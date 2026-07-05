@@ -141,7 +141,7 @@ def average_metrics(cases, methods):
     averages = {}
     for method in methods:
         averages[method] = {}
-        for metric in ["BA", "WL", "SAR", "maxT"]:
+        for metric in ["BA", "WL", "SAR", "Time", "maxT"]:
             values = []
             for case_name in cases:
                 row = data.get(case_name, {}).get(method)
@@ -182,22 +182,63 @@ def metric_change(target_avg, baseline_avg, metric):
 def print_markdown_table(title, cases, averages, targets, baseline):
     print(f"\n## {title}")
     print("Cases:", ", ".join(cases))
-    print("| Method | BA avg | BA change | WL avg | WL change | SAR avg | SAR change | maxT avg | maxT change |")
-    print("|---|---:|---:|---:|---:|---:|---:|---:|---:|")
+
+    headers = [
+        "Method",
+        "BA avg",
+        "BA change",
+        "WL avg",
+        "WL change",
+        "SAR avg",
+        "SAR change",
+        "Time avg",
+        "Time change",
+        "maxT avg",
+        "maxT change",
+    ]
+    rows = []
     base_avg = averages[baseline]
     for method in targets:
         row = averages[method]
         ba_delta, ba_pct = metric_change(row, base_avg, "BA")
         wl_delta, wl_pct = metric_change(row, base_avg, "WL")
         sar_delta, sar_pct = metric_change(row, base_avg, "SAR")
+        time_delta, time_pct = metric_change(row, base_avg, "Time")
         maxt_delta, _ = metric_change(row, base_avg, "maxT")
-        print(
-            f"| {method.upper()} | "
-            f"{fmt_value(row['BA'])} | {fmt_delta_pct(ba_delta, ba_pct)} | "
-            f"{fmt_value(row['WL'])} | {fmt_delta_pct(wl_delta, wl_pct)} | "
-            f"{fmt_value(row['SAR'], 4)} | {fmt_delta_pct(sar_delta, sar_pct)} | "
-            f"{fmt_value(row['maxT'])} | {fmt_delta(maxt_delta)} |"
-        )
+        rows.append([
+            method.upper(),
+            fmt_value(row["BA"]),
+            fmt_delta_pct(ba_delta, ba_pct),
+            fmt_value(row["WL"]),
+            fmt_delta_pct(wl_delta, wl_pct),
+            fmt_value(row["SAR"], 4),
+            fmt_delta_pct(sar_delta, sar_pct),
+            fmt_value(row["Time"]),
+            fmt_delta_pct(time_delta, time_pct),
+            fmt_value(row["maxT"]),
+            fmt_delta(maxt_delta),
+        ])
+
+    widths = [
+        max(len(str(item)) for item in column)
+        for column in zip(headers, *rows)
+    ]
+
+    def format_row(values):
+        cells = []
+        for index, value in enumerate(values):
+            text = str(value)
+            if index == 0:
+                cells.append(text.ljust(widths[index]))
+            else:
+                cells.append(text.rjust(widths[index]))
+        return "| " + " | ".join(cells) + " |"
+
+    separator = "| " + " | ".join("-" * width for width in widths) + " |"
+    print(format_row(headers))
+    print(separator)
+    for row in rows:
+        print(format_row(row))
 
 
 btree_cases = ["acend910", "cpu-dram", "hp6_m", "hp8_m", "multigpu", "syn1", "sys_micro150"]
@@ -242,3 +283,38 @@ print_markdown_table(
     ["pmd", "pca"],
     "pmp",
 )
+
+
+
+## OMP/PMP/PMD/PCA vs BTREE average changes
+# Cases: acend910, cpu-dram, hp6_m, hp8_m, multigpu, syn1, sys_micro150
+# | Method |  BA avg |           BA change |   WL avg |          WL change | SAR avg |      SAR change | Time avg |       Time change | maxT avg | maxT change |
+# | ------ | ------- | ------------------- | -------- | ------------------ | ------- | --------------- | -------- | ----------------- | -------- | ----------- |
+# | OMP    |  840.82 |   -496.00 (-37.10%) | 40295.21 |  -3624.43 (-8.25%) |  0.6826 | +0.16 (+31.29%) |    57.57 | +45.86 (+391.37%) |    88.59 |       -1.23 |
+# | PMP    |  886.24 |   -450.57 (-33.70%) | 41779.72 |  -2139.91 (-4.87%) |  0.4425 | -0.08 (-14.89%) |    69.76 | +58.04 (+495.35%) |    84.91 |       -4.92 |
+# | PMD    | 3518.34 | +2181.53 (+163.19%) | 49191.89 | +5272.25 (+12.00%) |  0.4008 | -0.12 (-22.91%) |    55.74 | +44.02 (+375.73%) |    88.77 |       -1.06 |
+# | PCA    |  859.20 |   -477.61 (-35.73%) | 41060.75 |  -2858.88 (-6.51%) |  0.7651 | +0.25 (+47.17%) |    65.88 | +54.17 (+462.28%) |    88.50 |       -1.33 |
+
+# ## OMP/PMP/PMD/PCA vs RL average changes
+# Cases: acend910, cpu-dram, hp6_m, multigpu, sys_micro150
+# | Method |  BA avg |           BA change |   WL avg |          WL change | SAR avg |      SAR change | Time avg |        Time change | maxT avg | maxT change |
+# | ------ | ------- | ------------------- | -------- | ------------------ | ------- | --------------- | -------- | ------------------ | -------- | ----------- |
+# | OMP    |  846.98 |   -309.17 (-26.74%) | 38419.74 |  -2873.18 (-6.96%) |  0.6624 | +0.12 (+23.17%) |    17.36 | -3582.64 (-99.52%) |    89.84 |       +2.65 |
+# | PMP    |  906.84 |   -249.31 (-21.56%) | 39895.73 |  -1397.18 (-3.38%) |  0.3481 | -0.19 (-35.27%) |    33.06 | -3566.94 (-99.08%) |    85.46 |       -1.72 |
+# | PMD    | 4585.19 | +3429.05 (+296.59%) | 50288.31 | +8995.40 (+21.78%) |  0.2976 | -0.24 (-44.66%) |    14.64 | -3585.36 (-99.59%) |    90.75 |       +3.56 |
+# | PCA    |  846.79 |   -309.36 (-26.76%) | 38503.38 |  -2789.54 (-6.76%) |  0.8304 | +0.29 (+54.42%) |    28.32 | -3571.68 (-99.21%) |    89.86 |       +2.67 |
+
+# ## PMP/PMD/PCA vs OMP average changes
+# Cases: acend910, cpu-dram, hp11_m, hp6_m, hp8_m, multigpu, syn1, syn5, sys_micro150
+# | Method |  BA avg |           BA change |   WL avg |          WL change | SAR avg |      SAR change | Time avg |      Time change | maxT avg | maxT change |
+# | ------ | ------- | ------------------- | -------- | ------------------ | ------- | --------------- | -------- | ---------------- | -------- | ----------- |
+# | PMP    |  937.25 |     +79.80 (+9.31%) | 51263.45 |  +2403.86 (+4.92%) |  0.3751 | -0.18 (-32.36%) |   121.53 | +24.76 (+25.59%) |    84.39 |       -3.96 |
+# | PMD    | 2971.45 | +2114.00 (+246.54%) | 56931.13 | +8071.55 (+16.52%) |  0.3898 | -0.16 (-29.73%) |   110.60 | +13.84 (+14.30%) |    87.37 |       -0.98 |
+# | PCA    |  933.14 |     +75.69 (+8.83%) | 50559.87 |  +1700.28 (+3.48%) |  0.6226 | +0.07 (+12.26%) |   118.49 | +21.73 (+22.46%) |    88.09 |       -0.26 |
+
+# ## PMD/PCA vs PMP average changes
+# Cases: acend910, cpu-dram, hp11_m, hp6_m, hp8_m, multigpu, syn1, syn5, sys_micro150
+# | Method |  BA avg |           BA change |   WL avg |          WL change | SAR avg |      SAR change | Time avg |     Time change | maxT avg | maxT change |
+# | ------ | ------- | ------------------- | -------- | ------------------ | ------- | --------------- | -------- | --------------- | -------- | ----------- |
+# | PMD    | 2971.45 | +2034.20 (+217.04%) | 56931.13 | +5667.68 (+11.06%) |  0.3898 |  +0.01 (+3.90%) |   110.60 | -10.92 (-8.99%) |    87.37 |       +2.98 |
+# | PCA    |  933.14 |      -4.11 (-0.44%) | 50559.87 |   -703.58 (-1.37%) |  0.6226 | +0.25 (+65.98%) |   118.49 |  -3.03 (-2.50%) |    88.09 |       +3.71 |
