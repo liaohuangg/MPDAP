@@ -11,10 +11,12 @@ The SA search uses five perturbation operations:
 """
 
 import copy
+import itertools
 import math
 import random
 import time
 import os
+from collections import deque
 from typing import List, Dict, Tuple, Optional
 
 from BtTree import BinaryTree, BTNode
@@ -652,7 +654,7 @@ def compute_overall_cost(global_layout: Dict[str, Chiplet],
 def overall_sa(bt_tree: BinaryTree,
                ecg_manager: ECGManager,
                problem: LayoutProblem,
-               max_iterations: int = 50000,
+               max_iterations: Optional[int] = None,
                initial_temp: float = 500.0,
                cooling_rate: float = 0.995,
                alpha: float = 1.0,
@@ -667,7 +669,8 @@ def overall_sa(bt_tree: BinaryTree,
                trace: Optional[List[Tuple[float, float, float]]] = None,
                stats: Optional[Dict] = None,
                early_stop: bool = False,
-               convergence_patience: Optional[int] = None
+               convergence_window: int = 5000,
+               convergence_accept_eps: float = 0.01
                ) -> Tuple[Dict[str, Chiplet], float, float]:
     """
     Overall SA optimization for global layout based on BT tree.
@@ -683,7 +686,12 @@ def overall_sa(bt_tree: BinaryTree,
         bt_tree: Initial BT tree
         ecg_manager: ECG manager
         problem: Global layout problem
-        max_iterations: Maximum iteration count
+        max_iterations: Iteration cap, or None (default) for no cap at all --
+            the intended configuration, in which the run ends only on the
+            convergence criterion below or on `time_limit`. An iteration count
+            is a guess about how long the annealing takes; the cooling schedule
+            and the wall clock are not guesses. With no cap, pass a
+            `time_limit` so a run that never freezes still terminates.
         initial_temp: Initial temperature
         cooling_rate: Cooling rate (applied every 50 iterations)
         alpha: Area weight α
@@ -695,8 +703,10 @@ def overall_sa(bt_tree: BinaryTree,
         save_best: Save best solution to files
         output_dir: Output directory
         time_limit: Wall-clock cap for the whole run in seconds. Once reached,
-            the loop stops and the best solution found so far is returned.
-            None (default) means no time cap.
+            the loop stops and the best solution found so far is returned. This
+            is the second stopping condition, next to convergence: with no
+            iteration cap, a run that never freezes is bounded by the clock
+            instead. None (default) means no time cap.
         trace: Optional list to collect the convergence curve. When given, one
             `(elapsed_seconds, current_cost, best_cost)` record is appended per
             iteration, the first one before any move (so the curve starts at
@@ -709,17 +719,34 @@ def overall_sa(bt_tree: BinaryTree,
             the time to the best solution.
         early_stop: Run-terminating shortcut on temperature only. False
             (default) means the temperature break is off; the run ends on
-            convergence (see below) or on `max_iterations`.
-        convergence_patience: Convergence criterion. The run stops as soon as
-            the best cost has not improved for this many consecutive
-            iterations -- the search is declared converged. `None` (default)
-            uses `max_iterations // 2`, i.e. half the iteration budget: a run
-            that spends its whole second half without touching the best
-            solution is converged by definition. This is deliberately much
-            longer than the old "no improvement for max(max_iter//5, 5000)"
-            rule, which cut runs short while they were still hot (~70% of
-            uphill moves accepted). Pass 0 to disable and always run the full
-            `max_iterations`.
+            convergence (see below), on `time_limit`, or on `max_iterations`
+            when one is passed.
+        convergence_window: Length `W` of the sliding window, in iterations,
+            over which the convergence criterion below is evaluated. Pass 0 to
+            disable the criterion (the run then ends on `time_limit` alone).
+        convergence_accept_eps: Convergence criterion -- "the search has
+            frozen", and the primary way a run ends. The run stops as soon as,
+            over the last `convergence_window` iterations, the share of moves
+            that changed the cost is `<= convergence_accept_eps` (default 1%).
+            A move counts only when it was accepted AND `new_cost !=
+            current_cost`: cost-neutral moves (`delta == 0`) are excluded,
+            because they show neither progress nor exploration, and because at
+            low temperature they are the only moves still accepted
+            (`exp(-0/T) == 1`) -- on a small instance they can be frequent enough
+            to hold a plain acceptance ratio above any threshold forever, which
+            would keep a frozen run burning its wall clock to the limit.
+            Rationale: once the temperature is low enough that almost nothing
+            moves any more, the trajectory cannot leave the incumbent and the
+            annealing is over -- every further iteration is a deterministic
+            rejection, so stopping there discards nothing, whereas an
+            iteration-count rule ("stagnant for N iterations", "best held for
+            80% of the run") is a guess about a length that only the cooling
+            schedule knows. The criterion is stated as an observed rate, so it is
+            checked rather than assumed, and it follows the cooling schedule
+            automatically if that schedule is retuned. The fraction of the run
+            that ended up sitting on the best cost is reported back as
+            `best_hold_fraction` in `stats` (and echoed in `stop_reason`) as
+            supporting evidence, alongside `last_improve_at`.
 
     Returns:
         (best_layout, best_cost, best_found_time)
@@ -749,7 +776,8 @@ def overall_sa(bt_tree: BinaryTree,
         print(f"ECG count: {len(bt_tree.all_nodes)}")
         print(f"Chiplet count: {len(problem.chiplets)}")
         print(f"Connection count: {problem.connection_graph.number_of_edges()}")
-        print(f"Max iterations: {max_iterations}, T0={initial_temp}, cooling={cooling_rate}")
+        print(f"Iteration cap: {max_iterations if max_iterations is not None else 'none (unbounded)'}, "
+              f"T0={initial_temp}, cooling={cooling_rate}")
         print(f"Cost weights: α={alpha}, β={beta}, γ={gamma}, R*={target_ratio}")
         print(f"Operation weights: {op_weights}")
         print("=" * 80 + "\n")
@@ -786,11 +814,47 @@ def overall_sa(bt_tree: BinaryTree,
     op_total = [0] * 5
     no_improve_count = 0
     iterations_run = 0
+    last_improve_at = 0     # iteration index of the most recent best-cost improvement
 
-    # Convergence criterion: no best-cost improvement for half the budget.
-    patience = max_iterations // 2 if convergence_patience is None else convergence_patience
+    # Convergence criterion: over the last `window` iterations the share of
+    # *cost-changing* moves has fallen to `accept_eps` or below, i.e. the search
+    # has frozen -- once the temperature is low enough that almost nothing moves
+    # any more, the trajectory cannot leave the incumbent and the annealing is
+    # over. Cost-neutral moves (`delta == 0`: the layout changes, the cost does
+    # not) deliberately do NOT count as movement: they demonstrate neither
+    # progress nor exploration, at low temperature they are the only moves still
+    # accepted (`exp(-0/T) == 1`), and on a small instance they are common
+    # enough to hold a plain acceptance ratio above any threshold forever, which
+    # would keep a frozen run burning its wall clock to the limit. The window is
+    # a deque with a running sum so the ratio updates in O(1) per iteration;
+    # re-summing a 5000-iteration window every iteration would cost 5e8
+    # operations over an unbounded run.
+    window = convergence_window
+    accept_eps = convergence_accept_eps
+    changed_window: deque = deque()
+    changed_window_sum = 0
+    best_hold_total = 0     # iterations that ended sitting on the best cost
     converged = False
-    stop_reason = f"iteration cap ({max_iterations})"
+    stop_reason = (f"iteration cap ({max_iterations})" if max_iterations is not None
+                   else "no iteration cap: neither frozen nor timed out")
+
+    def _note_iteration(changed: bool):
+        """Record one finished iteration.
+
+        `changed` is whether that iteration actually moved the search -- it was
+        accepted AND the cost changed -- appended to the sliding window. The
+        same call also counts whether the iteration ended sitting on the best
+        cost (`best_hold_total`), which is reported as `best_hold_fraction`: the
+        share of the run the incumbent dominated.
+        """
+        nonlocal changed_window_sum, best_hold_total
+        if window > 0 and len(changed_window) == window:
+            changed_window_sum -= changed_window.popleft()
+        if window > 0:
+            changed_window.append(1 if changed else 0)
+            changed_window_sum += 1 if changed else 0
+        if current_cost <= best_cost + 1e-9:
+            best_hold_total += 1
 
     start_time = time.perf_counter()  # monotonic: immune to wall-clock jumps (WSL2 resync)
 
@@ -798,12 +862,18 @@ def overall_sa(bt_tree: BinaryTree,
     if trace is not None:
         trace.append((0.0, current_cost, best_cost))
 
-    for iteration in range(max_iterations):
+    # Unbounded by default: the run ends on the convergence criterion or on the
+    # wall-clock limit, never on an iteration count. A finite `max_iterations`
+    # is still honoured when the caller passes one.
+    iteration_counter = (itertools.count() if max_iterations is None
+                         else range(max_iterations))
+    for iteration in iteration_counter:
         iterations_run += 1
 
         # Counted at the top of every iteration (including ones whose move
         # fails below), so this is exactly "iterations since the best cost last
-        # improved" -- the quantity the convergence criterion tests.
+        # improved" -- the "did the best move inside the window" half of the
+        # convergence criterion (the other half is the acceptance ratio).
         no_improve_count += 1
 
         # Save current state (efficiently; no deep-copy on forest)
@@ -824,6 +894,7 @@ def overall_sa(bt_tree: BinaryTree,
         if not success:
             # Operation failed -> restore state
             _restore_sa_state(bt_tree, saved_state)
+            _note_iteration(False)
             continue
 
         op_success[op_idx] += 1
@@ -835,12 +906,14 @@ def overall_sa(bt_tree: BinaryTree,
                                             alpha, beta, gamma, target_ratio)
         except Exception:
             _restore_sa_state(bt_tree, saved_state)
+            _note_iteration(False)
             continue
 
         # Metropolis criterion
         delta = new_cost - current_cost
+        accepted = delta < 0 or random.random() < math.exp(-delta / max(temp, 1e-10))
 
-        if delta < 0 or random.random() < math.exp(-delta / max(temp, 1e-10)):
+        if accepted:
             # Accept
             current_layout = new_layout
             current_cost = new_cost
@@ -851,10 +924,18 @@ def overall_sa(bt_tree: BinaryTree,
                 best_cost = current_cost
                 best_found_time = time.perf_counter() - start_time
                 no_improve_count = 0
+                last_improve_at = iterations_run
         else:
             # Reject -> rollback
             _restore_sa_state(bt_tree, saved_state)
             reject_count += 1
+
+        # Only a cost-changing move counts as the search having moved (see the
+        # convergence criterion above): cost-neutral moves are excluded. Test
+        # `delta`, not `new_cost != current_cost` -- by this point the accept
+        # branch has already rebound `current_cost` to `new_cost`, so comparing
+        # the two variables here would say "no change" for every accepted move.
+        _note_iteration(accepted and delta != 0)
 
         # Convergence trace: annealing time vs cost (skips failed moves, the
         # next iteration's record covers the gap)
@@ -872,7 +953,7 @@ def overall_sa(bt_tree: BinaryTree,
             acc_rate = accept_count / total_decisions if total_decisions > 0 else 0
             util, bbox_a, _, bw, bh = calculate_layout_utilization(best_layout)
             R_cur = bw / bh if bh > 0 else 0
-            print(f"  [{iteration:>6d}/{max_iterations}] "
+            print(f"  [{iteration:>6d}/{max_iterations if max_iterations is not None else 'inf'}] "
                   f"cost={current_cost:.4f} best={best_cost:.4f} "
                   f"T={temp:.4f} acc={acc_rate:.1%} "
                   f"area={bbox_a:.0f} R={R_cur:.2f} util={util:.1f}% "
@@ -886,14 +967,26 @@ def overall_sa(bt_tree: BinaryTree,
                       f"{iteration + 1}, stop (best kept)")
             break
 
-        # Convergence: the best cost has not moved for `patience` iterations.
-        if patience > 0 and no_improve_count >= patience:
+        # Convergence: the search has frozen -- over the last `window`
+        # iterations the share of cost-changing moves has fallen to `accept_eps`
+        # or below. The annealing is over at that point, so the run ends here
+        # (see the criterion above).
+        if (window > 0 and len(changed_window) == window
+                and changed_window_sum <= accept_eps * window):
             converged = True
-            stop_reason = (f"converged (best cost unchanged for "
-                           f"{no_improve_count} iterations, patience={patience})")
+            move_rate_win = changed_window_sum / window
+            hold_frac = best_hold_total / iterations_run
+            stop_reason = (f"converged (search frozen: {changed_window_sum}/{window} "
+                           f"= {move_rate_win:.2%} of the last {window} iterations "
+                           f"changed the cost, threshold {accept_eps:.1%}; best cost "
+                           f"{best_cost:.4f} last improved at iteration "
+                           f"{last_improve_at} and has since occupied "
+                           f"{hold_frac:.1%} of the {iterations_run} iterations run)")
             if verbose:
-                print(f"  ⏹ Converged at iteration {iteration + 1}: best cost "
-                      f"{best_cost:.4f} unchanged for {no_improve_count} iterations, stop")
+                print(f"  ⏹ Converged at iteration {iterations_run}: only "
+                      f"{move_rate_win:.2%} of the last {window} iterations changed "
+                      f"the cost (<= {accept_eps:.1%}), annealing over; best "
+                      f"{best_cost:.4f} has occupied {hold_frac:.1%} of the run, stop")
             break
 
         # Legacy temperature shortcut (off by default)
@@ -920,7 +1013,17 @@ def overall_sa(bt_tree: BinaryTree,
             'best_cost': best_cost,
             'converged': converged,
             'stop_reason': stop_reason,
-            'patience': patience,
+            'convergence_window': window,
+            'convergence_accept_eps': accept_eps,
+            'cost_change_ratio_window': (changed_window_sum / len(changed_window)
+                                         if changed_window else 0.0),
+            'best_hold_iterations': best_hold_total,
+            'best_hold_fraction': (best_hold_total / iterations_run
+                                   if iterations_run else 0.0),
+            'last_improve_at': last_improve_at,
+            'stagnation_iterations': no_improve_count,
+            'stagnation_fraction': (no_improve_count / iterations_run
+                                    if iterations_run else 0.0),
             'seconds_to_best': best_found_time,
         })
 
@@ -1021,41 +1124,46 @@ def format_layer_timing(bt_tree: Optional[BinaryTree] = None,
     def pct(seconds):
         return seconds / total_seconds * 100.0
 
-    d1 = (f"{layer1_stats.get('runs', 0)} 次 base derivation "
-          f"(其中 {layer1_stats.get('sa_runs', 0)} 次进入合法性 SA_1, "
-          f"{layer1_stats.get('already_legal_runs', 0)} 次初始即合法) -> "
-          f"{layer1_stats.get('legal_solutions', 0)} 个合法解 / "
-          f"{layer1_stats.get('root_nodes', 0)} 个根节点")
-    d2 = (f"{layer2_stats.get('trees', 0)} 棵树, {layer2_stats.get('sa_calls', 0)} 次邻居 SA "
-          f"({layer2_stats.get('sa_iterations', 0)} 次迭代), "
-          f"{layer2_stats.get('candidates', 0)} 个候选, 森林 {layer2_stats.get('forest_nodes', 0)} 个节点")
-    d3 = (f"{layer3_stats.get('iterations', 0)} 次迭代, 接受 {layer3_stats.get('accept', 0)} / "
-          f"拒绝 {layer3_stats.get('reject', 0)}")
+    d1 = (f"{layer1_stats.get('runs', 0)} base-derivation runs "
+          f"({layer1_stats.get('sa_runs', 0)} entered the legality SA_1, "
+          f"{layer1_stats.get('already_legal_runs', 0)} already legal) -> "
+          f"{layer1_stats.get('legal_solutions', 0)} legal solutions / "
+          f"{layer1_stats.get('root_nodes', 0)} root nodes")
+    d2 = (f"{layer2_stats.get('trees', 0)} trees, "
+          f"{layer2_stats.get('sa_calls', 0)} neighbour SA calls "
+          f"({layer2_stats.get('sa_iterations', 0)} iterations), "
+          f"{layer2_stats.get('candidates', 0)} candidates, "
+          f"forest of {layer2_stats.get('forest_nodes', 0)} nodes")
+    d3 = (f"{layer3_stats.get('iterations', 0)} iterations, "
+          f"{layer3_stats.get('accept', 0)} accepted / "
+          f"{layer3_stats.get('reject', 0)} rejected")
     if 'best_found_time' in layer3_stats:
-        d3 += (f", 最优解出现在 {layer3_stats['best_found_time']:.2f} s "
+        d3 += (f", best found at {layer3_stats['best_found_time']:.2f} s "
                f"(cost {layer3_stats.get('initial_cost', float('nan')):.4f} -> "
                f"{layer3_stats.get('best_cost', float('nan')):.4f})")
     if 'stop_reason' in layer3_stats:
-        verdict = "已收敛" if layer3_stats.get('converged') else "未收敛(迭代用尽)"
+        verdict = ("converged" if layer3_stats.get('converged')
+                   else "not converged (iteration cap reached)")
         d3 += f", {verdict}: {layer3_stats['stop_reason']}"
 
     lines = [
-        "算法分段耗时 (三段退火各自的目标不同, 时间沿同一条墙钟累加):",
-        f"  层1 合法性       Pc/Pl      : {layer1_seconds:8.2f} s ({pct(layer1_seconds):5.1f}%)  {d1}",
-        f"  层2 形状+相似度  Px/Py/Ps   : {layer2_seconds:8.2f} s ({pct(layer2_seconds):5.1f}%)  {d2}",
-        f"  层3 真实质量     A/WL/R     : {layer3_seconds:8.2f} s ({pct(layer3_seconds):5.1f}%)  {d3}",
+        "Per-layer time (three stacked SAs, one wall clock, different objectives):",
+        f"  layer 1  legality         Pc/Pl     : {layer1_seconds:8.2f} s ({pct(layer1_seconds):5.1f}%)  {d1}",
+        f"  layer 2  shape+similarity Px/Py/Ps  : {layer2_seconds:8.2f} s ({pct(layer2_seconds):5.1f}%)  {d2}",
+        f"  layer 3  real quality     A/WL/R    : {layer3_seconds:8.2f} s ({pct(layer3_seconds):5.1f}%)  {d3}",
         f"  {'-'*62}",
-        f"  建树合计 (层1+层2)         : {layer1_seconds + layer2_seconds:8.2f} s "
+        f"  build total (layers 1+2)            : {layer1_seconds + layer2_seconds:8.2f} s "
         f"({pct(layer1_seconds + layer2_seconds):5.1f}%)",
-        f"  整轮合计 (层1+层2+层3)     : {total_seconds:8.2f} s (100.0%)",
+        f"  full run (layers 1+2+3)             : {total_seconds:8.2f} s (100.0%)",
     ]
     return lines
 
 
 def run_single_case(json_path: str,
-                    max_iterations: int = 30000,
+                    max_iterations: Optional[int] = None,
                     initial_temp: float = 500.0,
-                    cooling_rate: float = 0.995,
+                    cooling_rate: float = 0.98,
+                    time_limit: Optional[float] = 3600.0,
                     alpha: float = 0.8,
                     beta: float = 0.1,
                     gamma: float = 0.1,
@@ -1066,8 +1174,13 @@ def run_single_case(json_path: str,
     """
     Run Overall SA for a single case and save to `result/<case_name>/`.
 
+    The annealing ends the way it does in the batch runner: on convergence (the
+    search freezes) or on the wall clock, never on an iteration count -- hence
+    `max_iterations=None` and a `time_limit` by default.
+
     Args:
         json_path: Input JSON path
+        time_limit: Wall clock cap for the annealing, in seconds.
         Other arguments are same as `overall_sa`
     """
     from unit import load_problem_from_json
@@ -1118,6 +1231,7 @@ def run_single_case(json_path: str,
         verbose=verbose,
         save_best=False,  # Saved below, under seed-tagged names
         output_dir=output_dir,
+        time_limit=time_limit,
         trace=trace,
         stats=sa_stats,
     )
@@ -1188,7 +1302,7 @@ def main():
         try:
             best_layout, best_cost, best_found_time = run_single_case(
                 json_path=json_path,
-                max_iterations=30000,
+                max_iterations=None,
                 alpha=1.0,
                 beta=0.1,
                 gamma=0.1,

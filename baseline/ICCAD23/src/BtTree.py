@@ -148,7 +148,10 @@ class BTNode:
                 similarity_trees = GroupConstrua_full(
                     root_nodes=root_nodes,
                     problem=problem,
-                    num_topologies_to_generate=50,
+                    # 100 legal variants per tree (was 50). Layer 2 no longer
+                    # ranks candidates, so a tree is a diverse legal-variant
+                    # pool; layer 3 does the ranking on the real objective.
+                    num_topologies_to_generate=100,
                     children_per_node=2,
                     max_iterations_sa=2000,
                     alpha_x=1.0,
