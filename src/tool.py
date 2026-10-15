@@ -70,7 +70,7 @@ def get_var_value(var):
 class EMIBNode:
     """
     EMIB silicon bridge chiplet info, from connection links.
-    width = max_Reach_length, height = EMIB_length
+    width = "EMIB_width" in JSON, height = EMIB_length
     bump_width = "EMIB_bump_width" in JSON
     """
     node1: str
@@ -79,8 +79,7 @@ class EMIBNode:
     EMIBType: str
     EMIB_length: float
     EMIB_bump_width: float
-    EMIB_max_width: float
-    width: float   # = 2*EMIB_bump_width
+    width: float   # = EMIB_width
     height: float  # = EMIB_length
 
 @dataclass
@@ -91,6 +90,8 @@ class ChipletNode:
     dimensions: Dict
     phys: List[Dict]
     power: float
+    original_dimensions: Optional[Dict] = None
+    bump_pitch: float = 0.0
 
 def build_bump_region_map(edges: List[dict], name_to_idx: Dict[str, int]) -> Dict[Tuple[int, int, int], dict]:
     """
@@ -117,8 +118,8 @@ def build_bump_region_map(edges: List[dict], name_to_idx: Dict[str, int]) -> Dic
 
 def _parse_emib_connection(conn: dict, ctx: str = "") -> List:
     """
-    Parse single connection from JSON to [src, dst, wireCount, EMIBType, EMIB_length, EMIB_max_width, EMIB_bump_width].
-    Only object format supported: {node1, node2, wireCount, EMIBType, EMIB_length, EMIB_max_width, EMIB_bump_width}.
+    Parse single connection from JSON to [src, dst, wireCount, EMIBType, EMIB_length, EMIB_width, EMIB_bump_width].
+    Only object format supported: {node1, node2, wireCount, EMIBType, EMIB_length, EMIB_width, EMIB_bump_width}.
     """
     if not isinstance(conn, dict):
         raise ValueError(f"Connection format error: must be object {{node1, node2, wireCount, ...}}. {ctx}conn: {conn}")
@@ -127,7 +128,7 @@ def _parse_emib_connection(conn: dict, ctx: str = "") -> List:
     weight = conn.get("wireCount")
     emib_type = conn.get("EMIBType")
     emib_length = conn.get("EMIB_length")
-    emib_max_width = conn.get("EMIB_max_width")
+    emib_width = conn.get("EMIB_width", 2.0)
     emib_bump_width = conn.get("EMIB_bump_width")
     missing = []
     if src is None:
@@ -140,20 +141,18 @@ def _parse_emib_connection(conn: dict, ctx: str = "") -> List:
         missing.append("EMIBType")
     if emib_length is None:
         missing.append("EMIB_length")
-    if emib_max_width is None:
-        missing.append("EMIB_max_width")
     if emib_bump_width is None:
         missing.append("EMIB_bump_width")
     if missing:
         raise ValueError(f"Connection format error: missing fields {missing}. {ctx}conn: {conn}")
     try:
         emib_length_f = float(emib_length)
-        emib_max_width_f = float(emib_max_width)
+        emib_width_f = float(emib_width)
         bump_width_f = float(emib_bump_width)
         weight_int = int(weight)
     except (TypeError, ValueError) as e:
-        raise ValueError(f"Connection format error: wireCount, EMIB_length, EMIB_max_width, EMIB_bump_width must be numeric. {ctx}conn: {conn}") from e
-    return [str(src), str(dst), weight_int, str(emib_type), emib_length_f, emib_max_width_f, bump_width_f]
+        raise ValueError(f"Connection format error: wireCount, EMIB_length, EMIB_width, EMIB_bump_width must be numeric. {ctx}conn: {conn}") from e
+    return [str(src), str(dst), weight_int, str(emib_type), emib_length_f, emib_width_f, bump_width_f]
 
 
 def _emib_type_to_conn_type(emib_type: str) -> int:
@@ -167,7 +166,7 @@ def load_emib_placement_json(
     """
     Load EMIB placement input from JSON.
     Format: {"chiplets": [...], "connections": [...]}
-    Each connection is an object: {node1, node2, wireCount, EMIBType, EMIB_length, EMIB_max_width, EMIB_bump_width}
+    Each connection is an object: {node1, node2, wireCount, EMIBType, EMIB_length, EMIB_width, EMIB_bump_width}
     Raises on format error or duplicate connection pair.
 
     Returns:
@@ -180,6 +179,10 @@ def load_emib_placement_json(
 
     with open(json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
+
+    bump_pitch = float(data.get("bump pitch", data.get("bump_pitch", 0.0)) or 0.0)
+    if bump_pitch < 0:
+        raise ValueError(f"JSON format error: bump pitch must be >= 0. File: {json_path}")
 
     if "chiplets" not in data or not isinstance(data["chiplets"], list):
         raise ValueError(f"JSON format error: must contain 'chiplets' list. File: {json_path}")
@@ -214,6 +217,8 @@ def load_emib_placement_json(
                 dimensions={"x": w_f, "y": h_f},
                 phys=[],
                 power=p_f,
+                original_dimensions={"x": w_f, "y": h_f},
+                bump_pitch=bump_pitch,
             )
         )
 
@@ -248,10 +253,20 @@ def load_emib_placement_json(
         try:
             w = float(row[2])
             emib_len = float(row[4])
-            max_width = float(row[5])
-            bump_width = float(row[6])
+            emib_width = float(row[5])
+            raw_bump_width = float(row[6])
         except (TypeError, ValueError) as e:
-            raise ValueError(f"Connection error: wireCount, EMIB_length, EMIB_max_width, EMIB_bump_width must be numeric. connections[{idx}]: {row}") from e
+            raise ValueError(f"Connection error: wireCount, EMIB_length, EMIB_width, EMIB_bump_width must be numeric. connections[{idx}]: {row}") from e
+        emib_available_width = emib_width - 2.0 * raw_bump_width
+        required_bump_pitch_space = bump_pitch
+        if bump_pitch and emib_available_width <= required_bump_pitch_space + 1e-9:
+            raise ValueError(
+                f"Connection error: EMIB_width - 2*EMIB_bump_width must be > bump pitch "
+                f"when bump pitch is non-zero. connections[{idx}]: "
+                f"{emib_width} - 2*{raw_bump_width} = {emib_available_width}, "
+                f"bump pitch={required_bump_pitch_space}"
+            )
+        bump_width = raw_bump_width + bump_pitch if bump_pitch else raw_bump_width
         ct = _emib_type_to_conn_type(emib_type)
         a, b = (s, t) if s <= t else (t, s)
         if a not in chiplet_names_set or b not in chiplet_names_set:
@@ -265,8 +280,7 @@ def load_emib_placement_json(
             "conn_type": ct,
             "EMIBType": emib_type,
             "EMIB_length": emib_len,
-            "EMIB_width": 2 * bump_width + max_width,
-            "EMIB_max_width": max_width,
+            "EMIB_width": emib_width,
             "EMIB_bump_width": bump_width,
         }
 
@@ -289,8 +303,8 @@ def print_emib_node_contents(
     for key, e in emib_node_dict.items():
         key_str = key_formatter(key) if key_formatter else str(key)
         print(f"{prefix}{key_str}: node1={e.node1}, node2={e.node2}, wireCount={e.wireCount}, "
-              f"EMIBType={e.EMIBType}, EMIB_length={e.EMIB_length}, EMIB_max_width={e.EMIB_max_width}, "
-              f"width={e.width}, height={e.height}, bump_width={e.EMIB_bump_width:.4f}")
+              f"EMIBType={e.EMIBType}, EMIB_length={e.EMIB_length}, width={e.width}, "
+              f"height={e.height}, bump_width={e.EMIB_bump_width:.4f}")
 # ---------------------------------------------------------------------------
 # EMIB post-process: bridge placement and wire distance
 # ---------------------------------------------------------------------------
@@ -432,7 +446,7 @@ def compute_emib_placement(
             "node1": str, "node2": str,
             "direction": "horizontal" | "vertical",
             "x_start": float, "y_start": float, "x_end": float, "y_end": float,
-            "emib_physical_dist": float,  # EMIB_max_width: actual distance between chiplets (left-right=j_left-i_right; up-down=j_below-i_above)
+            "emib_physical_dist": float,  # actual distance between chiplets (left-right=j_left-i_right; up-down=j_below-i_above)
             "shared_length": float,
             "emib_length_required": float,
             "emib_center": Tuple[float, float],  # optimal silicon bridge center point
@@ -489,13 +503,13 @@ def compute_emib_placement(
                 ok = False
                 warning = f"Shared length {shared_len:.4f} < EMIB_length {emib_len:.4f}"
             if z1L:
-                # Left-right adjacency: i on left, j on right. EMIB_max_width = j_left - i_right = xj - (xi+wi)
+                # Left-right adjacency: i on left, j on right. physical distance = j_left - i_right = xj - (xi+wi)
                 x_start = xi + wi
                 x_end = xj
                 emib_physical = xj - (xi + wi)
                 y_start, y_end = y_low, y_high
             elif z1R:
-                # Left-right adjacency: i on right, j on left. EMIB_max_width = i_left - j_right = xi - (xj+wj)
+                # Left-right adjacency: i on right, j on left. physical distance = i_left - j_right = xi - (xj+wj)
                 x_start = xj + wj
                 x_end = xi
                 emib_physical = xi - (xj + wj)
@@ -510,13 +524,13 @@ def compute_emib_placement(
                 ok = False
                 warning = f"Shared length {shared_len:.4f} < EMIB_length {emib_len:.4f}"
             if z2D:
-                # Up-down adjacency: i below, j above. EMIB_max_width = j_below - i_above = yj - (yi+hi)
+                # Up-down adjacency: i below, j above. physical distance = j_below - i_above = yj - (yi+hi)
                 y_start = yi + hi
                 y_end = yj
                 emib_physical = yj - (yi + hi)
                 x_start, x_end = x_low, x_high
             elif z2U:
-                # Up-down adjacency: i above, j below. EMIB_max_width = i_below - j_above = yi - (yj+hj)
+                # Up-down adjacency: i above, j below. physical distance = i_below - j_above = yi - (yj+hj)
                 y_start = yj + hj
                 y_end = yi
                 emib_physical = yi - (yj + hj)
@@ -813,19 +827,19 @@ def compute_emib_bottom_left(
     emib_center: Tuple[float, float],
     direction: str,
     emib_bump_width: float,
-    emib_max_width: float,
+    emib_physical_dist: float,
     emib_length: float,
 ) -> Tuple[float, float]:
     """
     Compute silicon bridge bottom-left (x, y) coordinates based on center point, placement orientation, and fixed parameters.
 
     Horizontal placement (chiplets side-by-side, not rotated):
-        x = center_x - EMIB_bump_width - EMIB_max_width/2
+        x = center_x - EMIB_bump_width - emib_physical_dist/2
         y = center_y - EMIB_length/2
 
     Vertical placement (chiplets stacked, rotated 90°):
         x = center_x - EMIB_length/2
-        y = center_y - EMIB_bump_width - EMIB_max_width/2
+        y = center_y - EMIB_bump_width - emib_physical_dist/2
 
     Parameters
     ----------
@@ -835,7 +849,7 @@ def compute_emib_bottom_left(
         Silicon bridge placement orientation
     emib_bump_width, emib_length : float
         Silicon bridge fixed design parameters
-    emib_max_width : float
+    emib_physical_dist : float
         Actual distance between chiplets (computed dynamically, from emib_physical_dist)
 
     Returns
@@ -845,14 +859,14 @@ def compute_emib_bottom_left(
     cx, cy = emib_center
     if direction == "horizontal":
         # Silicon bridge horizontal placement: bottom-left x = center_x - bump_width - max_width/2
-        x = cx - emib_bump_width - emib_max_width / 2
+        x = cx - emib_bump_width - emib_physical_dist / 2
         # Bottom-left y = center_y - length/2
         y = cy - emib_length / 2
     else:
         # Silicon bridge vertical placement (rotated): bottom-left x = center_x - length/2
         x = cx - emib_length / 2
         # Bottom-left y = center_y - bump_width - max_width/2
-        y = cy - emib_bump_width - emib_max_width / 2
+        y = cy - emib_bump_width - emib_physical_dist / 2
     return (x, y)
 
 def generate_placement_json_with_EMIB(
@@ -900,6 +914,27 @@ def generate_placement_json_with_EMIB(
     def _r3(v):
         return round(float(v or 0), 3)
 
+    def _chiplet_output_entry(node, x, y, w, h, rot, power):
+        entry = {
+            "name": node.name,
+            "x-position": _r3(x),
+            "y-position": _r3(y),
+            "width": _r3(w),
+            "height": _r3(h),
+            "rotation": rot,
+            "power": _r3(power),
+        }
+        bump_pitch = float(getattr(node, "bump_pitch", 0.0) or 0.0)
+        original_dims = getattr(node, "original_dimensions", None) or {}
+        if bump_pitch:
+            ow0 = float(original_dims.get("x", w) or 0.0)
+            oh0 = float(original_dims.get("y", h) or 0.0)
+            ow, oh = (oh0, ow0) if rot else (ow0, oh0)
+            entry["width"] = _r3(ow)
+            entry["height"] = _r3(oh)
+            entry["bump pitch"] = _r3(bump_pitch)
+        return entry
+
     layout = result.layout if hasattr(result, "layout") else {}
     rotations = result.rotations if hasattr(result, "rotations") else {}
     bbox = getattr(result, "bounding_box", (0, 0))
@@ -920,15 +955,7 @@ def generate_placement_json_with_EMIB(
         w, h = chiplet_dims[node.name]
         rot = 1 if rotations.get(node.name, False) else 0
         power = float(getattr(node, "power", 0) or 0)
-        chiplets_list.append({
-            "name": node.name,
-            "x-position": _r3(x),
-            "y-position": _r3(y),
-            "width": _r3(w),
-            "height": _r3(h),
-            "rotation": rot,
-            "power": _r3(power),
-        })
+        chiplets_list.append(_chiplet_output_entry(node, x, y, w, h, rot, power))
 
     connections_list = []
     emib_connected = getattr(ctx, "EMIB_connected_pairs", None) if ctx else None
@@ -946,12 +973,10 @@ def generate_placement_json_with_EMIB(
             a, b = (na, nb) if na <= nb else (nb, na)
             edge = edge_map.get((a, b), {})
             emib_bump_width = emib_bump_width_override if emib_bump_width_override is not None else float(edge.get("EMIB_bump_width", 0) or getattr(emib_node, "EMIB_bump_width", 0) or 0)
-            emib_max_width = float(edge.get("EMIB_max_width", getattr(emib_node, "EMIB_max_width", 0)) or 0)
             connections_list.append({
                 "node1": na, "node2": nb,
                 "EMIBType": edge.get("EMIBType", getattr(emib_node, "EMIBType", "interfaceB")),
                 "EMIB_length": _r3(eh),
-                "EMIB_max_width": _r3(emib_max_width),
                 "EMIB_width": _r3(ew),
                 "EMIB_bump_width": _r3(emib_bump_width),
                 "EMIB-x-position": _r3(ex),
@@ -967,12 +992,10 @@ def generate_placement_json_with_EMIB(
                 a, b = (na, nb) if na <= nb else (nb, na)
                 edge = edge_map.get((a, b), {})
                 emib_bump_width = emib_bump_width_override if emib_bump_width_override is not None else float(edge.get("EMIB_bump_width", 0) or 0)
-                emib_max_width = float(edge.get("EMIB_max_width", 0) or 0)
                 connections_list.append({
                     "node1": na, "node2": nb,
                     "EMIBType": edge.get("EMIBType", "interfaceB"),
                     "EMIB_length": _r3(emp.get("EMIB_length", 0)),
-                    "EMIB_max_width": _r3(emib_max_width),
                     "EMIB_width": _r3(emp.get("EMIB_width", 0)),
                     "EMIB_bump_width": _r3(emib_bump_width),
                     "EMIB-x-position": _r3(emp.get("EMIB-x-position", 0)),
@@ -1001,6 +1024,9 @@ def generate_placement_json_with_EMIB(
         "area": _r3(area),
         "aspect_ratio": _r3(aspect_ratio),
     }
+    bump_pitch = max(float(getattr(node, "bump_pitch", 0.0) or 0.0) for node in nodes) if nodes else 0.0
+    if bump_pitch:
+        placement_data["bump pitch"] = _r3(bump_pitch)
 
     out = Path(output_path)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -1019,9 +1045,9 @@ def generate_placement_json(
     emib_length_override: Optional[float] = None,
 ) -> dict:
     """
-    Extract layout data from ILP solution, compute EMIB_max_width dynamically, then compute silicon bridge bottom-left coordinates, and generate placement JSON.
+    Extract layout data from ILP solution, compute bridge physical distance dynamically, then compute silicon bridge bottom-left coordinates, and generate placement JSON.
 
-    Pipeline: EMIB_max_width computed dynamically (actual distance between chiplets) → determine silicon bridge orientation → compute bottom-left coordinates.
+    Pipeline: physical distance computed dynamically (actual distance between chiplets) → determine silicon bridge orientation → compute bottom-left coordinates.
     Output values with 3 decimal places.
 
     Parameters
@@ -1029,7 +1055,7 @@ def generate_placement_json(
     result : ILPPlacementResult
         Solution result (contains layout, rotations, bounding_box)
     post : dict
-        Return value of run_emib_post_process (contains emib_placements, where emib_physical_dist is EMIB_max_width)
+        Return value of run_emib_post_process (contains emib_placements with emib_physical_dist)
     nodes : list
         List of chiplets
     edge_map : dict
@@ -1049,6 +1075,27 @@ def generate_placement_json(
 
     def _r3(v):
         return round(float(v or 0), 3)
+
+    def _chiplet_output_entry(node, x, y, w, h, rot, power):
+        entry = {
+            "name": node.name,
+            "x-position": _r3(x),
+            "y-position": _r3(y),
+            "width": _r3(w),
+            "height": _r3(h),
+            "rotation": rot,
+            "power": _r3(power),
+        }
+        bump_pitch = float(getattr(node, "bump_pitch", 0.0) or 0.0)
+        original_dims = getattr(node, "original_dimensions", None) or {}
+        if bump_pitch:
+            ow0 = float(original_dims.get("x", w) or 0.0)
+            oh0 = float(original_dims.get("y", h) or 0.0)
+            ow, oh = (oh0, ow0) if rot else (ow0, oh0)
+            entry["width"] = _r3(ow)
+            entry["height"] = _r3(oh)
+            entry["bump pitch"] = _r3(bump_pitch)
+        return entry
 
     layout = result.layout if hasattr(result, "layout") else {}
     rotations = result.rotations if hasattr(result, "rotations") else {}
@@ -1070,15 +1117,7 @@ def generate_placement_json(
         w, h = chiplet_dims[node.name]
         rot = 1 if rotations.get(node.name, False) else 0
         power = float(getattr(node, "power", 0) or 0)
-        chiplets_list.append({
-            "name": node.name,
-            "x-position": _r3(x),
-            "y-position": _r3(y),
-            "width": _r3(w),
-            "height": _r3(h),
-            "rotation": rot,
-            "power": _r3(power),
-        })
+        chiplets_list.append(_chiplet_output_entry(node, x, y, w, h, rot, power))
 
     connections_list = []
     for emp in post.get("emib_placements", []):
@@ -1090,11 +1129,11 @@ def generate_placement_json(
         emib_bump_width = emib_bump_width_override if emib_bump_width_override is not None else float(edge.get("EMIB_bump_width", 0) or 0)
         emib_length = emib_length_override if emib_length_override is not None else float(edge.get("EMIB_length", 0) or 0)
 
-        # Step 1: Compute EMIB_max_width dynamically (actual distance between chiplets, not the difference of bottom-left coordinates)
+        # Step 1: Compute physical distance dynamically (actual distance between chiplets, not the difference of bottom-left coordinates)
         # From compute_emib_placement: left-right adjacency = j_left-i_right or i_left-j_right; up-down adjacency = j_below-i_above or i_below-j_above
-        emib_max_width = float(emp.get("emib_physical_dist", 0) or 0)
-        if emib_max_width < 0:
-            emib_max_width = 0.0
+        emib_physical_dist = float(emp.get("emib_physical_dist", 0) or 0)
+        if emib_physical_dist < 0:
+            emib_physical_dist = 0.0
 
         emib_center = emp.get("emib_center", (0, 0))
         direction = emp.get("direction", "horizontal")
@@ -1104,18 +1143,17 @@ def generate_placement_json(
             emib_center=emib_center,
             direction=direction,
             emib_bump_width=emib_bump_width,
-            emib_max_width=emib_max_width,
+            emib_physical_dist=emib_physical_dist,
             emib_length=emib_length,
         )
 
         emib_rotation = 0 if direction == "horizontal" else 1
-        emib_width = emib_max_width + 2 * emib_bump_width
+        emib_width = emib_physical_dist + 2 * emib_bump_width
         connections_list.append({
             "node1": n1,
             "node2": n2,
             "EMIBType": edge.get("EMIBType", "interfaceB"),
             "EMIB_length": _r3(emib_length),
-            "EMIB_max_width": _r3(emib_max_width),
             "EMIB_width": _r3(emib_width),
             "EMIB_bump_width": _r3(emib_bump_width),
             "EMIB-x-position": _r3(x_bl),
@@ -1144,6 +1182,9 @@ def generate_placement_json(
         "area": _r3(area),
         "aspect_ratio": _r3(aspect_ratio),
     }
+    bump_pitch = max(float(getattr(node, "bump_pitch", 0.0) or 0.0) for node in nodes) if nodes else 0.0
+    if bump_pitch:
+        placement_data["bump pitch"] = _r3(bump_pitch)
 
     out = Path(output_path)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -1177,7 +1218,7 @@ def build_emib_placements_from_ctx(ctx, nodes: List, edge_map: Dict) -> List[dic
         a, b = (na, nb) if na <= nb else (nb, na)
         edge = edge_map.get((a, b), {})
         bump = float(edge.get("EMIB_bump_width", 0) or getattr(emib_node, "EMIB_bump_width", 0) or 0)
-        emib_max_width = max(0.0, (ew if not er else eh) - 2 * bump)
+        emib_physical_dist = max(0.0, (ew if not er else eh) - 2 * bump)
         emib_len = float(edge.get("EMIB_length", 0) or getattr(emib_node, "EMIB_length", 0) or eh)
         cx, cy = ex + ew / 2, ey + eh / 2
         direction = "vertical" if er else "horizontal"
@@ -1188,7 +1229,7 @@ def build_emib_placements_from_ctx(ctx, nodes: List, edge_map: Dict) -> List[dic
             "node1": na, "node2": nb,
             "direction": direction,
             "x_start": ex, "y_start": ey, "x_end": ex + ew, "y_end": ey + eh,
-            "emib_physical_dist": emib_max_width,
+            "emib_physical_dist": emib_physical_dist,
             "shared_length": shared_len,
             "emib_center": (cx, cy),
             "ok": True, "warning": None,
@@ -1227,11 +1268,15 @@ def extract_layout_data_for_vis(
     """
     layout = result.layout if hasattr(result, "layout") else {}
     rotations = result.rotations if hasattr(result, "rotations") else {}
+    chiplet_layout = {}
     chiplet_dims = {}
     chiplet_power = {}
     for node in nodes:
-        w0 = float(node.dimensions.get("x", 0) or 0)
-        h0 = float(node.dimensions.get("y", 0) or 0)
+        x, y = layout.get(node.name, (0.0, 0.0))
+        chiplet_layout[node.name] = (float(x), float(y))
+        original_dims = getattr(node, "original_dimensions", None) or {}
+        w0 = float(original_dims.get("x", node.dimensions.get("x", 0)) or 0)
+        h0 = float(original_dims.get("y", node.dimensions.get("y", 0)) or 0)
         rot = rotations.get(node.name, False)
         chiplet_dims[node.name] = (h0, w0) if rot else (w0, h0)
         chiplet_power[node.name] = float(getattr(node, "power", 0) or 0)
@@ -1243,7 +1288,6 @@ def extract_layout_data_for_vis(
             "node1": a, "node2": b,
             "wireCount": v.get("wireCount", 0),
             "EMIB_length": v.get("EMIB_length", 0),
-            "EMIB_max_width": v.get("EMIB_max_width", 0),
         })
     if post is not None and post.get("emib_placements"):
         emib_placements = post["emib_placements"]
@@ -1252,7 +1296,7 @@ def extract_layout_data_for_vis(
     else:
         emib_placements = []
     return {
-        "chiplet_layout": dict(layout),
+        "chiplet_layout": chiplet_layout,
         "chiplet_dims": chiplet_dims,
         "chiplet_power": chiplet_power,
         "emib_placements": emib_placements,
@@ -1352,7 +1396,7 @@ def draw_emib_layout_diagram(
     emib_placements : List[dict]
         Silicon bridge position information
     emib_connections : List[dict]
-        Interconnection relationships (contains wireCount, EMIB_length, EMIB_max_width)
+        Interconnection relationships (contains wireCount, EMIB_length)
     title : str
         Figure title
     show_axes : bool
@@ -1384,7 +1428,7 @@ def draw_emib_layout_diagram(
     for emp, conn in zip(emib_placements, emib_connections):
         emib_id = emp["emib_id"]
         emib_len = float(conn.get("EMIB_length", 0) or emp.get("shared_length", 0))
-        emib_w = float(conn.get("EMIB_max_width", 0) or emp.get("emib_physical_dist", 0))
+        emib_w = float(emp.get("emib_physical_dist", 0))
         rect_info = compute_emib_rect_coords(emp, emib_length=emib_len, emib_width=emib_w)
         emib_rects_data.append(rect_info)
         if emib_id not in all_wire_paths:
@@ -1795,9 +1839,9 @@ def draw_chiplet_diagram(
         drawn_count += 1
         print(f"[DEBUG drawing] draw {node.name}: grid coords=({x_grid:.2f}, {y_grid:.2f}), actual coords=({origin_x:.2f}, {origin_y:.2f})")
 
-        # Get original dimensions
-        orig_w = float(node.dimensions.get("x", 0.0))
-        orig_h = float(node.dimensions.get("y", 0.0))
+        original_dims = getattr(node, "original_dimensions", None) or {}
+        orig_w = float(original_dims.get("x", node.dimensions.get("x", 0.0)) or 0.0)
+        orig_h = float(original_dims.get("y", node.dimensions.get("y", 0.0)) or 0.0)
 
         # Check if rotated
         is_rotated = False

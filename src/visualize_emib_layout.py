@@ -117,7 +117,7 @@ def run_visualization(
     min_w = min(float(n.dimensions.get("x", 0)) for n in nodes)
     min_h = min(float(n.dimensions.get("y", 0)) for n in nodes)
     for e in edges:
-        e["EMIB_max_width"] = min(e["EMIB_max_width"], min_w, min_h)
+        e["EMIB_width"] = min(float(e.get("EMIB_width", 0) or 0), min_w, min_h)
 
     ctx = build_placement_ilp_model(nodes=nodes, edges=edges, verbose=False)
     result = _solve_once_with_gap(ctx=ctx, nodes=nodes, gap=0, time_limit=120)

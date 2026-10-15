@@ -8,7 +8,7 @@
 通过 -t MIN MAX EMIBType 指定范围：wireCount 在 (MIN, MAX) 内（大于 MIN 且小于 MAX）的边标注为对应的 EMIBType。
 根据 EMIB.json 中对应接口的 LinearIODensity、max_Reach_length、AreaIODensity：
   - EMIB_length = wireCount / LinearIODensity
-  - EMIB_max_width = max_Reach_length - 2 * (wireCount / AreaIODensity) / EMIB_length
+  - EMIB_width = max_Reach_length
   - EMIB_bump_width = (wireCount / AreaIODensity) / EMIB_length
 """
 import argparse
@@ -39,11 +39,11 @@ def update_connections(
     emib_types: dict,
 ) -> bool:
     """
-    根据 wireCount 所在范围，更新每条连接的 EMIBType、EMIB_length、EMIB_max_width、EMIB_bump_width。
+    根据 wireCount 所在范围，更新每条连接的 EMIBType、EMIB_length、EMIB_width、EMIB_bump_width。
     ranges: [(min1, max1, type1), ...]，wireCount 满足 min < wireCount < max 时标注为对应 type。
     从 emib_types 中查找接口的 LinearIODensity、max_Reach_length、AreaIODensity：
       EMIB_length = wireCount / LinearIODensity
-      EMIB_max_width = max_Reach_length - 2 * (wireCount / AreaIODensity) / EMIB_length
+      EMIB_width = max_Reach_length
       EMIB_bump_width = (wireCount / AreaIODensity) / EMIB_length
     不在范围内则跳过，保持原样不改动。
     """
@@ -98,17 +98,16 @@ def update_connections(
         max_reach = iface['max_Reach_length']
         area_io_density = iface['AreaIODensity']
         emib_length = wire_count / linear_io if linear_io > 0 else 0.0
-        emib_max_width = max_reach - 2 * (wire_count / area_io_density) / emib_length if emib_length > 0 else max_reach
         emib_bump_width = (wire_count / area_io_density) / emib_length if emib_length > 0 and area_io_density > 0 else 0.0
 
-        # 在范围内，统一输出为对象格式，包含 EMIB_length、EMIB_max_width、EMIB_bump_width
+        # 在范围内，统一输出为对象格式，包含 EMIB_length、EMIB_width、EMIB_bump_width
         new_conn = {
             "node1": node1,
             "node2": node2,
             "wireCount": int(wire_count),
             "EMIBType": emib_type,
             "EMIB_length": round(emib_length, 4),
-            "EMIB_max_width": round(emib_max_width, 4),
+            "EMIB_width": round(max_reach, 4),
             "EMIB_bump_width": round(emib_bump_width, 4),
         }
         new_connections.append(new_conn)

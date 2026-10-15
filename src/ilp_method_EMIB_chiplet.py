@@ -31,10 +31,10 @@ import gurobipy as gp
 from gurobipy import GRB
 
 try:
-    from tool import ChipletNode, draw_chiplet_diagram, EMIBNode, print_emib_node_contents
+    from tool import ChipletNode, draw_chiplet_diagram, EMIBNode
     from ilp_model_analyzer import MemoryTracker, print_model_report, print_gurobi_log_extract
 except ImportError:
-    from .tool import ChipletNode, draw_chiplet_diagram, EMIBNode, print_emib_node_contents
+    from .tool import ChipletNode, draw_chiplet_diagram, EMIBNode
     from .ilp_model_analyzer import MemoryTracker, print_model_report, print_gurobi_log_extract
 
 
@@ -79,7 +79,7 @@ class ILPModelContext:
     - `r`     : rotation variable for each chiplet (0/1 for 0°/90°)
     - `z1, z2`: adjacency mode variables for each connected chiplet pair (horizontal / vertical)
     - `z1L, z1R, z2D, z2U`: relative-direction variables for each connected pair (left, right, down, up)
-    - `all_connected_pairs` : dict, key=(i,j) with i<j, value=edge dict {node1, node2, wireCount, EMIBType, EMIB_length, EMIB_max_width}
+    - `all_connected_pairs` : dict, key=(i,j) with i<j, value=edge dict {node1, node2, wireCount, EMIBType, EMIB_length, EMIB_width}
     - `bbox_w, bbox_h` : variables for bounding-box width and height
     - `W, H`  : upper bounds for bounding-box size (chosen at modeling time)
     - `fixed_chiplet_idx` : deprecated; fixed-chiplet constraint no longer used (kept for API compatibility)
@@ -422,6 +422,28 @@ def log_objective_breakdown(ctx: "ILPModelContext", model: gp.Model) -> None:
         print(f"[ERROR] Failed to log objective breakdown: {e}")
 
 
+def log_emib_solution_dimensions(ctx: "ILPModelContext", nodes: List["ChipletNode"]) -> None:
+    """Print solved EMIB bridge geometry from ILP variables."""
+    emib_pairs = ctx.EMIB_connected_pairs or {}
+    if not emib_pairs:
+        print("[EMIB] Solved bridge dimensions: none")
+        return
+
+    print("[EMIB] Solved bridge dimensions:")
+    print("  pair        nodes       r  x        y        w        h        json_width length")
+    for (i, j), emib_node in sorted(emib_pairs.items()):
+        x_val = float(ctx.EMIB_x_grid_var[(i, j)].X) if ctx.EMIB_x_grid_var and (i, j) in ctx.EMIB_x_grid_var else 0.0
+        y_val = float(ctx.EMIB_y_grid_var[(i, j)].X) if ctx.EMIB_y_grid_var and (i, j) in ctx.EMIB_y_grid_var else 0.0
+        w_val = float(ctx.EMIB_w_var[(i, j)].X) if ctx.EMIB_w_var and (i, j) in ctx.EMIB_w_var else float(emib_node.width)
+        h_val = float(ctx.EMIB_h_var[(i, j)].X) if ctx.EMIB_h_var and (i, j) in ctx.EMIB_h_var else float(emib_node.height)
+        r_val = int(round(float(ctx.r_EMIB[(i, j)].X))) if ctx.r_EMIB and (i, j) in ctx.r_EMIB else 0
+        print(
+            f"  ({i},{j})      {nodes[i].name}-{nodes[j].name}       {r_val}  "
+            f"{x_val:.4f}   {y_val:.4f}   {w_val:.4f}   {h_val:.4f}   "
+            f"{float(emib_node.width):.4f}     {float(emib_node.height):.4f}"
+        )
+
+
 def solve_placement_ilp_from_model(
     ctx: ILPModelContext,
     time_limit: int = 600,
@@ -564,6 +586,7 @@ def solve_placement_ilp_from_model(
             print(f"[EMIB] Optimization completed: {status_str}")
         if has_solution:
             log_objective_breakdown(ctx, model)
+            log_emib_solution_dimensions(ctx, nodes)
 
     
         layout: Dict[str, Tuple[float, float]] = {}
@@ -718,8 +741,8 @@ def build_placement_ilp_model(
             all_connected_pairs[(i, j)] = emib_node
     elif edges is not None:
         for edge in edges:
-            if not isinstance(edge, dict) or not all(k in edge for k in ("node1", "node2", "wireCount", "EMIBType", "EMIB_length", "EMIB_max_width", "EMIB_bump_width")):
-                raise ValueError(f"Invalid edge format: each edge must contain node1, node2, wireCount, EMIBType, EMIB_length, EMIB_max_width, EMIB_bump_width. Edge: {edge}")
+            if not isinstance(edge, dict) or not all(k in edge for k in ("node1", "node2", "wireCount", "EMIBType", "EMIB_length", "EMIB_bump_width")):
+                raise ValueError(f"Invalid edge format: each edge must contain node1, node2, wireCount, EMIBType, EMIB_length, EMIB_bump_width. Edge: {edge}")
             src_name = edge["node1"]
             dst_name = edge["node2"]
             if src_name not in name_to_idx or dst_name not in name_to_idx:
@@ -736,8 +759,7 @@ def build_placement_ilp_model(
                 EMIBType=str(edge.get("EMIBType", "") or ""),
                 EMIB_length=float(edge.get("EMIB_length", 0) or 0),
                 EMIB_bump_width=bump,
-                EMIB_max_width=float(edge.get("EMIB_max_width", 0) or 0),
-                width=2.0 * bump,
+                width=float(edge.get("EMIB_width", 2.0) or 2.0),
                 height=float(edge.get("EMIB_length", 0) or 0),
             )
     else:
@@ -749,10 +771,15 @@ def build_placement_ilp_model(
     }
 
     if verbose:
-        print_emib_node_contents(
-            all_connected_pairs,
-            key_formatter=lambda k: f"({nodes[k[0]].name},{nodes[k[1]].name})",
-        )
+        print("[EMIB] Bridge dimensions loaded from input:")
+        print("  pair        nodes       type        json_width length     bump_width active")
+        for (i, j), e in sorted(all_connected_pairs.items()):
+            active = "yes" if e.EMIBType != "interfaceC" else "no"
+            print(
+                f"  ({i},{j})      {nodes[i].name}-{nodes[j].name}       {e.EMIBType:<10} "
+                f"{float(e.width):.4f}     {float(e.height):.4f}     "
+                f"{float(e.EMIB_bump_width):.4f}     {active}"
+            )
 
     if W is None or H is None:
         total_area = sum(chiplet_w_orig_grid[i] * chiplet_h_orig_grid[i] for i in range(n))
@@ -765,11 +792,6 @@ def build_placement_ilp_model(
             H = estimated_side * 3
         print(f"Estimated W: {W}, H: {H}")
     
-    if verbose:
-        for (i, j), e in all_connected_pairs.items():
-            print(f"  ({i},{j}): [{e.node1}, {e.node2}, {e.wireCount}, {e.EMIBType}, {e.EMIB_length}, {e.EMIB_max_width}]")
-    
-
     model = gp.Model("ChipletPlacementGrid")
     
 
@@ -797,14 +819,23 @@ def build_placement_ilp_model(
  
     EMIB_w_var = {}
     EMIB_h_var = {}
+    emib_var_bounds = {}
     for (i, j), emib_node in EMIB_connected_pairs.items():
         w_min = min(emib_node.width, emib_node.height)
         w_max = max(emib_node.width, emib_node.height)
+        emib_var_bounds[(i, j)] = (w_min, w_max)
         EMIB_w_var[(i, j)] = model.addVar(name=f"EMIB_w_var_{i}_{j}", lb=w_min, ub=w_max, vtype=GRB.CONTINUOUS)
         EMIB_h_var[(i, j)] = model.addVar(name=f"EMIB_h_var_{i}_{j}", lb=w_min, ub=w_max, vtype=GRB.CONTINUOUS)
-    print(f"EMIB_w_var: {EMIB_w_var}")
-    print(f"EMIB_h_var: {EMIB_h_var}")
-    print(f"EMIB_connected_pairs: {EMIB_connected_pairs}")
+    if verbose:
+        print("[EMIB] Active bridge variable dimensions:")
+        print("  pair        nodes       json_width length     w_var_bounds       h_var_bounds")
+        for (i, j), emib_node in sorted(EMIB_connected_pairs.items()):
+            w_min, w_max = emib_var_bounds[(i, j)]
+            print(
+                f"  ({i},{j})      {nodes[i].name}-{nodes[j].name}       "
+                f"{float(emib_node.width):.4f}     {float(emib_node.height):.4f}     "
+                f"[{w_min:.4f}, {w_max:.4f}]   [{w_min:.4f}, {w_max:.4f}]"
+            )
 
 
     x_grid_var = {}
@@ -1054,6 +1085,9 @@ def build_placement_ilp_model(
 
 
     for i, j in all_pairs:
+        bump_gap = float(getattr(nodes[i], "bump_pitch", 0.0) or 0.0) + float(
+            getattr(nodes[j], "bump_pitch", 0.0) or 0.0
+        )
     
         model.addConstr(
             p_left[(i, j)] + p_right[(i, j)] + p_down[(i, j)] + p_up[(i, j)] >= 1,
@@ -1063,42 +1097,42 @@ def build_placement_ilp_model(
     
     
         model.addConstr(
-            x_grid_var[i] + w_var[i] - x_grid_var[j] <= M * (1 - p_left[(i, j)]),
+            x_grid_var[i] + w_var[i] + bump_gap - x_grid_var[j] <= M * (1 - p_left[(i, j)]),
             name=f"non_overlap_left_{i}_{j}"
         )
     
         model.addConstr(
-            x_grid_var[j] - (x_grid_var[i] + w_var[i]) <= M * p_left[(i, j)],
+            x_grid_var[j] - (x_grid_var[i] + w_var[i] + bump_gap) <= M * p_left[(i, j)],
             name=f"non_overlap_left_rev_{i}_{j}"
         )
         
     
         model.addConstr(
-            x_grid_var[j] + w_var[j] - x_grid_var[i] <= M * (1 - p_right[(i, j)]),
+            x_grid_var[j] + w_var[j] + bump_gap - x_grid_var[i] <= M * (1 - p_right[(i, j)]),
             name=f"non_overlap_right_{i}_{j}"
         )
         model.addConstr(
-            x_grid_var[i] - (x_grid_var[j] + w_var[j]) <= M * p_right[(i, j)],
+            x_grid_var[i] - (x_grid_var[j] + w_var[j] + bump_gap) <= M * p_right[(i, j)],
             name=f"non_overlap_right_rev_{i}_{j}"
         )
         
     
         model.addConstr(
-            y_grid_var[i] + h_var[i] - y_grid_var[j] <= M * (1 - p_down[(i, j)]),
+            y_grid_var[i] + h_var[i] + bump_gap - y_grid_var[j] <= M * (1 - p_down[(i, j)]),
             name=f"non_overlap_down_{i}_{j}"
         )
         model.addConstr(
-            y_grid_var[j] - (y_grid_var[i] + h_var[i]) <= M * p_down[(i, j)],
+            y_grid_var[j] - (y_grid_var[i] + h_var[i] + bump_gap) <= M * p_down[(i, j)],
             name=f"non_overlap_down_rev_{i}_{j}"
         )
         
     
         model.addConstr(
-            y_grid_var[j] + h_var[j] - y_grid_var[i] <= M * (1 - p_up[(i, j)]),
+            y_grid_var[j] + h_var[j] + bump_gap - y_grid_var[i] <= M * (1 - p_up[(i, j)]),
             name=f"non_overlap_up_{i}_{j}"
         )
         model.addConstr(
-            y_grid_var[i] - (y_grid_var[j] + h_var[j]) <= M * p_up[(i, j)],
+            y_grid_var[i] - (y_grid_var[j] + h_var[j] + bump_gap) <= M * p_up[(i, j)],
             name=f"non_overlap_up_rev_{i}_{j}"
         )
 

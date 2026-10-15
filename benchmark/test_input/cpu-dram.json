@@ -1,4 +1,5 @@
 {
+  "bump pitch": 0.2,
   "chiplets": [
     {
       "name": "A",
@@ -56,8 +57,8 @@
       "wireCount": 256,
       "EMIBType": "interfaceB",
       "EMIB_length": 0.8533,
-      "EMIB_max_width": 3.0,
-      "EMIB_bump_width": 1.0
+      "EMIB_bump_width": 1.0,
+      "EMIB_width": 2.5
     },
     {
       "node1": "A",
@@ -65,8 +66,8 @@
       "wireCount": 256,
       "EMIBType": "interfaceB",
       "EMIB_length": 0.8533,
-      "EMIB_max_width": 3.0,
-      "EMIB_bump_width": 1.0
+      "EMIB_bump_width": 1.0,
+      "EMIB_width": 2.5
     },
     {
       "node1": "A",
@@ -74,8 +75,8 @@
       "wireCount": 1024,
       "EMIBType": "interfaceB",
       "EMIB_length": 3.4133,
-      "EMIB_max_width": 3.0,
-      "EMIB_bump_width": 1.0
+      "EMIB_bump_width": 1.0,
+      "EMIB_width": 2.5
     },
     {
       "node1": "B",
@@ -83,8 +84,8 @@
       "wireCount": 256,
       "EMIBType": "interfaceB",
       "EMIB_length": 0.8533,
-      "EMIB_max_width": 3.0,
-      "EMIB_bump_width": 1.0
+      "EMIB_bump_width": 1.0,
+      "EMIB_width": 2.5
     },
     {
       "node1": "B",
@@ -92,8 +93,8 @@
       "wireCount": 1024,
       "EMIBType": "interfaceB",
       "EMIB_length": 3.4133,
-      "EMIB_max_width": 3.0,
-      "EMIB_bump_width": 1.0
+      "EMIB_bump_width": 1.0,
+      "EMIB_width": 2.5
     },
     {
       "node1": "C",
@@ -101,8 +102,8 @@
       "wireCount": 256,
       "EMIBType": "interfaceB",
       "EMIB_length": 0.8533,
-      "EMIB_max_width": 3.0,
-      "EMIB_bump_width": 1.0
+      "EMIB_bump_width": 1.0,
+      "EMIB_width": 2.5
     },
     {
       "node1": "C",
@@ -110,8 +111,8 @@
       "wireCount": 1024,
       "EMIBType": "interfaceB",
       "EMIB_length": 3.4133,
-      "EMIB_max_width": 3.0,
-      "EMIB_bump_width": 1.0
+      "EMIB_bump_width": 1.0,
+      "EMIB_width": 2.5
     },
     {
       "node1": "D",
@@ -119,8 +120,8 @@
       "wireCount": 1024,
       "EMIBType": "interfaceB",
       "EMIB_length": 3.4133,
-      "EMIB_max_width": 3.0,
-      "EMIB_bump_width": 1.0
+      "EMIB_bump_width": 1.0,
+      "EMIB_width": 2.5
     }
   ]
 }

@@ -47,7 +47,7 @@ def build_emib_node_dict(
     """
     Build EMIBNode dict from JSON connection info.
     key: (i, j) chiplet index pair, i < j
-    value: EMIBNode from JSON; width=2*EMIB_bump_width, height=EMIB_length
+    value: EMIBNode from JSON; width=EMIB_width, height=EMIB_length
     """
     emib_node_dict: Dict[Tuple[int, int], EMIBNode] = {}
     for (a, b), edge in edge_map.items():
@@ -60,6 +60,7 @@ def build_emib_node_dict(
             i, j = j, i
         bump_width = float(edge.get("EMIB_bump_width", 0) or 0)
         emib_length = float(edge.get("EMIB_length", 0) or 0)
+        emib_width = float(edge.get("EMIB_width", 2.0) or 2.0)
         emib_node_dict[(i, j)] = EMIBNode(
             node1=edge.get("node1", a),
             node2=edge.get("node2", b),
@@ -67,8 +68,7 @@ def build_emib_node_dict(
             EMIBType=str(edge.get("EMIBType", "") or ""),
             EMIB_length=emib_length,
             EMIB_bump_width=bump_width,
-            EMIB_max_width=float(edge.get("EMIB_max_width", 0) or 0),
-            width=2.0 * bump_width,
+            width=emib_width,
             height=emib_length,
         )
     return emib_node_dict

@@ -44,8 +44,8 @@
       "wireCount": 128,
       "EMIBType": "interfaceC",
       "EMIB_length": 3.2,
-      "EMIB_max_width": 99.0,
-      "EMIB_bump_width": 0.5
+      "EMIB_bump_width": 0.5,
+      "EMIB_width": 2
     },
     {
       "node1": "A",
@@ -53,8 +53,8 @@
       "wireCount": 128,
       "EMIBType": "interfaceC",
       "EMIB_length": 3.2,
-      "EMIB_max_width": 99.0,
-      "EMIB_bump_width": 0.5
+      "EMIB_bump_width": 0.5,
+      "EMIB_width": 2
     },
     {
       "node1": "A",
@@ -62,8 +62,8 @@
       "wireCount": 1024,
       "EMIBType": "interfaceB",
       "EMIB_length": 3.4133,
-      "EMIB_max_width": 3.0,
-      "EMIB_bump_width": 1.0
+      "EMIB_bump_width": 1.0,
+      "EMIB_width": 2
     },
     {
       "node1": "B",
@@ -71,8 +71,8 @@
       "wireCount": 128,
       "EMIBType": "interfaceC",
       "EMIB_length": 3.2,
-      "EMIB_max_width": 99.0,
-      "EMIB_bump_width": 0.5
+      "EMIB_bump_width": 0.5,
+      "EMIB_width": 2
     },
     {
       "node1": "B",
@@ -80,8 +80,8 @@
       "wireCount": 1024,
       "EMIBType": "interfaceB",
       "EMIB_length": 3.4133,
-      "EMIB_max_width": 3.0,
-      "EMIB_bump_width": 1.0
+      "EMIB_bump_width": 1.0,
+      "EMIB_width": 2
     },
     {
       "node1": "C",
@@ -89,8 +89,8 @@
       "wireCount": 1024,
       "EMIBType": "interfaceB",
       "EMIB_length": 3.4133,
-      "EMIB_max_width": 3.0,
-      "EMIB_bump_width": 1.0
+      "EMIB_bump_width": 1.0,
+      "EMIB_width": 2
     }
   ]
 }

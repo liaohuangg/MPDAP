@@ -113,6 +113,7 @@ def load_json_layout(json_path):
     with open(json_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
+    top_bump_pitch = float(data.get("bump pitch", data.get("bump_pitch", 0.0)) or 0.0)
     chiplets = []
     if 'chiplets' not in data:
         raise ValueError("No 'chiplets' field found in JSON")
@@ -123,11 +124,46 @@ def load_json_layout(json_path):
         y = float(chip['y-position'])
         w = float(chip['width'])
         h = float(chip['height'])
+        bump_pitch = float(chip.get("bump pitch", chip.get("bump_pitch", top_bump_pitch)) or 0.0)
         if w <= 0 or h <= 0:
             raise ValueError(f"Chiplet {name}: width/height must be >0, got w={w}, h={h}")
+        if bump_pitch:
+            original_w = float(chip.get('original_width', w))
+            original_h = float(chip.get('original_height', h))
+            if 'original_width' in chip or 'original_height' in chip:
+                envelope_x = x
+                envelope_y = y
+                envelope_w = w
+                envelope_h = h
+            else:
+                envelope_x = x - bump_pitch
+                envelope_y = y - bump_pitch
+                envelope_w = w + 2.0 * bump_pitch
+                envelope_h = h + 2.0 * bump_pitch
+        else:
+            original_w = w
+            original_h = h
+            envelope_x = x
+            envelope_y = y
+            envelope_w = w
+            envelope_h = h
+        if bump_pitch and (original_w <= 0 or original_h <= 0):
+            raise ValueError(
+                f"Chiplet {name}: original_width/original_height must be >0 when bump pitch is non-zero, "
+                f"got original_w={original_w}, original_h={original_h}, bump pitch={bump_pitch}"
+            )
         # if x < 0 or y < 0:
         
-        chiplets.append({'name': name, 'x': x, 'y': y, 'w': w, 'h': h})
+        chiplets.append({
+            'name': name,
+            'x': envelope_x,
+            'y': envelope_y,
+            'w': envelope_w,
+            'h': envelope_h,
+            'bump_pitch': bump_pitch,
+            'original_w': original_w,
+            'original_h': original_h,
+        })
     if not chiplets:
         raise ValueError("No valid chiplet data in JSON")
     return chiplets
@@ -157,7 +193,13 @@ def build_layout(chiplets):
         h = round_to_grid_mm(c['h'])
         w = max(w, MIN_DIMENSION_MM)
         h = max(h, MIN_DIMENSION_MM)
-        chiplets_grid.append({'name': c['name'], 'x': c['x'], 'y': c['y'], 'w': w, 'h': h})
+        aligned = c.copy()
+        aligned.update({'x': c['x'], 'y': c['y'], 'w': w, 'h': h})
+        if aligned.get('bump_pitch', 0.0):
+            aligned['bump_pitch'] = round_to_grid_mm(aligned['bump_pitch'])
+            aligned['original_w'] = max(round_to_grid_mm(aligned['original_w']), MIN_DIMENSION_MM)
+            aligned['original_h'] = max(round_to_grid_mm(aligned['original_h']), MIN_DIMENSION_MM)
+        chiplets_grid.append(aligned)
     chiplets = chiplets_grid
 
     min_x = min(c['x'] for c in chiplets)
@@ -185,7 +227,9 @@ def build_layout(chiplets):
             w, h = c['w'], c['h']
             x_aligned = round_to_grid_mm(max(0, min(x_aligned, side_mm - w)))
             y_aligned = round_to_grid_mm(max(0, min(y_aligned, side_mm - h)))
-            out.append({'name': c['name'], 'x': x_aligned, 'y': y_aligned, 'w': w, 'h': h})
+            placed = c.copy()
+            placed.update({'x': x_aligned, 'y': y_aligned, 'w': w, 'h': h})
+            out.append(placed)
         return out
 
     chiplet_list = place_once(longest_side)
@@ -198,6 +242,58 @@ def build_layout(chiplets):
         max_expand -= 1
 
     return chiplet_list, longest_side
+
+
+def split_bump_pitch_blocks(chiplet_list_mm):
+    """Split wrapped chiplet envelopes into original chiplet core plus four Ubump ring blocks."""
+    out = []
+    ubump_idx = 0
+    for chip in chiplet_list_mm:
+        pitch = round_to_grid_mm(chip.get('bump_pitch', 0.0) or 0.0)
+        if pitch <= 0:
+            out.append(chip)
+            continue
+
+        x = chip['x']
+        y = chip['y']
+        w = chip['w']
+        h = chip['h']
+        core_w = max(round_to_grid_mm(chip.get('original_w', w - 2.0 * pitch)), MIN_DIMENSION_MM)
+        core_h = max(round_to_grid_mm(chip.get('original_h', h - 2.0 * pitch)), MIN_DIMENSION_MM)
+        core_x = round_to_grid_mm(x + pitch)
+        core_y = round_to_grid_mm(y + pitch)
+        right_x = round_to_grid_mm(core_x + core_w)
+        top_y = round_to_grid_mm(core_y + core_h)
+        ring_span_w = round_to_grid_mm(core_w + pitch)
+        ring_span_h = round_to_grid_mm(core_h + pitch)
+
+        ring_rects = [
+            (x, y, ring_span_w, pitch),
+            (x, core_y, pitch, ring_span_h),
+            (right_x, y, pitch, ring_span_h),
+            (core_x, top_y, ring_span_w, pitch),
+        ]
+        for bx, by, bw, bh in ring_rects:
+            if bw >= MIN_DIMENSION_MM and bh >= MIN_DIMENSION_MM:
+                out.append({
+                    'name': f"Ubump_{ubump_idx}",
+                    'x': round_to_grid_mm(bx),
+                    'y': round_to_grid_mm(by),
+                    'w': round_to_grid_mm(bw),
+                    'h': round_to_grid_mm(bh),
+                    'specific_heat': 1.75E+06,
+                    'thermal_resistivity': 0.01,
+                })
+                ubump_idx += 1
+
+        out.append({
+            'name': chip['name'],
+            'x': core_x,
+            'y': core_y,
+            'w': core_w,
+            'h': core_h,
+        })
+    return out
 
 
 def _rects_overlap(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2):
@@ -631,7 +727,8 @@ def main(json_path, output_flp_path=None, output_ptrace_path=None):
     
 
     
-    chiplet_list_mm, square_side_mm = build_layout(chiplets)
+    chiplet_envelope_list_mm, square_side_mm = build_layout(chiplets)
+    chiplet_list_mm = split_bump_pitch_blocks(chiplet_envelope_list_mm)
     
     check_blocks_overlap(chiplet_list_mm)
 

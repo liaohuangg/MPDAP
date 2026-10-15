@@ -95,7 +95,7 @@ parameter_list=(
     # "5 6 0.1 1.5"
     # "5 6 0.1 1.4"
     # "5 6 0.1 1.3"
-    "5 6 0.1 0 false false --timeout 3600 --stage1 0.0 3600 --stage2 0.3 3600 --stage3 0.8"
+    "0 0 0 5 true true --timeout 300 --stage1 0.0 300 --stage2 0.3 300 --stage3 0.8"
     # "5 6 0.1 1.1"
     # "5 6 0.1 1"
     # "5 6 0.1 0.9"
