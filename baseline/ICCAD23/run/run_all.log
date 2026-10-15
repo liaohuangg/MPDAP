@@ -1,0 +1,162 @@
+=== STAGE 1 START Thu Oct 15 13:26:31 CST 2026 ===
+
+################################################################################
+Running selected cases
+################################################################################
+Benchmark dir: ../../../benchmark/test_input
+Result dir: ../result
+Cases to run (6):
+  - acend910
+  - cpu-dram
+  - hp6_m
+  - hp8_m
+  - multigpu
+  - syn1
+Excluded (1):
+  - EMIB: EMIB type config, no "chiplets" key (load_problem_from_json raises KeyError)
+Usage: python batch_test_overall_sa.py [case1] [case2] ...
+################################################################################
+
+Run settings:
+  Seeds per case: [0, 1, 2, 3, 4] (one SA run per seed)
+  Time limit per run: 3600 s (60.0 min)
+  Max SA iterations per run: 50000
+  Worst-case total: 6 cases × 5 runs × 3600s = 30.0 h
+
+
+
+################################################################################
+Progress: 1/6
+################################################################################
+
+================================================================================
+Test case: acend910
+Input file: ../../../benchmark/test_input/acend910.json
+Output dir: ../result/acend910
+Mode: 5 runs, seeds=[0, 1, 2, 3, 4], each capped at 3600s
+================================================================================
+
+✓ Loaded from ../../../benchmark/test_input/acend910.json: 6 chiplets, 4 EMIB connections (wireCount>255), 1 normal connections (wireCount<=255)
+Problem size: 6 chiplets, 4 connections
+
+
+────────────────────────────────────────────────────────────────────────────────
+Run #1/5 (seed=0, elapsed: 0.0 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 38 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 38 trees, 1938 total nodes
+
+Selected ECG 0 as root
+
+✓ BT tree built
+============================================================
+✓ Done: cost=78.011238, total run time 145.83s
+✓ Saved result to ../result/acend910/solution_1_cost_78.011238.json: 6 chiplets, 4 EMIB connections
+qt.qpa.plugin: Could not load the Qt platform plugin "wayland" in "/root/anaconda3/envs/chipdiffusion/lib/python3.10/site-packages/PySide6/Qt/plugins/platforms" even though it was found.
+
+✓ Layout visualization saved to: ../result/acend910/solution_1_cost_78.011238.png
+  - Number of chiplets: 6
+  - Number of connections: 4
+  - Layout dimensions: 30.0 x 41.9
+  - Layout area: 1257.0
+  ✓ Solution saved: solution_1_cost_78.011238.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #2/5 (seed=1, elapsed: 2.4 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 23 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 23 trees, 1173 total nodes
+
+Selected ECG 1 as root
+
+✓ BT tree built
+============================================================
+✓ Done: cost=78.011238, total run time 103.64s
+✓ Saved result to ../result/acend910/solution_2_cost_78.011238.json: 6 chiplets, 4 EMIB connections
+
+✓ Layout visualization saved to: ../result/acend910/solution_2_cost_78.011238.png
+  - Number of chiplets: 6
+  - Number of connections: 4
+  - Layout dimensions: 30.0 x 41.9
+  - Layout area: 1257.0
+  ✓ Solution saved: solution_2_cost_78.011238.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #3/5 (seed=2, elapsed: 4.2 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 52 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 52 trees, 2652 total nodes
+
+Selected ECG 0 as root
+
+✓ BT tree built
+============================================================
+✓ Done: cost=78.011238, total run time 219.67s
+✓ Saved result to ../result/acend910/solution_3_cost_78.011238.json: 6 chiplets, 4 EMIB connections
+
+✓ Layout visualization saved to: ../result/acend910/solution_3_cost_78.011238.png
+  - Number of chiplets: 6
+  - Number of connections: 4
+  - Layout dimensions: 30.0 x 41.9
+  - Layout area: 1257.0
+  ✓ Solution saved: solution_3_cost_78.011238.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #4/5 (seed=3, elapsed: 7.8 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 72 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 72 trees, 3672 total nodes
+
+Selected ECG 0 as root
+
+✓ BT tree built
+============================================================
+✓ Done: cost=78.011238, total run time 295.65s
+✓ Saved result to ../result/acend910/solution_4_cost_78.011238.json: 6 chiplets, 4 EMIB connections
+
+✓ Layout visualization saved to: ../result/acend910/solution_4_cost_78.011238.png
+  - Number of chiplets: 6
+  - Number of connections: 4
+  - Layout dimensions: 30.0 x 41.9
+  - Layout area: 1257.0
+  ✓ Solution saved: solution_4_cost_78.011238.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #5/5 (seed=4, elapsed: 12.8 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 47 root nodes generated
+    Running Group Construction...

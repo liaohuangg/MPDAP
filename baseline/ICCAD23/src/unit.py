@@ -534,14 +534,17 @@ def create_example_problem() -> LayoutProblem:
 def generate_color(chip_id: str):
     """Generate a deterministic color for a chip ID."""
     import random
-    # Deterministic seed from hash
-    random.seed(hash(chip_id))
-    
+    # Local RNG: `random.Random(chip_id)` derives its state from a sha512 of the
+    # string, so the color is identical across runs *and* processes (unlike
+    # `hash(chip_id)`, which PYTHONHASHSEED salts per process), and the global
+    # RNG stream that drives the solver is left untouched.
+    rng = random.Random(chip_id)
+
     # Keep colors reasonably bright
-    r = random.uniform(0.3, 0.9)
-    g = random.uniform(0.3, 0.9)
-    b = random.uniform(0.3, 0.9)
-    
+    r = rng.uniform(0.3, 0.9)
+    g = rng.uniform(0.3, 0.9)
+    b = rng.uniform(0.3, 0.9)
+
     return (r, g, b)
 
 
@@ -705,7 +708,7 @@ def visualize_layout_with_bridges(layout: Dict[str, Chiplet],
     plt.close()
 
 
-def save_layout_image(layout: Dict[str, Chiplet], 
+def save_layout_image(layout: Dict[str, Chiplet],
                      problem: LayoutProblem,
                      output_file: str,
                      show_bridges: bool = True,
@@ -718,6 +721,60 @@ def save_layout_image(layout: Dict[str, Chiplet],
         show_bridges=show_bridges,
         show_coordinates=show_coordinates
     )
+
+
+def save_convergence_curve(trace: List[Tuple[float, float, float]],
+                           output_file: str,
+                           title: str = "SA convergence",
+                           log_scale: bool = False) -> Optional[str]:
+    """Plot an SA convergence trace (cost vs annealing time) and save it as PNG.
+
+    Args:
+        trace: `(elapsed_seconds, current_cost, best_cost)` records, as
+            collected by `overall_sa(..., trace=...)`.
+        output_file: PNG path to write.
+        title: Figure title.
+        log_scale: Log-scale the cost axis (useful when the initial cost is
+            orders of magnitude above the final one).
+
+    Returns:
+        The output path, or None when `trace` is empty.
+
+    All figure text is English on purpose: this environment has no CJK font
+    installed for matplotlib, so Chinese labels would render as boxes.
+    """
+    if not trace:
+        return None
+
+    times = [t for t, _, _ in trace]
+    current = [c for _, c, _ in trace]
+    best = [b for _, _, b in trace]
+
+    fig, ax = plt.subplots(figsize=(7.5, 4.5), dpi=150)
+    ax.plot(times, current, color='#8c98a4', linewidth=0.8, alpha=0.75,
+            label='Current cost')
+    ax.plot(times, best, color='#c0392b', linewidth=1.8,
+            label='Best cost so far')
+
+    # `best` never increases, so the first index holding the final value is the
+    # moment that value was reached -- worth marking, it is what SA costs time for.
+    t_best = times[best.index(best[-1])]
+    ax.axvline(t_best, color='#c0392b', linewidth=0.8, linestyle=':', alpha=0.6)
+    ax.annotate(f"best={best[-1]:.6f} at {t_best:.2f}s",
+                xy=(0.98, 0.06), xycoords='axes fraction',
+                ha='right', va='bottom', fontsize=9, color='#c0392b')
+
+    ax.set_xlabel('Annealing time (s)')
+    ax.set_ylabel('Cost')
+    ax.set_title(title, fontsize=11)
+    if log_scale:
+        ax.set_yscale('log')
+    ax.grid(True, linestyle='--', alpha=0.3)
+    ax.legend(loc='upper right', fontsize=9)
+    fig.tight_layout()
+    fig.savefig(output_file, bbox_inches='tight')
+    plt.close(fig)
+    return output_file
 
 
 if __name__ == "__main__":

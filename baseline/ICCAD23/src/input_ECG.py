@@ -141,10 +141,13 @@ class ECGManager:
         
         sub_problem = LayoutProblem()
         
-        # Add chiplets
-        for chiplet_id in ecg.chiplets:
-            chiplet = self.problem.chiplets[chiplet_id]
-            sub_problem.add_chiplet(chiplet)
+        # Add chiplets, in the input problem's order. `ecg.chiplets` is a set,
+        # and iterating it directly depends on PYTHONHASHSEED, which would leak
+        # into the subproblem / TCG edge order and make runs irreproducible
+        # even with a fixed random seed.
+        for chiplet_id in self.problem.chiplets:
+            if chiplet_id in ecg.chiplets:
+                sub_problem.add_chiplet(self.problem.chiplets[chiplet_id])
         
         # Add internal edges
         for chip1_id, chip2_id in ecg.internal_connections:

@@ -26,6 +26,8 @@ from unit import (
     calculate_wirelength,
     calculate_layout_utilization,
     save_layout_image,
+    save_result,
+    save_convergence_curve,
 )
 from wirelength import calculate_manhattan_wirelength  # New wirelength computation module
 
@@ -660,7 +662,12 @@ def overall_sa(bt_tree: BinaryTree,
                op_weights: Optional[List[float]] = None,
                verbose: bool = True,
                save_best: bool = True,
-               output_dir: str = "../output/OverallSA"
+               output_dir: str = "../output/OverallSA",
+               time_limit: Optional[float] = None,
+               trace: Optional[List[Tuple[float, float, float]]] = None,
+               stats: Optional[Dict] = None,
+               early_stop: bool = False,
+               convergence_patience: Optional[int] = None
                ) -> Tuple[Dict[str, Chiplet], float, float]:
     """
     Overall SA optimization for global layout based on BT tree.
@@ -687,6 +694,32 @@ def overall_sa(bt_tree: BinaryTree,
         verbose: Print detailed logs
         save_best: Save best solution to files
         output_dir: Output directory
+        time_limit: Wall-clock cap for the whole run in seconds. Once reached,
+            the loop stops and the best solution found so far is returned.
+            None (default) means no time cap.
+        trace: Optional list to collect the convergence curve. When given, one
+            `(elapsed_seconds, current_cost, best_cost)` record is appended per
+            iteration, the first one before any move (so the curve starts at
+            the initial cost). `elapsed_seconds` is measured from the start of
+            the annealing loop, i.e. it excludes the BT tree build. The caller
+            owns the list; passing None (default) records nothing.
+        stats: Optional dict filled in with what this layer (layer 3, the only
+            one optimizing real quality A / WL / R) did: seconds, iterations
+            entered, initial cost, accepts/rejects, per-operation counts and
+            the time to the best solution.
+        early_stop: Run-terminating shortcut on temperature only. False
+            (default) means the temperature break is off; the run ends on
+            convergence (see below) or on `max_iterations`.
+        convergence_patience: Convergence criterion. The run stops as soon as
+            the best cost has not improved for this many consecutive
+            iterations -- the search is declared converged. `None` (default)
+            uses `max_iterations // 2`, i.e. half the iteration budget: a run
+            that spends its whole second half without touching the best
+            solution is converged by definition. This is deliberately much
+            longer than the old "no improvement for max(max_iter//5, 5000)"
+            rule, which cut runs short while they were still hot (~70% of
+            uphill moves accepted). Pass 0 to disable and always run the full
+            `max_iterations`.
 
     Returns:
         (best_layout, best_cost, best_found_time)
@@ -728,6 +761,8 @@ def overall_sa(bt_tree: BinaryTree,
     current_cost = compute_overall_cost(current_layout, problem,
                                         alpha, beta, gamma, target_ratio)
 
+    initial_cost = current_cost
+
     best_layout = copy.deepcopy(current_layout)
     best_cost = current_cost
     best_found_time = 0.0  # Time when best solution is found (relative)
@@ -750,10 +785,27 @@ def overall_sa(bt_tree: BinaryTree,
     op_success = [0] * 5
     op_total = [0] * 5
     no_improve_count = 0
+    iterations_run = 0
 
-    start_time = time.time()
+    # Convergence criterion: no best-cost improvement for half the budget.
+    patience = max_iterations // 2 if convergence_patience is None else convergence_patience
+    converged = False
+    stop_reason = f"iteration cap ({max_iterations})"
+
+    start_time = time.perf_counter()  # monotonic: immune to wall-clock jumps (WSL2 resync)
+
+    # First convergence point: the initial layout, at t = 0
+    if trace is not None:
+        trace.append((0.0, current_cost, best_cost))
 
     for iteration in range(max_iterations):
+        iterations_run += 1
+
+        # Counted at the top of every iteration (including ones whose move
+        # fails below), so this is exactly "iterations since the best cost last
+        # improved" -- the quantity the convergence criterion tests.
+        no_improve_count += 1
+
         # Save current state (efficiently; no deep-copy on forest)
         saved_state = _save_sa_state(bt_tree)
 
@@ -797,15 +849,17 @@ def overall_sa(bt_tree: BinaryTree,
             if current_cost < best_cost:
                 best_layout = copy.deepcopy(current_layout)
                 best_cost = current_cost
-                best_found_time = time.time() - start_time
+                best_found_time = time.perf_counter() - start_time
                 no_improve_count = 0
-            else:
-                no_improve_count += 1
         else:
             # Reject -> rollback
             _restore_sa_state(bt_tree, saved_state)
             reject_count += 1
-            no_improve_count += 1
+
+        # Convergence trace: annealing time vs cost (skips failed moves, the
+        # next iteration's record covers the gap)
+        if trace is not None:
+            trace.append((time.perf_counter() - start_time, current_cost, best_cost))
 
         # Cool down
         if iteration % 50 == 0 and iteration > 0:
@@ -813,7 +867,7 @@ def overall_sa(bt_tree: BinaryTree,
 
         # Periodic log
         if verbose and iteration % 2000 == 0 and iteration > 0:
-            elapsed = time.time() - start_time
+            elapsed = time.perf_counter() - start_time
             total_decisions = accept_count + reject_count
             acc_rate = accept_count / total_decisions if total_decisions > 0 else 0
             util, bbox_a, _, bw, bh = calculate_layout_utilization(best_layout)
@@ -824,17 +878,51 @@ def overall_sa(bt_tree: BinaryTree,
                   f"area={bbox_a:.0f} R={R_cur:.2f} util={util:.1f}% "
                   f"time={elapsed:.1f}s")
 
-        # Early stop: no improvement streak or low temperature
-        if no_improve_count > max(max_iterations // 5, 5000):
+        # Wall-clock cap: stop and keep the best solution found so far
+        if time_limit is not None and time.perf_counter() - start_time >= time_limit:
+            stop_reason = f"time limit ({time_limit:.0f}s)"
             if verbose:
-                print(f"  ⏹ No improvement for {no_improve_count} iterations, early stop")
+                print(f"  ⏹ Time limit {time_limit:.0f}s reached at iteration "
+                      f"{iteration + 1}, stop (best kept)")
             break
-        if temp < min_temp:
+
+        # Convergence: the best cost has not moved for `patience` iterations.
+        if patience > 0 and no_improve_count >= patience:
+            converged = True
+            stop_reason = (f"converged (best cost unchanged for "
+                           f"{no_improve_count} iterations, patience={patience})")
+            if verbose:
+                print(f"  ⏹ Converged at iteration {iteration + 1}: best cost "
+                      f"{best_cost:.4f} unchanged for {no_improve_count} iterations, stop")
+            break
+
+        # Legacy temperature shortcut (off by default)
+        if early_stop and temp < min_temp:
+            stop_reason = f"temperature ({temp:.2e} < {min_temp})"
             if verbose:
                 print(f"  ⏹ Temperature dropped to {temp:.2e} < {min_temp}, stop")
             break
 
-    elapsed_total = time.time() - start_time
+    elapsed_total = time.perf_counter() - start_time
+
+    # Layer-3 bookkeeping for the caller. This is the only layer that looks at
+    # real quality; the two build-time layers never see A / WL / R.
+    if stats is not None:
+        stats.update({
+            'seconds': elapsed_total,
+            'iterations': iterations_run,
+            'initial_cost': initial_cost,
+            'accept': accept_count,
+            'reject': reject_count,
+            'op_attempts': list(op_total),
+            'op_success': list(op_success),
+            'best_found_time': best_found_time,
+            'best_cost': best_cost,
+            'converged': converged,
+            'stop_reason': stop_reason,
+            'patience': patience,
+            'seconds_to_best': best_found_time,
+        })
 
     # ---- Summary ----
     if verbose:
@@ -842,6 +930,8 @@ def overall_sa(bt_tree: BinaryTree,
         print("Overall SA Complete")
         print("=" * 80)
         print(f"Iterations: {iteration + 1}, elapsed: {elapsed_total:.2f}s")
+        print(f"Stop reason: {stop_reason}"
+              + ("  → CONVERGED" if converged else "  → budget exhausted"))
         total_d = accept_count + reject_count
         print(f"Accepted: {accept_count}, Rejected: {reject_count}, "
               f"Acceptance rate: {accept_count / total_d:.1%}" if total_d > 0 else "")
@@ -894,6 +984,74 @@ def overall_sa(bt_tree: BinaryTree,
 # Main entry
 # ============================================================================
 
+def format_layer_timing(bt_tree: Optional[BinaryTree] = None,
+                        layer1_seconds: float = 0.0,
+                        layer2_seconds: float = 0.0,
+                        layer3_seconds: float = 0.0,
+                        layer1_stats: Optional[Dict] = None,
+                        layer2_stats: Optional[Dict] = None,
+                        layer3_stats: Optional[Dict] = None,
+                        total_seconds: Optional[float] = None) -> List[str]:
+    """Render the three-annealing-layer time split as printable lines.
+
+    The pipeline is three SAs stacked on top of each other, each with its own
+    objective, so their costs add up along one wall clock:
+
+      layer 1  legality only          Pc / Pl          (base derivation)
+      layer 2  shape + similarity     Px / Py / Ps     (group construction)
+      layer 3  real quality           A / WL / R       (main SA)
+
+    Layers 1 and 2 run once, at build time; layer 3 is the main annealing.
+    `total_seconds` defaults to the sum of the three layers.
+    """
+    layer1_stats = layer1_stats or {}
+    layer2_stats = layer2_stats or {}
+    layer3_stats = layer3_stats or {}
+    if bt_tree is not None:
+        build = bt_tree.get_build_timing()
+        layer1_seconds = build['layer1_seconds']
+        layer2_seconds = build['layer2_seconds']
+        layer1_stats = layer1_stats or build['layer1_stats']
+        layer2_stats = layer2_stats or build['layer2_stats']
+
+    if total_seconds is None:
+        total_seconds = layer1_seconds + layer2_seconds + layer3_seconds
+    total_seconds = max(total_seconds, 1e-9)
+
+    def pct(seconds):
+        return seconds / total_seconds * 100.0
+
+    d1 = (f"{layer1_stats.get('runs', 0)} 次 base derivation "
+          f"(其中 {layer1_stats.get('sa_runs', 0)} 次进入合法性 SA_1, "
+          f"{layer1_stats.get('already_legal_runs', 0)} 次初始即合法) -> "
+          f"{layer1_stats.get('legal_solutions', 0)} 个合法解 / "
+          f"{layer1_stats.get('root_nodes', 0)} 个根节点")
+    d2 = (f"{layer2_stats.get('trees', 0)} 棵树, {layer2_stats.get('sa_calls', 0)} 次邻居 SA "
+          f"({layer2_stats.get('sa_iterations', 0)} 次迭代), "
+          f"{layer2_stats.get('candidates', 0)} 个候选, 森林 {layer2_stats.get('forest_nodes', 0)} 个节点")
+    d3 = (f"{layer3_stats.get('iterations', 0)} 次迭代, 接受 {layer3_stats.get('accept', 0)} / "
+          f"拒绝 {layer3_stats.get('reject', 0)}")
+    if 'best_found_time' in layer3_stats:
+        d3 += (f", 最优解出现在 {layer3_stats['best_found_time']:.2f} s "
+               f"(cost {layer3_stats.get('initial_cost', float('nan')):.4f} -> "
+               f"{layer3_stats.get('best_cost', float('nan')):.4f})")
+    if 'stop_reason' in layer3_stats:
+        verdict = "已收敛" if layer3_stats.get('converged') else "未收敛(迭代用尽)"
+        d3 += f", {verdict}: {layer3_stats['stop_reason']}"
+
+    lines = [
+        "算法分段耗时 (三段退火各自的目标不同, 时间沿同一条墙钟累加):",
+        f"  层1 合法性       Pc/Pl      : {layer1_seconds:8.2f} s ({pct(layer1_seconds):5.1f}%)  {d1}",
+        f"  层2 形状+相似度  Px/Py/Ps   : {layer2_seconds:8.2f} s ({pct(layer2_seconds):5.1f}%)  {d2}",
+        f"  层3 真实质量     A/WL/R     : {layer3_seconds:8.2f} s ({pct(layer3_seconds):5.1f}%)  {d3}",
+        f"  {'-'*62}",
+        f"  建树合计 (层1+层2)         : {layer1_seconds + layer2_seconds:8.2f} s "
+        f"({pct(layer1_seconds + layer2_seconds):5.1f}%)",
+        f"  整轮合计 (层1+层2+层3)     : {total_seconds:8.2f} s (100.0%)",
+    ]
+    return lines
+
+
 def run_single_case(json_path: str,
                     max_iterations: int = 30000,
                     initial_temp: float = 500.0,
@@ -931,14 +1089,21 @@ def run_single_case(json_path: str,
     ecg_manager = ECGManager(problem)
     ecg_manager.print_summary()
 
-    # 3. Build BT tree
+    # 3. Build BT tree (this is usually the bulk of the wall clock)
+    tree_build_start = time.time()
     bt_tree = BinaryTree()
     bt_tree.build_from_ecgs(ecg_manager,
                             build_similarity_forests=build_similarity,
                             seed=seed)
+    tree_build_time = time.time() - tree_build_start
     bt_tree.print_tree_structure()
+    print(f"BT tree built in {tree_build_time:.2f}s "
+          f"({bt_tree.build_count} build(s))")
 
-    # 4. Run Overall SA
+    # 4. Run Overall SA (collecting the cost convergence trace)
+    trace = []
+    sa_stats: Dict = {}
+    sa_start = time.time()
     best_layout, best_cost, best_found_time = overall_sa(
         bt_tree=bt_tree,
         ecg_manager=ecg_manager,
@@ -951,11 +1116,37 @@ def run_single_case(json_path: str,
         gamma=gamma,
         target_ratio=target_ratio,
         verbose=verbose,
-        save_best=True,
+        save_best=False,  # Saved below, under seed-tagged names
         output_dir=output_dir,
+        trace=trace,
+        stats=sa_stats,
     )
+    sa_seconds = time.time() - sa_start
 
-    print(f"\nCase [{case_name}] done: cost={best_cost:.4f}, time_to_best={best_found_time:.2f}s, chiplets={len(best_layout)}")
+    # 5. Save layout JSON + image + convergence curve, every name tagged `_seedNN`
+    os.makedirs(output_dir, exist_ok=True)
+    tag = f"seed{seed:02d}" if seed is not None else "seedNA"
+    json_path = os.path.join(output_dir, f"solution_{tag}_cost_{best_cost:.6f}.json")
+    save_result(best_layout, json_path, problem)
+    img_path = os.path.join(output_dir, f"solution_{tag}_cost_{best_cost:.6f}.png")
+    save_layout_image(best_layout, problem, img_path,
+                      show_bridges=True, show_coordinates=False)
+    curve_path = os.path.join(output_dir, f"convergence_{tag}.png")
+    save_convergence_curve(
+        trace, curve_path,
+        title=f"{case_name}: cost vs annealing time (seed={seed})")
+    print(f"  JSON: {json_path}")
+    print(f"  Image: {img_path}")
+    print(f"  Convergence curve: {curve_path}")
+
+    run_s = time.time() - tree_build_start
+    print(f"\nCase [{case_name}] done: cost={best_cost:.4f}, "
+          f"time_to_best={best_found_time:.2f}s, chiplets={len(best_layout)}")
+    print(f"  tree build: {tree_build_time:.2f}s ({bt_tree.build_count} build(s)), "
+          f"annealing: {sa_seconds:.2f}s")
+    for line in format_layer_timing(bt_tree, layer3_seconds=sa_seconds,
+                                    layer3_stats=sa_stats, total_seconds=run_s):
+        print(line)
     print(f"Results saved in: {output_dir}/")
     return best_layout, best_cost, best_found_time
 

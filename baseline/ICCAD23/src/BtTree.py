@@ -8,6 +8,7 @@ Organizes and manages ECGs (Embedded Circuit Groups) in binary tree structure.
 """
 
 import random
+import time
 from typing import List, Optional, Dict
 from input_ECG import ECG, ECGManager
 from chiplet_model import LayoutProblem
@@ -18,65 +19,119 @@ from BaseDerivation import run_base_derivation
 class BTNode:
     """
     BT tree node representing an ECG.
-    
+
     Attributes:
         ecg: ECG object
         is_single_chiplet: Whether this is a single-chip ECG
         similarity_forest: Similarity forest (multi-chip ECGs only)
         left_child, right_child: Child nodes
         node_id: Unique node identifier
+        timing: Seconds spent building this node's forest, per layer
+        phase_stats: Counters of those same layers
     """
-    
+
     _node_counter = 0  # Class variable for unique ID generation
-    
-    def __init__(self, ecg: ECG, problem: LayoutProblem, 
-                 build_similarity_forest: bool = True):
+
+    def __init__(self, ecg: ECG, problem: LayoutProblem,
+                 build_similarity_forest: bool = True,
+                 seed: Optional[int] = None,
+                 timing_sink: Optional[Dict[str, float]] = None,
+                 stats_sink: Optional[Dict] = None):
         """
         Initialize BT tree node.
-        
+
         Args:
             ecg: ECG object
             problem: Layout problem (for multi-chip ECGs)
             build_similarity_forest: Whether to build similarity forest
+            seed: Seed for this node's similarity forest. None continues the
+                caller's RNG stream instead of reseeding.
+            timing_sink: Optional dict owned by the caller. Each layer adds its
+                seconds to `<layer>_seconds` here as soon as it is done, so the
+                cost of a layer survives even if a later step fails hard.
+            stats_sink: Optional dict owned by the caller, filled per layer
+                with `<layer>_stats` (runs, candidates, iterations, ...).
         """
         self.ecg = ecg
         self.is_single_chiplet = len(ecg.chiplets) == 1
         self.similarity_forest: Optional[SimilarityTree] = None
         self.left_child: Optional[BTNode] = None
         self.right_child: Optional[BTNode] = None
-        
+
+        # Per-node breakdown of the build-time annealing layers:
+        #   layer 1 = base derivation      (legality only: Pc / Pl)
+        #   layer 2 = group construction   (shape + similarity: Px / Py / Ps)
+        # Both stay 0.0 for a single-chiplet ECG, which needs no forest.
+        # Layer 3 (real quality: A / WL / R) is the main SA and runs later, so
+        # it is measured by the caller, not here.
+        self.timing: Dict[str, float] = {'layer1': 0.0, 'layer2': 0.0}
+        self.phase_stats: Dict[str, Dict] = {}
+        self._timing_sink = timing_sink
+        self._stats_sink = stats_sink
+
         # Assign unique ID
         BTNode._node_counter += 1
         self.node_id = BTNode._node_counter
-        
+
         # Build similarity forest for multi-chip ECGs
         if not self.is_single_chiplet and build_similarity_forest:
-            self._build_similarity_forest(problem)
-    
-    def _build_similarity_forest(self, problem: LayoutProblem):
+            self._build_similarity_forest(problem, seed=seed)
+
+    def _record_layer(self, layer: str, seconds: float, stats: Dict):
+        """Store one layer's wall clock + counters, and forward them to the sink.
+
+        The sink belongs to the tree, so the seconds are already safely out of
+        this node by the time the next layer can raise.
+        """
+        self.timing[layer] = seconds
+        self.phase_stats[layer] = stats
+        if self._timing_sink is not None:
+            key = f'{layer}_seconds'
+            self._timing_sink[key] = self._timing_sink.get(key, 0.0) + seconds
+        if self._stats_sink is not None:
+            merged = self._stats_sink.setdefault(f'{layer}_stats', {})
+            for name, value in stats.items():
+                if isinstance(value, (int, float)) and not isinstance(value, bool):
+                    merged[name] = merged.get(name, 0) + value
+                else:
+                    merged.setdefault(name, value)
+
+    def _build_similarity_forest(self, problem: LayoutProblem,
+                                 seed: Optional[int] = None):
         """
         Build similarity forest for multi-chip ECG.
-        
+
         Process:
         1. Base derivation generates root nodes
         2. GroupConstrua_full builds complete similarity trees
-        
+
         Args:
             problem: Layout problem for this ECG
+            seed: Seed handed to `run_base_derivation` (None = continue the
+                caller's RNG stream)
         """
         try:
             print(f"  Building similarity forest for ECG {self.ecg.id}...")
             
-            # Step 1: Base derivation - generate root nodes
+            # Step 1: Base derivation - generate root nodes (layer 1)
             print(f"    Running base derivation...")
-            root_nodes = run_base_derivation(
-                problem=problem,
-                num_runs=30,  # Run 30 SA iterations for diverse root nodes
-                min_similarity=0.7,
-                max_iterations=5000,
-                verbose=False
-            )
-            
+            layer1_stats: Dict = {}
+            layer1_start = time.time()
+            try:
+                root_nodes = run_base_derivation(
+                    problem=problem,
+                    num_runs=30,  # Run 30 SA iterations for diverse root nodes
+                    min_similarity=0.7,
+                    max_iterations=5000,
+                    verbose=False,
+                    seed=seed,
+                    stats=layer1_stats
+                )
+            finally:
+                # Timed in `finally` on purpose: a derivation that finds nothing
+                # is exactly the case whose layer-1 cost must reach the log.
+                self._record_layer('layer1', time.time() - layer1_start, layer1_stats)
+
             if len(root_nodes) == 0:
                 error_msg = f"Base derivation failed for ECG {self.ecg.id}, cannot build forest"
                 print(f"    ✗ {error_msg}")
@@ -85,27 +140,34 @@ class BTNode:
             
             print(f"    Base derivation complete, {len(root_nodes)} root nodes generated")
             
-            # Step 2: Build forest using GroupConstrua_full
+            # Step 2: Build forest using GroupConstrua_full (layer 2)
             print(f"    Running Group Construction...")
-            similarity_trees = GroupConstrua_full(
-                root_nodes=root_nodes,
-                problem=problem,
-                num_topologies_to_generate=50,
-                children_per_node=2,
-                max_iterations_sa=2000,
-                alpha_x=1.0,
-                beta_y=0.7,
-                gamma_s=1.0,
-                expected_similarity=0.6,
-                verbose=False
-            )
-            
+            layer2_stats: Dict = {}
+            layer2_start = time.time()
+            try:
+                similarity_trees = GroupConstrua_full(
+                    root_nodes=root_nodes,
+                    problem=problem,
+                    num_topologies_to_generate=50,
+                    children_per_node=2,
+                    max_iterations_sa=2000,
+                    alpha_x=1.0,
+                    beta_y=0.7,
+                    gamma_s=1.0,
+                    expected_similarity=0.6,
+                    verbose=False,
+                    stats=layer2_stats
+                )
+            finally:
+                self._record_layer('layer2', time.time() - layer2_start, layer2_stats)
+
             # Save all generated trees as forest (list of trees)
             self.similarity_forest = similarity_trees
             
             # Statistics
             total_nodes = sum(len(tree.all_nodes) for tree in similarity_trees)
-            print(f"    ✓ Forest built: {len(similarity_trees)} trees, {total_nodes} total nodes")
+            print(f"    ✓ Forest built: {len(similarity_trees)} trees, {total_nodes} total nodes "
+                  f"(layer 1 {self.timing['layer1']:.2f}s, layer 2 {self.timing['layer2']:.2f}s)")
         
         except RuntimeError as e:
             # Base derivation failure - re-raise to terminate
@@ -160,6 +222,17 @@ class BinaryTree:
         """Initialize BT tree."""
         self.root: Optional[BTNode] = None
         self.all_nodes: List[BTNode] = []
+        # How many times this tree has been built. A caller logs it after the SA
+        # run: it is 1 for a normal run, and still being 1 then is the evidence
+        # that annealing perturbs the tree but never rebuilds it.
+        self.build_count: int = 0
+        # Build-time layers, summed over every ECG node (see BTNode.timing):
+        #   layer1_seconds: base derivation   -- legality only (Pc / Pl)
+        #   layer2_seconds: group construction -- shape + similarity (Px/Py/Ps)
+        # Layer 3 (A / WL / R) is the main SA and is timed by the caller.
+        self.timing: Dict[str, float] = {'layer1_seconds': 0.0, 'layer2_seconds': 0.0}
+        # Counters of both layers, summed the same way.
+        self.phase_stats: Dict[str, Dict] = {}
     
     def build_from_ecgs(self, ecg_manager: ECGManager, 
                        build_similarity_forests: bool = True,
@@ -177,9 +250,13 @@ class BinaryTree:
             build_similarity_forests: Whether to build forests for multi-chip ECGs
             seed: Random seed
         """
+        self.build_count += 1
+        self.timing = {'layer1_seconds': 0.0, 'layer2_seconds': 0.0}
+        self.phase_stats = {}
+
         if seed is not None:
             random.seed(seed)
-        
+
         ecg_list = ecg_manager.ecgs
         
         if len(ecg_list) == 0:
@@ -190,11 +267,19 @@ class BinaryTree:
         print("Building BT Tree")
         print("="*60)
         
-        # Create node for each ECG
+        # Create node for each ECG. The similarity forests are built right
+        # here, so each ECG gets its own stream derived from the master seed:
+        # reproducible from `seed` alone, and not shared between ECGs (or
+        # between different master seeds).
+        seed_rng = random.Random(seed) if seed is not None else None
         ecg_nodes = []
         for ecg in ecg_list:
             sub_problem = ecg_manager.get_ecg_subproblem(ecg.id)
-            node = BTNode(ecg, sub_problem, build_similarity_forests)
+            node_seed = seed_rng.randrange(1 << 31) if seed_rng is not None else None
+            # Both sinks live on the tree, so the seconds each layer burned are
+            # recorded even when a hard failure below kills the run.
+            node = BTNode(ecg, sub_problem, build_similarity_forests, seed=node_seed,
+                          timing_sink=self.timing, stats_sink=self.phase_stats)
             ecg_nodes.append(node)
             self.all_nodes.append(node)
         
@@ -211,6 +296,24 @@ class BinaryTree:
         print("\n✓ BT tree built")
         print("="*60)
     
+    def get_build_timing(self) -> Dict:
+        """Build-time layer split of the forest construction (seconds + counters).
+
+        Layer 1 (base derivation) optimizes legality only; layer 2 (group
+        construction) optimizes shape + similarity only. The caller adds the
+        third layer (the main SA: area / wirelength / ratio) from its own clock.
+        """
+        layer1 = self.timing.get('layer1_seconds', 0.0)
+        layer2 = self.timing.get('layer2_seconds', 0.0)
+        return {
+            'layer1_seconds': layer1,
+            'layer2_seconds': layer2,
+            'build_seconds': layer1 + layer2,
+            'build_count': self.build_count,
+            'layer1_stats': self.phase_stats.get('layer1_stats', {}),
+            'layer2_stats': self.phase_stats.get('layer2_stats', {}),
+        }
+
     def _build_tree_recursive(self, parent: BTNode, remaining: List[BTNode]):
         """
         Recursively build binary tree.

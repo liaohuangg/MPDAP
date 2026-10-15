@@ -202,16 +202,20 @@ def creat_tcg_ch(directed_mst_edges: List[Tuple[str, str]]) -> List[Tuple[str, s
     Returns:
         Directed edges including MST and transitive closure.
     """
-    # Start from original MST edges
-    all_edges = set(directed_mst_edges)
-    
+    # Start from original MST edges. Keep the insertion order explicit (rather
+    # than iterating a set at the end): set iteration order depends on
+    # PYTHONHASHSEED, which would make the TCG edge order — and therefore the
+    # whole layout — differ between processes even with the same seed.
+    all_edges = list(dict.fromkeys(directed_mst_edges))
+    seen = set(all_edges)
+
     # Build directed graph for ancestor checks
     graph = nx.DiGraph()
     graph.add_edges_from(directed_mst_edges)
-    
+
     # Get all nodes
     all_nodes = list(graph.nodes())
-    
+
     # Add edge ni -> nj if ni can reach nj
     for ni in all_nodes:
         for nj in all_nodes:
@@ -219,9 +223,11 @@ def creat_tcg_ch(directed_mst_edges: List[Tuple[str, str]]) -> List[Tuple[str, s
                 # Check if there is a path from ni to nj
                 if nx.has_path(graph, ni, nj):
                     # Add transitive edge
-                    all_edges.add((ni, nj))
-    
-    return list(all_edges)
+                    if (ni, nj) not in seen:
+                        seen.add((ni, nj))
+                        all_edges.append((ni, nj))
+
+    return all_edges
 
 
 def creat_tcg_cv(chip_ids: List[str], ch_graph: nx.DiGraph) -> List[Tuple[str, str]]:

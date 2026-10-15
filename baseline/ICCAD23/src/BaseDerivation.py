@@ -2,7 +2,7 @@ import sys
 import os
 import random
 import time
-from typing import List, Dict, Tuple
+from typing import List, Dict, Optional, Tuple
 
 from unit import load_problem_from_json, calculate_layout_utilization
 from Generate_initial_TCG import generate_initial_TCG
@@ -12,7 +12,7 @@ from GroupConstrua import SimilarityTreeNode, compute_similarity
 from chiplet_model import Chiplet, LayoutProblem
 
 
-def run_base_derivation(problem: LayoutProblem, 
+def run_base_derivation(problem: LayoutProblem,
                         num_runs: int = 100,
                         min_similarity: float = 0.4,
                         max_iterations: int = 50000,
@@ -20,14 +20,27 @@ def run_base_derivation(problem: LayoutProblem,
                         cooling_rate: float = 0.98,
                         alpha_c: float = 1.0,
                         beta_l: float = 0.3,
-                        verbose: bool = True) -> List[SimilarityTreeNode]:
+                        verbose: bool = True,
+                        seed: Optional[int] = None,
+                        stats: Optional[Dict] = None) -> List[SimilarityTreeNode]:
     """
     Base Derivation: Run SA multiple times and select diverse legal solutions as forest root nodes.
-    
+
     Handles three cases:
     1. Initial layout is legal: save as root node directly
     2. Initial layout illegal but legalization succeeds: save unique solutions as root nodes
     3. No legal solution found: discard
+
+    Args:
+        seed: Seed for the whole derivation. When given, the global RNG is
+            seeded once here and all `num_runs` runs draw from that one
+            stream, so the derivation is reproducible. When None, the
+            caller's current RNG stream is used as-is (no reseeding), which
+            is what makes an outer seed the single source of randomness.
+        stats: Optional dict filled in with what this layer did (runs, how
+            many of them were already legal, how many SA_1 calls ran and how
+            long they took). This is layer 1 of the pipeline -- it only ever
+            looks at legality (Pc/Pl), never at area, wirelength or ratio.
     """
     if verbose:
         print("="*80)
@@ -39,24 +52,40 @@ def run_base_derivation(problem: LayoutProblem,
         print(f"SA params: max_iter={max_iterations}, T0={initial_temp}, cooling={cooling_rate}")
         print("="*80 + "\n")
     
+    # Single seeding point: every run below draws from this one stream, so the
+    # whole derivation is a pure function of `seed` and nothing time-based.
+    if seed is not None:
+        random.seed(seed)
+        if verbose:
+            print(f"Random seed: {seed}")
+
     root_nodes: List[SimilarityTreeNode] = []  # Forest root nodes
     total_legal_solutions = 0  # Total legal solutions found
-    
+
+    # Counters of this layer, handed back through `stats` at the end.
+    layer_stats: Dict = {
+        'runs': num_runs,              # attempts, each starting from a fresh TCG
+        'already_legal_runs': 0,       # Case 1: no SA needed at all
+        'sa_runs': 0,                  # Case 2/3: SA_1 was actually run
+        'legal_solutions': 0,          # legal TCGs SA_1 produced (before dedup)
+        'sa_seconds': 0.0,             # wall clock inside SA_1
+        'root_nodes': 0,               # survived the similarity filter
+    }
+
+    def _publish():
+        layer_stats['root_nodes'] = len(root_nodes)
+        layer_stats['legal_solutions'] = total_legal_solutions
+        if stats is not None:
+            stats.update(layer_stats)
+
     for run_idx in range(num_runs):
         if verbose:
             print(f"\n{'─'*80}")
             print(f"Run {run_idx + 1}/{num_runs}")
             print(f"{'─'*80}")
-        
-        # Set random seed
-        seed = int(time.time() * 1000) % 100000 + run_idx
-        random.seed(seed)
-        
-        if verbose:
-            print(f"Random seed: {seed}")
-        
-        # Generate initial TCG
-        tcg = generate_initial_TCG(problem, seed=seed)
+
+        # Generate initial TCG (no reseed here: keeps drawing from the stream above)
+        tcg = generate_initial_TCG(problem)
         layout = generate_layout_from_tcg(tcg, problem)
         
         # Calculate initial cost
@@ -67,6 +96,7 @@ def run_base_derivation(problem: LayoutProblem,
         
         # Case 1: Initial layout is already legal
         if abs(initial_cost) < 1e-6:
+            layer_stats['already_legal_runs'] += 1
             if verbose:
                 print("✓ Initial layout is legal (Case 1)")
             
@@ -100,6 +130,7 @@ def run_base_derivation(problem: LayoutProblem,
         if verbose:
             print(f"Initial layout illegal, running SA...")
         
+        layer_stats['sa_runs'] += 1
         start_time = time.time()
         legal_tcgs, legal_layouts, final_cost = SA_1(
             tcg, problem,
@@ -112,7 +143,8 @@ def run_base_derivation(problem: LayoutProblem,
             verbose=False
         )
         elapsed_time = time.time() - start_time
-        
+        layer_stats['sa_seconds'] += elapsed_time
+
         num_legal = len(legal_tcgs)
         
         if verbose:
@@ -205,7 +237,8 @@ def run_base_derivation(problem: LayoutProblem,
                 print(f"  Root node #{i+1}: utilization={utilization:.2f}%")
         
         print("="*80)
-    
+
+    _publish()
     return root_nodes
 
 

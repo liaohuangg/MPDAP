@@ -21,11 +21,15 @@ def load_layout_from_json(json_file: str) -> List[Dict]:
 
 def generate_color(chip_id: str) -> Tuple[float, float, float]:
     """Return a deterministic RGB color for the given chip ID."""
-    random.seed(hash(chip_id))
-    r = random.uniform(0.3, 0.9)
-    g = random.uniform(0.3, 0.9)
-    b = random.uniform(0.3, 0.9)
-    
+    # Local RNG: `random.Random(chip_id)` derives its state from a sha512 of the
+    # string, so the color is identical across runs *and* processes (unlike
+    # `hash(chip_id)`, which PYTHONHASHSEED salts per process), and the global
+    # RNG stream that drives the solver is left untouched.
+    rng = random.Random(chip_id)
+    r = rng.uniform(0.3, 0.9)
+    g = rng.uniform(0.3, 0.9)
+    b = rng.uniform(0.3, 0.9)
+
     return (r, g, b)
 
 

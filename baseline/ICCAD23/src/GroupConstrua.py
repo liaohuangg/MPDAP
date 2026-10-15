@@ -367,7 +367,8 @@ def SA_neighbor_generation(base_node: SimilarityTreeNode,
                           gamma_s: float = 2.0,
                           expected_similarity: float = 0.8,
                           max_neighbors: int = 10,
-                          verbose: bool = False) -> List[Tuple[TCG, Dict[str, Chiplet], float]]:
+                          verbose: bool = False,
+                          stats: Optional[Dict] = None) -> List[Tuple[TCG, Dict[str, Chiplet], float]]:
     """
                         Generate neighbor nodes using similarity-guided SA.
     
@@ -381,7 +382,11 @@ def SA_neighbor_generation(base_node: SimilarityTreeNode,
         expected_similarity: Expected similarity
         max_neighbors: Maximum number of neighbors
         verbose: Print detailed logs if True
-        
+        stats: Optional dict filled in with what this SA call did (iterations,
+            how many candidates it rejected for being illegal, how many
+            neighbors it kept). Layer 2 never optimizes area / wirelength /
+            ratio -- its objective is shape + similarity (Px/Py/Ps) only.
+
     Returns:
         Neighbor solution list: `[(TCG, Layout, cost), ...]`.
     """
@@ -399,11 +404,25 @@ def SA_neighbor_generation(base_node: SimilarityTreeNode,
     neighbors = []
     temp = initial_temp
     best_cost = float('inf')
-    
+
+    call_stats: Dict = {
+        'iterations': max_iterations,
+        'invalid_tcg': 0,       # is_valid() rejected the perturbed TCG
+        'illegal_rejected': 0,  # legalized but still not a legal placement
+        'exceptions': 0,
+        'neighbors': 0,
+    }
+
+    def _publish():
+        call_stats['neighbors'] = len(neighbors)
+        if stats is not None:
+            stats.update(call_stats)
+
     for iteration in range(max_iterations):
         neighbor_tcg = _generate_neighbor_tcg(current_tcg, problem)
         is_valid, _ = neighbor_tcg.is_valid()
         if not is_valid:
+            call_stats['invalid_tcg'] += 1
             continue
         
         try:
@@ -417,9 +436,11 @@ def SA_neighbor_generation(base_node: SimilarityTreeNode,
                     neighbor_tcg, neighbor_layout = legalized_tcg, legalized_layout
                     legal_cost = cost_legal(neighbor_tcg, problem, neighbor_layout, alpha_c=1.0, beta_l=10.0)
                 else:
+                    call_stats['illegal_rejected'] += 1
                     continue
-            
+
             if abs(legal_cost) > 1e-6:
+                call_stats['illegal_rejected'] += 1
                 continue
             
             # Compute neighbor cost
@@ -450,13 +471,15 @@ def SA_neighbor_generation(base_node: SimilarityTreeNode,
                     current_tcg = copy.deepcopy(neighbor_tcg)
         
         except Exception:
+            call_stats['exceptions'] += 1
             continue
-        
+
         if iteration % 100 == 0:
             temp *= cooling_rate
-    
+
     if verbose:
         print(f"    Done: found {len(neighbors)} legal neighbors")
+    _publish()
     return neighbors
 
 
@@ -469,7 +492,8 @@ def GroupConstrua_full(root_nodes: List[SimilarityTreeNode],
                       beta_y: float = 1.0,
                       gamma_s: float = 2.0,
                       expected_similarity: float = 0.8,
-                      verbose: bool = True) -> List[SimilarityTree]:
+                      verbose: bool = True,
+                      stats: Optional[Dict] = None) -> List[SimilarityTree]:
     """
      Group Construction: build multiple similarity trees using BFS.
 
@@ -487,7 +511,10 @@ def GroupConstrua_full(root_nodes: List[SimilarityTreeNode],
         alpha_x, beta_y, gamma_s: Cost parameters
         expected_similarity: Expected similarity
         verbose: Print detailed logs if True
-        
+        stats: Optional dict filled in with what this layer did (trees built,
+            SA calls, candidate topologies, nodes in the forest, and the SA
+            bookkeeping of every call summed up).
+
     Returns:
         List of similarity trees (forest).
     """
@@ -505,7 +532,20 @@ def GroupConstrua_full(root_nodes: List[SimilarityTreeNode],
         print("="*80 + "\n")
     
     similarity_trees = []
-    
+
+    # Counters of this layer (every SA call below adds its own bookkeeping in).
+    layer_stats: Dict = {
+        'root_nodes': len(root_nodes),
+        'trees': 0,
+        'sa_calls': 0,
+        'candidates': 0,
+        'forest_nodes': 0,
+        'sa_iterations': 0,
+        'sa_invalid_tcg': 0,
+        'sa_illegal_rejected': 0,
+        'sa_exceptions': 0,
+    }
+
     for tree_idx, root in enumerate(root_nodes):
         if verbose:
             print(f"\n{'─'*80}")
@@ -524,6 +564,7 @@ def GroupConstrua_full(root_nodes: List[SimilarityTreeNode],
         # Use SA to generate candidates
         generated_count = 0
         while generated_count < num_topologies_to_generate:
+            call_stats: Dict = {}
             neighbors = SA_neighbor_generation(
                 base_node=root, problem=problem,
                 max_iterations=max_iterations_sa,
@@ -531,8 +572,12 @@ def GroupConstrua_full(root_nodes: List[SimilarityTreeNode],
                 alpha_x=alpha_x, beta_y=beta_y, gamma_s=gamma_s,
                 expected_similarity=expected_similarity,
                 max_neighbors=min(20, num_topologies_to_generate - generated_count),
-                verbose=False
+                verbose=False,
+                stats=call_stats
             )
+            layer_stats['sa_calls'] += 1
+            for key in ('iterations', 'invalid_tcg', 'illegal_rejected', 'exceptions'):
+                layer_stats[f'sa_{key}'] += call_stats.get(key, 0)
             candidate_topologies.extend(neighbors)
             generated_count = len(candidate_topologies)
             
@@ -541,13 +586,17 @@ def GroupConstrua_full(root_nodes: List[SimilarityTreeNode],
                     print(f"    Warning: SA cannot generate more topologies, current total={generated_count}")
                 break
         
+        layer_stats['candidates'] += len(candidate_topologies)
+
         if verbose:
             print(f"    Generated {len(candidate_topologies)} candidate topologies")
-        
+
         if len(candidate_topologies) == 0:
             if verbose:
                 print(f"  → Tree #{tree_idx + 1} done: root only (no candidates)")
             similarity_trees.append(tree)
+            layer_stats['trees'] += 1
+            layer_stats['forest_nodes'] += len(tree.all_nodes)
             continue
         
         # Step 2: Build tree in BFS order
@@ -607,23 +656,28 @@ def GroupConstrua_full(root_nodes: List[SimilarityTreeNode],
             ]
         
         if verbose:
-            stats = tree.get_tree_statistics()
-            print(f"  → Tree #{tree_idx + 1} done: {stats['total_nodes']} nodes, "
-                f"max depth={stats['max_depth']}, remaining unconnected={len(unconnected_topologies)}")
+            tree_stats = tree.get_tree_statistics()
+            print(f"  → Tree #{tree_idx + 1} done: {tree_stats['total_nodes']} nodes, "
+                f"max depth={tree_stats['max_depth']}, remaining unconnected={len(unconnected_topologies)}")
         
         similarity_trees.append(tree)
-    
+        layer_stats['trees'] += 1
+        layer_stats['forest_nodes'] += len(tree.all_nodes)
+
+    if stats is not None:
+        stats.update(layer_stats)
+
     if verbose:
         print("\n" + "="*80)
         print("Group Construction Complete")
         print("="*80)
         print(f"Generated tree count: {len(similarity_trees)}")
         for i, tree in enumerate(similarity_trees):
-            stats = tree.get_tree_statistics()
-            print(f"  Tree #{i+1}: {stats['total_nodes']} nodes, "
-                  f"max depth={stats['max_depth']}, "
-                  f"leaves={stats['num_leaves']}, "
-                  f"avg children={stats['avg_children']:.2f}")
+            tree_stats = tree.get_tree_statistics()
+            print(f"  Tree #{i+1}: {tree_stats['total_nodes']} nodes, "
+                  f"max depth={tree_stats['max_depth']}, "
+                  f"leaves={tree_stats['num_leaves']}, "
+                  f"avg children={tree_stats['avg_children']:.2f}")
         print("="*80)
     
     return similarity_trees

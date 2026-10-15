@@ -1,12 +1,57 @@
+import copy
 import networkx as nx
 import json
 from typing import Dict, List, Tuple, Set, Optional
 from chiplet_model import Chiplet, LayoutProblem
 from chiplet_model import (
-    Chiplet, LayoutProblem, is_layout_valid, 
+    Chiplet, LayoutProblem, is_layout_valid,
     has_overlap, get_adjacency_info, MIN_OVERLAP
 )
 from unit import save_layout_image
+
+
+def _copy_digraph_structurally(g: nx.DiGraph) -> nx.DiGraph:
+    """Copy a DiGraph by rebuilding its internal dicts directly.
+
+    Equivalent to `copy.deepcopy(g)` for a graph with no node/edge/graph
+    attributes -- attribute dicts are reallocated empty, insertion order of
+    nodes, successors and predecessors is preserved, and the DiGraph invariant
+    `_adj is _succ` is maintained. Roughly 20x cheaper than deepcopy, because
+    deepcopy recurses into every nested attribute dict networkx keeps around.
+    """
+    h = nx.DiGraph()
+    h._node = {n: {} for n in g._node}
+    succ = {u: {v: {} for v in nbrs} for u, nbrs in g._succ.items()}
+    pred = {v: {u: {} for u in nbrs} for v, nbrs in g._pred.items()}
+    h._succ = succ
+    h._pred = pred
+    h._adj = succ
+    return h
+
+
+def _structural_copy_is_sound() -> bool:
+    """Probe once, at import: does `_copy_digraph_structurally` match networkx?
+
+    The helper pokes at networkx internals (`_node` / `_succ` / `_pred` /
+    `_adj`), so it is only used if a 2-edge probe round-trips identically
+    against the public `DiGraph.copy()`. On any networkx version where that
+    fails, every copy falls back to the public API.
+    """
+    try:
+        probe = nx.DiGraph()
+        probe.add_edges_from([('a', 'b'), ('b', 'c')])
+        fast = _copy_digraph_structurally(probe)
+    except Exception:
+        return False
+    ref = probe.copy()
+    return (list(fast.nodes()) == list(ref.nodes())
+            and list(fast.edges()) == list(ref.edges())
+            and list(fast.pred) == list(ref.pred)
+            and fast._adj is fast._succ
+            and not fast.graph)
+
+
+_STRUCTURAL_COPY_OK = _structural_copy_is_sound()
 
 class TCG:
     """Transitive Closure Graph for chiplet placement.
@@ -27,6 +72,29 @@ class TCG:
                 self.Ch.add_node(chip_id)
                 self.Cv.add_node(chip_id)
     
+    def __deepcopy__(self, memo):
+        """Fast structural copy.
+
+        A TCG is exactly three things: two DiGraphs and a list of chip ids, and
+        the graphs carry no attributes. `copy.deepcopy` still walks every nested
+        attribute dict networkx allocates, which measured 60% of the layer-2 SA
+        wall clock (1.48 copies per iteration at ~77 us each). This rebuilds the
+        two graphs directly instead: same structure, same iteration order, no
+        shared mutable state, ~20x cheaper. Any attribute added to TCG in the
+        future is still deep-copied generically below, so the fast path cannot
+        silently drop state.
+        """
+        new = self.__class__.__new__(self.__class__)
+        memo[id(self)] = new
+        for name, value in self.__dict__.items():
+            if isinstance(value, nx.DiGraph):
+                copied = (_copy_digraph_structurally(value) if _STRUCTURAL_COPY_OK
+                          else value.copy())
+            else:
+                copied = copy.deepcopy(value, memo)
+            setattr(new, name, copied)
+        return new
+
     def add_chip(self, chip_id: str) -> None:
         """Add one chip node to both graphs."""
         if chip_id not in self.chip_ids:
