@@ -1,0 +1,154 @@
+================================================================================
+Test case: cpu-dram
+Status: completed
+Time: 2026-10-15T19:07:26.940417
+================================================================================
+
+Problem size:
+  Chiplets: 8
+  Connections: 8
+
+Run configuration:
+  Seeds: [0, 1, 2, 3, 4]
+  Iteration cap: none (unbounded)
+  Stopping condition 1 (convergence): trajectory stopped -- cost band <= 1e-06 relative over the last 10000 iterations
+  Stopping condition 2 (wall clock): 3600 s (60.0 min)
+
+Run statistics:
+  Total solutions: 2
+  Actual time: 4.04 min
+
+================================================================================
+Per-run details:
+================================================================================
+
+Successful runs: 2/5
+Failed runs: 3/5
+Runs that hit the time limit: 0
+
+Cost statistics:
+  Best: 223.030751
+  Worst: 231.538319
+  Average: 227.284535
+
+Time statistics (whole run = tree build + annealing):
+  Avg total run time: 70.33 s
+  Avg tree build time: 35.08 s (2 build(s) total)
+  Avg annealing time: 35.25 s
+  Layer split (averaged over 2 run(s)):
+    Layer 1 legality      Pc/Pl     : 33.56 s
+    Layer 2 shape+similar Px/Py/Ps  : 1.52 s
+    Layer 3 real quality  A/WL/R    : 35.25 s
+
+--------------------------------------------------------------------------------
+Detailed run records:
+--------------------------------------------------------------------------------
+
+Run #1:
+  Random seed: 0
+  Status: failed
+  Error: Base derivation failed for ECG 0, cannot build forest
+  Run time: 33.10 s
+  Tree build: 1 time(s), 33.10 s (failed during build)
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :    33.10 s (100.0%)  50 base-derivation runs (50 entered the legality SA_1, 0 already legal) -> 0 legal solutions / 0 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     0.00 s (  0.0%)  0 trees, 0 neighbour SA calls (0 iterations), 0 candidates, forest of 0 nodes
+    layer 3  real quality     A/WL/R    :     0.00 s (  0.0%)  0 iterations, 0 accepted / 0 rejected
+    --------------------------------------------------------------
+    build total (layers 1+2)            :    33.10 s (100.0%)
+    full run (layers 1+2+3)             :    33.10 s (100.0%)
+
+Run #2:
+  Random seed: 1
+  Status: failed
+  Error: Base derivation failed for ECG 0, cannot build forest
+  Run time: 34.27 s
+  Tree build: 1 time(s), 34.27 s (failed during build)
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :    34.27 s (100.0%)  50 base-derivation runs (50 entered the legality SA_1, 0 already legal) -> 0 legal solutions / 0 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     0.00 s (  0.0%)  0 trees, 0 neighbour SA calls (0 iterations), 0 candidates, forest of 0 nodes
+    layer 3  real quality     A/WL/R    :     0.00 s (  0.0%)  0 iterations, 0 accepted / 0 rejected
+    --------------------------------------------------------------
+    build total (layers 1+2)            :    34.27 s (100.0%)
+    full run (layers 1+2+3)             :    34.27 s (100.0%)
+
+Run #3:
+  Random seed: 2
+  Status: failed
+  Error: Base derivation failed for ECG 0, cannot build forest
+  Run time: 33.55 s
+  Tree build: 1 time(s), 33.55 s (failed during build)
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :    33.55 s (100.0%)  50 base-derivation runs (50 entered the legality SA_1, 0 already legal) -> 0 legal solutions / 0 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     0.00 s (  0.0%)  0 trees, 0 neighbour SA calls (0 iterations), 0 candidates, forest of 0 nodes
+    layer 3  real quality     A/WL/R    :     0.00 s (  0.0%)  0 iterations, 0 accepted / 0 rejected
+    --------------------------------------------------------------
+    build total (layers 1+2)            :    33.55 s (100.0%)
+    full run (layers 1+2+3)             :    33.55 s (100.0%)
+
+Run #4:
+  Random seed: 3
+  Status: success
+  Cost: 231.538319
+  Total run time: 65.91 s
+  Tree build: 1 time(s), 34.41 s
+  Annealing: 31.51 s
+  Annealing wall clock: 31.51 s (46375 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 1.137e-13 over the last 10000 iterations, band 2.315e-04 = 1e-06 relative); best cost 231.5383 last improved at iteration 63 and has since occupied 40.2% of the 46375 iterations run))
+  Best cost occupied: 18644 iterations (40.2% of the run), last improved at iteration 63
+  Cost band over the last 10000 iterations: 1.137e-13 (ratio to cost 4.910e-16)
+  Time to best solution: 0.07 s
+  Hit time limit: False
+  Chiplets: 8
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :    33.47 s ( 50.8%)  50 base-derivation runs (50 entered the legality SA_1, 0 already legal) -> 2 legal solutions / 1 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     0.93 s (  1.4%)  1 trees, 3 neighbour SA calls (6000 iterations), 11 candidates, forest of 12 nodes
+    layer 3  real quality     A/WL/R    :    31.51 s ( 47.8%)  46375 iterations, 15552 accepted / 2815 rejected, best found at 0.07 s (cost 242.9589 -> 231.5383), converged: converged (trajectory stopped moving: cost stayed within 1.137e-13 over the last 10000 iterations, band 2.315e-04 = 1e-06 relative); best cost 231.5383 last improved at iteration 63 and has since occupied 40.2% of the 46375 iterations run)
+    --------------------------------------------------------------
+    build total (layers 1+2)            :    34.41 s ( 52.2%)
+    full run (layers 1+2+3)             :    65.91 s (100.0%)
+
+Run #5:
+  Random seed: 4
+  Status: success
+  Cost: 223.030751
+  Total run time: 74.76 s
+  Tree build: 1 time(s), 35.76 s
+  Annealing: 39.00 s
+  Annealing wall clock: 39.00 s (59603 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 8.527e-14 over the last 10000 iterations, band 2.230e-04 = 1e-06 relative); best cost 223.0308 last improved at iteration 531 and has since occupied 43.0% of the 59603 iterations run))
+  Best cost occupied: 25650 iterations (43.0% of the run), last improved at iteration 531
+  Cost band over the last 10000 iterations: 8.527e-14 (ratio to cost 3.823e-16)
+  Time to best solution: 0.43 s
+  Hit time limit: False
+  Chiplets: 8
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :    33.65 s ( 45.0%)  50 base-derivation runs (50 entered the legality SA_1, 0 already legal) -> 1 legal solutions / 1 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     2.11 s (  2.8%)  1 trees, 6 neighbour SA calls (12000 iterations), 21 candidates, forest of 22 nodes
+    layer 3  real quality     A/WL/R    :    39.00 s ( 52.2%)  59603 iterations, 19315 accepted / 4349 rejected, best found at 0.43 s (cost 244.5486 -> 223.0308), converged: converged (trajectory stopped moving: cost stayed within 8.527e-14 over the last 10000 iterations, band 2.230e-04 = 1e-06 relative); best cost 223.0308 last improved at iteration 531 and has since occupied 43.0% of the 59603 iterations run)
+    --------------------------------------------------------------
+    build total (layers 1+2)            :    35.76 s ( 47.8%)
+    full run (layers 1+2+3)             :    74.76 s (100.0%)
+
+================================================================================
+All 2 solutions (sorted by cost):
+================================================================================
+
+Solution #5 (rank 1 by cost):
+  Cost: 223.030751
+  Utilization: 53.88%
+  Total run time: 74.76 s
+  From seed: 4
+  JSON: solution_5_seed04_cost_223.030751.json
+  Image: solution_5_seed04_cost_223.030751.png
+  Curve: convergence_5_seed04.png
+
+Solution #4 (rank 2 by cost):
+  Cost: 231.538319
+  Utilization: 47.17%
+  Total run time: 65.91 s
+  From seed: 3
+  JSON: solution_4_seed03_cost_231.538319.json
+  Image: solution_4_seed03_cost_231.538319.png
+  Curve: convergence_4_seed03.png
+

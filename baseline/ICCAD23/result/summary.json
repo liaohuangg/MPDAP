@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-10-15T19:23:55.774283",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "time_limit_seconds": 3600,
+  "max_iterations": null,
+  "convergence_window": 10000,
+  "convergence_cost_tol": 1e-06,
+  "total_cases": 6,
+  "success_count": 6,
+  "total_time_hours": 0.398558679289288,
+  "results": [
+    {
+      "case_name": "acend910",
+      "status": "success",
+      "num_solutions": 5,
+      "best_cost": 78.01123766054315,
+      "hit_time_limit_count": 0,
+      "time_seconds": 203.449303150177
+    },
+    {
+      "case_name": "cpu-dram",
+      "status": "success",
+      "num_solutions": 2,
+      "best_cost": 223.03075130396354,
+      "hit_time_limit_count": 0,
+      "time_seconds": 242.52265334129333
+    },
+    {
+      "case_name": "hp6_m",
+      "status": "success",
+      "num_solutions": 5,
+      "best_cost": 59.700826879415246,
+      "hit_time_limit_count": 0,
+      "time_seconds": 127.14513564109802
+    },
+    {
+      "case_name": "hp8_m",
+      "status": "success",
+      "num_solutions": 5,
+      "best_cost": 255.5785442948365,
+      "hit_time_limit_count": 0,
+      "time_seconds": 352.5492055416107
+    },
+    {
+      "case_name": "multigpu",
+      "status": "success",
+      "num_solutions": 5,
+      "best_cost": 167.73871995610043,
+      "hit_time_limit_count": 0,
+      "time_seconds": 140.39880537986755
+    },
+    {
+      "case_name": "syn1",
+      "status": "success",
+      "num_solutions": 5,
+      "best_cost": 194.14153385018125,
+      "hit_time_limit_count": 0,
+      "time_seconds": 368.71737003326416
+    }
+  ]
+}
