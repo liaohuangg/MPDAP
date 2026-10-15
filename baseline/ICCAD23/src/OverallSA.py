@@ -669,8 +669,8 @@ def overall_sa(bt_tree: BinaryTree,
                trace: Optional[List[Tuple[float, float, float]]] = None,
                stats: Optional[Dict] = None,
                early_stop: bool = False,
-               convergence_window: int = 5000,
-               convergence_accept_eps: float = 0.01
+               convergence_window: int = 10000,
+               convergence_cost_tol: float = 1e-6
                ) -> Tuple[Dict[str, Chiplet], float, float]:
     """
     Overall SA optimization for global layout based on BT tree.
@@ -724,29 +724,39 @@ def overall_sa(bt_tree: BinaryTree,
         convergence_window: Length `W` of the sliding window, in iterations,
             over which the convergence criterion below is evaluated. Pass 0 to
             disable the criterion (the run then ends on `time_limit` alone).
-        convergence_accept_eps: Convergence criterion -- "the search has
-            frozen", and the primary way a run ends. The run stops as soon as,
-            over the last `convergence_window` iterations, the share of moves
-            that changed the cost is `<= convergence_accept_eps` (default 1%).
-            A move counts only when it was accepted AND `new_cost !=
-            current_cost`: cost-neutral moves (`delta == 0`) are excluded,
-            because they show neither progress nor exploration, and because at
-            low temperature they are the only moves still accepted
-            (`exp(-0/T) == 1`) -- on a small instance they can be frequent enough
-            to hold a plain acceptance ratio above any threshold forever, which
-            would keep a frozen run burning its wall clock to the limit.
-            Rationale: once the temperature is low enough that almost nothing
-            moves any more, the trajectory cannot leave the incumbent and the
-            annealing is over -- every further iteration is a deterministic
-            rejection, so stopping there discards nothing, whereas an
-            iteration-count rule ("stagnant for N iterations", "best held for
-            80% of the run") is a guess about a length that only the cooling
-            schedule knows. The criterion is stated as an observed rate, so it is
-            checked rather than assumed, and it follows the cooling schedule
-            automatically if that schedule is retuned. The fraction of the run
-            that ended up sitting on the best cost is reported back as
-            `best_hold_fraction` in `stats` (and echoed in `stop_reason`) as
-            supporting evidence, alongside `last_improve_at`.
+        convergence_cost_tol: Convergence criterion -- "the trajectory has
+            stopped moving", and the primary way a run ends. The run stops as
+            soon as, over the last `convergence_window` iterations, the cost has
+            stayed inside a band of `convergence_cost_tol * |cost|`, i.e.
+            `max(cost) - min(cost) <= convergence_cost_tol * |cost|`
+            (default 1e-6, i.e. 0.0001% of the cost -- a relative band, so it
+            means the same thing on an instance whose cost is 80 and on one whose
+            cost is 1e6; float noise is relative too, so nothing needs a
+            per-instance constant here).
+            Rationale: once the temperature is low enough that the trajectory
+            can no longer leave a neighbourhood, further iterations buy nothing,
+            whereas an iteration-count rule ("stagnant for N iterations", "best
+            held for 80% of the run") is a guess about a length only the cooling
+            schedule knows. The band is measured on the observed costs rather
+            than assumed, so it follows the cooling schedule automatically if
+            that schedule is retuned.
+            Why a cost *band* and not a count of cost-changing moves (the
+            previous formulation: "<= 1% of the last W iterations changed the
+            cost"): on instances whose cost landscape has wide plateaus -- e.g.
+            geometrically identical chiplets that can be permuted for exactly
+            the same cost -- the trajectory keeps hopping between layouts whose
+            costs differ only in the last bits of the double. Measured on
+            acend910: over 200000 iterations the per-iteration cost changes fell
+            into `< 1e-12` (22622 of them, pure float noise) or `>= 1e-3` (8716,
+            the real descent), with nothing in between -- nine orders of
+            magnitude of empty space. A count-based test calls the first group
+            "movement" and so never converges (12.1% of the trailing 50000
+            iterations were "changing" forever, while the best cost had last
+            improved at iteration 195). The band test is immune to it: any
+            tolerance in that empty gap fires at the same iteration.
+            The number of iterations that ended up sitting on the best cost is
+            reported back as `best_hold_fraction` in `stats` (and echoed in
+            `stop_reason`) as supporting evidence, alongside `last_improve_at`.
 
     Returns:
         (best_layout, best_cost, best_found_time)
@@ -816,44 +826,52 @@ def overall_sa(bt_tree: BinaryTree,
     iterations_run = 0
     last_improve_at = 0     # iteration index of the most recent best-cost improvement
 
-    # Convergence criterion: over the last `window` iterations the share of
-    # *cost-changing* moves has fallen to `accept_eps` or below, i.e. the search
-    # has frozen -- once the temperature is low enough that almost nothing moves
-    # any more, the trajectory cannot leave the incumbent and the annealing is
-    # over. Cost-neutral moves (`delta == 0`: the layout changes, the cost does
-    # not) deliberately do NOT count as movement: they demonstrate neither
-    # progress nor exploration, at low temperature they are the only moves still
-    # accepted (`exp(-0/T) == 1`), and on a small instance they are common
-    # enough to hold a plain acceptance ratio above any threshold forever, which
-    # would keep a frozen run burning its wall clock to the limit. The window is
-    # a deque with a running sum so the ratio updates in O(1) per iteration;
-    # re-summing a 5000-iteration window every iteration would cost 5e8
-    # operations over an unbounded run.
+    # Convergence criterion: over the last `window` iterations the trajectory has
+    # stayed inside a cost band of `cost_tol * max(1, |cost|)`, i.e. it can no
+    # longer move -- once the temperature is low enough for that, the annealing
+    # is over and every further iteration is a wasted one.
+    #
+    # The band is tracked with two monotonic deques (values decreasing in
+    # `win_max`, increasing in `win_min`, each entry tagged with its iteration),
+    # which give the sliding max and min in O(1) amortised. Re-scanning the
+    # window instead would cost ~150 us per iteration -- 27% on top of a 0.56 ms
+    # iteration for acend910 -- and the window is meant to be free to sit at.
     window = convergence_window
-    accept_eps = convergence_accept_eps
-    changed_window: deque = deque()
-    changed_window_sum = 0
+    cost_tol = convergence_cost_tol
+    win_max: deque = deque()    # (iteration, cost), decreasing -> max at [0]
+    win_min: deque = deque()    # (iteration, cost), increasing -> min at [0]
     best_hold_total = 0     # iterations that ended sitting on the best cost
     converged = False
     stop_reason = (f"iteration cap ({max_iterations})" if max_iterations is not None
                    else "no iteration cap: neither frozen nor timed out")
 
-    def _note_iteration(changed: bool):
+    def _note_iteration():
         """Record one finished iteration.
 
-        `changed` is whether that iteration actually moved the search -- it was
-        accepted AND the cost changed -- appended to the sliding window. The
-        same call also counts whether the iteration ended sitting on the best
-        cost (`best_hold_total`), which is reported as `best_hold_fraction`: the
-        share of the run the incumbent dominated.
+        Every iteration calls this exactly once, whatever it did -- a rejected
+        or failed move leaves `current_cost` unchanged and so contributes its
+        (unchanged) cost to the band, which is the point: a window in which
+        nothing moves is exactly what the criterion looks for. The same call
+        counts whether the iteration ended sitting on the best cost
+        (`best_hold_total`), reported as `best_hold_fraction`: the share of the
+        run the incumbent dominated.
         """
-        nonlocal changed_window_sum, best_hold_total
-        if window > 0 and len(changed_window) == window:
-            changed_window_sum -= changed_window.popleft()
+        nonlocal best_hold_total
         if window > 0:
-            changed_window.append(1 if changed else 0)
-            changed_window_sum += 1 if changed else 0
-        if current_cost <= best_cost + 1e-9:
+            it = iterations_run
+            while win_max and win_max[-1][1] <= current_cost:
+                win_max.pop()
+            win_max.append((it, current_cost))
+            while win_min and win_min[-1][1] >= current_cost:
+                win_min.pop()
+            win_min.append((it, current_cost))
+            # Slide: drop entries that have fallen out of the left edge.
+            oldest = it - window + 1
+            while win_max[0][0] < oldest:
+                win_max.popleft()
+            while win_min[0][0] < oldest:
+                win_min.popleft()
+        if current_cost <= best_cost + cost_tol * abs(best_cost):
             best_hold_total += 1
 
     start_time = time.perf_counter()  # monotonic: immune to wall-clock jumps (WSL2 resync)
@@ -894,7 +912,7 @@ def overall_sa(bt_tree: BinaryTree,
         if not success:
             # Operation failed -> restore state
             _restore_sa_state(bt_tree, saved_state)
-            _note_iteration(False)
+            _note_iteration()
             continue
 
         op_success[op_idx] += 1
@@ -906,7 +924,7 @@ def overall_sa(bt_tree: BinaryTree,
                                             alpha, beta, gamma, target_ratio)
         except Exception:
             _restore_sa_state(bt_tree, saved_state)
-            _note_iteration(False)
+            _note_iteration()
             continue
 
         # Metropolis criterion
@@ -930,12 +948,10 @@ def overall_sa(bt_tree: BinaryTree,
             _restore_sa_state(bt_tree, saved_state)
             reject_count += 1
 
-        # Only a cost-changing move counts as the search having moved (see the
-        # convergence criterion above): cost-neutral moves are excluded. Test
-        # `delta`, not `new_cost != current_cost` -- by this point the accept
-        # branch has already rebound `current_cost` to `new_cost`, so comparing
-        # the two variables here would say "no change" for every accepted move.
-        _note_iteration(accepted and delta != 0)
+        # Feed this iteration's cost to the convergence window. Note this is
+        # unconditional -- accepted or not, moved or not, the iteration's cost
+        # belongs to the band the criterion measures.
+        _note_iteration()
 
         # Convergence trace: annealing time vs cost (skips failed moves, the
         # next iteration's record covers the gap)
@@ -967,27 +983,32 @@ def overall_sa(bt_tree: BinaryTree,
                       f"{iteration + 1}, stop (best kept)")
             break
 
-        # Convergence: the search has frozen -- over the last `window`
-        # iterations the share of cost-changing moves has fallen to `accept_eps`
-        # or below. The annealing is over at that point, so the run ends here
-        # (see the criterion above).
-        if (window > 0 and len(changed_window) == window
-                and changed_window_sum <= accept_eps * window):
-            converged = True
-            move_rate_win = changed_window_sum / window
-            hold_frac = best_hold_total / iterations_run
-            stop_reason = (f"converged (search frozen: {changed_window_sum}/{window} "
-                           f"= {move_rate_win:.2%} of the last {window} iterations "
-                           f"changed the cost, threshold {accept_eps:.1%}; best cost "
-                           f"{best_cost:.4f} last improved at iteration "
-                           f"{last_improve_at} and has since occupied "
-                           f"{hold_frac:.1%} of the {iterations_run} iterations run)")
-            if verbose:
-                print(f"  ⏹ Converged at iteration {iterations_run}: only "
-                      f"{move_rate_win:.2%} of the last {window} iterations changed "
-                      f"the cost (<= {accept_eps:.1%}), annealing over; best "
-                      f"{best_cost:.4f} has occupied {hold_frac:.1%} of the run, stop")
-            break
+        # Convergence: the trajectory has stopped moving -- over the last
+        # `window` iterations the cost has stayed inside a band of
+        # `cost_tol * |cost|`. The annealing is over at that point, so the run
+        # ends here (see the criterion above).
+        if window > 0 and iterations_run >= window:
+            band_lo, band_hi = win_min[0][1], win_max[0][1]
+            band = band_hi - band_lo
+            band_limit = cost_tol * abs(current_cost)
+            if band <= band_limit:
+                converged = True
+                hold_frac = best_hold_total / iterations_run
+                stop_reason = (f"converged (trajectory stopped moving: cost stayed "
+                               f"within {band:.3e} over the last {window} "
+                               f"iterations, band {band_limit:.3e} = "
+                               f"{cost_tol:.0e} relative); best cost "
+                               f"{best_cost:.4f} last improved at iteration "
+                               f"{last_improve_at} and has since occupied "
+                               f"{hold_frac:.1%} of the {iterations_run} iterations "
+                               f"run)")
+                if verbose:
+                    print(f"  ⏹ Converged at iteration {iterations_run}: cost moved "
+                          f"only {band:.3e} over the last {window} iterations "
+                          f"(<= {band_limit:.3e}), annealing over; best "
+                          f"{best_cost:.4f} has occupied {hold_frac:.1%} of the "
+                          f"run, stop")
+                break
 
         # Legacy temperature shortcut (off by default)
         if early_stop and temp < min_temp:
@@ -1014,9 +1035,15 @@ def overall_sa(bt_tree: BinaryTree,
             'converged': converged,
             'stop_reason': stop_reason,
             'convergence_window': window,
-            'convergence_accept_eps': accept_eps,
-            'cost_change_ratio_window': (changed_window_sum / len(changed_window)
-                                         if changed_window else 0.0),
+            'convergence_cost_tol': cost_tol,
+            # Width of the cost band over the final window, and the same number
+            # as a share of the cost -- what the criterion above compared.
+            'cost_band_window': ((win_max[0][1] - win_min[0][1])
+                                 if win_max and win_min else 0.0),
+            'cost_band_ratio_window': ((win_max[0][1] - win_min[0][1])
+                                       / abs(current_cost)
+                                       if win_max and win_min and current_cost
+                                       else 0.0),
             'best_hold_iterations': best_hold_total,
             'best_hold_fraction': (best_hold_total / iterations_run
                                    if iterations_run else 0.0),

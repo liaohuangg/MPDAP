@@ -1,9 +1,9 @@
 """Batch test script for Overall SA.
 
 For every benchmark case, run Overall SA once per seed in `SEEDS`. There is no
-iteration cap: a run ends when the annealing is over (the search has frozen --
-see CONVERGENCE_WINDOW / CONVERGENCE_ACCEPT_EPS below) or, failing that, at
-TIME_LIMIT seconds of annealing wall clock. Every solution is written to disk
+iteration cap: a run ends when the annealing is over (the trajectory has
+stopped moving -- see CONVERGENCE_WINDOW / CONVERGENCE_COST_TOL below) or,
+failing that, at TIME_LIMIT seconds of annealing wall clock. Every solution is written to disk
 (JSON + image) as soon as its run finishes, and `log.json` / `log.txt` are
 refreshed after each run, so a crash cannot lose completed runs.
 
@@ -35,23 +35,27 @@ from OverallSA import overall_sa, format_layer_timing
 SEEDS = [0, 1, 2, 3, 4]   # one SA run per seed, per case
 # No iteration cap: annealing ends when it is over, not when a guessed iteration
 # count runs out. The run has exactly two stopping conditions --
-#   1. convergence: over the last CONVERGENCE_WINDOW iterations the share of
-#      moves that CHANGED the cost has fallen to CONVERGENCE_ACCEPT_EPS or
-#      below, i.e. the chain has frozen and further iterations are deterministic
-#      rejections; the run ends there.
+#   1. convergence: over the last CONVERGENCE_WINDOW iterations the cost has
+#      stayed inside a band of CONVERGENCE_COST_TOL * |cost| (0.0001% of the
+#      cost), i.e. the
+#      trajectory can no longer move and further iterations buy nothing; the run
+#      ends there.
 #   2. TIME_LIMIT seconds of annealing wall clock, for the case where a run
-#      never freezes.
-# Cost-neutral moves (`delta == 0`) are excluded from condition 1: they are
-# neither progress nor exploration, and at low temperature they are the only
-# moves still accepted, so on a small instance they alone could hold a plain
-# acceptance ratio above the threshold forever.
-# An iteration count is a guess about a length that only the cooling schedule
-# knows; the cost-change rate observes it instead, and the clock bounds the
-# worst case. `best_hold_fraction` (share of the run spent sitting on the best
-# cost) and `last_improve_at` are reported alongside as evidence.
+#      never stops moving.
+# The band is measured on the observed costs, so it follows the cooling schedule
+# automatically. It replaces an earlier count-based form ("<= 1% of the last W
+# iterations changed the cost"), which was defeated by float noise: on acend910
+# the cost landscape has wide plateaus (four geometrically identical chiplets
+# that can be permuted for exactly the same cost), and over 200000 iterations
+# the per-iteration cost changes were either below 1e-12 (22622 of them, last-bit
+# jitter) or at least 1e-3 (8716, the real descent) -- nothing in between. The
+# count-based rule called the first group movement and so never converged, while
+# the best cost had last improved at iteration 195.
+# `best_hold_fraction` (share of the run spent sitting on the best cost) and
+# `last_improve_at` are reported alongside as evidence.
 MAX_ITERATIONS = None            # None = unbounded (see above)
-CONVERGENCE_WINDOW = 5000        # sliding window W, in iterations
-CONVERGENCE_ACCEPT_EPS = 0.01    # cost-changing move rate at or below this = frozen
+CONVERGENCE_WINDOW = 10000       # sliding window W, in iterations
+CONVERGENCE_COST_TOL = 1e-6      # cost band at or below this share of the cost = frozen
 # Wall-clock cap of a single SA run (seconds). The second stopping condition:
 # with no iteration cap, this is what bounds a run that never freezes. Measured
 # annealing cost is ~0.5 ms/iteration, and a normal freeze lands at 15k-30k
@@ -176,9 +180,9 @@ def run_case_all_seeds(json_path, case_name, output_dir,
     print(f"Test case: {case_name}")
     print(f"Input file: {json_path}")
     print(f"Output dir: {output_dir}")
-    freeze = (f"the search freezes (cost-changing moves <= "
-              f"{CONVERGENCE_ACCEPT_EPS:.0%} over the last "
-              f"{CONVERGENCE_WINDOW} moves)" if CONVERGENCE_WINDOW > 0
+    freeze = (f"the trajectory stops moving (cost band <= "
+              f"{CONVERGENCE_COST_TOL:.0e} relative) over the last "
+              f"{CONVERGENCE_WINDOW} iterations)" if CONVERGENCE_WINDOW > 0
               else f"{max_iterations} iterations")
     cap = (f"stops when {freeze}, or at the {time_limit:.0f}s wall clock"
            if time_limit else f"stops when {freeze}")
@@ -278,8 +282,8 @@ def run_case_all_seeds(json_path, case_name, output_dir,
             f.write(f"  Seeds: {list(seeds)}\n")
             f.write(f"  Iteration cap: "
                     f"{max_iterations if max_iterations is not None else 'none (unbounded)'}\n")
-            f.write(f"  Stopping condition 1 (convergence): search frozen -- "
-                    f"cost-changing moves <= {CONVERGENCE_ACCEPT_EPS:.0%} over the "
+            f.write(f"  Stopping condition 1 (convergence): trajectory stopped -- "
+                    f"cost band <= {CONVERGENCE_COST_TOL:.0e} relative over the "
                     f"last {CONVERGENCE_WINDOW} iterations\n")
             f.write(f"  Stopping condition 2 (wall clock): "
                     f"{f'{time_limit} s ({time_limit/60:.1f} min)' if time_limit else 'none'}\n\n")
@@ -354,10 +358,12 @@ def run_case_all_seeds(json_path, case_name, output_dir,
                                     f"({detail['best_hold_fraction']:.1%} of the run), "
                                     f"last improved at iteration "
                                     f"{detail.get('last_improve_at')}\n")
-                        if detail.get('cost_change_ratio_window') is not None:
-                            f.write(f"  Cost-changing moves over the last "
+                        if detail.get('cost_band_window') is not None:
+                            f.write(f"  Cost band over the last "
                                     f"{CONVERGENCE_WINDOW} iterations: "
-                                    f"{detail['cost_change_ratio_window']:.2%}\n")
+                                    f"{detail['cost_band_window']:.3e} "
+                                    f"(ratio to cost "
+                                    f"{detail['cost_band_ratio_window']:.3e})\n")
                         f.write(f"  Time to best solution: {detail.get('seconds_to_best'):.2f} s\n")
                     f.write(f"  Hit time limit: {detail['hit_time_limit']}\n")
                     f.write(f"  Chiplets: {detail['num_chiplets']}\n")
@@ -459,7 +465,7 @@ def run_case_all_seeds(json_path, case_name, output_dir,
                 trace=trace,
                 stats=sa_stats,
                 convergence_window=CONVERGENCE_WINDOW,
-                convergence_accept_eps=CONVERGENCE_ACCEPT_EPS
+                convergence_cost_tol=CONVERGENCE_COST_TOL
             )
             sa_seconds = time.time() - sa_start
 
@@ -505,14 +511,15 @@ def run_case_all_seeds(json_path, case_name, output_dir,
                 'tree_build_time': tree_build_time,
                 'tree_build_count': tree_build_count,
                 'hit_time_limit': hit_time_limit,
-                # Layer 3 exit status: converged = the search froze (share of
-                # cost-changing moves <= CONVERGENCE_ACCEPT_EPS over the last
+                # Layer 3 exit status: converged = the trajectory stopped moving
+                # (cost band <= CONVERGENCE_COST_TOL over the last
                 # CONVERGENCE_WINDOW iterations); otherwise the wall clock ran out.
                 'annealing_time': sa_seconds,
                 'annealing_iterations': sa_stats.get('iterations'),
                 'converged': sa_stats.get('converged'),
                 'stop_reason': sa_stats.get('stop_reason'),
-                'cost_change_ratio_window': sa_stats.get('cost_change_ratio_window'),
+                'cost_band_window': sa_stats.get('cost_band_window'),
+                'cost_band_ratio_window': sa_stats.get('cost_band_ratio_window'),
                 'best_hold_iterations': sa_stats.get('best_hold_iterations'),
                 'best_hold_fraction': sa_stats.get('best_hold_fraction'),
                 'stagnation_iterations': sa_stats.get('stagnation_iterations'),
@@ -586,9 +593,9 @@ def run_case_all_seeds(json_path, case_name, output_dir,
     print(f"  Failed: {len(failed_runs)}/{len(run_details)}")
     print(f"  Hit time limit: {sum(1 for r in success_runs if r['hit_time_limit'])}")
     converged_runs = [r for r in success_runs if r.get('converged')]
-    print(f"  Converged (search frozen: cost-changing moves <= "
-          f"{CONVERGENCE_ACCEPT_EPS:.0%} over the last {CONVERGENCE_WINDOW} "
-          f"iterations): "
+    print(f"  Converged (trajectory stopped: cost band <= "
+          f"{CONVERGENCE_COST_TOL:.0e} relative over the last "
+          f"{CONVERGENCE_WINDOW} iterations): "
           f"{len(converged_runs)}/{len(success_runs)}")
     for r in success_runs:
         print(f"    seed {r['seed']}: {r.get('annealing_iterations')} iterations, "
@@ -719,9 +726,9 @@ def main():
     print(f"  Seeds per case: {seeds} (one SA run per seed)")
     print(f"  Iteration cap: "
           f"{'none (unbounded)' if MAX_ITERATIONS is None else MAX_ITERATIONS}")
-    print(f"  Stopping condition 1 (convergence): cost-changing moves <= "
-          f"{CONVERGENCE_ACCEPT_EPS:.0%} over the last {CONVERGENCE_WINDOW} "
-          f"iterations")
+    print(f"  Stopping condition 1 (convergence): cost band <= "
+          f"{CONVERGENCE_COST_TOL:.0e} relative over the last "
+          f"{CONVERGENCE_WINDOW} iterations")
     print(f"  Stopping condition 2 (wall clock): "
           f"{f'{TIME_LIMIT} s ({TIME_LIMIT/60:.1f} min)' if TIME_LIMIT else 'none'}\n")
 
@@ -828,7 +835,7 @@ def main():
         'time_limit_seconds': TIME_LIMIT,
         'max_iterations': MAX_ITERATIONS,
         'convergence_window': CONVERGENCE_WINDOW,
-        'convergence_accept_eps': CONVERGENCE_ACCEPT_EPS,
+        'convergence_cost_tol': CONVERGENCE_COST_TOL,
         'total_cases': len(test_cases),
         'success_count': sum(1 for s in summary if s['status'] == 'success'),
         'total_time_hours': overall_time / 3600,

@@ -16,6 +16,28 @@ from GroupConstrua import SimilarityTree, SimilarityTreeNode, GroupConstrua_full
 from BaseDerivation import run_base_derivation
 
 
+# Layer 1 (base derivation) attempts per ECG. Each attempt is a fresh TCG plus
+# a legality SA, and it costs what it costs: a case that cannot find a legal
+# layout within these attempts fails the whole run, so this number is a build
+# success rate knob before it is a speed knob.
+#
+# It is a cap on *attempts*, not on root nodes. One attempt returns every
+# distinct legal layout its SA visited and all of them are kept, so the forest
+# comes out wider than this number (acend910 seed 1: 10 attempts -> 51 roots,
+# 5151 forest nodes).
+#
+# The derivation is a pure function of the seed and draws sequentially from one
+# stream, so attempt n+1 is appended to the same sequence as attempt n: raising
+# this only ever adds chances and widens the forest (the roots at 50 are a
+# superset of the roots at 30), and it can never turn a case that used to build
+# into one that does not. That is why the cap is set high rather than tuned --
+# the marginal cases (cpu-dram built on 14 of 129 runs, hp8_m on 73 of 75, both
+# counted at 30 attempts) are short of *chances*, not of search quality. The
+# price is build time, which grows roughly linearly with it (acend910 seed 0:
+# 2.6 s at 10, ~7 s at 30), plus the layer-2 work the wider forest implies.
+BASE_DERIVATION_RUNS = 50
+
+
 class BTNode:
     """
     BT tree node representing an ECG.
@@ -120,7 +142,7 @@ class BTNode:
             try:
                 root_nodes = run_base_derivation(
                     problem=problem,
-                    num_runs=30,  # Run 30 SA iterations for diverse root nodes
+                    num_runs=BASE_DERIVATION_RUNS,
                     min_similarity=0.7,
                     max_iterations=5000,
                     verbose=False,
