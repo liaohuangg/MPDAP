@@ -1,274 +1,174 @@
 ================================================================================
-测试用例: hp8_m
-时间: 2026-03-04T01:50:44.856442
+Test case: hp8_m
+Status: completed
+Time: 2026-10-15T21:09:35.069805
 ================================================================================
 
-问题规模:
-  芯片数: 8
-  连接数: 7
+Problem size:
+  Chiplets: 8
+  Connections: 7
 
-运行统计:
-  总运行次数: 12
-  时间限制: 60.0 分钟
-  实际耗时: 10.09 分钟
+Run configuration:
+  Seeds: [1, 2, 3, 4]
+  Iteration cap: none (unbounded)
+  Stopping condition 1 (convergence): trajectory stopped -- cost band <= 1e-06 relative over the last 10000 iterations
+  Stopping condition 2 (wall clock): 3600 s (60.0 min)
+
+Run statistics:
+  Total solutions: 4
+  Actual time: 2.16 min
 
 ================================================================================
-每次运行详细记录:
+Per-run details:
 ================================================================================
 
-成功运行: 12/20
-失败运行: 8/20
+Successful runs: 4/4
+Failed runs: 0/4
+Runs that hit the time limit: 0
 
-Cost 统计:
-  最佳: 225.037591
-  最差: 233.813724
-  平均: 227.363264
+Cost statistics:
+  Best: 256.083659
+  Worst: 264.202189
+  Average: 260.184537
 
-时间统计:
-  平均找到解时间: 1.63 秒
-  平均总运行时间: 9.96 秒
+Time statistics (whole run = tree build + annealing):
+  Avg total run time: 32.05 s
+  Avg tree build time: 6.14 s (4 build(s) total)
+  Avg annealing time: 25.91 s
+  Layer split (averaged over 4 run(s)):
+    Layer 1 legality      Pc/Pl     : 5.92 s
+    Layer 2 shape+similar Px/Py/Ps  : 0.22 s
+    Layer 3 real quality  A/WL/R    : 25.91 s
 
 --------------------------------------------------------------------------------
-详细运行记录:
+Detailed run records:
 --------------------------------------------------------------------------------
 
-运行 #1:
-  随机种子: 39159
-  状态: failed
-  错误: 基础导出未生成根节点，无法为ECG 0构建相似度森林
-  运行时间: 0.00 秒
+Run #1:
+  Random seed: 1
+  Status: success
+  Cost: 260.605337
+  Total run time: 31.12 s
+  Tree build: 1 time(s), 6.02 s
+  Annealing: 25.10 s
+  Annealing wall clock: 25.10 s (26718 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 2.606e-04 = 1e-06 relative); best cost 260.6053 last improved at iteration 202 and has since occupied 44.7% of the 26718 iterations run))
+  Best cost occupied: 11938 iterations (44.7% of the run), last improved at iteration 202
+  Cost band over the last 10000 iterations: 0.000e+00 (ratio to cost 0.000e+00)
+  Time to best solution: 0.20 s
+  Hit time limit: False
+  Chiplets: 8
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :     5.92 s ( 19.0%)  10 base-derivation runs (10 entered the legality SA_1, 0 already legal) -> 1 legal solutions / 1 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     0.09 s (  0.3%)  1 trees, 1 neighbour SA calls (377 iterations), 30 candidates, forest of 31 nodes
+    layer 3  real quality     A/WL/R    :    25.10 s ( 80.7%)  26718 iterations, 10859 accepted / 13725 rejected, best found at 0.20 s (cost 279.5968 -> 260.6053), converged: converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 2.606e-04 = 1e-06 relative); best cost 260.6053 last improved at iteration 202 and has since occupied 44.7% of the 26718 iterations run)
+    --------------------------------------------------------------
+    build total (layers 1+2)            :     6.02 s ( 19.3%)
+    full run (layers 1+2+3)             :    31.12 s (100.0%)
 
-运行 #2:
-  随机种子: 61077
-  状态: failed
-  错误: 基础导出未生成根节点，无法为ECG 0构建相似度森林
-  运行时间: 0.00 秒
+Run #2:
+  Random seed: 2
+  Status: success
+  Cost: 259.846963
+  Total run time: 33.52 s
+  Tree build: 1 time(s), 6.78 s
+  Annealing: 26.74 s
+  Annealing wall clock: 26.74 s (26386 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 2.631e-04 = 1e-06 relative); best cost 259.8470 last improved at iteration 2164 and has since occupied 0.9% of the 26386 iterations run))
+  Best cost occupied: 237 iterations (0.9% of the run), last improved at iteration 2164
+  Cost band over the last 10000 iterations: 0.000e+00 (ratio to cost 0.000e+00)
+  Time to best solution: 2.33 s
+  Hit time limit: False
+  Chiplets: 8
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :     6.56 s ( 19.6%)  10 base-derivation runs (10 entered the legality SA_1, 0 already legal) -> 4 legal solutions / 2 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     0.22 s (  0.6%)  2 trees, 2 neighbour SA calls (746 iterations), 60 candidates, forest of 62 nodes
+    layer 3  real quality     A/WL/R    :    26.74 s ( 79.8%)  26386 iterations, 11056 accepted / 15330 rejected, best found at 2.33 s (cost 284.1041 -> 259.8470), converged: converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 2.631e-04 = 1e-06 relative); best cost 259.8470 last improved at iteration 2164 and has since occupied 0.9% of the 26386 iterations run)
+    --------------------------------------------------------------
+    build total (layers 1+2)            :     6.78 s ( 20.2%)
+    full run (layers 1+2+3)             :    33.52 s (100.0%)
 
-运行 #3:
-  随机种子: 82963
-  状态: success
-  Cost: 225.132217
-  找到解用时: 0.52 秒
-  总运行时间: 8.85 秒
-  相对于用例开始: 69.18 秒
-  芯片数: 8
+Run #3:
+  Random seed: 3
+  Status: success
+  Cost: 264.202189
+  Total run time: 31.08 s
+  Tree build: 1 time(s), 5.37 s
+  Annealing: 25.70 s
+  Annealing wall clock: 25.70 s (27998 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 2.642e-04 = 1e-06 relative); best cost 264.2022 last improved at iteration 9585 and has since occupied 46.4% of the 27998 iterations run))
+  Best cost occupied: 12981 iterations (46.4% of the run), last improved at iteration 9585
+  Cost band over the last 10000 iterations: 0.000e+00 (ratio to cost 0.000e+00)
+  Time to best solution: 9.74 s
+  Hit time limit: False
+  Chiplets: 8
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :     5.18 s ( 16.7%)  10 base-derivation runs (10 entered the legality SA_1, 0 already legal) -> 2 legal solutions / 1 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     0.19 s (  0.6%)  1 trees, 1 neighbour SA calls (782 iterations), 30 candidates, forest of 31 nodes
+    layer 3  real quality     A/WL/R    :    25.70 s ( 82.7%)  27998 iterations, 10987 accepted / 14753 rejected, best found at 9.74 s (cost 282.0061 -> 264.2022), converged: converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 2.642e-04 = 1e-06 relative); best cost 264.2022 last improved at iteration 9585 and has since occupied 46.4% of the 27998 iterations run)
+    --------------------------------------------------------------
+    build total (layers 1+2)            :     5.37 s ( 17.3%)
+    full run (layers 1+2+3)             :    31.08 s (100.0%)
 
-运行 #4:
-  随机种子: 16670
-  状态: success
-  Cost: 225.692478
-  找到解用时: 2.17 秒
-  总运行时间: 10.53 秒
-  相对于用例开始: 104.14 秒
-  芯片数: 8
-
-运行 #5:
-  随机种子: 51663
-  状态: success
-  Cost: 230.672498
-  找到解用时: 0.13 秒
-  总运行时间: 8.46 秒
-  相对于用例开始: 137.40 秒
-  芯片数: 8
-
-运行 #6:
-  随机种子: 84890
-  状态: failed
-  错误: 基础导出未生成根节点，无法为ECG 0构建相似度森林
-  运行时间: 30.36 秒
-
-运行 #7:
-  随机种子: 6792
-  状态: success
-  Cost: 227.729401
-  找到解用时: 1.90 秒
-  总运行时间: 10.22 秒
-  相对于用例开始: 197.71 秒
-  芯片数: 8
-
-运行 #8:
-  随机种子: 45192
-  状态: success
-  Cost: 225.037591
-  找到解用时: 0.78 秒
-  总运行时间: 9.13 秒
-  相对于用例开始: 231.44 秒
-  芯片数: 8
-
-运行 #9:
-  随机种子: 78961
-  状态: success
-  Cost: 228.080942
-  找到解用时: 0.18 秒
-  总运行时间: 8.52 秒
-  相对于用例开始: 268.83 秒
-  芯片数: 8
-
-运行 #10:
-  随机种子: 16334
-  状态: success
-  Cost: 225.128434
-  找到解用时: 5.91 秒
-  总运行时间: 14.27 秒
-  相对于用例开始: 307.15 秒
-  芯片数: 8
-
-运行 #11:
-  随机种子: 54679
-  状态: failed
-  错误: 基础导出未生成根节点，无法为ECG 0构建相似度森林
-  运行时间: 36.21 秒
-
-运行 #12:
-  随机种子: 76619
-  状态: success
-  Cost: 233.813724
-  找到解用时: 0.58 秒
-  总运行时间: 8.93 秒
-  相对于用例开始: 364.31 秒
-  芯片数: 8
-
-运行 #13:
-  随机种子: 11833
-  状态: success
-  Cost: 226.186540
-  找到解用时: 0.11 秒
-  总运行时间: 8.41 秒
-  相对于用例开始: 397.88 秒
-  芯片数: 8
-
-运行 #14:
-  随机种子: 45366
-  状态: failed
-  错误: 基础导出未生成根节点，无法为ECG 0构建相似度森林
-  运行时间: 30.33 秒
-
-运行 #15:
-  随机种子: 67285
-  状态: success
-  Cost: 227.357809
-  找到解用时: 6.83 秒
-  总运行时间: 15.15 秒
-  相对于用例开始: 460.15 秒
-  芯片数: 8
-
-运行 #16:
-  随机种子: 7647
-  状态: failed
-  错误: 基础导出未生成根节点，无法为ECG 0构建相似度森林
-  运行时间: 37.05 秒
-
-运行 #17:
-  随机种子: 29548
-  状态: failed
-  错误: 基础导出未生成根节点，无法为ECG 0构建相似度森林
-  运行时间: 58.87 秒
-
-运行 #18:
-  随机种子: 51369
-  状态: success
-  Cost: 225.170067
-  找到解用时: 0.28 秒
-  总运行时间: 8.60 秒
-  相对于用例开始: 537.71 秒
-  芯片数: 8
-
-运行 #19:
-  随机种子: 85202
-  状态: success
-  Cost: 228.357471
-  找到解用时: 0.13 秒
-  总运行时间: 8.45 秒
-  相对于用例开始: 571.90 秒
-  芯片数: 8
-
-运行 #20:
-  随机种子: 19394
-  状态: failed
-  错误: 基础导出未生成根节点，无法为ECG 0构建相似度森林
-  运行时间: 30.28 秒
+Run #4:
+  Random seed: 4
+  Status: success
+  Cost: 256.083659
+  Total run time: 32.49 s
+  Tree build: 1 time(s), 6.40 s
+  Annealing: 26.10 s
+  Annealing wall clock: 26.09 s (25681 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 2.561e-04 = 1e-06 relative); best cost 256.0837 last improved at iteration 221 and has since occupied 47.9% of the 25681 iterations run))
+  Best cost occupied: 12296 iterations (47.9% of the run), last improved at iteration 221
+  Cost band over the last 10000 iterations: 0.000e+00 (ratio to cost 0.000e+00)
+  Time to best solution: 0.24 s
+  Hit time limit: False
+  Chiplets: 8
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :     6.04 s ( 18.6%)  10 base-derivation runs (10 entered the legality SA_1, 0 already legal) -> 6 legal solutions / 3 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     0.36 s (  1.1%)  3 trees, 3 neighbour SA calls (1499 iterations), 90 candidates, forest of 93 nodes
+    layer 3  real quality     A/WL/R    :    26.09 s ( 80.3%)  25681 iterations, 10937 accepted / 14744 rejected, best found at 0.24 s (cost 274.2766 -> 256.0837), converged: converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 2.561e-04 = 1e-06 relative); best cost 256.0837 last improved at iteration 221 and has since occupied 47.9% of the 25681 iterations run)
+    --------------------------------------------------------------
+    build total (layers 1+2)            :     6.40 s ( 19.7%)
+    full run (layers 1+2+3)             :    32.49 s (100.0%)
 
 ================================================================================
-Top 10 解:
+All 4 solutions (sorted by cost):
 ================================================================================
 
-解 #1:
-  Cost: 225.037591
-  利用率: 35.34%
-  求解时间: 231.44 秒
-  来自运行: 8
-  JSON: solution_1_cost_225.037591.json
-  图片: solution_1_cost_225.037591.png
+Solution #4 (rank 1 by cost):
+  Cost: 256.083659
+  Utilization: 20.48%
+  Total run time: 32.49 s
+  From seed: 4
+  JSON: solution_4_seed04_cost_256.083659.json
+  Image: solution_4_seed04_cost_256.083659.png
+  Curve: convergence_4_seed04.png
 
-解 #2:
-  Cost: 225.128434
-  利用率: 35.34%
-  求解时间: 307.15 秒
-  来自运行: 10
-  JSON: solution_2_cost_225.128434.json
-  图片: solution_2_cost_225.128434.png
+Solution #2 (rank 2 by cost):
+  Cost: 259.846963
+  Utilization: 20.48%
+  Total run time: 33.52 s
+  From seed: 2
+  JSON: solution_2_seed02_cost_259.846963.json
+  Image: solution_2_seed02_cost_259.846963.png
+  Curve: convergence_2_seed02.png
 
-解 #3:
-  Cost: 225.132217
-  利用率: 35.34%
-  求解时间: 69.18 秒
-  来自运行: 3
-  JSON: solution_3_cost_225.132217.json
-  图片: solution_3_cost_225.132217.png
+Solution #1 (rank 3 by cost):
+  Cost: 260.605337
+  Utilization: 20.48%
+  Total run time: 31.12 s
+  From seed: 1
+  JSON: solution_1_seed01_cost_260.605337.json
+  Image: solution_1_seed01_cost_260.605337.png
+  Curve: convergence_1_seed01.png
 
-解 #4:
-  Cost: 225.170067
-  利用率: 35.34%
-  求解时间: 537.71 秒
-  来自运行: 18
-  JSON: solution_4_cost_225.170067.json
-  图片: solution_4_cost_225.170067.png
-
-解 #5:
-  Cost: 225.692478
-  利用率: 35.34%
-  求解时间: 104.14 秒
-  来自运行: 4
-  JSON: solution_5_cost_225.692478.json
-  图片: solution_5_cost_225.692478.png
-
-解 #6:
-  Cost: 226.186540
-  利用率: 35.34%
-  求解时间: 397.88 秒
-  来自运行: 13
-  JSON: solution_6_cost_226.186540.json
-  图片: solution_6_cost_226.186540.png
-
-解 #7:
-  Cost: 227.357809
-  利用率: 35.34%
-  求解时间: 460.15 秒
-  来自运行: 15
-  JSON: solution_7_cost_227.357809.json
-  图片: solution_7_cost_227.357809.png
-
-解 #8:
-  Cost: 227.729401
-  利用率: 34.17%
-  求解时间: 197.71 秒
-  来自运行: 7
-  JSON: solution_8_cost_227.729401.json
-  图片: solution_8_cost_227.729401.png
-
-解 #9:
-  Cost: 228.080942
-  利用率: 35.34%
-  求解时间: 268.83 秒
-  来自运行: 9
-  JSON: solution_9_cost_228.080942.json
-  图片: solution_9_cost_228.080942.png
-
-解 #10:
-  Cost: 228.357471
-  利用率: 35.34%
-  求解时间: 571.90 秒
-  来自运行: 19
-  JSON: solution_10_cost_228.357471.json
-  图片: solution_10_cost_228.357471.png
+Solution #3 (rank 4 by cost):
+  Cost: 264.202189
+  Utilization: 20.48%
+  Total run time: 31.08 s
+  From seed: 3
+  JSON: solution_3_seed03_cost_264.202189.json
+  Image: solution_3_seed03_cost_264.202189.png
+  Curve: convergence_3_seed03.png
 

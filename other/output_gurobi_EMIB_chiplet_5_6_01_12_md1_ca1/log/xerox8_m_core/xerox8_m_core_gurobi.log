@@ -1,0 +1,345 @@
+[EMIB] Config mutual_distancing_enabled=True
+[EMIB] Config ce2026-07-03 13:35:00 - INFO - Set parameter Username
+2026-07-03 13:35:00 - INFO - Set parameter LicenseID to value 2840060
+2026-07-03 13:35:00 - INFO - Academic license - for non-commercial use only - expires 2027-07-01
+2026-07-03 13:35:00 - INFO - Set parameter TimeLimit to value 29
+2026-07-03 13:35:00 - INFO - Set parameter MIPGap to value 0
+2026-07-03 13:35:00 - INFO - Set parameter MIPFocus to value 3
+2026-07-03 13:35:00 - INFO - Set parameter Heuristics to value 0.5
+2026-07-03 13:35:00 - INFO - Set parameter LogToConsole to value 1
+2026-07-03 13:35:00 - INFO - Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+2026-07-03 13:35:00 - INFO - 
+2026-07-03 13:35:00 - INFO - CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+2026-07-03 13:35:00 - INFO - Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+2026-07-03 13:35:00 - INFO - 
+2026-07-03 13:35:00 - INFO - Non-default parameters:
+2026-07-03 13:35:00 - INFO - TimeLimit  29
+2026-07-03 13:35:00 - INFO - MIPGap  0
+2026-07-03 13:35:00 - INFO - Heuristics  0.5
+2026-07-03 13:35:00 - INFO - MIPFocus  3
+2026-07-03 13:35:00 - INFO - 
+2026-07-03 13:35:00 - INFO - Optimize a model with 1470 rows, 672 columns and 5013 nonzeros (Min)
+2026-07-03 13:35:00 - INFO - Model fingerprint: 0xe052e185
+2026-07-03 13:35:00 - INFO - Model has 4 linear objective coefficients
+2026-07-03 13:35:00 - INFO - Variable types: 269 continuous, 403 integer (403 binary)
+2026-07-03 13:35:00 - INFO - Coefficient statistics:
+2026-07-03 13:35:00 - INFO -   Matrix range     [3e-01, 8e+03]
+2026-07-03 13:35:00 - INFO -   Objective range  [4e-06, 8e-02]
+2026-07-03 13:35:00 - INFO -   Bounds range     [9e-01, 2e+07]
+2026-07-03 13:35:00 - INFO -   RHS range        [9e-01, 3e+02]
+2026-07-03 13:35:00 - INFO - 
+2026-07-03 13:35:00 - INFO - Presolve removed 120 rows and 104 columns
+2026-07-03 13:35:00 - INFO - Presolve time: 0.01s
+2026-07-03 13:35:00 - INFO - Presolved: 1350 rows, 568 columns, 4744 nonzeros
+2026-07-03 13:35:00 - INFO - Variable types: 191 continuous, 377 integer (377 binary)
+2026-07-03 13:35:00 - INFO - Root relaxation presolve removed 178 rows and 46 columns
+2026-07-03 13:35:00 - INFO - Root relaxation presolved: 1172 rows, 546 columns, 4334 nonzeros
+2026-07-03 13:35:00 - INFO - 
+2026-07-03 13:35:00 - INFO - 
+2026-07-03 13:35:00 - INFO - Root relaxation: objective -1.720158e+01, 290 iterations, 0.00 seconds (0.01 work units)
+2026-07-03 13:35:00 - INFO - 
+2026-07-03 13:35:00 - INFO -     Nodes    |    Current Node    |     Objective Bounds      |     Work
+2026-07-03 13:35:00 - INFO -  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+2026-07-03 13:35:00 - INFO - 
+2026-07-03 13:35:00 - INFO -      0     0  -17.20158    0  155          -  -17.20158      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0  -14.27470    0  179          -  -14.27470      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0  -14.27470    0  151          -  -14.27470      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0   -2.92362    0  154          -   -2.92362      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0   -0.80388    0  147          -   -0.80388      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0   -0.80388    0  147          -   -0.80388      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0   -0.80388    0  145          -   -0.80388      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0    2.06224    0  143          -    2.06224      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0    2.06224    0  149          -    2.06224      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0    2.06224    0  136          -    2.06224      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0    2.06224    0  135          -    2.06224      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0    2.06224    0  115          -    2.06224      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0    2.07975    0  125          -    2.07975      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0    2.07975    0  140          -    2.07975      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0    2.07975    0  143          -    2.07975      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0    2.07975    0  139          -    2.07975      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0    2.07975    0  139          -    2.07975      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0    2.07975    0  141          -    2.07975      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0    2.07975    0  155          -    2.07975      -     -    0s
+2026-07-03 13:35:00 - INFO -      0     0    2.07975    0  151          -    2.07975      -     -    0s
+2026-07-03 13:35:01 - INFO -      0     0    2.07975    0  135          -    2.07975      -     -    0s
+2026-07-03 13:35:01 - INFO -      0     0    2.13140    0  135          -    2.13140      -     -    0s
+2026-07-03 13:35:01 - INFO -      0     0    2.13140    0  131          -    2.13140      -     -    1s
+2026-07-03 13:35:02 - INFO -      0     2    2.13140    0  131          -    2.13140      -     -    2s
+2026-07-03 13:35:05 - INFO -   2096  1915    3.86783   10  206          -    3.62299      -  39.3    5s
+2026-07-03 13:35:10 - INFO -   9706  5406    5.85421   24   99          -    5.65111      -  68.4   10s
+2026-07-03 13:35:15 - INFO -  25140 13277    6.53370   26   81          -    6.37220      -  53.6   15s
+2026-07-03 13:35:20 - INFO -  52739 23808    9.48627   30   65          -    6.90995      -  45.4   20s
+2026-07-03 13:35:25 - INFO -  89055 33413 infeasible   27               -    7.30730      -  40.6   25s
+2026-07-03 13:35:29 - INFO - 
+2026-07-03 13:35:29 - INFO - Cutting planes:
+2026-07-03 13:35:29 - INFO -   Learned: 18
+2026-07-03 13:35:29 - INFO -   Gomory: 140
+2026-07-03 13:35:29 - INFO -   Lift-and-project: 44
+2026-07-03 13:35:29 - INFO -   Cover: 2
+2026-07-03 13:35:29 - INFO -   MIR: 49
+2026-07-03 13:35:29 - INFO -   Flow cover: 272
+2026-07-03 13:35:29 - INFO -   Inf proof: 13
+2026-07-03 13:35:29 - INFO -   RLT: 1
+2026-07-03 13:35:29 - INFO - 
+2026-07-03 13:35:29 - INFO - Explored 108266 nodes (4337996 simplex iterations) in 29.01 seconds (48.54 work units)
+2026-07-03 13:35:29 - INFO - Thread count was 28 (of 28 available processors)
+2026-07-03 13:35:29 - INFO - 
+2026-07-03 13:35:29 - INFO - Solution count 0
+2026-07-03 13:35:29 - INFO - 
+2026-07-03 13:35:29 - INFO - Time limit reached
+2026-07-03 13:35:29 - INFO - Best objective -, best bound 7.514743786022e+00, gap -
+2026-07-03 13:35:29 - INFO - 
+2026-07-03 13:35:29 - INFO - User-callback calls 229560, time in user-callback 0.21 sec
+2026-07-03 13:35:29 - INFO - 
+EMIB returned 0 solution(s) (max 1).
+tual Distancing: ENABLED
+[POWER_AWARE] Central Avoidance: ENABLED
+[POWER_AWARE] Power Aware Optimization: ENABLED
+[POWER_AWARE] Selected high-power chiplets: 2 (density threshold: 0.6017148874291732)
+[POWER_AWARE] High-power chiplet indices: [0, 1]
+[POWER_AWARE] High-power chiplet names: A(idx=0, power=4.800000e+01, area=7.977200e+01, density=6.017149e-01), B(idx=1, power=9.200000e+01, area=6.345500e+01, density=1.449846e+00)
+[POWER_AWARE] Mutual Distancing: Creating constraints for 2 high-power chiplets
+[POWER_AWARE] Mutual Distancing: Added distance constraints for all high-power pairs
+[POWER_AWARE] Central Avoidance: Creating away-from-center constraints for 2 high-power chiplets
+[DEBUG] chiplet A (idx=0) in top 30% power density, add away-from-center constraint
+[DEBUG] chiplet B (idx=1) in top 30% power density, add away-from-center constraint
+[POWER_AWARE] Central Avoidance: Added away-from-center constraints for 2 high-power chiplets
+[DEBUG] L_avg: 35.69581348001471
+[DEBUG] total_area: 1274.1911
+[POWER_AWARE] Normalization factor calculation:
+[POWER_AWARE]   - High-power chiplets: 2
+[POWER_AWARE]   - High-power chiplet names: A(idx=0, power=4.800000e+01, area=7.977200e+01, density=6.017149e-01), B(idx=1, power=9.200000e+01, area=6.345500e+01, density=1.449846e+00)
+[POWER_AWARE]   - Mutual Distancing enabled: True
+[POWER_AWARE]   - Central Avoidance enabled: True
+[POWER_AWARE]   - pair_sum (MD): 4.416000e+03
+[POWER_AWARE]   - self_sum (CA): 1.076800e+04
+[POWER_AWARE]   - total_sum (pair + self): 1.518400e+04
+[POWER_AWARE]   - ref_power: 2.710026e+05
+[DEBUG] ref_wirelength: 89096.75044611673
+[DEBUG] ref_t: 71.39162696002943
+[DEBUG] ref_power: 271002.6159402717
+[DEBUG] ref_aspect: 46.75999999999999
+
+================================================================================
+[OBJECTIVE FUNCTION DETAILS]
+================================================================================
+
+[Normalization Reference Values]
+  ref_wirelength: 8.909675e+04
+  ref_t (area proxy): 7.139163e+01
+  ref_power: 2.710026e+05
+  ref_aspect: 4.676000e+01
+
+[Beta Weights]
+  beta_wire: 5.000000e+00
+  beta_area: 6.000000e+00
+  beta_aspect: 1.000000e-01
+  beta_power: 1.200000e+00
+
+[Objective Function Components]
+  1. Wirelength term:
+     norm_wirelength = wirelength / ref_wirelength
+     contribution = beta_wire * norm_wirelength = 5.0 * norm_wirelength
+  2. Area term:
+     norm_t = t / ref_t
+     contribution = beta_area * norm_t = 6.0 * norm_t
+  3. Aspect Ratio term:
+     norm_aspect = aspect_ratio_penalty / ref_aspect
+     contribution = beta_aspect * norm_aspect = 0.1 * norm_aspect
+  4. Power Awareness term:
+     norm_power = power_aware_penalty / ref_power
+     contribution = - beta_power * norm_power = - 1.2 * norm_power
+
+[Objective Function Formula]
+  minimize: 5.0 * wirelength/ref_wirelength
+          + 6.0 * t/ref_t
+          + 0.1 * aspect_ratio_penalty/ref_aspect
+          - 1.2 * power_aware_penalty/ref_power
+================================================================================
+
+
+[EMIB] ILP Model construction completed. Analyzing model structure...
+================================================================================
+ILP MODEL ANALYSIS REPORT - Chiplet Placement ILP (Construction Complete)
+Generated: 2026-07-03 13:35:00
+================================================================================
+
+[MODEL STRUCTURE]
+  Constraints (rows):                   1470
+  Variables (columns):                   672
+  Non-zero elements:                    5013
+  Objective coefficients:                  4
+
+[VARIABLE TYPES]
+  Continuous:                            269
+  Integer:                                 0
+  Binary:                                403
+
+[CONSTRAINT TYPES]
+  <= constraints:                              782
+  == constraints:                              209
+  >= constraints:                              479
+
+[COEFFICIENT STATISTICS]
+  Matrix range:              [2.93e-01, 8.46e+03]
+  Objective range:           [4.43e-06, 8.40e-02]
+  Bounds range:              [-3.06e+02, 2.01e+07]
+
+[SOLVE STATISTICS]
+  Status:                    Unknown(1)
+  Solve time (s):                       0.00
+  Solutions found:                         0
+  Nodes explored:            (not available)
+  Simplex iterations:        (not available)
+
+[MEMORY USAGE]
+  Initial memory:                     90.21 MB
+  Peak memory:                        94.32 MB
+  Final memory:                       94.32 MB
+  Peak increase:                       4.11 MB
+  Final increase:                      4.11 MB
+  Gurobi memory:                       0.00 MB
+  Gurobi peak memory:                  0.00 MB
+
+================================================================================
+[EMIB] Three-phase config: timeout=30, stage1=(gap=0.0, time=300), stage2=(gap=0.3, time=300), stage3=(gap=0.8, time=remaining)
+Set parameter TimeLimit to value 29
+Set parameter MIPGap to value 0
+Set parameter MIPFocus to value 3
+Set parameter Heuristics to value 0.5
+Set parameter LogToConsole to value 1
+[EMIB] Solve stage: stage1, MIPGap=0.0, TimeLimit=29s
+Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Ubuntu 20.04.6 LTS")
+
+CPU model: AMD Ryzen 9 9950X3D 16-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 14 physical cores, 28 logical processors, using up to 28 threads
+
+Non-default parameters:
+TimeLimit  29
+MIPGap  0
+Heuristics  0.5
+MIPFocus  3
+
+Optimize a model with 1470 rows, 672 columns and 5013 nonzeros (Min)
+Model fingerprint: 0xe052e185
+Model has 4 linear objective coefficients
+Variable types: 269 continuous, 403 integer (403 binary)
+Coefficient statistics:
+  Matrix range     [3e-01, 8e+03]
+  Objective range  [4e-06, 8e-02]
+  Bounds range     [9e-01, 2e+07]
+  RHS range        [9e-01, 3e+02]
+
+Presolve removed 120 rows and 104 columns
+Presolve time: 0.01s
+Presolved: 1350 rows, 568 columns, 4744 nonzeros
+Variable types: 191 continuous, 377 integer (377 binary)
+Root relaxation presolve removed 178 rows and 46 columns
+Root relaxation presolved: 1172 rows, 546 columns, 4334 nonzeros
+
+
+Root relaxation: objective -1.720158e+01, 290 iterations, 0.00 seconds (0.01 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  -17.20158    0  155          -  -17.20158      -     -    0s
+     0     0  -14.27470    0  179          -  -14.27470      -     -    0s
+     0     0  -14.27470    0  151          -  -14.27470      -     -    0s
+     0     0   -2.92362    0  154          -   -2.92362      -     -    0s
+     0     0   -0.80388    0  147          -   -0.80388      -     -    0s
+     0     0   -0.80388    0  147          -   -0.80388      -     -    0s
+     0     0   -0.80388    0  145          -   -0.80388      -     -    0s
+     0     0    2.06224    0  143          -    2.06224      -     -    0s
+     0     0    2.06224    0  149          -    2.06224      -     -    0s
+     0     0    2.06224    0  136          -    2.06224      -     -    0s
+     0     0    2.06224    0  135          -    2.06224      -     -    0s
+     0     0    2.06224    0  115          -    2.06224      -     -    0s
+     0     0    2.07975    0  125          -    2.07975      -     -    0s
+     0     0    2.07975    0  140          -    2.07975      -     -    0s
+     0     0    2.07975    0  143          -    2.07975      -     -    0s
+     0     0    2.07975    0  139          -    2.07975      -     -    0s
+     0     0    2.07975    0  139          -    2.07975      -     -    0s
+     0     0    2.07975    0  141          -    2.07975      -     -    0s
+     0     0    2.07975    0  155          -    2.07975      -     -    0s
+     0     0    2.07975    0  151          -    2.07975      -     -    0s
+     0     0    2.07975    0  135          -    2.07975      -     -    0s
+     0     0    2.13140    0  135          -    2.13140      -     -    0s
+     0     0    2.13140    0  131          -    2.13140      -     -    1s
+     0     2    2.13140    0  131          -    2.13140      -     -    2s
+  2096  1915    3.86783   10  206          -    3.62299      -  39.3    5s
+  9706  5406    5.85421   24   99          -    5.65111      -  68.4   10s
+ 25140 13277    6.53370   26   81          -    6.37220      -  53.6   15s
+ 52739 23808    9.48627   30   65          -    6.90995      -  45.4   20s
+ 89055 33413 infeasible   27               -    7.30730      -  40.6   25s
+
+Cutting planes:
+  Learned: 18
+  Gomory: 140
+  Lift-and-project: 44
+  Cover: 2
+  MIR: 49
+  Flow cover: 272
+  Inf proof: 13
+  RLT: 1
+
+Explored 108266 nodes (4337996 simplex iterations) in 29.01 seconds (48.54 work units)
+Thread count was 28 (of 28 available processors)
+
+Solution count 0
+
+Time limit reached
+Best objective -, best bound 7.514743786022e+00, gap -
+
+User-callback calls 229560, time in user-callback 0.21 sec
+
+
+================================================================================
+ILP MODEL ANALYSIS REPORT - Chiplet Placement ILP (After Optimize, Stage=stage1, Gap=0.0)
+Generated: 2026-07-03 13:35:29
+================================================================================
+
+[MODEL STRUCTURE]
+  Constraints (rows):                   1470
+  Variables (columns):                   672
+  Non-zero elements:                    5013
+  Objective coefficients:                  4
+
+[VARIABLE TYPES]
+  Continuous:                            269
+  Integer:                                 0
+  Binary:                                403
+
+[CONSTRAINT TYPES]
+  <= constraints:                              782
+  == constraints:                              209
+  >= constraints:                              479
+
+[COEFFICIENT STATISTICS]
+  Matrix range:              [2.93e-01, 8.46e+03]
+  Objective range:           [4.43e-06, 8.40e-02]
+  Bounds range:              [-3.06e+02, 2.01e+07]
+
+[SOLVE STATISTICS]
+  Status:                    Time Limit
+  Objective value:                       inf
+  Best bound:                       7.514744
+  MIP gap:                              inf%
+  Solve time (s):                      29.01
+  Solutions found:                         0
+  Nodes explored:                   108266.0
+  Simplex iterations:              4337996.0
+
+[MEMORY USAGE]
+  Initial memory:                     94.76 MB
+  Peak memory:                       635.59 MB
+  Final memory:                      633.95 MB
+  Peak increase:                     540.83 MB
+  Final increase:                    539.19 MB
+  Gurobi memory:                      61.32 MB
+  Gurobi peak memory:                508.13 MB
+
+================================================================================
+[EMIB] No feasible solution: stage=stage1, MIPGap=0.0, status=9, time=29.01s, SolCount=0
+[EMIB] Search failed, no feasible solution
+  ✓ EMIB: 0 solution(s)

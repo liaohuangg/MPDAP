@@ -1,0 +1,179 @@
+{
+  "chiplets": [
+    {
+      "name": "A",
+      "x-position": 8.75,
+      "y-position": 10.295129907384581,
+      "width": 8.25,
+      "height": 9.0,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "B",
+      "x-position": 17.0,
+      "y-position": 14.16036303425767,
+      "width": 8.25,
+      "height": 9.0,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "C",
+      "x-position": 25.25,
+      "y-position": 8.75,
+      "width": 8.25,
+      "height": 9.0,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "D",
+      "x-position": 17.0,
+      "y-position": 4.329604356256379,
+      "width": 8.25,
+      "height": 9.0,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "E",
+      "x-position": 0.0,
+      "y-position": 8.84588422815128,
+      "width": 8.75,
+      "height": 8.75,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "F",
+      "x-position": 25.25,
+      "y-position": 17.75,
+      "width": 8.75,
+      "height": 8.75,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "G",
+      "x-position": 33.5,
+      "y-position": 8.75,
+      "width": 8.75,
+      "height": 8.75,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "H",
+      "x-position": 25.25,
+      "y-position": 0.0,
+      "width": 8.75,
+      "height": 8.75,
+      "rotation": 0,
+      "power": 0.0
+    }
+  ],
+  "connections": [
+    {
+      "node1": "A",
+      "node2": "B",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 16.0,
+      "EMIB-y-position": 16.301096470821125,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "A",
+      "node2": "D",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 16.0,
+      "EMIB-y-position": 11.38571713182048,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "A",
+      "node2": "E",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 7.75,
+      "EMIB-y-position": 12.238857067767931,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "B",
+      "node2": "C",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 24.25,
+      "EMIB-y-position": 15.528531517128835,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "B",
+      "node2": "F",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 24.25,
+      "EMIB-y-position": 18.748531517128836,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "C",
+      "node2": "D",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 24.25,
+      "EMIB-y-position": 10.613152178128189,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "C",
+      "node2": "G",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 32.5,
+      "EMIB-y-position": 11.41835,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "D",
+      "node2": "H",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 24.25,
+      "EMIB-y-position": 4.83315217812819,
+      "EMIB-rotation": 1
+    }
+  ],
+  "wirelength": 54466.75,
+  "area": 1119.62,
+  "aspect_ratio": 1.59,
+  "interposer_size": 42.25,
+  "SAR": 0.59
+}

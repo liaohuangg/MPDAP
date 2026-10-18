@@ -1,298 +1,174 @@
 ================================================================================
-测试用例: multigpu
-时间: 2026-03-04T02:04:17.114721
+Test case: multigpu
+Status: completed
+Time: 2026-10-15T21:11:26.510243
 ================================================================================
 
-问题规模:
-  芯片数: 6
-  连接数: 3
+Problem size:
+  Chiplets: 6
+  Connections: 3
 
-运行统计:
-  总运行次数: 20
-  时间限制: 60.0 分钟
-  实际耗时: 13.54 分钟
+Run configuration:
+  Seeds: [1, 2, 3, 4]
+  Iteration cap: none (unbounded)
+  Stopping condition 1 (convergence): trajectory stopped -- cost band <= 1e-06 relative over the last 10000 iterations
+  Stopping condition 2 (wall clock): 3600 s (60.0 min)
+
+Run statistics:
+  Total solutions: 4
+  Actual time: 1.86 min
 
 ================================================================================
-每次运行详细记录:
+Per-run details:
 ================================================================================
 
-成功运行: 20/20
-失败运行: 0/20
+Successful runs: 4/4
+Failed runs: 0/4
+Runs that hit the time limit: 0
 
-Cost 统计:
-  最佳: 167.738720
-  最差: 167.738720
-  平均: 167.738720
+Cost statistics:
+  Best: 167.738720
+  Worst: 167.738720
+  Average: 167.738720
 
-时间统计:
-  平均找到解时间: 0.08 秒
-  平均总运行时间: 8.09 秒
+Time statistics (whole run = tree build + annealing):
+  Avg total run time: 27.46 s
+  Avg tree build time: 1.60 s (4 build(s) total)
+  Avg annealing time: 25.86 s
+  Layer split (averaged over 4 run(s)):
+    Layer 1 legality      Pc/Pl     : 0.00 s
+    Layer 2 shape+similar Px/Py/Ps  : 1.59 s
+    Layer 3 real quality  A/WL/R    : 25.86 s
 
 --------------------------------------------------------------------------------
-详细运行记录:
+Detailed run records:
 --------------------------------------------------------------------------------
 
-运行 #1:
-  随机种子: 44867
-  状态: success
+Run #1:
+  Random seed: 1
+  Status: success
   Cost: 167.738720
-  找到解用时: 0.11 秒
-  总运行时间: 8.14 秒
-  相对于用例开始: 32.86 秒
-  芯片数: 6
+  Total run time: 28.66 s
+  Tree build: 1 time(s), 1.62 s
+  Annealing: 27.05 s
+  Annealing wall clock: 27.05 s (29330 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 1.677e-04 = 1e-06 relative); best cost 167.7387 last improved at iteration 35 and has since occupied 52.3% of the 29330 iterations run))
+  Best cost occupied: 15332 iterations (52.3% of the run), last improved at iteration 35
+  Cost band over the last 10000 iterations: 0.000e+00 (ratio to cost 0.000e+00)
+  Time to best solution: 0.04 s
+  Hit time limit: False
+  Chiplets: 6
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :     0.00 s (  0.0%)  30 base-derivation runs (0 entered the legality SA_1, 30 already legal) -> 6 legal solutions / 6 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     1.61 s (  5.6%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes
+    layer 3  real quality     A/WL/R    :    27.05 s ( 94.4%)  29330 iterations, 15160 accepted / 14170 rejected, best found at 0.04 s (cost 176.4673 -> 167.7387), converged: converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 1.677e-04 = 1e-06 relative); best cost 167.7387 last improved at iteration 35 and has since occupied 52.3% of the 29330 iterations run)
+    --------------------------------------------------------------
+    build total (layers 1+2)            :     1.61 s (  5.6%)
+    full run (layers 1+2+3)             :    28.66 s (100.0%)
 
-运行 #2:
-  随机种子: 85757
-  状态: success
+Run #2:
+  Random seed: 2
+  Status: success
   Cost: 167.738720
-  找到解用时: 0.02 秒
-  总运行时间: 8.04 秒
-  相对于用例开始: 74.08 秒
-  芯片数: 6
+  Total run time: 26.45 s
+  Tree build: 1 time(s), 1.62 s
+  Annealing: 24.84 s
+  Annealing wall clock: 24.83 s (27224 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 1.677e-04 = 1e-06 relative); best cost 167.7387 last improved at iteration 34 and has since occupied 46.2% of the 27224 iterations run))
+  Best cost occupied: 12572 iterations (46.2% of the run), last improved at iteration 34
+  Cost band over the last 10000 iterations: 0.000e+00 (ratio to cost 0.000e+00)
+  Time to best solution: 0.03 s
+  Hit time limit: False
+  Chiplets: 6
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :     0.00 s (  0.0%)  30 base-derivation runs (0 entered the legality SA_1, 30 already legal) -> 6 legal solutions / 6 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     1.62 s (  6.1%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes
+    layer 3  real quality     A/WL/R    :    24.83 s ( 93.9%)  27224 iterations, 14608 accepted / 12616 rejected, best found at 0.03 s (cost 183.0878 -> 167.7387), converged: converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 1.677e-04 = 1e-06 relative); best cost 167.7387 last improved at iteration 34 and has since occupied 46.2% of the 27224 iterations run)
+    --------------------------------------------------------------
+    build total (layers 1+2)            :     1.62 s (  6.1%)
+    full run (layers 1+2+3)             :    26.45 s (100.0%)
 
-运行 #3:
-  随机种子: 26973
-  状态: success
+Run #3:
+  Random seed: 3
+  Status: success
   Cost: 167.738720
-  找到解用时: 0.06 秒
-  总运行时间: 8.07 秒
-  相对于用例开始: 114.75 秒
-  芯片数: 6
+  Total run time: 28.02 s
+  Tree build: 1 time(s), 1.58 s
+  Annealing: 26.44 s
+  Annealing wall clock: 26.44 s (28776 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 1.677e-04 = 1e-06 relative); best cost 167.7387 last improved at iteration 544 and has since occupied 49.7% of the 28776 iterations run))
+  Best cost occupied: 14306 iterations (49.7% of the run), last improved at iteration 544
+  Cost band over the last 10000 iterations: 0.000e+00 (ratio to cost 0.000e+00)
+  Time to best solution: 0.54 s
+  Hit time limit: False
+  Chiplets: 6
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :     0.00 s (  0.0%)  30 base-derivation runs (0 entered the legality SA_1, 30 already legal) -> 6 legal solutions / 6 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     1.57 s (  5.6%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes
+    layer 3  real quality     A/WL/R    :    26.44 s ( 94.4%)  28776 iterations, 14956 accepted / 13820 rejected, best found at 0.54 s (cost 177.0576 -> 167.7387), converged: converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 1.677e-04 = 1e-06 relative); best cost 167.7387 last improved at iteration 544 and has since occupied 49.7% of the 28776 iterations run)
+    --------------------------------------------------------------
+    build total (layers 1+2)            :     1.58 s (  5.6%)
+    full run (layers 1+2+3)             :    28.02 s (100.0%)
 
-运行 #4:
-  随机种子: 67624
-  状态: success
+Run #4:
+  Random seed: 4
+  Status: success
   Cost: 167.738720
-  找到解用时: 0.02 秒
-  总运行时间: 8.04 秒
-  相对于用例开始: 154.37 秒
-  芯片数: 6
-
-运行 #5:
-  随机种子: 7266
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.13 秒
-  总运行时间: 8.12 秒
-  相对于用例开始: 195.40 秒
-  芯片数: 6
-
-运行 #6:
-  随机种子: 48257
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.01 秒
-  总运行时间: 8.00 秒
-  相对于用例开始: 235.88 秒
-  芯片数: 6
-
-运行 #7:
-  随机种子: 88745
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.23 秒
-  总运行时间: 8.25 秒
-  相对于用例开始: 276.73 秒
-  芯片数: 6
-
-运行 #8:
-  随机种子: 29628
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.06 秒
-  总运行时间: 8.04 秒
-  相对于用例开始: 318.21 秒
-  芯片数: 6
-
-运行 #9:
-  随机种子: 71066
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.07 秒
-  总运行时间: 8.06 秒
-  相对于用例开始: 358.68 秒
-  芯片数: 6
-
-运行 #10:
-  随机种子: 11555
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.21 秒
-  总运行时间: 8.19 秒
-  相对于用例开始: 398.82 秒
-  芯片数: 6
-
-运行 #11:
-  随机种子: 51680
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.09 秒
-  总运行时间: 8.09 秒
-  相对于用例开始: 440.13 秒
-  芯片数: 6
-
-运行 #12:
-  随机种子: 93008
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.02 秒
-  总运行时间: 8.06 秒
-  相对于用例开始: 479.29 秒
-  芯片数: 6
-
-运行 #13:
-  随机种子: 32204
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.10 秒
-  总运行时间: 8.10 秒
-  相对于用例开始: 519.66 秒
-  芯片数: 6
-
-运行 #14:
-  随机种子: 72539
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.04 秒
-  总运行时间: 8.08 秒
-  相对于用例开始: 559.45 秒
-  芯片数: 6
-
-运行 #15:
-  随机种子: 12382
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.10 秒
-  总运行时间: 8.09 秒
-  相对于用例开始: 600.20 秒
-  芯片数: 6
-
-运行 #16:
-  随机种子: 53080
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.05 秒
-  总运行时间: 8.08 秒
-  相对于用例开始: 640.04 秒
-  芯片数: 6
-
-运行 #17:
-  随机种子: 92956
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.02 秒
-  总运行时间: 8.04 秒
-  相对于用例开始: 681.40 秒
-  芯片数: 6
-
-运行 #18:
-  随机种子: 34297
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.01 秒
-  总运行时间: 8.03 秒
-  相对于用例开始: 721.09 秒
-  芯片数: 6
-
-运行 #19:
-  随机种子: 73992
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.14 秒
-  总运行时间: 8.13 秒
-  相对于用例开始: 761.09 秒
-  芯片数: 6
-
-运行 #20:
-  随机种子: 13964
-  状态: success
-  Cost: 167.738720
-  找到解用时: 0.04 秒
-  总运行时间: 8.03 秒
-  相对于用例开始: 802.17 秒
-  芯片数: 6
+  Total run time: 26.71 s
+  Tree build: 1 time(s), 1.58 s
+  Annealing: 25.13 s
+  Annealing wall clock: 25.13 s (27209 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 1.680e-04 = 1e-06 relative); best cost 167.7387 last improved at iteration 417 and has since occupied 4.8% of the 27209 iterations run))
+  Best cost occupied: 1293 iterations (4.8% of the run), last improved at iteration 417
+  Cost band over the last 10000 iterations: 0.000e+00 (ratio to cost 0.000e+00)
+  Time to best solution: 0.42 s
+  Hit time limit: False
+  Chiplets: 6
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :     0.00 s (  0.0%)  30 base-derivation runs (0 entered the legality SA_1, 30 already legal) -> 6 legal solutions / 6 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     1.58 s (  5.9%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes
+    layer 3  real quality     A/WL/R    :    25.13 s ( 94.1%)  27209 iterations, 13344 accepted / 13865 rejected, best found at 0.42 s (cost 180.6757 -> 167.7387), converged: converged (trajectory stopped moving: cost stayed within 0.000e+00 over the last 10000 iterations, band 1.680e-04 = 1e-06 relative); best cost 167.7387 last improved at iteration 417 and has since occupied 4.8% of the 27209 iterations run)
+    --------------------------------------------------------------
+    build total (layers 1+2)            :     1.58 s (  5.9%)
+    full run (layers 1+2+3)             :    26.71 s (100.0%)
 
 ================================================================================
-Top 10 解:
+All 4 solutions (sorted by cost):
 ================================================================================
 
-解 #1:
+Solution #1 (rank 1 by cost):
   Cost: 167.738720
-  利用率: 86.18%
-  求解时间: 32.86 秒
-  来自运行: 1
-  JSON: solution_1_cost_167.738720.json
-  图片: solution_1_cost_167.738720.png
+  Utilization: 86.18%
+  Total run time: 28.66 s
+  From seed: 1
+  JSON: solution_1_seed01_cost_167.738720.json
+  Image: solution_1_seed01_cost_167.738720.png
+  Curve: convergence_1_seed01.png
 
-解 #2:
+Solution #2 (rank 2 by cost):
   Cost: 167.738720
-  利用率: 86.18%
-  求解时间: 74.08 秒
-  来自运行: 2
-  JSON: solution_2_cost_167.738720.json
-  图片: solution_2_cost_167.738720.png
+  Utilization: 86.18%
+  Total run time: 26.45 s
+  From seed: 2
+  JSON: solution_2_seed02_cost_167.738720.json
+  Image: solution_2_seed02_cost_167.738720.png
+  Curve: convergence_2_seed02.png
 
-解 #3:
+Solution #3 (rank 3 by cost):
   Cost: 167.738720
-  利用率: 86.18%
-  求解时间: 114.75 秒
-  来自运行: 3
-  JSON: solution_3_cost_167.738720.json
-  图片: solution_3_cost_167.738720.png
+  Utilization: 86.18%
+  Total run time: 28.02 s
+  From seed: 3
+  JSON: solution_3_seed03_cost_167.738720.json
+  Image: solution_3_seed03_cost_167.738720.png
+  Curve: convergence_3_seed03.png
 
-解 #4:
+Solution #4 (rank 4 by cost):
   Cost: 167.738720
-  利用率: 86.18%
-  求解时间: 154.37 秒
-  来自运行: 4
-  JSON: solution_4_cost_167.738720.json
-  图片: solution_4_cost_167.738720.png
-
-解 #5:
-  Cost: 167.738720
-  利用率: 86.18%
-  求解时间: 195.40 秒
-  来自运行: 5
-  JSON: solution_5_cost_167.738720.json
-  图片: solution_5_cost_167.738720.png
-
-解 #6:
-  Cost: 167.738720
-  利用率: 86.18%
-  求解时间: 235.88 秒
-  来自运行: 6
-  JSON: solution_6_cost_167.738720.json
-  图片: solution_6_cost_167.738720.png
-
-解 #7:
-  Cost: 167.738720
-  利用率: 86.18%
-  求解时间: 276.73 秒
-  来自运行: 7
-  JSON: solution_7_cost_167.738720.json
-  图片: solution_7_cost_167.738720.png
-
-解 #8:
-  Cost: 167.738720
-  利用率: 86.18%
-  求解时间: 318.21 秒
-  来自运行: 8
-  JSON: solution_8_cost_167.738720.json
-  图片: solution_8_cost_167.738720.png
-
-解 #9:
-  Cost: 167.738720
-  利用率: 86.18%
-  求解时间: 358.68 秒
-  来自运行: 9
-  JSON: solution_9_cost_167.738720.json
-  图片: solution_9_cost_167.738720.png
-
-解 #10:
-  Cost: 167.738720
-  利用率: 86.18%
-  求解时间: 398.82 秒
-  来自运行: 10
-  JSON: solution_10_cost_167.738720.json
-  图片: solution_10_cost_167.738720.png
+  Utilization: 86.18%
+  Total run time: 26.71 s
+  From seed: 4
+  JSON: solution_4_seed04_cost_167.738720.json
+  Image: solution_4_seed04_cost_167.738720.png
+  Curve: convergence_4_seed04.png
 

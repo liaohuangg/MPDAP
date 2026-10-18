@@ -1,0 +1,101 @@
+{
+  "chiplets": [
+    {
+      "name": "A",
+      "x-position": 7.75,
+      "y-position": 18.07,
+      "width": 12.0,
+      "height": 12.0,
+      "rotation": 0,
+      "power": 105.0
+    },
+    {
+      "name": "B",
+      "x-position": 6.5,
+      "y-position": 30.07,
+      "width": 18.2,
+      "height": 18.2,
+      "rotation": 0,
+      "power": 295.0
+    },
+    {
+      "name": "C",
+      "x-position": 19.75,
+      "y-position": 11.87,
+      "width": 18.2,
+      "height": 18.2,
+      "rotation": 0,
+      "power": 295.0
+    },
+    {
+      "name": "D",
+      "x-position": 12.0,
+      "y-position": 6.2,
+      "width": 7.75,
+      "height": 11.87,
+      "rotation": 0,
+      "power": 20.0
+    },
+    {
+      "name": "E",
+      "x-position": 0.0,
+      "y-position": 18.2,
+      "width": 7.75,
+      "height": 11.87,
+      "rotation": 0,
+      "power": 20.0
+    },
+    {
+      "name": "F",
+      "x-position": 30.0,
+      "y-position": 0.0,
+      "width": 7.75,
+      "height": 11.87,
+      "rotation": 0,
+      "power": 20.0
+    }
+  ],
+  "connections": [
+    {
+      "node1": "A",
+      "node2": "D",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 14.168333,
+      "EMIB-y-position": 17.07,
+      "EMIB-rotation": 0
+    },
+    {
+      "node1": "B",
+      "node2": "E",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 5.418333,
+      "EMIB-y-position": 29.07,
+      "EMIB-rotation": 0
+    },
+    {
+      "node1": "C",
+      "node2": "F",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 32.168333,
+      "EMIB-y-position": 10.87,
+      "EMIB-rotation": 0
+    }
+  ],
+  "wirelength": 62752.91,
+  "area": 1831.85,
+  "aspect_ratio": 0.79,
+  "interposer_size": 48.27,
+  "SAR": 0.27
+}
