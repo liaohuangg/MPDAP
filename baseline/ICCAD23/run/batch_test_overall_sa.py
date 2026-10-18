@@ -32,7 +32,56 @@ from OverallSA import overall_sa, format_layer_timing
 
 
 # ---- Run configuration ----
-SEEDS = [0, 1, 2, 3, 4]   # one SA run per seed, per case
+SEEDS = [0, 1, 2, 3, 4]   # one SA run per seed, per case (fixed-list mode)
+
+# Seed sweep mode (`--sweep`). Instead of a fixed seed list, a case is run with
+# seed = 0, 1, 2, ... and the seed is raised until the case has collected
+# SEED_SWEEP_TARGET solutions, or its own SEED_SWEEP_TIME_LIMIT seconds are
+# gone -- whichever comes first. Both budgets are PER CASE, not per batch.
+#
+# What counts is solutions, not attempts: a seed whose layer-1 base derivation
+# finds no legal layout logs a failed run and the sweep simply moves to the next
+# seed. That is the point -- on cpu-dram most seeds cannot build at all, so a
+# fixed seed list mostly measures the build failure rate, while the sweep keeps
+# paying for seeds until it has the number of solutions actually wanted.
+#
+# What it does NOT do is make the solutions comparable across bases: raising
+# BASE_DERIVATION_RUNS reshuffles the tree topology (see BtTree.py), so two
+# bases are two different search spaces, and a sweep at each does not isolate
+# the effect of the base.
+#
+# `SEED_SWEEP_START` is where the raising begins. It is for resuming a sweep
+# whose earlier seeds are already on disk: a resumed run counts only the
+# solutions IT produces, so to end up with N solutions in the directory, set
+# the target to what is still missing rather than to N.
+SEED_SWEEP = False
+SEED_SWEEP_TARGET = 5
+SEED_SWEEP_TIME_LIMIT = 3600
+SEED_SWEEP_START = 0
+
+# Seconds the case has ALREADY spent before this invocation (`--sweep-spent=SEC`).
+#
+# The time budget belongs to the case, not to the process. A sweep that is
+# resumed at seed 5 is not a fresh hour -- the seeds before it were paid for out
+# of the same hour, and a failed seed costs real time too (cpu-dram at base 50:
+# 32-35 s each). Restarting the clock at 0 on resume would quietly hand the case
+# 3600 s per invocation, so the elapsed time is carried in and subtracted:
+# the run stops when `spent_before + spent_now` reaches SEED_SWEEP_TIME_LIMIT.
+#
+# Left at None it is detected from the case's own log.json (`sweep_elapsed_seconds`,
+# which is cumulative across resumes) whenever the sweep is a resume
+# (`SEED_SWEEP_START > 0`) and that file exists; `--sweep-spent=0` disables the
+# carry-over and gives the invocation a fresh clock.
+SEED_SWEEP_SPENT = None
+
+# Wall-clock budget for the whole batch, across all cases (`--total-limit=SEC`,
+# 0 = none). It is enforced by trimming: a case is given at most the budget left
+# when it starts, so a case cannot run past the batch deadline, and cases that
+# would start after it is spent are skipped rather than run. Note what this
+# means for a multi-case run -- one slow case can spend the entire budget and
+# the rest never start, which is the intended reading of "the batch gets an
+# hour" but not the same as "each case gets an hour".
+BATCH_TIME_LIMIT = 3600
 # No iteration cap: annealing ends when it is over, not when a guessed iteration
 # count runs out. The run has exactly two stopping conditions --
 #   1. convergence: over the last CONVERGENCE_WINDOW iterations the cost has
@@ -174,8 +223,27 @@ def save_solution(layout, problem, cost, solution_idx, output_dir,
 def run_case_all_seeds(json_path, case_name, output_dir,
                        seeds=SEEDS,
                        max_iterations=MAX_ITERATIONS,
-                       time_limit=TIME_LIMIT):
-    """Run one SA per seed, saving each solution as soon as its run ends."""
+                       time_limit=TIME_LIMIT,
+                       seed_sweep_target=None,
+                       seed_sweep_time_limit=None,
+                       seed_sweep_start=0,
+                       seed_sweep_spent=0.0):
+    """Run one SA per seed, saving each solution as soon as its run ends.
+
+    With `seed_sweep_target` set the `seeds` list is ignored: seeds are taken as
+    `seed_sweep_start`, +1, +2, ... and the case stops once it holds that many
+    solutions, or after `seed_sweep_time_limit` seconds of its own clock. Both
+    are per case. Only solutions found by *this* call count towards the target,
+    which is what `seed_sweep_start` is for: resuming counts what is still
+    missing, not what the directory already holds.
+
+    `seed_sweep_spent` is time the case already spent in earlier invocations,
+    counted against the same budget: the clock that `seed_sweep_time_limit` is
+    measured on starts `seed_sweep_spent` seconds in the past. Resuming a sweep
+    therefore gets the remainder of the hour, not another hour.
+    """
+    sweep = seed_sweep_target is not None
+    sweep_spent = max(0.0, float(seed_sweep_spent or 0.0)) if sweep else 0.0
     print(f"\n{'='*80}")
     print(f"Test case: {case_name}")
     print(f"Input file: {json_path}")
@@ -186,7 +254,18 @@ def run_case_all_seeds(json_path, case_name, output_dir,
               else f"{max_iterations} iterations")
     cap = (f"stops when {freeze}, or at the {time_limit:.0f}s wall clock"
            if time_limit else f"stops when {freeze}")
-    print(f"Mode: {len(seeds)} runs, seeds={seeds}, no iteration cap: {cap}")
+    if sweep:
+        budget = (f"{seed_sweep_time_limit:.0f}s"
+                  if seed_sweep_time_limit else "no time limit")
+        carried = (f" (case clock starts at {sweep_spent:.1f}s already spent, "
+                   f"{max(0.0, seed_sweep_time_limit - sweep_spent):.1f}s left)"
+                   if seed_sweep_time_limit and sweep_spent else "")
+        print(f"Mode: seed sweep -- seed = {seed_sweep_start}, "
+              f"{seed_sweep_start + 1}, {seed_sweep_start + 2}, ... until "
+              f"{seed_sweep_target} solutions exist or {budget} of this case's "
+              f"clock is gone{carried}; no iteration cap: {cap}")
+    else:
+        print(f"Mode: {len(seeds)} runs, seeds={seeds}, no iteration cap: {cap}")
     print(f"{'='*80}\n")
 
     # Ensure output directory exists
@@ -203,8 +282,19 @@ def run_case_all_seeds(json_path, case_name, output_dir,
     # Per-run detail records
     run_details = []
 
+    # Seeds actually attempted, in order. In fixed-list mode this is just
+    # `seeds`; in sweep mode it is whatever the sweep got through before it
+    # stopped, which is the only place the final seed count is recorded.
+    seeds_run = []
+
     # Case start timestamp
     case_start_time = time.time()
+
+    # The clock the sweep budget is measured on: backdated by what the case
+    # already spent, so `time.time() - sweep_clock_start` is the case's total
+    # time, not this invocation's. `case_start_time` stays the real start, so
+    # the logged per-invocation times keep their meaning.
+    sweep_clock_start = case_start_time - sweep_spent
 
     def avg_layer(runs, key):
         """Average one per-layer timing field over the given runs (0.0 if none)."""
@@ -252,13 +342,21 @@ def run_case_all_seeds(json_path, case_name, output_dir,
             'case_name': case_name,
             'timestamp': datetime.now().isoformat(),
             'status': status,  # 'in_progress' while running, 'completed' at the end
-            'seeds': list(seeds),
+            'seeds': list(seeds_run),
             'total_runs': len(log_entries),
             'num_chiplets': len(problem.chiplets),
             'num_connections': problem.connection_graph.number_of_edges(),
             'max_iterations': max_iterations,
             'time_limit_seconds': time_limit,
             'total_time_seconds': time.time() - case_start_time,
+            # Sweep budget accounting. `sweep_elapsed_seconds` is cumulative over
+            # resumes and is the field to carry into the next one
+            # (`--sweep-spent=<that>`); `total_time_seconds` above is only this
+            # invocation's own slice.
+            'sweep_spent_before_seconds': sweep_spent if sweep else None,
+            'sweep_elapsed_seconds': (sweep_spent + time.time() - case_start_time
+                                      if sweep else None),
+            'sweep_time_limit_seconds': seed_sweep_time_limit if sweep else None,
             'statistics': stats,  # Summary statistics
             'run_details': run_details,  # Per-run details
             # Sorted by cost for readability; file names keep run order
@@ -279,7 +377,7 @@ def run_case_all_seeds(json_path, case_name, output_dir,
             f.write(f"  Chiplets: {log_info['num_chiplets']}\n")
             f.write(f"  Connections: {log_info['num_connections']}\n\n")
             f.write(f"Run configuration:\n")
-            f.write(f"  Seeds: {list(seeds)}\n")
+            f.write(f"  Seeds: {list(seeds_run)}\n")
             f.write(f"  Iteration cap: "
                     f"{max_iterations if max_iterations is not None else 'none (unbounded)'}\n")
             f.write(f"  Stopping condition 1 (convergence): trajectory stopped -- "
@@ -289,7 +387,19 @@ def run_case_all_seeds(json_path, case_name, output_dir,
                     f"{f'{time_limit} s ({time_limit/60:.1f} min)' if time_limit else 'none'}\n\n")
             f.write(f"Run statistics:\n")
             f.write(f"  Total solutions: {log_info['total_runs']}\n")
-            f.write(f"  Actual time: {log_info['total_time_seconds']/60:.2f} min\n\n")
+            f.write(f"  Actual time: {log_info['total_time_seconds']/60:.2f} min\n")
+            if sweep:
+                here = log_info['total_time_seconds'] / 60
+                before = log_info['sweep_spent_before_seconds'] / 60
+                if seed_sweep_time_limit:
+                    f.write(f"  Sweep budget: {before:.2f} min earlier + "
+                            f"{here:.2f} min here = "
+                            f"{log_info['sweep_elapsed_seconds']/60:.2f} min "
+                            f"of {seed_sweep_time_limit/60:.2f} min\n")
+                else:
+                    f.write(f"  Sweep budget: none "
+                            f"({log_info['sweep_elapsed_seconds']/60:.2f} min so far)\n")
+            f.write(f"\n")
 
             f.write(f"{'='*80}\n")
             f.write(f"Per-run details:\n")
@@ -399,10 +509,55 @@ def run_case_all_seeds(json_path, case_name, output_dir,
 
         return log_info
 
-    for run_idx, seed in enumerate(seeds, 1):
+    seed_iter = iter(seeds)
+    run_idx = 0
+    sweep_stop = None
+    while True:
+        if sweep:
+            # Checked before every run, and on solutions rather than attempts:
+            # a seed whose layer-1 build fails just advances the seed, so a case
+            # that rarely builds keeps being paid for until it has the count
+            # asked for. Both budgets are this case's own.
+            if len(log_entries) >= seed_sweep_target:
+                sweep_stop = (f'target reached: {len(log_entries)} solutions '
+                              f'from {run_idx} seeds')
+                break
+            if (seed_sweep_time_limit and
+                    time.time() - sweep_clock_start >= seed_sweep_time_limit):
+                sweep_stop = (f'sweep time limit {seed_sweep_time_limit:.0f}s '
+                              f'reached ({sweep_spent:.0f}s before this run + '
+                              f'{time.time() - case_start_time:.0f}s here): '
+                              f'{len(log_entries)} solutions from '
+                              f'{run_idx} seeds')
+                break
+            seed = seed_sweep_start + run_idx
+            # A case that rarely builds can go hundreds of seeds with nothing
+            # but failures, so say where the sweep is every 25 attempts.
+            if run_idx and run_idx % 25 == 0:
+                print(f"  SWEEP {run_idx} seeds tried (up to seed {seed - 1}), "
+                      f"{len(log_entries)}/{seed_sweep_target} solutions, "
+                      f"{(time.time() - sweep_clock_start)/60:.1f} min "
+                      f"of the case's budget")
+        else:
+            seed = next(seed_iter, None)
+            if seed is None:
+                break
+        run_idx += 1
+        seeds_run.append(seed)
         elapsed_time = time.time() - case_start_time
+        if sweep and sweep_spent:
+            # Show the case's whole clock, not just this invocation's slice --
+            # otherwise a resumed sweep looks like it is inside its budget when
+            # the time it inherited has already eaten most of it.
+            elapsed_str = (f"{sweep_spent/60:.1f} min earlier + "
+                           f"{elapsed_time/60:.1f} min here = "
+                           f"{(sweep_spent + elapsed_time)/60:.1f} min")
+        else:
+            elapsed_str = f"{elapsed_time/60:.1f} min"
+        progress = (f'{seed_sweep_target} solutions' if sweep
+                    else f'{len(seeds)}')
         print(f"\n{'─'*80}")
-        print(f"Run #{run_idx}/{len(seeds)} (seed={seed}, elapsed: {elapsed_time/60:.1f} min)")
+        print(f"Run #{run_idx}/{progress} (seed={seed}, elapsed: {elapsed_str})")
         print(f"{'─'*80}")
 
         # Fixed seed -> the run is reproducible
@@ -580,8 +735,13 @@ def run_case_all_seeds(json_path, case_name, output_dir,
 
     # All solutions are already on disk by now; report what was written
     print(f"\n{'='*80}")
-    print(f"Completed {len(log_entries)}/{len(seeds)} successful runs; "
-          f"all solutions already saved")
+    if sweep:
+        print(f"Seed sweep stopped: {sweep_stop}")
+        print(f"Completed {len(log_entries)}/{seed_sweep_target} solutions "
+              f"from {run_idx} seeds tried; all solutions already saved")
+    else:
+        print(f"Completed {len(log_entries)}/{len(seeds)} successful runs; "
+              f"all solutions already saved")
     print(f"{'='*80}")
 
     # Run statistics
@@ -673,21 +833,56 @@ def main():
         python batch_test_overall_sa.py                     # all cases, SEEDS
         python batch_test_overall_sa.py syn1 syn2           # selected cases
         python batch_test_overall_sa.py hp6_m --seeds=1,2,3,4,5
+        python batch_test_overall_sa.py cpu-dram --sweep    # raise the seed
+        python batch_test_overall_sa.py cpu-dram --sweep --sweep-target=5
+        python batch_test_overall_sa.py --sweep --sweep-limit=1800
     """
 
     # Config (relative to ICCAD23/run/, which is the expected CWD)
     benchmark_dir = os.path.join("..", "..", "..", "benchmark", "test_input")
     result_base_dir = os.path.join("..", "result")
 
-    # `--seeds=1,2,3,4,5` overrides the configured seed list
+    # `--seeds=1,2,3,4,5` overrides the configured seed list; `--sweep` ignores
+    # the list entirely and raises the seed per case instead (see SEED_SWEEP_*
+    # above). `--sweep-target=N` / `--sweep-limit=SECONDS` override the budgets;
+    # `--sweep-limit=0` means no time budget, solution count only.
     seeds = SEEDS
+    seed_sweep = SEED_SWEEP
+    seed_sweep_target = SEED_SWEEP_TARGET
+    seed_sweep_time_limit = SEED_SWEEP_TIME_LIMIT
+    seed_sweep_start = SEED_SWEEP_START
+    seed_sweep_spent = SEED_SWEEP_SPENT
+    batch_time_limit = BATCH_TIME_LIMIT
     argv = []
     for arg in sys.argv[1:]:
         if arg.startswith("--seeds="):
             seeds = [int(s) for s in arg.split("=", 1)[1].split(",") if s.strip() != ""]
+        elif arg.startswith("--total-limit="):
+            value = float(arg.split("=", 1)[1])
+            batch_time_limit = value if value > 0 else None
+        elif arg == "--sweep":
+            seed_sweep = True
+        elif arg.startswith("--sweep-target="):
+            seed_sweep_target = int(arg.split("=", 1)[1])
+            seed_sweep = True
+        elif arg.startswith("--sweep-limit="):
+            value = float(arg.split("=", 1)[1])
+            seed_sweep_time_limit = value if value > 0 else None
+            seed_sweep = True
+        elif arg.startswith("--seed-start="):
+            seed_sweep_start = int(arg.split("=", 1)[1])
+            seed_sweep = True
+        elif arg.startswith("--sweep-spent="):
+            # Seconds already spent on this case by earlier seeds. 0 gives the
+            # invocation a fresh clock; "auto" reads the case's log.json.
+            raw = arg.split("=", 1)[1].strip()
+            seed_sweep_spent = None if raw == "auto" else float(raw)
+            seed_sweep = True
         else:
             argv.append(arg)
     sys.argv = [sys.argv[0]] + argv
+    if not seed_sweep:
+        seed_sweep_target = seed_sweep_time_limit = None
 
     if not os.path.isdir(benchmark_dir):
         sys.exit(f"✗ Benchmark dir not found: {os.path.abspath(benchmark_dir)}\n"
@@ -719,18 +914,36 @@ def main():
         print(f"Excluded ({len(excluded_cases)}):")
         for case_name, reason in excluded_cases:
             print(f"  - {case_name}: {reason}")
-    print(f"Usage: python batch_test_overall_sa.py [case1] [case2] ... [--seeds=1,2,3]")
+    print(f"Usage: python batch_test_overall_sa.py [case1] [case2] ... "
+          f"[--seeds=1,2,3] [--sweep]")
     print(f"{'#'*80}\n")
 
     print(f"Run settings:")
-    print(f"  Seeds per case: {seeds} (one SA run per seed)")
+    if seed_sweep:
+        limit = (f"{seed_sweep_time_limit:.0f} s "
+                 f"({seed_sweep_time_limit/60:.1f} min) per case"
+                 if seed_sweep_time_limit else "none")
+        print(f"  Seeds per case: sweep -- seed = {seed_sweep_start}, "
+              f"{seed_sweep_start + 1}, {seed_sweep_start + 2}, ... until "
+              f"{seed_sweep_target} solutions, budget {limit}")
+        if seed_sweep_spent is None:
+            print(f"  Budget carried over: "
+                  f"{'from each case log.json (resume)' if seed_sweep_start > 0 else 'no (fresh clock)'}"
+                  f" -- seeds before this run count against {limit}")
+        else:
+            print(f"  Budget carried over: {seed_sweep_spent:.0f} s charged to "
+                  f"each case before it starts")
+    else:
+        print(f"  Seeds per case: {seeds} (one SA run per seed)")
     print(f"  Iteration cap: "
           f"{'none (unbounded)' if MAX_ITERATIONS is None else MAX_ITERATIONS}")
     print(f"  Stopping condition 1 (convergence): cost band <= "
           f"{CONVERGENCE_COST_TOL:.0e} relative over the last "
           f"{CONVERGENCE_WINDOW} iterations")
     print(f"  Stopping condition 2 (wall clock): "
-          f"{f'{TIME_LIMIT} s ({TIME_LIMIT/60:.1f} min)' if TIME_LIMIT else 'none'}\n")
+          f"{f'{TIME_LIMIT} s ({TIME_LIMIT/60:.1f} min)' if TIME_LIMIT else 'none'}")
+    print(f"  Batch time limit (all cases): "
+          f"{f'{batch_time_limit:.0f} s ({batch_time_limit/60:.1f} min)' if batch_time_limit else 'none'}\n")
 
     # Summary
     summary = []
@@ -756,6 +969,60 @@ def main():
             })
             continue
 
+        # Batch budget: hand this case at most what is left of it, and skip it
+        # outright once the budget is spent. Trimming rather than checking after
+        # the fact is what makes the deadline hard -- a case cannot overshoot it
+        # by running a whole case's worth.
+        # Carry-over: what this case already spent in earlier invocations, read
+        # from its own log.json. Only in sweep mode, and only for a resume
+        # (`--seed-start > 0`) -- starting over at seed 0 is a new sweep and
+        # gets a fresh clock, otherwise an old log would tax the new run.
+        case_sweep_spent = seed_sweep_spent
+        if seed_sweep and case_sweep_spent is None:
+            case_sweep_spent = 0.0
+            prev_log = os.path.join(output_dir, 'log.json')
+            if seed_sweep_start > 0 and os.path.exists(prev_log):
+                try:
+                    with open(prev_log, encoding='utf-8') as fh:
+                        prev = json.load(fh)
+                    # Cumulative across resumes; fall back to the invocation
+                    # time for a log written before this field existed.
+                    if prev.get('sweep_elapsed_seconds') is not None:
+                        case_sweep_spent = float(prev['sweep_elapsed_seconds'])
+                    else:
+                        case_sweep_spent = float(prev.get('total_time_seconds') or 0.0)
+                    print(f"\n  Carry-over: {case_sweep_spent:.1f}s already spent "
+                          f"on {case_name} in earlier seeds "
+                          f"(seeds {prev.get('seeds')})")
+                    if seed_sweep_time_limit:
+                        left = seed_sweep_time_limit - case_sweep_spent
+                        print(f"  Budget: {seed_sweep_time_limit:.0f}s total "
+                              f"- {case_sweep_spent:.0f}s spent = {left:.0f}s left")
+                        if left <= 0:
+                            print(f"  ⚠ {case_name}: the case's budget is already "
+                                  f"spent; resuming would add no seeds")
+                except Exception as exc:      # noqa: BLE001 - never block a run
+                    print(f"\n  ⚠ Could not read {prev_log} for carry-over "
+                          f"({type(exc).__name__}: {exc}); assuming 0s")
+
+        case_sweep_limit = seed_sweep_time_limit
+        if batch_time_limit:
+            spent = time.time() - overall_start_time
+            remaining = batch_time_limit - spent
+            if remaining <= 0:
+                print(f"\n⚠ Skipping {case_name}: batch time limit "
+                      f"{batch_time_limit:.0f}s already spent ({spent:.0f}s)")
+                summary.append({
+                    'case_name': case_name,
+                    'status': 'skipped_no_budget',
+                    'error': f'batch time limit {batch_time_limit:.0f}s spent'
+                })
+                continue
+            if case_sweep_limit is None or remaining < case_sweep_limit:
+                case_sweep_limit = remaining
+                print(f"\n  Batch budget: {remaining:.0f}s left, "
+                      f"capping {case_name} at that")
+
         try:
             log_info = run_case_all_seeds(
                 json_path=json_path,
@@ -763,19 +1030,30 @@ def main():
                 output_dir=output_dir,
                 seeds=seeds,
                 max_iterations=MAX_ITERATIONS,
-                time_limit=TIME_LIMIT
+                time_limit=TIME_LIMIT,
+                seed_sweep_target=seed_sweep_target,
+                seed_sweep_time_limit=case_sweep_limit,
+                seed_sweep_start=seed_sweep_start,
+                seed_sweep_spent=case_sweep_spent
             )
 
-            # Record summary
+            # Record summary. Status is about solutions, not about whether the
+            # call returned: a case whose every seed failed the layer-1 build
+            # used to land here as 'success' with num_solutions 0 and a best
+            # cost of inf, which reads as a usable row in a results table. It is
+            # 'no_solution' now so it cannot be mistaken for one.
             solutions = log_info['solutions']
-            best_cost = solutions[0]['cost'] if solutions else float('inf')
             summary.append({
                 'case_name': case_name,
-                'status': 'success',
+                'status': 'success' if solutions else 'no_solution',
                 'num_solutions': len(solutions),
-                'best_cost': best_cost,
+                'num_seeds_tried': len(log_info.get('seeds') or []),
+                'best_cost': min(e['cost'] for e in solutions) if solutions else None,
                 'hit_time_limit_count': log_info['statistics'].get('hit_time_limit_count', 0),
-                'time_seconds': log_info['total_time_seconds']
+                # This invocation's own seconds, and the case's cumulative sweep
+                # seconds including the seeds run before it.
+                'time_seconds': log_info['total_time_seconds'],
+                'sweep_elapsed_seconds': log_info.get('sweep_elapsed_seconds')
             })
 
         except Exception as e:
@@ -810,9 +1088,18 @@ def main():
                   f"{item['best_cost']:<15.6f} "
                   f"{item.get('hit_time_limit_count', 0):<10} "
                   f"{item['time_seconds']/60:<15.2f}")
-        elif item['status'] == 'skipped':
+        elif item['status'] == 'no_solution':
             print(f"{item['case_name']:<20} "
-                  f"{'⊘ Skipped':<10} "
+                  f"{'∅ No solution':<10} "
+                  f"{0:<10} "
+                  f"{'-':<15} "
+                  f"{item.get('hit_time_limit_count', 0):<10} "
+                  f"{item['time_seconds']/60:<15.2f}")
+        elif item['status'] in ('skipped', 'skipped_no_budget'):
+            label = ('⊘ No budget' if item['status'] == 'skipped_no_budget'
+                     else '⊘ Skipped')
+            print(f"{item['case_name']:<20} "
+                  f"{label:<10} "
                   f"{'-':<10} "
                   f"{'-':<15} "
                   f"{'-':<10} "
@@ -831,7 +1118,16 @@ def main():
     summary_path = os.path.join(result_base_dir, "summary.json")
     summary_data = {
         'timestamp': datetime.now().isoformat(),
-        'seeds': SEEDS,
+        # In sweep mode `seeds` is not a fixed list, so record the sweep budget
+        # instead -- the seeds each case actually used are in its own log.json.
+        'seed_mode': ('sweep' if seed_sweep else 'fixed-list'),
+        'seeds': None if seed_sweep else seeds,
+        'seed_sweep_target': seed_sweep_target,
+        'seed_sweep_time_limit': seed_sweep_time_limit,
+        'seed_sweep_start': seed_sweep_start if seed_sweep else None,
+        # None = carried over per case from its own log.json (see --sweep-spent).
+        'seed_sweep_spent': seed_sweep_spent if seed_sweep else None,
+        'batch_time_limit': batch_time_limit,
         'time_limit_seconds': TIME_LIMIT,
         'max_iterations': MAX_ITERATIONS,
         'convergence_window': CONVERGENCE_WINDOW,

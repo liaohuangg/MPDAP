@@ -1,7 +1,7 @@
 ================================================================================
 Test case: acend910
 Status: completed
-Time: 2026-10-15T19:03:24.412934
+Time: 2026-10-15T21:05:38.009573
 ================================================================================
 
 Problem size:
@@ -9,21 +9,21 @@ Problem size:
   Connections: 4
 
 Run configuration:
-  Seeds: [0, 1, 2, 3, 4]
+  Seeds: [1, 2, 3, 4]
   Iteration cap: none (unbounded)
   Stopping condition 1 (convergence): trajectory stopped -- cost band <= 1e-06 relative over the last 10000 iterations
   Stopping condition 2 (wall clock): 3600 s (60.0 min)
 
 Run statistics:
-  Total solutions: 5
-  Actual time: 3.39 min
+  Total solutions: 4
+  Actual time: 1.07 min
 
 ================================================================================
 Per-run details:
 ================================================================================
 
-Successful runs: 5/5
-Failed runs: 0/5
+Successful runs: 4/4
+Failed runs: 0/4
 Runs that hit the time limit: 0
 
 Cost statistics:
@@ -32,174 +32,143 @@ Cost statistics:
   Average: 78.011238
 
 Time statistics (whole run = tree build + annealing):
-  Avg total run time: 40.18 s
-  Avg tree build time: 25.96 s (5 build(s) total)
-  Avg annealing time: 14.22 s
-  Layer split (averaged over 5 run(s)):
-    Layer 1 legality      Pc/Pl     : 2.45 s
-    Layer 2 shape+similar Px/Py/Ps  : 23.51 s
-    Layer 3 real quality  A/WL/R    : 14.22 s
+  Avg total run time: 15.63 s
+  Avg tree build time: 2.03 s (4 build(s) total)
+  Avg annealing time: 13.60 s
+  Layer split (averaged over 4 run(s)):
+    Layer 1 legality      Pc/Pl     : 0.59 s
+    Layer 2 shape+similar Px/Py/Ps  : 1.45 s
+    Layer 3 real quality  A/WL/R    : 13.60 s
 
 --------------------------------------------------------------------------------
 Detailed run records:
 --------------------------------------------------------------------------------
 
 Run #1:
-  Random seed: 0
-  Status: success
-  Cost: 78.011238
-  Total run time: 28.29 s
-  Tree build: 1 time(s), 15.12 s
-  Annealing: 13.18 s
-  Annealing wall clock: 13.18 s (27735 iterations)
-  Converged: True (converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.801e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 3320 and has since occupied 43.3% of the 27735 iterations run))
-  Best cost occupied: 11997 iterations (43.3% of the run), last improved at iteration 3320
-  Cost band over the last 10000 iterations: 1.421e-14 (ratio to cost 1.822e-16)
-  Time to best solution: 1.85 s
-  Hit time limit: False
-  Chiplets: 6
-  Per-layer time (three stacked SAs, one wall clock, different objectives):
-    layer 1  legality         Pc/Pl     :     0.50 s (  1.8%)  50 base-derivation runs (5 entered the legality SA_1, 45 already legal) -> 64 legal solutions / 42 root nodes
-    layer 2  shape+similarity Px/Py/Ps  :    14.62 s ( 51.7%)  42 trees, 42 neighbour SA calls (35993 iterations), 4200 candidates, forest of 4242 nodes
-    layer 3  real quality     A/WL/R    :    13.18 s ( 46.6%)  27735 iterations, 19561 accepted / 8174 rejected, best found at 1.85 s (cost 81.4987 -> 78.0112), converged: converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.801e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 3320 and has since occupied 43.3% of the 27735 iterations run)
-    --------------------------------------------------------------
-    build total (layers 1+2)            :    15.12 s ( 53.4%)
-    full run (layers 1+2+3)             :    28.29 s (100.0%)
-
-Run #2:
   Random seed: 1
   Status: success
   Cost: 78.011238
-  Total run time: 45.87 s
-  Tree build: 1 time(s), 30.65 s
-  Annealing: 15.22 s
-  Annealing wall clock: 15.22 s (27143 iterations)
-  Converged: True (converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.801e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 536 and has since occupied 45.1% of the 27143 iterations run))
-  Best cost occupied: 12237 iterations (45.1% of the run), last improved at iteration 536
-  Cost band over the last 10000 iterations: 1.421e-14 (ratio to cost 1.822e-16)
-  Time to best solution: 0.29 s
+  Total run time: 16.16 s
+  Tree build: 1 time(s), 3.81 s
+  Annealing: 12.35 s
+  Annealing wall clock: 12.35 s (27703 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.802e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 1065 and has since occupied 5.8% of the 27703 iterations run))
+  Best cost occupied: 1605 iterations (5.8% of the run), last improved at iteration 1065
+  Cost band over the last 10000 iterations: 1.421e-14 (ratio to cost 1.821e-16)
+  Time to best solution: 0.59 s
   Hit time limit: False
   Chiplets: 6
   Per-layer time (three stacked SAs, one wall clock, different objectives):
-    layer 1  legality         Pc/Pl     :     2.83 s (  6.2%)  50 base-derivation runs (11 entered the legality SA_1, 39 already legal) -> 200 legal solutions / 84 root nodes
-    layer 2  shape+similarity Px/Py/Ps  :    27.82 s ( 60.6%)  84 trees, 84 neighbour SA calls (70753 iterations), 8400 candidates, forest of 8484 nodes
-    layer 3  real quality     A/WL/R    :    15.22 s ( 33.2%)  27143 iterations, 19190 accepted / 7953 rejected, best found at 0.29 s (cost 81.4987 -> 78.0112), converged: converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.801e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 536 and has since occupied 45.1% of the 27143 iterations run)
+    layer 1  legality         Pc/Pl     :     1.36 s (  8.4%)  10 base-derivation runs (3 entered the legality SA_1, 7 already legal) -> 116 legal solutions / 51 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     2.45 s ( 15.1%)  51 trees, 51 neighbour SA calls (12251 iterations), 1530 candidates, forest of 1581 nodes
+    layer 3  real quality     A/WL/R    :    12.35 s ( 76.4%)  27703 iterations, 19489 accepted / 8214 rejected, best found at 0.59 s (cost 81.4987 -> 78.0112), converged: converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.802e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 1065 and has since occupied 5.8% of the 27703 iterations run)
     --------------------------------------------------------------
-    build total (layers 1+2)            :    30.65 s ( 66.8%)
-    full run (layers 1+2+3)             :    45.87 s (100.0%)
+    build total (layers 1+2)            :     3.81 s ( 23.6%)
+    full run (layers 1+2+3)             :    16.16 s (100.0%)
 
-Run #3:
+Run #2:
   Random seed: 2
   Status: success
   Cost: 78.011238
-  Total run time: 50.93 s
-  Tree build: 1 time(s), 37.22 s
-  Annealing: 13.71 s
-  Annealing wall clock: 13.71 s (27266 iterations)
-  Converged: True (converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.802e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 2484 and has since occupied 2.8% of the 27266 iterations run))
-  Best cost occupied: 766 iterations (2.8% of the run), last improved at iteration 2484
-  Cost band over the last 10000 iterations: 1.421e-14 (ratio to cost 1.821e-16)
-  Time to best solution: 1.66 s
+  Total run time: 16.23 s
+  Tree build: 1 time(s), 1.73 s
+  Annealing: 14.50 s
+  Annealing wall clock: 14.50 s (27126 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.801e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 1306 and has since occupied 46.3% of the 27126 iterations run))
+  Best cost occupied: 12549 iterations (46.3% of the run), last improved at iteration 1306
+  Cost band over the last 10000 iterations: 1.421e-14 (ratio to cost 1.822e-16)
+  Time to best solution: 0.71 s
   Hit time limit: False
   Chiplets: 6
   Per-layer time (three stacked SAs, one wall clock, different objectives):
-    layer 1  legality         Pc/Pl     :     5.14 s ( 10.1%)  50 base-derivation runs (12 entered the legality SA_1, 38 already legal) -> 271 legal solutions / 91 root nodes
-    layer 2  shape+similarity Px/Py/Ps  :    32.08 s ( 63.0%)  91 trees, 91 neighbour SA calls (81086 iterations), 9100 candidates, forest of 9191 nodes
-    layer 3  real quality     A/WL/R    :    13.71 s ( 26.9%)  27266 iterations, 19585 accepted / 7681 rejected, best found at 1.66 s (cost 81.4987 -> 78.0112), converged: converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.802e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 2484 and has since occupied 2.8% of the 27266 iterations run)
+    layer 1  legality         Pc/Pl     :     0.46 s (  2.8%)  10 base-derivation runs (3 entered the legality SA_1, 7 already legal) -> 28 legal solutions / 21 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     1.27 s (  7.8%)  21 trees, 21 neighbour SA calls (5353 iterations), 630 candidates, forest of 651 nodes
+    layer 3  real quality     A/WL/R    :    14.50 s ( 89.3%)  27126 iterations, 19552 accepted / 7574 rejected, best found at 0.71 s (cost 81.4987 -> 78.0112), converged: converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.801e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 1306 and has since occupied 46.3% of the 27126 iterations run)
     --------------------------------------------------------------
-    build total (layers 1+2)            :    37.22 s ( 73.1%)
-    full run (layers 1+2+3)             :    50.93 s (100.0%)
+    build total (layers 1+2)            :     1.73 s ( 10.7%)
+    full run (layers 1+2+3)             :    16.23 s (100.0%)
 
-Run #4:
+Run #3:
   Random seed: 3
   Status: success
   Cost: 78.011238
-  Total run time: 28.10 s
-  Tree build: 1 time(s), 14.40 s
-  Annealing: 13.70 s
-  Annealing wall clock: 13.70 s (28606 iterations)
-  Converged: True (converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.802e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 1312 and has since occupied 5.4% of the 28606 iterations run))
-  Best cost occupied: 1542 iterations (5.4% of the run), last improved at iteration 1312
-  Cost band over the last 10000 iterations: 1.421e-14 (ratio to cost 1.821e-16)
-  Time to best solution: 0.73 s
+  Total run time: 12.96 s
+  Tree build: 1 time(s), 0.44 s
+  Annealing: 12.53 s
+  Annealing wall clock: 12.53 s (28049 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.801e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 757 and has since occupied 40.3% of the 28049 iterations run))
+  Best cost occupied: 11313 iterations (40.3% of the run), last improved at iteration 757
+  Cost band over the last 10000 iterations: 1.421e-14 (ratio to cost 1.822e-16)
+  Time to best solution: 0.41 s
   Hit time limit: False
   Chiplets: 6
   Per-layer time (three stacked SAs, one wall clock, different objectives):
-    layer 1  legality         Pc/Pl     :     0.52 s (  1.8%)  50 base-derivation runs (6 entered the legality SA_1, 44 already legal) -> 48 legal solutions / 36 root nodes
-    layer 2  shape+similarity Px/Py/Ps  :    13.88 s ( 49.4%)  36 trees, 36 neighbour SA calls (31361 iterations), 3600 candidates, forest of 3636 nodes
-    layer 3  real quality     A/WL/R    :    13.70 s ( 48.7%)  28606 iterations, 20108 accepted / 8498 rejected, best found at 0.73 s (cost 81.4987 -> 78.0112), converged: converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.802e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 1312 and has since occupied 5.4% of the 28606 iterations run)
+    layer 1  legality         Pc/Pl     :     0.00 s (  0.0%)  10 base-derivation runs (1 entered the legality SA_1, 9 already legal) -> 9 legal solutions / 9 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     0.43 s (  3.3%)  9 trees, 9 neighbour SA calls (1928 iterations), 270 candidates, forest of 279 nodes
+    layer 3  real quality     A/WL/R    :    12.53 s ( 96.6%)  28049 iterations, 19016 accepted / 9033 rejected, best found at 0.41 s (cost 81.4987 -> 78.0112), converged: converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.801e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 757 and has since occupied 40.3% of the 28049 iterations run)
     --------------------------------------------------------------
-    build total (layers 1+2)            :    14.40 s ( 51.3%)
-    full run (layers 1+2+3)             :    28.10 s (100.0%)
+    build total (layers 1+2)            :     0.43 s (  3.4%)
+    full run (layers 1+2+3)             :    12.96 s (100.0%)
 
-Run #5:
+Run #4:
   Random seed: 4
   Status: success
   Cost: 78.011238
-  Total run time: 47.69 s
-  Tree build: 1 time(s), 32.39 s
-  Annealing: 15.30 s
-  Annealing wall clock: 15.30 s (27355 iterations)
-  Converged: True (converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.802e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 19 and has since occupied 3.8% of the 27355 iterations run))
-  Best cost occupied: 1050 iterations (3.8% of the run), last improved at iteration 19
-  Cost band over the last 10000 iterations: 1.421e-14 (ratio to cost 1.821e-16)
-  Time to best solution: 0.01 s
+  Total run time: 17.17 s
+  Tree build: 1 time(s), 2.16 s
+  Annealing: 15.01 s
+  Annealing wall clock: 15.01 s (28153 iterations)
+  Converged: True (converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.801e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 415 and has since occupied 47.0% of the 28153 iterations run))
+  Best cost occupied: 13223 iterations (47.0% of the run), last improved at iteration 415
+  Cost band over the last 10000 iterations: 1.421e-14 (ratio to cost 1.822e-16)
+  Time to best solution: 0.22 s
   Hit time limit: False
   Chiplets: 6
   Per-layer time (three stacked SAs, one wall clock, different objectives):
-    layer 1  legality         Pc/Pl     :     3.25 s (  6.8%)  50 base-derivation runs (9 entered the legality SA_1, 41 already legal) -> 265 legal solutions / 89 root nodes
-    layer 2  shape+similarity Px/Py/Ps  :    29.14 s ( 61.1%)  89 trees, 89 neighbour SA calls (72993 iterations), 8900 candidates, forest of 8989 nodes
-    layer 3  real quality     A/WL/R    :    15.30 s ( 32.1%)  27355 iterations, 19571 accepted / 7784 rejected, best found at 0.01 s (cost 81.4987 -> 78.0112), converged: converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.802e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 19 and has since occupied 3.8% of the 27355 iterations run)
+    layer 1  legality         Pc/Pl     :     0.53 s (  3.1%)  10 base-derivation runs (2 entered the legality SA_1, 8 already legal) -> 78 legal solutions / 34 root nodes
+    layer 2  shape+similarity Px/Py/Ps  :     1.63 s (  9.5%)  34 trees, 34 neighbour SA calls (7482 iterations), 1020 candidates, forest of 1054 nodes
+    layer 3  real quality     A/WL/R    :    15.01 s ( 87.4%)  28153 iterations, 19791 accepted / 8362 rejected, best found at 0.22 s (cost 81.4987 -> 78.0112), converged: converged (trajectory stopped moving: cost stayed within 1.421e-14 over the last 10000 iterations, band 7.801e-05 = 1e-06 relative); best cost 78.0112 last improved at iteration 415 and has since occupied 47.0% of the 28153 iterations run)
     --------------------------------------------------------------
-    build total (layers 1+2)            :    32.39 s ( 67.9%)
-    full run (layers 1+2+3)             :    47.69 s (100.0%)
+    build total (layers 1+2)            :     2.16 s ( 12.6%)
+    full run (layers 1+2+3)             :    17.17 s (100.0%)
 
 ================================================================================
-All 5 solutions (sorted by cost):
+All 4 solutions (sorted by cost):
 ================================================================================
 
 Solution #1 (rank 1 by cost):
   Cost: 78.011238
   Utilization: 78.86%
-  Total run time: 28.29 s
-  From seed: 0
-  JSON: solution_1_seed00_cost_78.011238.json
-  Image: solution_1_seed00_cost_78.011238.png
-  Curve: convergence_1_seed00.png
+  Total run time: 16.16 s
+  From seed: 1
+  JSON: solution_1_seed01_cost_78.011238.json
+  Image: solution_1_seed01_cost_78.011238.png
+  Curve: convergence_1_seed01.png
 
 Solution #2 (rank 2 by cost):
   Cost: 78.011238
   Utilization: 78.86%
-  Total run time: 45.87 s
-  From seed: 1
-  JSON: solution_2_seed01_cost_78.011238.json
-  Image: solution_2_seed01_cost_78.011238.png
-  Curve: convergence_2_seed01.png
+  Total run time: 16.23 s
+  From seed: 2
+  JSON: solution_2_seed02_cost_78.011238.json
+  Image: solution_2_seed02_cost_78.011238.png
+  Curve: convergence_2_seed02.png
 
 Solution #3 (rank 3 by cost):
   Cost: 78.011238
   Utilization: 78.86%
-  Total run time: 50.93 s
-  From seed: 2
-  JSON: solution_3_seed02_cost_78.011238.json
-  Image: solution_3_seed02_cost_78.011238.png
-  Curve: convergence_3_seed02.png
+  Total run time: 12.96 s
+  From seed: 3
+  JSON: solution_3_seed03_cost_78.011238.json
+  Image: solution_3_seed03_cost_78.011238.png
+  Curve: convergence_3_seed03.png
 
 Solution #4 (rank 4 by cost):
   Cost: 78.011238
   Utilization: 78.86%
-  Total run time: 28.10 s
-  From seed: 3
-  JSON: solution_4_seed03_cost_78.011238.json
-  Image: solution_4_seed03_cost_78.011238.png
-  Curve: convergence_4_seed03.png
-
-Solution #5 (rank 5 by cost):
-  Cost: 78.011238
-  Utilization: 78.86%
-  Total run time: 47.69 s
+  Total run time: 17.17 s
   From seed: 4
-  JSON: solution_5_seed04_cost_78.011238.json
-  Image: solution_5_seed04_cost_78.011238.png
-  Curve: convergence_5_seed04.png
+  JSON: solution_4_seed04_cost_78.011238.json
+  Image: solution_4_seed04_cost_78.011238.png
+  Curve: convergence_4_seed04.png
 

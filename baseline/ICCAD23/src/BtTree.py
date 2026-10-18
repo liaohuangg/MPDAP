@@ -23,19 +23,20 @@ from BaseDerivation import run_base_derivation
 #
 # It is a cap on *attempts*, not on root nodes. One attempt returns every
 # distinct legal layout its SA visited and all of them are kept, so the forest
-# comes out wider than this number (acend910 seed 1: 10 attempts -> 51 roots,
-# 5151 forest nodes).
+# comes out wider than this number (acend910 seed 1: 10 attempts -> 51 roots).
 #
-# The derivation is a pure function of the seed and draws sequentially from one
-# stream, so attempt n+1 is appended to the same sequence as attempt n: raising
-# this only ever adds chances and widens the forest (the roots at 50 are a
-# superset of the roots at 30), and it can never turn a case that used to build
-# into one that does not. That is why the cap is set high rather than tuned --
-# the marginal cases (cpu-dram built on 14 of 129 runs, hp8_m on 73 of 75, both
-# counted at 30 attempts) are short of *chances*, not of search quality. The
-# price is build time, which grows roughly linearly with it (acend910 seed 0:
-# 2.6 s at 10, ~7 s at 30), plus the layer-2 work the wider forest implies.
-BASE_DERIVATION_RUNS = 50
+# It is NOT a clean search-budget knob, though. `run_base_derivation` seeds the
+# *global* RNG (`BaseDerivation.py:58`), so the position that stream is left in
+# depends on how much these attempts consumed -- and both the tree topology
+# (`BtTree.py` random.shuffle) and layer 2 (`GroupConstrua.py`, whose neighbour
+# generator draws from the same stream) run afterwards. Raising this therefore
+# reshuffles the tree, not just widens the forest. Measured on multigpu over
+# 5 seeds x base 10/30/50: the per-ECG derivation seeds are identical at all
+# three bases, yet the tree shape differs at every base in every seed. So
+# comparing two bases is confounded -- the difference includes "a different tree
+# was built" -- and it can go either way (cpu-dram seed 3 is worse at 50 than
+# at 30). Only a single ECG's derivation roots are monotone in this number.
+BASE_DERIVATION_RUNS = 10
 
 
 class BTNode:
@@ -170,10 +171,15 @@ class BTNode:
                 similarity_trees = GroupConstrua_full(
                     root_nodes=root_nodes,
                     problem=problem,
-                    # 100 legal variants per tree (was 50). Layer 2 no longer
-                    # ranks candidates, so a tree is a diverse legal-variant
-                    # pool; layer 3 does the ranking on the real objective.
-                    num_topologies_to_generate=100,
+                    # 30 legal variants (neighbours) per tree, was 100. Layer 2
+                    # no longer ranks candidates, so a tree is a diverse
+                    # legal-variant pool; layer 3 does the ranking on the real
+                    # objective. Note the pool is capped by the space, not by
+                    # this number: a 4-chiplet ECG has only ~15 mutually
+                    # distinct legal layouts, so a request for 100 was already
+                    # mostly duplicates (and duplicates are what re-weight the
+                    # pool layer 3 samples from).
+                    num_topologies_to_generate=30,
                     children_per_node=2,
                     max_iterations_sa=2000,
                     alpha_x=1.0,

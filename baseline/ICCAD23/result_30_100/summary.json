@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-10-15T20:15:22.633647",
+  "seed_mode": "sweep",
+  "seeds": null,
+  "seed_sweep_target": 2,
+  "seed_sweep_time_limit": 3600.0,
+  "seed_sweep_start": 20,
+  "seed_sweep_spent": 822.5,
+  "batch_time_limit": 3600,
+  "time_limit_seconds": 3600,
+  "max_iterations": null,
+  "convergence_window": 10000,
+  "convergence_cost_tol": 1e-06,
+  "total_cases": 1,
+  "success_count": 0,
+  "total_time_hours": 0.0849639681312773,
+  "results": [
+    {
+      "case_name": "cpu-dram",
+      "status": "failed",
+      "error": "[Errno 2] No such file or directory: '../result/cpu-dram/log.json'"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+command: /root/anaconda3/envs/chipdiffusion/bin/python /root/placement/MPDAP/baseline/RL/generate_thermal_tables.py /root/placement/MPDAP/baseline/RL/examples/hp6_m.json --intp-size 100.0 --overwrite-config
+cwd: /root/placement/MPDAP/baseline/RL/fastTM
+hotspot: /root/placement/MPDAP/baseline/RL/fastTM/util/hotspot
+started_at: 2026-10-16T14:11:27
+

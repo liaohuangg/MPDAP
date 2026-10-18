@@ -45,6 +45,21 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"使用设备: {device}")
 
 
+def set_global_seed(seed: int = None) -> None:
+    """Seed python/numpy/torch so one run is reproducible and seeds differ."""
+    if seed is None:
+        return
+    import random
+
+    seed = int(seed)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+    print(f"随机种子: {seed}")
+
+
 class Tee:
     """Write stdout/stderr to both console and a log file."""
 
@@ -303,9 +318,22 @@ class ActorCritic(nn.Module):
         mask[valid_actions] = 0
         masked_logits = action_logits + mask
         
-        # 采样动作
+        # 采样动作。掩码用 -inf 实现，若 valid_actions 为空则整行都是 -inf，
+        # softmax 结果全为 NaN，Categorical 会抛 Simplex ValueError；这里回退到
+        # 未掩码分布，保证调用方拿到一个可用的动作而不是进程崩溃。
         probs = torch.softmax(masked_logits, dim=-1)
-        dist = Categorical(probs)
+        if not torch.isfinite(probs).all():
+            probs = torch.softmax(action_logits, dim=-1)
+        probs = torch.nan_to_num(probs, nan=0.0, posinf=0.0, neginf=0.0).clamp_min(0.0)
+        row_sum = probs.sum(dim=-1, keepdim=True)
+        bad_row = ~torch.isfinite(row_sum) | (row_sum <= 0)
+        if bad_row.any():
+            probs = torch.where(
+                bad_row, torch.full_like(probs, 1.0 / probs.shape[-1]), probs
+            )
+            row_sum = probs.sum(dim=-1, keepdim=True)
+        probs = probs / row_sum
+        dist = Categorical(probs, validate_args=False)
         action = dist.sample()
         log_prob = dist.log_prob(action)
         
@@ -353,7 +381,16 @@ class PPOTrainer:
         
         # 经验缓冲
         self.reset_buffer()
-    
+
+        # update() 被调用了几次（每个 episode 调一次，等价于 episode 序号）。
+        # 自检记录里要写下"第几个 episode 命中了非法分布"，而 episode 计数在
+        # _train_impl 里是局部变量，trainer 这边取不到，所以自己数一个。
+        self.update_calls = 0
+        # 自检状态必须挂在实例上。放局部变量会被每次 update() 重置，
+        # 于是"只记一次"变成"每个 episode 记一次"——syn4_seed1 实测刷了 2478 行。
+        self.simplex_diag_done = False
+        self.simplex_bad_updates = 0
+
     def reset_buffer(self):
         """重置经验缓冲"""
         self.observations = []
@@ -429,6 +466,8 @@ class PPOTrainer:
         Args:
             epochs: 更新轮数
         """
+        self.update_calls += 1
+
         # 需要至少1个样本才能更新
         if len(self.observations) == 0:
             return {}
@@ -461,7 +500,7 @@ class PPOTrainer:
         
         # 再次裁剪标准化后的advantages
         advantages = torch.clamp(advantages, -5.0, 5.0)
-        
+
         # 多轮更新
         total_loss = 0
         total_actor_loss = 0
@@ -475,13 +514,67 @@ class PPOTrainer:
             
             # 计算当前策略的log概率
             probs = torch.softmax(action_logits, dim=-1)
-            
-            # 检查并修复NaN
-            if torch.isnan(probs).any():
-                print(f"警告: 检测到NaN概率，使用均匀分布代替")
-                probs = torch.ones_like(probs) / probs.shape[-1]
-            
-            dist = Categorical(probs)
+
+            # 兜底净化。动作空间很大（action_dim 可达 37 万）时，float32 下
+            # softmax 偶尔会产出非法分布：非有限值、负值、或行和偏离 1 超过
+            # Categorical 的 Simplex 容差（1e-6）。该校验会直接抛 ValueError，
+            # 把已经跑了 1 小时的整段训练打断（见 syn1/syn5 的崩溃）。
+            # 这里统一清洗：非有限值归零、负值截断、坏行回退为均匀分布，
+            # 最后重新归一化；并关闭参数校验——校验的数值口径与训练正确性无关。
+            # 对合法输入，这段只做一次除以 ~1.0 的运算，数值与原先一致。
+            probs = torch.nan_to_num(
+                probs, nan=0.0, posinf=0.0, neginf=0.0
+            ).clamp_min(0.0)
+            row_sum = probs.sum(dim=-1, keepdim=True)
+            bad_row = ~torch.isfinite(row_sum) | (row_sum <= 0)
+            if bad_row.any():
+                print("警告: 检测到非法概率分布，坏行已回退为均匀分布")
+                probs = torch.where(
+                    bad_row, torch.full_like(probs, 1.0 / probs.shape[-1]), probs
+                )
+                row_sum = probs.sum(dim=-1, keepdim=True)
+            pre_div_dev = (row_sum - 1.0).abs().max().item()
+            probs = probs / row_sum
+
+            # 自检：这正是原先触发 Simplex ValueError 的条件（归一化后行和偏离
+            # 超过 1e-6，或有负值）。命中时往 stdout 打现场——stdout 会落进
+            # 该 run 的日志，正是当初发现崩溃 traceback 的地方。记录本身只是观测，
+            # 不影响训练（validate_args=False 已经让这条不再中断）。
+            dev = (probs.sum(dim=-1) - 1).abs().max().item()
+            n_neg = int((probs < 0).sum().item())
+            if dev > 1e-6 or n_neg:
+                self.simplex_bad_updates += 1
+                # 完整现场只打第一次；之后每 500 次打一行摘要，用来量频率
+                # （syn4_seed1 实测收敛后约 6% 的 update 命中，全打太吵）。
+                if not self.simplex_diag_done:
+                    self.simplex_diag_done = True
+                    record = {
+                        "update_call": self.update_calls,
+                        "hit_index": self.simplex_bad_updates,
+                        "action_dim": int(probs.shape[-1]),
+                        "shape": list(probs.shape),
+                        "dtype": str(probs.dtype),
+                        "contiguous": bool(probs.is_contiguous()),
+                        # pre_div_dev 是 softmax 之后、除以行和之前的行和偏离；
+                        # post_div_dev 是做完归一化之后的。两者都在 1e-6 量级时，
+                        # 说明触发点是 float32 在大动作空间上的累加舍入，而非上游非法值。
+                        "pre_div_row_sum_dev": pre_div_dev,
+                        "row_sum_dev": dev,
+                        "neg_count": n_neg,
+                        "nan_count": int(torch.isnan(probs).sum().item()),
+                        "min": probs.min().item(),
+                        "max": probs.max().item(),
+                        "logits_min": action_logits.min().item(),
+                        "logits_max": action_logits.max().item(),
+                    }
+                    print(f"自检: 命中旧的崩溃条件 -> "
+                          f"{json.dumps(record, ensure_ascii=False)}")
+                elif self.simplex_bad_updates % 500 == 0:
+                    print(f"自检: 累计命中 {self.simplex_bad_updates} 次"
+                          f"（最近一次 update_call={self.update_calls}, "
+                          f"dev={dev:.3e}）")
+
+            dist = Categorical(probs, validate_args=False)
             log_probs = dist.log_prob(actions_tensor)
             entropy = dist.entropy().mean()
             
@@ -574,9 +667,11 @@ def train(
     name: str = None,
     generate_thermal_tables: bool = True,
     force_thermal_tables: bool = False,
+    seed: int = None,
     **env_kwargs
 ):
     """Run one named training job and export logs/artifacts under runs/<name>."""
+    set_global_seed(seed)
     json_path = str(json_path)
     if name is None:
         case_name = Path(json_path).stem
@@ -596,6 +691,7 @@ def train(
         "log_interval": log_interval,
         "generate_thermal_tables": generate_thermal_tables,
         "force_thermal_tables": force_thermal_tables,
+        "seed": seed,
         "env_kwargs": env_kwargs,
         "canvas_defaults": canvas_defaults,
         "started_at": datetime.now().isoformat(timespec="seconds"),
@@ -943,14 +1039,16 @@ def _train_impl(
                 except Exception:
                     pass
 
-        # 保存模型
+        # 保存模型：只在刷新最优时落盘，且始终只保留一个 checkpoint。
+        # action_head 随 action_dim 线性增长（如 256x370000），单个 .pt 可达 1 GB+，
+        # 长时间 sweep 若逐个累积会写满磁盘。
         if episode % save_interval == 0:
-            checkpoint_path = checkpoint_dir / f"ppo_episode_{episode}.pt"
-            trainer.save(checkpoint_path)
-            
-            # 检查是否是最佳模型
             recent_avg = np.mean(episode_rewards[-save_interval:])
             if recent_avg > best_avg_reward:
+                checkpoint_path = checkpoint_dir / f"ppo_episode_{episode}.pt"
+                trainer.save(checkpoint_path)
+                if best_model_path and Path(best_model_path) != checkpoint_path:
+                    Path(best_model_path).unlink(missing_ok=True)
                 best_avg_reward = recent_avg
                 best_model_path = checkpoint_path
                 patience_counter = 0
@@ -1015,6 +1113,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("--min_overlap", type=float, default=0.5)
     parser.add_argument("--exact_action_slots", type=int, default=50000, help="off-grid 精确坐标的动态动作槽数量")
+    parser.add_argument("--seed", type=int, default=None, help="随机种子；用于多次独立重复实验")
     parser.add_argument("--force_thermal_tables", action="store_true", help="强制重算 fastTM 热阻表")
     parser.add_argument("--skip_thermal_tables", action="store_true", help="跳过训练前热阻表生成/检查阶段")
     args = parser.parse_args()
@@ -1031,6 +1130,7 @@ if __name__ == "__main__":
         log_interval=args.log_interval,
         generate_thermal_tables=not args.skip_thermal_tables,
         force_thermal_tables=args.force_thermal_tables,
+        seed=args.seed,
         grid_resolution=grid_resolution,
         max_width=args.max_width,
         max_height=args.max_height,

@@ -1,0 +1,177 @@
+{
+  "chiplets": [
+    {
+      "name": "A",
+      "x-position": 17.0,
+      "y-position": 1.8148440038660425,
+      "width": 8.25,
+      "height": 9.0,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "B",
+      "x-position": 25.25,
+      "y-position": 7.982706211685745,
+      "width": 8.25,
+      "height": 9.0,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "C",
+      "x-position": 17.0,
+      "y-position": 14.673694925050214,
+      "width": 8.25,
+      "height": 9.0,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "D",
+      "x-position": 8.75,
+      "y-position": 9.814844003866042,
+      "width": 8.25,
+      "height": 9.0,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "E",
+      "x-position": 8.25,
+      "y-position": 0.0,
+      "width": 8.75,
+      "height": 8.75,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "F",
+      "x-position": 33.5,
+      "y-position": 8.960898162125112,
+      "width": 8.75,
+      "height": 8.75,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "G",
+      "x-position": 8.25,
+      "y-position": 20.188130665228627,
+      "width": 8.75,
+      "height": 8.75,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "H",
+      "x-position": 0.0,
+      "y-position": 8.75,
+      "width": 8.75,
+      "height": 8.75,
+      "rotation": 0,
+      "power": 0.0
+    }
+  ],
+  "connections": [
+    {
+      "node1": "A",
+      "node2": "B",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 24.25,
+      "EMIB-y-position": 8.972125107775893,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "A",
+      "node2": "D",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 16.0,
+      "EMIB-y-position": 9.888194003866042,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "A",
+      "node2": "E",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 16.0,
+      "EMIB-y-position": 3.5757720019330215,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "B",
+      "node2": "C",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 24.25,
+      "EMIB-y-position": 15.401550568367979,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "B",
+      "node2": "F",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 32.5,
+      "EMIB-y-position": 11.265152186905429,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "C",
+      "node2": "D",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 16.0,
+      "EMIB-y-position": 16.31761946445813,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "C",
+      "node2": "G",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 16.0,
+      "EMIB-y-position": 20.22426279513942,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "D",
+      "node2": "H",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 7.75,
+      "EMIB-y-position": 11.950772001933021,
+      "EMIB-rotation": 1
+    }
+  ],
+  "wirelength": 55206.910561464014,
+  "area": 1222.6360206059094,
+  "aspect_ratio": 1.46
+}

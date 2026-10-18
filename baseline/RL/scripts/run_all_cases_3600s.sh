@@ -20,25 +20,42 @@ SAVE_INTERVAL="${SAVE_INTERVAL:-1000}"
 GRID_RESOLUTION="${GRID_RESOLUTION:-auto}"
 EXACT_ACTION_SLOTS="${EXACT_ACTION_SLOTS:-50000}"
 THERMAL_INTP_SIZE="${THERMAL_INTP_SIZE:-100}"
+SEED="${SEED:-}"
+# 设置 SEED 时，seed 作为 run 目录名的后缀（如 <prefix>_syn1_seed0），
+# 批次目录也带上同样的后缀，避免多个 seed 并发时互相覆盖 batch.log/summary.tsv。
+SEED_SUFFIX=""
+if [[ -n "${SEED}" ]]; then
+    SEED_SUFFIX="_seed${SEED}"
+fi
 RUN_PREFIX="${RUN_PREFIX:-allcases_3600s_$(date +%Y%m%d_%H%M%S)}"
 SKIP_THERMAL_TABLES="${SKIP_THERMAL_TABLES:-0}"
 FORCE_THERMAL_TABLES="${FORCE_THERMAL_TABLES:-0}"
+# RESUME=1：复用已有批次目录续跑。批日志改为追加、summary.tsv 不再清空，
+# 跳过状态已是 ok/timeout 的 case；重跑 case 的旧行会被新结果替换，
+# 这样续跑不会破坏批次里已经跑好的结果。
+RESUME="${RESUME:-0}"
 MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/matplotlib-${USER:-user}}"
 export MPLCONFIGDIR
 
 mkdir -p runs
 mkdir -p "${MPLCONFIGDIR}"
 
-BATCH_DIR="${RL_DIR}/runs/${RUN_PREFIX}"
+BATCH_DIR="${RL_DIR}/runs/${RUN_PREFIX}${SEED_SUFFIX}"
 BEST_DIR="${BATCH_DIR}/best_layouts"
 BATCH_LOG="${BATCH_DIR}/batch.log"
 SUMMARY="${BATCH_DIR}/summary.tsv"
 
 mkdir -p "${BEST_DIR}"
 
+TEE_MODE=()
+if [[ "${RESUME}" == "1" && -f "${SUMMARY}" ]]; then
+    TEE_MODE=(-a)
+fi
+
 {
     echo "batch_name=${RUN_PREFIX}"
     echo "started_at=$(date '+%Y-%m-%d %H:%M:%S')"
+    echo "resume=${RESUME}"
     echo "python=${PYTHON_BIN}"
     echo "time_limit_seconds=${TIME_LIMIT_SECONDS}"
     echo "episodes=${EPISODES}"
@@ -49,14 +66,19 @@ mkdir -p "${BEST_DIR}"
     echo "thermal_intp_size=${THERMAL_INTP_SIZE}"
     echo "skip_thermal_tables=${SKIP_THERMAL_TABLES}"
     echo "force_thermal_tables=${FORCE_THERMAL_TABLES}"
+    echo "seed=${SEED:-none}"
     echo "case_names=${CASE_NAMES:-ALL}"
     echo "mplconfigdir=${MPLCONFIGDIR}"
     echo "batch_dir=${BATCH_DIR}"
     echo "best_dir=${BEST_DIR}"
     echo
-} | tee "${BATCH_LOG}"
+} | tee "${TEE_MODE[@]}" "${BATCH_LOG}"
 
-printf "case\trun_name\tstatus\texit_code\tseconds\trun_dir\tbest_json\tbest_metrics\tbest_png\ttrain_log\n" > "${SUMMARY}"
+if [[ "${RESUME}" == "1" && -f "${SUMMARY}" ]]; then
+    : # 续跑：保留已有 summary，稍后按 case 替换行
+else
+    printf "case\trun_name\tstatus\texit_code\tseconds\trun_dir\tbest_json\tbest_metrics\tbest_png\ttrain_log\n" > "${SUMMARY}"
+fi
 
 if [[ -n "${CASE_NAMES:-}" ]]; then
     CASE_FILES=()
@@ -151,9 +173,17 @@ failed=0
 for case_json in "${CASE_FILES[@]}"; do
     index=$((index + 1))
     case_name="$(basename "${case_json}" .json)"
-    run_name="${RUN_PREFIX}_${case_name}"
+    run_name="${RUN_PREFIX}_${case_name}${SEED_SUFFIX}"
     run_dir="${RL_DIR}/runs/${run_name}"
     train_log="${run_dir}/train.log"
+
+    if [[ "${RESUME}" == "1" && -f "${SUMMARY}" ]]; then
+        prev_status="$(awk -F'\t' -v c="${case_name}" 'NR>1 && $1==c {s=$3} END{print s}' "${SUMMARY}")"
+        if [[ "${prev_status}" == "ok" || "${prev_status}" == "timeout" ]]; then
+            echo "[${index}/${total}] case=${case_name} 已完成(${prev_status})，跳过" | tee -a "${BATCH_LOG}"
+            continue
+        fi
+    fi
 
     if [[ ! -f "${case_json}" ]]; then
         echo "[${index}/${total}] case=${case_name} skipped: file not found: ${case_json}" | tee -a "${BATCH_LOG}"
@@ -190,6 +220,9 @@ PY
         --thermal_intp_size "${THERMAL_INTP_SIZE}"
     )
 
+    if [[ -n "${SEED}" ]]; then
+        cmd+=(--seed "${SEED}")
+    fi
     if [[ "${SKIP_THERMAL_TABLES}" == "1" ]]; then
         cmd+=(--skip_thermal_tables)
     fi
@@ -221,6 +254,12 @@ PY
     best_json="$(printf "%s" "${best_paths}" | cut -f1)"
     best_metrics="$(printf "%s" "${best_paths}" | cut -f2)"
     best_png="$(printf "%s" "${best_paths}" | cut -f3)"
+
+    if [[ "${RESUME}" == "1" && -f "${SUMMARY}" ]]; then
+        # 替换该 case 的旧行（保留表头），避免同一 case 在 summary 里出现两次
+        awk -F'\t' -v c="${case_name}" 'NR==1 || $1!=c' "${SUMMARY}" > "${SUMMARY}.tmp" \
+            && mv "${SUMMARY}.tmp" "${SUMMARY}"
+    fi
 
     printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" \
         "${case_name}" "${run_name}" "${status}" "${exit_code}" "${seconds}" "${run_dir}" \
