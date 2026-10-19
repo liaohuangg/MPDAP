@@ -152,7 +152,28 @@ class ECGManager:
         # Add internal edges
         for chip1_id, chip2_id in ecg.internal_connections:
             sub_problem.add_connection(chip1_id, chip2_id)
-        
+
+        # Carry the benchmark's connection records for those edges across, so
+        # the build-time bridge gate (bridge_legality.make_bridge_checker)
+        # sees the real EMIB_length / bump width instead of an empty list.
+        # A subproblem otherwise has no bridge geometry at all.
+        #
+        # The same values are written onto the constraint-graph edges because
+        # `cost_legal` reads `EMIB_length` from there; without this it falls
+        # back to MIN_OVERLAP (1.0), so a layout whose shared edge is shorter
+        # than the real bridge (e.g. 3.4133 on cpu-dram) would be scored as
+        # placement-legal and only be rejected later by the bridge gate.  That
+        # mismatch made layer 1 search in a region every node would fail.
+        internal = {frozenset(edge) for edge in ecg.internal_connections}
+        for conn in getattr(self.problem, "all_connections", []):
+            if frozenset((conn["node1"], conn["node2"])) in internal:
+                sub_problem.all_connections.append(dict(conn))
+                n1, n2 = conn["node1"], conn["node2"]
+                if sub_problem.connection_graph.has_edge(n1, n2):
+                    edge = sub_problem.connection_graph[n1][n2]
+                    edge["wireCount"] = conn.get("wireCount", 1)
+                    edge["EMIB_length"] = conn.get("EMIB_length", 1.0)
+
         return sub_problem
 
 

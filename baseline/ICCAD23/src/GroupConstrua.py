@@ -418,6 +418,11 @@ def SA_neighbor_generation(base_node: SimilarityTreeNode,
     from TCG import generate_layout_from_tcg
     from legalize_tcg import legalize_tcg
     from Legality_optimized_SA import _generate_neighbor_tcg, cost_legal
+    from bridge_legality import make_bridge_checker
+
+    # Build-time bridge gate: a candidate node may enter the tree only if its
+    # EMIB bridges fit their shared edges and none overlap.
+    bridge_ok = make_bridge_checker(problem)
 
     if verbose:
         print(f"\n  Generating neighbors for node #{base_node.node_id}...")
@@ -433,6 +438,7 @@ def SA_neighbor_generation(base_node: SimilarityTreeNode,
     call_stats: Dict = {
         'invalid_tcg': 0,       # is_valid() rejected the perturbed TCG
         'illegal_rejected': 0,  # legalized but still not a legal placement
+        'bridge_rejected': 0,   # placement-legal, but bridges overlap / do not fit
         'duplicates': 0,        # legal, but repeats a layout already held
         'exceptions': 0,
         'neighbors': 0,
@@ -472,6 +478,12 @@ def SA_neighbor_generation(base_node: SimilarityTreeNode,
 
             if abs(legal_cost) > 1e-6:
                 call_stats['illegal_rejected'] += 1
+                continue
+
+            # Bridge gate: placement-legal is not enough -- overlapping
+            # bridges make the layout an illegal tree node.
+            if not bridge_ok(neighbor_layout):
+                call_stats['bridge_rejected'] += 1
                 continue
 
             # Legality is the whole admission test: the legal TCG is always the
@@ -576,6 +588,7 @@ def GroupConstrua_full(root_nodes: List[SimilarityTreeNode],
         'sa_iterations': 0,
         'sa_invalid_tcg': 0,
         'sa_illegal_rejected': 0,
+        'sa_bridge_rejected': 0,
         'sa_duplicates': 0,
         'sa_exceptions': 0,
     }
@@ -615,7 +628,8 @@ def GroupConstrua_full(root_nodes: List[SimilarityTreeNode],
                 stats=call_stats
             )
             layer_stats['sa_calls'] += 1
-            for key in ('iterations', 'invalid_tcg', 'illegal_rejected', 'duplicates', 'exceptions'):
+            for key in ('iterations', 'invalid_tcg', 'illegal_rejected',
+                        'bridge_rejected', 'duplicates', 'exceptions'):
                 layer_stats[f'sa_{key}'] += call_stats.get(key, 0)
             candidate_topologies.extend(neighbors)
             seen_layouts.extend(layout for _, layout, _ in neighbors)

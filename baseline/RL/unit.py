@@ -10,10 +10,111 @@ from typing import Dict, List, Tuple
 
 try:
     from .chiplet_model import Chiplet, LayoutProblem, get_adjacency_info
-    from .Bridge_Overlap_Adjustment import generate_silicon_bridges
 except ImportError:
     from chiplet_model import Chiplet, LayoutProblem, get_adjacency_info
-    from Bridge_Overlap_Adjustment import generate_silicon_bridges
+
+
+_EPS = 1e-9
+EMIB_WIRECOUNT_THRESHOLD = 255
+
+
+def _shared_edge(chip1: Chiplet, chip2: Chiplet):
+    """Return (kind, boundary, lo, hi) for the shared edge, or None.
+
+    kind='LR': vertical shared edge (left/right neighbours) at x=boundary.
+    kind='UD': horizontal shared edge (up/down neighbours) at y=boundary.
+    lo/hi is the overlap interval along that edge.
+
+    Unlike ``get_adjacency_info`` this applies no minimum-overlap threshold:
+    a bridge is drawn wherever the dies touch, even if the overlap is shorter
+    than the bridge (that is a legality problem for the checker to report, not
+    a reason to leave the rectangle out of the picture).
+    """
+    x1, y1, x1b, y1b = chip1.get_bounds()
+    x2, y2, x2b, y2b = chip2.get_bounds()
+    oy = min(y1b, y2b) - max(y1, y2)
+    ox = min(x1b, x2b) - max(x1, x2)
+
+    if abs(x1b - x2) < _EPS and oy > _EPS:
+        return "LR", x1b, max(y1, y2), min(y1b, y2b)
+    if abs(x2b - x1) < _EPS and oy > _EPS:
+        return "LR", x2b, max(y1, y2), min(y1b, y2b)
+    if abs(y1b - y2) < _EPS and ox > _EPS:
+        return "UD", y1b, max(x1, x2), min(x1b, x2b)
+    if abs(y2b - y1) < _EPS and ox > _EPS:
+        return "UD", y2b, max(x1, x2), min(x1b, x2b)
+    return None
+
+
+def compute_bridge_rects(layout: Dict[str, Chiplet], problem: LayoutProblem) -> List[dict]:
+    """Physical EMIB bridge rectangles implied by a layout.
+
+    EMIB_length runs ALONG the shared edge and 2 * EMIB_bump_width ACROSS it,
+    centred on the overlap interval and on the shared boundary (touching dies,
+    gap = 0).  Up/down neighbours have a horizontal shared edge, so their
+    rectangle is rotated 90 degrees: along-edge length in x and across-gap
+    width in y.  Left/right neighbours keep the along-edge length in y.
+
+    Returns dicts with name / rect / kind / along / across.  Pairs that no
+    longer share an edge are skipped -- there is no rectangle to draw.
+    """
+    specs = []
+    connections = getattr(problem, "all_connections", None) or []
+    if connections:
+        for conn in connections:
+            specs.append((
+                conn.get("node1"), conn.get("node2"),
+                conn.get("EMIB_length"), conn.get("EMIB_bump_width", 1.0),
+                conn.get("EMIBType", "interfaceB"),
+                int(conn.get("wireCount", 1)),
+            ))
+    else:
+        for n1, n2, attrs in problem.connection_graph.edges(data=True):
+            specs.append((
+                n1, n2, attrs.get("EMIB_length"),
+                attrs.get("EMIB_bump_width", 1.0),
+                attrs.get("EMIBType", "interfaceB"),
+                int(attrs.get("wireCount", 1)),
+            ))
+
+    bridges, seen = [], set()
+    for n1, n2, along, bump, etype, wire_count in specs:
+        if wire_count <= EMIB_WIRECOUNT_THRESHOLD:
+            continue
+        if str(etype).lower() == "interfacec":
+            continue
+        if along is None:
+            continue
+        key = frozenset((n1, n2))
+        if key in seen:
+            continue
+        chip1, chip2 = layout.get(n1), layout.get(n2)
+        if chip1 is None or chip2 is None:
+            continue
+        edge = _shared_edge(chip1, chip2)
+        if edge is None:
+            continue
+        seen.add(key)
+
+        kind, boundary, lo, hi = edge
+        along = float(along)
+        across = 2.0 * (1.0 if bump is None else float(bump))
+        mid = (lo + hi) / 2.0
+        if kind == "LR":
+            rect = (boundary - across / 2.0, mid - along / 2.0,
+                    boundary + across / 2.0, mid + along / 2.0)
+        else:
+            rect = (mid - along / 2.0, boundary - across / 2.0,
+                    mid + along / 2.0, boundary + across / 2.0)
+
+        bridges.append({
+            "name": f"{n1}-{n2}",
+            "rect": rect,
+            "kind": kind,
+            "along": along,
+            "across": across,
+        })
+    return bridges
 
 
 def calculate_wirelength(layout: Dict[str, Chiplet], problem: LayoutProblem) -> float:
@@ -214,11 +315,15 @@ def save_layout_to_json(layout: Dict[str, Chiplet], json_path: str) -> None:
 
 
 def generate_color(chip_id: str):
-    random.seed(hash(chip_id))
+    # Local RNG: `random.Random(chip_id)` derives its state from a sha512 of the
+    # string, so the color is identical across runs *and* processes (unlike
+    # `hash(chip_id)`, which PYTHONHASHSEED salts per process), and the global
+    # RNG stream that drives the solver is left untouched.
+    rng = random.Random(chip_id)
     return (
-        random.uniform(0.3, 0.9),
-        random.uniform(0.3, 0.9),
-        random.uniform(0.3, 0.9),
+        rng.uniform(0.3, 0.9),
+        rng.uniform(0.3, 0.9),
+        rng.uniform(0.3, 0.9),
     )
 
 
@@ -249,7 +354,7 @@ def visualize_layout_with_bridges(
     y_min = min(chip.y for chip in chiplets)
     x_max = max(chip.x + chip.width for chip in chiplets)
     y_max = max(chip.y + chip.height for chip in chiplets)
-    margin = max((x_max - x_min), (y_max - y_min), 1.0) * 0.1
+    margin = max((x_max - x_min), (y_max - y_min)) * 0.1
 
     fig, ax = plt.subplots(1, 1, figsize=(12, 10))
 
@@ -280,16 +385,29 @@ def visualize_layout_with_bridges(
             bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8),
         )
 
-        ax.text(center_x, chip.y - 1, f"{chip.width:g}x{chip.height:g}", ha="center", va="top", fontsize=9)
+        ax.text(
+            center_x, chip.y - 1,
+            f"{chip.width}x{chip.height}",
+            ha="center", va="top",
+            fontsize=9, color="darkblue",
+        )
         if show_coordinates:
-            ax.text(chip.x, chip.y + chip.height + 0.5, f"({chip.x:.1f}, {chip.y:.1f})", fontsize=8)
+            ax.text(
+                chip.x, chip.y + chip.height + 0.5,
+                f"({chip.x:.1f}, {chip.y:.1f})",
+                ha="left", va="bottom",
+                fontsize=8, color="darkgreen",
+            )
 
-    bridge_count = 0
     if show_bridges:
         try:
-            bridges = generate_silicon_bridges(layout, problem)
-            for bridge in bridges:
-                x_min_b, y_min_b, x_max_b, y_max_b = bridge.get_bounding_box()
+            # Real per-edge EMIB geometry instead of the fixed 1x1 boxes in
+            # Bridge_Overlap_Adjustment: length runs along the shared edge,
+            # width (2 * EMIB_bump_width) across it, and up/down neighbours get
+            # a 90-degree rotated rectangle -- compute_bridge_rects() already
+            # returns the final x/y extents with that rotation applied.
+            for bridge in compute_bridge_rects(layout, problem):
+                x_min_b, y_min_b, x_max_b, y_max_b = bridge["rect"]
                 width_b = x_max_b - x_min_b
                 height_b = y_max_b - y_min_b
 
@@ -298,26 +416,13 @@ def visualize_layout_with_bridges(
                         (x_min_b, y_min_b),
                         width_b,
                         height_b,
-                        linewidth=2,
+                        linewidth=1,
                         edgecolor="red",
                         facecolor="yellow",
                         alpha=0.5,
                         linestyle="--",
                     )
                 )
-
-                ax.text(
-                    (x_min_b + x_max_b) / 2,
-                    (y_min_b + y_max_b) / 2,
-                    f"{bridge.chip1_id}-{bridge.chip2_id}",
-                    ha="center",
-                    va="center",
-                    fontsize=8,
-                    color="red",
-                    fontweight="bold",
-                    bbox=dict(boxstyle="round,pad=0.2", facecolor="white", alpha=0.7, edgecolor="red"),
-                )
-                bridge_count += 1
         except Exception as exc:
             print(f"Warning: failed to render bridges - {exc}")
 
@@ -353,8 +458,9 @@ def visualize_layout_with_bridges(
     output_path.parent.mkdir(parents=True, exist_ok=True)
     plt.tight_layout()
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
-    print(f"\nLayout visualization saved to: {output_path}")
+    print(f"\n✓ Layout visualization saved to: {output_path}")
     print(f"  - Number of chiplets: {len(layout)}")
-    print(f"  - Number of rendered bridges: {bridge_count}")
+    print(f"  - Number of connections: {problem.connection_graph.number_of_edges()}")
     print(f"  - Layout dimensions: {x_max - x_min:.1f} x {y_max - y_min:.1f}")
+    print(f"  - Layout area: {(x_max - x_min) * (y_max - y_min):.1f}")
     plt.close()

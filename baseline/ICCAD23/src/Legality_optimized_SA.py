@@ -229,34 +229,46 @@ def SA_1(initial_tcg: TCG, problem: LayoutProblem,
     import math
     from TCG import generate_layout_from_tcg
     from legalize_tcg import legalize_tcg
-    
+    from bridge_legality import make_bridge_checker
+
+    # A candidate is a legal solution only when it is both placement-legal
+    # (cost_legal == 0) and bridge-legal: every EMIB bridge fits its shared
+    # edge and no two bridges overlap. A node with overlapping bridges must
+    # never enter the tree.
+    bridge_ok = make_bridge_checker(problem)
+
     # Initialize
     current_tcg = copy.deepcopy(initial_tcg)
     current_layout = generate_layout_from_tcg(current_tcg, problem)
     current_cost = cost_legal(current_tcg, problem, current_layout, alpha_c, beta_l)
-    
-    # Return early if initial TCG is already legal
-    if abs(current_cost) < 1e-6:
+
+    # Return early if initial TCG is already legal (placement + bridges)
+    if abs(current_cost) < 1e-6 and bridge_ok(current_layout):
         if verbose:
             print(f"SA_1 legality optimization: initial TCG is already legal")
             print(f"  Initial cost: {current_cost:.4f}")
         return [copy.deepcopy(current_tcg)], [copy.deepcopy(current_layout)], 0.0
-    
+
     # If enabled, try legalizing initial TCG first
     if use_legalize:
         success, legalized_tcg, legalized_layout = legalize_tcg(current_tcg, problem, verbose=False)
         if success:
             legalized_cost = cost_legal(legalized_tcg, problem, legalized_layout, alpha_c, beta_l)
+            # Prefer a bridge-legal zero-cost start over the bridge-illegal
+            # incumbent even when the two costs are equal.
+            if abs(legalized_cost) < 1e-6 and bridge_ok(legalized_layout):
+                current_tcg = legalized_tcg
+                current_layout = legalized_layout
+                current_cost = legalized_cost
+                if verbose:
+                    print(f"  Initial TCG becomes legal after legalize")
+                return [copy.deepcopy(current_tcg)], [copy.deepcopy(current_layout)], 0.0
             if legalized_cost < current_cost:
                 current_tcg = legalized_tcg
                 current_layout = legalized_layout
                 current_cost = legalized_cost
                 if verbose:
                     print(f"  Initial TCG improved by legalize: {current_cost:.4f}")
-                if abs(current_cost) < 1e-6:
-                    if verbose:
-                        print(f"  Initial TCG becomes legal after legalize")
-                    return [copy.deepcopy(current_tcg)], [copy.deepcopy(current_layout)], 0.0
     
     best_tcg = copy.deepcopy(current_tcg)
     best_layout = copy.deepcopy(current_layout)
@@ -302,14 +314,21 @@ def SA_1(initial_tcg: TCG, problem: LayoutProblem,
                         neighbor_layout = legalized_layout
                         neighbor_cost = legalized_cost
                         legalize_success_count += 1
-                        
-                        # If legalize directly finds a legal solution
-                        if abs(neighbor_cost) < 1e-6:
-                            if verbose and len(legal_tcgs) < 10:  # Print first 10 only
-                                print(f"  [iter {iteration}] legalize found legal solution! (#{len(legal_tcgs)+1})")
-                            legal_tcgs.append(copy.deepcopy(neighbor_tcg))
-                            legal_layouts.append(copy.deepcopy(neighbor_layout))
-        
+
+            # Collect every bridge-legal, placement-legal candidate the walk
+            # reaches -- not only the ones that improve `best_cost`. When the
+            # start layout is placement-legal but bridge-illegal, `best_cost`
+            # is already 0 and can never improve, so gating collection on the
+            # best-cost update would wrongly report "no legal solution".
+            if (abs(neighbor_cost) < 1e-6
+                    and len(legal_tcgs) < 1000
+                    and bridge_ok(neighbor_layout)):
+                legal_tcgs.append(copy.deepcopy(neighbor_tcg))
+                legal_layouts.append(copy.deepcopy(neighbor_layout))
+                if verbose and len(legal_tcgs) <= 10:
+                    print(f"  [iter {iteration}] bridge-legal solution "
+                          f"(#{len(legal_tcgs)})")
+
         except Exception as e:
             if verbose and iteration % 100 == 0:
                 print(f"  Layout generation failed: {e}")
@@ -333,15 +352,6 @@ def SA_1(initial_tcg: TCG, problem: LayoutProblem,
                 
                 if verbose:
                     print(f"  [iter {iteration}] New best cost: {best_cost:.4f} (temp={temp:.2f})")
-                
-                # Check if legal solution is found
-                if abs(best_cost) < 1e-6:  # cost ≈ 0
-                    if best_tcg not in [tcg for tcg in legal_tcgs]:
-                        legal_tcgs.append(copy.deepcopy(best_tcg))
-                        legal_layouts.append(copy.deepcopy(best_layout))
-                        
-                        if verbose:
-                            print(f"  ✓ Found legal solution! (#{len(legal_tcgs)})")
             else:
                 iterations_without_improvement += 1
         

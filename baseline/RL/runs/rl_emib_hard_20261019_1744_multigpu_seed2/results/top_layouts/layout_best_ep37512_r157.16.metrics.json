@@ -1,0 +1,21 @@
+{
+  "episode": 37512,
+  "reward": 157.15917843998733,
+  "success": true,
+  "wirelength": 57569.30550407055,
+  "avg_wirelength": 16.65778515742782,
+  "emib_wirelength": 49044.505504070556,
+  "normal_wirelength": 8524.8,
+  "total_wire_count": 3456,
+  "wirelength_source": "iccad23_emib_grid_normal_manhattan",
+  "temperature": 100.54660825727004,
+  "thermal_error": null,
+  "bounding_rect_area": 1769.8849000000007,
+  "runtime": {
+    "run_started_at": "2026-10-19T19:44:31",
+    "best_found_at": "2026-10-19T20:40:57",
+    "rl_elapsed_seconds": 3384.9779118279985,
+    "total_elapsed_seconds": 3384.9780203349947,
+    "pre_rl_seconds": 0.00010850699618458748
+  }
+}

@@ -160,3 +160,1047 @@ Building BT Tree
     Running base derivation...
     Base derivation complete, 47 root nodes generated
     Running Group Construction...
+
+######################################################################
+# rerun start 2026-10-20 00:57:16
+# cases: acend910 hp6_m hp8_m multigpu syn1   seeds: 0 1 2 3 4   total-limit: none
+######################################################################
+
+################################################################################
+Running selected cases
+################################################################################
+Benchmark dir: ../../../benchmark/test_input
+Result dir: ../result
+Cases to run (5):
+  - acend910
+  - hp6_m
+  - hp8_m
+  - multigpu
+  - syn1
+Excluded (1):
+  - EMIB: EMIB type config, no "chiplets" key (load_problem_from_json raises KeyError)
+Usage: python batch_test_overall_sa.py [case1] [case2] ... [--seeds=1,2,3] [--sweep]
+################################################################################
+
+Run settings:
+  Seeds per case: [0, 1, 2, 3, 4] (one SA run per seed)
+  Iteration cap: none (unbounded)
+  Stopping condition 1 (convergence): no best-cost improvement for 10000 iterations
+  Stopping condition 2 (wall clock): 3600 s (60.0 min)
+  Batch time limit (all cases): none
+
+
+
+################################################################################
+Progress: 1/5
+################################################################################
+
+================================================================================
+Test case: acend910
+Input file: ../../../benchmark/test_input/acend910.json
+Output dir: ../result/acend910
+Mode: 5 runs, seeds=[0, 1, 2, 3, 4], no iteration cap: stops when the best cost has not improved for 10000 iterations, or at the 3600s wall clock
+================================================================================
+
+✓ Loaded from ../../../benchmark/test_input/acend910.json: 6 chiplets, 4 EMIB connections (wireCount>255), 1 normal connections (wireCount<=255)
+Problem size: 6 chiplets, 4 connections
+
+
+────────────────────────────────────────────────────────────────────────────────
+Run #1/5 (seed=0, elapsed: 0.0 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 22 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 22 trees, 2222 total nodes (layer 1 0.01s, layer 2 7.05s)
+
+Selected ECG 1 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 7.07s (1 build(s))
+✓ Done: cost=78.011238, total run time 12.53s (annealing 5.46s, 10989 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     0.01 s (  0.1%)  30 base-derivation runs (3 entered the legality SA_1, 27 already legal) -> 22 legal solutions / 22 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     7.05 s ( 56.3%)  22 trees, 22 neighbour SA calls (19335 iterations), 2200 candidates, forest of 2222 nodes
+  layer 3  real quality     A/WL/R    :     5.46 s ( 43.6%)  10989 iterations, 10426 accepted / 563 rejected, best found at 0.50 s (cost 81.4987 -> 78.0112), converged: converged (no improvement for 10000 iterations); best cost 78.0112 last improved at iteration 989 and has since occupied 1.7% of the 10989 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :     7.07 s ( 56.4%)
+  full run (layers 1+2+3)             :    12.53 s (100.0%)
+✓ Saved result to ../result/acend910/solution_1_seed00_cost_78.011238.json: 6 chiplets, 4 EMIB connections
+  ✓ Bridges legal (4 bridge(s))
+qt.qpa.plugin: Could not load the Qt platform plugin "wayland" in "/root/anaconda3/envs/chipdiffusion/lib/python3.10/site-packages/PySide6/Qt/plugins/platforms" even though it was found.
+
+✓ Layout visualization saved to: ../result/acend910/solution_1_seed00_cost_78.011238.png
+  - Number of chiplets: 6
+  - Number of connections: 4
+  - Layout dimensions: 30.0 x 41.9
+  - Layout area: 1257.0
+  ✓ Solution saved: solution_1_seed00_cost_78.011238.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #2/5 (seed=1, elapsed: 0.2 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 59 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 59 trees, 5959 total nodes (layer 1 1.37s, layer 2 19.03s)
+
+Selected ECG 0 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 20.40s (1 build(s))
+✓ Done: cost=78.011238, total run time 26.83s (annealing 6.43s, 12848 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     1.37 s (  5.1%)  30 base-derivation runs (8 entered the legality SA_1, 22 already legal) -> 126 legal solutions / 59 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :    19.03 s ( 70.9%)  59 trees, 59 neighbour SA calls (49559 iterations), 5900 candidates, forest of 5959 nodes
+  layer 3  real quality     A/WL/R    :     6.43 s ( 24.0%)  12848 iterations, 11758 accepted / 1090 rejected, best found at 1.42 s (cost 81.4987 -> 78.0112), converged: converged (no improvement for 10000 iterations); best cost 78.0112 last improved at iteration 2848 and has since occupied 2.6% of the 12848 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :    20.40 s ( 76.0%)
+  full run (layers 1+2+3)             :    26.83 s (100.0%)
+✓ Saved result to ../result/acend910/solution_2_seed01_cost_78.011238.json: 6 chiplets, 4 EMIB connections
+  ✓ Bridges legal (4 bridge(s))
+
+✓ Layout visualization saved to: ../result/acend910/solution_2_seed01_cost_78.011238.png
+  - Number of chiplets: 6
+  - Number of connections: 4
+  - Layout dimensions: 30.0 x 41.9
+  - Layout area: 1257.0
+  ✓ Solution saved: solution_2_seed01_cost_78.011238.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #3/5 (seed=2, elapsed: 0.7 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 38 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 38 trees, 3838 total nodes (layer 1 1.50s, layer 2 11.73s)
+
+Selected ECG 0 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 13.23s (1 build(s))
+✓ Done: cost=78.011238, total run time 18.45s (annealing 5.22s, 10387 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     1.50 s (  8.1%)  30 base-derivation runs (5 entered the legality SA_1, 25 already legal) -> 61 legal solutions / 38 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :    11.73 s ( 63.6%)  38 trees, 38 neighbour SA calls (31748 iterations), 3800 candidates, forest of 3838 nodes
+  layer 3  real quality     A/WL/R    :     5.22 s ( 28.3%)  10387 iterations, 9916 accepted / 471 rejected, best found at 0.19 s (cost 81.4987 -> 78.0112), converged: converged (no improvement for 10000 iterations); best cost 78.0112 last improved at iteration 387 and has since occupied 1.5% of the 10387 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :    13.23 s ( 71.7%)
+  full run (layers 1+2+3)             :    18.45 s (100.0%)
+✓ Saved result to ../result/acend910/solution_3_seed02_cost_78.011238.json: 6 chiplets, 4 EMIB connections
+  ✓ Bridges legal (4 bridge(s))
+
+✓ Layout visualization saved to: ../result/acend910/solution_3_seed02_cost_78.011238.png
+  - Number of chiplets: 6
+  - Number of connections: 4
+  - Layout dimensions: 30.0 x 41.9
+  - Layout area: 1257.0
+  ✓ Solution saved: solution_3_seed02_cost_78.011238.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #4/5 (seed=3, elapsed: 1.0 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 19 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 19 trees, 1919 total nodes (layer 1 0.01s, layer 2 6.44s)
+
+Selected ECG 0 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 6.45s (1 build(s))
+✓ Done: cost=78.011238, total run time 12.20s (annealing 5.75s, 11118 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     0.01 s (  0.1%)  30 base-derivation runs (4 entered the legality SA_1, 26 already legal) -> 20 legal solutions / 19 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     6.44 s ( 52.8%)  19 trees, 19 neighbour SA calls (17329 iterations), 1900 candidates, forest of 1919 nodes
+  layer 3  real quality     A/WL/R    :     5.75 s ( 47.1%)  11118 iterations, 10527 accepted / 591 rejected, best found at 0.59 s (cost 81.4987 -> 78.0112), converged: converged (no improvement for 10000 iterations); best cost 78.0112 last improved at iteration 1118 and has since occupied 1.7% of the 11118 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :     6.45 s ( 52.9%)
+  full run (layers 1+2+3)             :    12.20 s (100.0%)
+✓ Saved result to ../result/acend910/solution_4_seed03_cost_78.011238.json: 6 chiplets, 4 EMIB connections
+  ✓ Bridges legal (4 bridge(s))
+
+✓ Layout visualization saved to: ../result/acend910/solution_4_seed03_cost_78.011238.png
+  - Number of chiplets: 6
+  - Number of connections: 4
+  - Layout dimensions: 30.0 x 41.9
+  - Layout area: 1257.0
+  ✓ Solution saved: solution_4_seed03_cost_78.011238.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #5/5 (seed=4, elapsed: 1.2 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 86 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 86 trees, 8686 total nodes (layer 1 2.76s, layer 2 28.12s)
+
+Selected ECG 1 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 30.88s (1 build(s))
+✓ Done: cost=78.011238, total run time 37.09s (annealing 6.21s, 12126 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     2.76 s (  7.4%)  30 base-derivation runs (7 entered the legality SA_1, 23 already legal) -> 261 legal solutions / 86 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :    28.12 s ( 75.8%)  86 trees, 86 neighbour SA calls (74212 iterations), 8600 candidates, forest of 8686 nodes
+  layer 3  real quality     A/WL/R    :     6.21 s ( 16.7%)  12126 iterations, 11272 accepted / 854 rejected, best found at 1.23 s (cost 81.4987 -> 78.0112), converged: converged (no improvement for 10000 iterations); best cost 78.0112 last improved at iteration 2126 and has since occupied 2.4% of the 12126 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :    30.88 s ( 83.3%)
+  full run (layers 1+2+3)             :    37.09 s (100.0%)
+✓ Saved result to ../result/acend910/solution_5_seed04_cost_78.011238.json: 6 chiplets, 4 EMIB connections
+  ✓ Bridges legal (4 bridge(s))
+
+✓ Layout visualization saved to: ../result/acend910/solution_5_seed04_cost_78.011238.png
+  - Number of chiplets: 6
+  - Number of connections: 4
+  - Layout dimensions: 30.0 x 41.9
+  - Layout area: 1257.0
+  ✓ Solution saved: solution_5_seed04_cost_78.011238.json
+
+================================================================================
+Completed 5/5 successful runs; all solutions already saved
+================================================================================
+
+Run statistics:
+  Success: 5/5
+  Failed: 0/5
+  Hit time limit: 0
+  Converged (no best-cost improvement for 10000 iterations): 5/5
+    seed 0: 10989 iterations, 5.46 s, best cost occupied 1.7% of the run, converged
+    seed 1: 12848 iterations, 6.43 s, best cost occupied 2.6% of the run, converged
+    seed 2: 10387 iterations, 5.22 s, best cost occupied 1.5% of the run, converged
+    seed 3: 11118 iterations, 5.75 s, best cost occupied 1.7% of the run, converged
+    seed 4: 12126 iterations, 6.21 s, best cost occupied 2.4% of the run, converged
+
+Cost statistics:
+  Best: 78.011238
+  Worst: 78.011238
+  Average: 78.011238
+  Std Dev: 0.000000
+
+Time statistics (whole run = tree build + annealing):
+  Avg total run time: 21.42 s
+  Min / Max: 12.20 / 37.09 s
+  Avg tree build time: 15.61 s (5 build(s) total)
+  Avg annealing time: 5.82 s
+  Layer 3 annealing wall clock (sum): 29.08 s, avg 5.82 s, min/max 5.22 / 6.43 s
+  Layer split (average over 5 run(s)):
+    Layer 1 legality      Pc/Pl     : 1.13 s
+    Layer 2 shape+similar Px/Py/Ps  : 14.48 s
+    Layer 3 real quality  A/WL/R    : 5.82 s
+
+✓ Log saved: ../result/acend910/log.json
+✓ Text log saved: ../result/acend910/log.txt
+
+
+################################################################################
+Progress: 2/5
+################################################################################
+
+================================================================================
+Test case: hp6_m
+Input file: ../../../benchmark/test_input/hp6_m.json
+Output dir: ../result/hp6_m
+Mode: 5 runs, seeds=[0, 1, 2, 3, 4], no iteration cap: stops when the best cost has not improved for 10000 iterations, or at the 3600s wall clock
+================================================================================
+
+✓ Loaded from ../../../benchmark/test_input/hp6_m.json: 6 chiplets, 3 EMIB connections (wireCount>255), 2 normal connections (wireCount<=255)
+Problem size: 6 chiplets, 3 connections
+
+
+────────────────────────────────────────────────────────────────────────────────
+Run #1/5 (seed=0, elapsed: 0.0 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 16 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 16 trees, 214 total nodes (layer 1 2.13s, layer 2 8.40s)
+
+Selected ECG 2 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 10.52s (1 build(s))
+✓ Done: cost=63.058014, total run time 19.87s (annealing 9.35s, 20632 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     2.13 s ( 10.7%)  30 base-derivation runs (12 entered the legality SA_1, 18 already legal) -> 1358 legal solutions / 16 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     8.40 s ( 42.3%)  16 trees, 34 neighbour SA calls (68000 iterations), 198 candidates, forest of 214 nodes
+  layer 3  real quality     A/WL/R    :     9.35 s ( 47.1%)  20632 iterations, 10763 accepted / 9869 rejected, best found at 4.77 s (cost 90.9710 -> 63.0580), converged: converged (no improvement for 10000 iterations); best cost 63.0580 last improved at iteration 10632 and has since occupied 0.4% of the 20632 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :    10.52 s ( 52.9%)
+  full run (layers 1+2+3)             :    19.87 s (100.0%)
+✓ Saved result to ../result/hp6_m/solution_1_seed00_cost_63.058014.json: 6 chiplets, 3 EMIB connections
+  ✓ Bridges legal (3 bridge(s))
+
+✓ Layout visualization saved to: ../result/hp6_m/solution_1_seed00_cost_63.058014.png
+  - Number of chiplets: 6
+  - Number of connections: 3
+  - Layout dimensions: 18.1 x 33.0
+  - Layout area: 596.7
+  ✓ Solution saved: solution_1_seed00_cost_63.058014.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #2/5 (seed=1, elapsed: 0.3 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 16 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 16 trees, 216 total nodes (layer 1 3.62s, layer 2 8.59s)
+
+Selected ECG 1 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 12.21s (1 build(s))
+✓ Done: cost=62.229617, total run time 23.95s (annealing 11.74s, 25614 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     3.62 s ( 15.1%)  30 base-derivation runs (17 entered the legality SA_1, 13 already legal) -> 2260 legal solutions / 16 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     8.59 s ( 35.9%)  16 trees, 35 neighbour SA calls (70000 iterations), 200 candidates, forest of 216 nodes
+  layer 3  real quality     A/WL/R    :    11.74 s ( 49.0%)  25614 iterations, 10890 accepted / 14724 rejected, best found at 7.07 s (cost 83.7765 -> 62.2296), converged: converged (no improvement for 10000 iterations); best cost 62.2296 last improved at iteration 15614 and has since occupied 39.4% of the 25614 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :    12.21 s ( 51.0%)
+  full run (layers 1+2+3)             :    23.95 s (100.0%)
+✓ Saved result to ../result/hp6_m/solution_2_seed01_cost_62.229617.json: 6 chiplets, 3 EMIB connections
+  ✓ Bridges legal (3 bridge(s))
+
+✓ Layout visualization saved to: ../result/hp6_m/solution_2_seed01_cost_62.229617.png
+  - Number of chiplets: 6
+  - Number of connections: 3
+  - Layout dimensions: 18.1 x 33.0
+  - Layout area: 596.7
+  ✓ Solution saved: solution_2_seed01_cost_62.229617.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #3/5 (seed=2, elapsed: 0.7 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 16 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 16 trees, 216 total nodes (layer 1 0.92s, layer 2 9.39s)
+
+Selected ECG 2 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 10.31s (1 build(s))
+✓ Done: cost=60.155968, total run time 19.80s (annealing 9.49s, 20716 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     0.92 s (  4.6%)  30 base-derivation runs (15 entered the legality SA_1, 15 already legal) -> 598 legal solutions / 16 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     9.39 s ( 47.4%)  16 trees, 39 neighbour SA calls (78000 iterations), 200 candidates, forest of 216 nodes
+  layer 3  real quality     A/WL/R    :     9.49 s ( 47.9%)  20716 iterations, 11004 accepted / 9712 rejected, best found at 4.93 s (cost 94.8436 -> 60.1560), converged: converged (no improvement for 10000 iterations); best cost 60.1560 last improved at iteration 10716 and has since occupied 0.2% of the 20716 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :    10.31 s ( 52.1%)
+  full run (layers 1+2+3)             :    19.80 s (100.0%)
+✓ Saved result to ../result/hp6_m/solution_3_seed02_cost_60.155968.json: 6 chiplets, 3 EMIB connections
+  ✓ Bridges legal (3 bridge(s))
+
+✓ Layout visualization saved to: ../result/hp6_m/solution_3_seed02_cost_60.155968.png
+  - Number of chiplets: 6
+  - Number of connections: 3
+  - Layout dimensions: 18.1 x 33.0
+  - Layout area: 596.7
+  ✓ Solution saved: solution_3_seed02_cost_60.155968.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #4/5 (seed=3, elapsed: 1.1 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 16 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 16 trees, 216 total nodes (layer 1 2.24s, layer 2 8.02s)
+
+Selected ECG 1 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 10.26s (1 build(s))
+✓ Done: cost=64.016943, total run time 14.98s (annealing 4.72s, 10372 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     2.24 s ( 14.9%)  30 base-derivation runs (15 entered the legality SA_1, 15 already legal) -> 1539 legal solutions / 16 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     8.02 s ( 53.6%)  16 trees, 33 neighbour SA calls (66000 iterations), 200 candidates, forest of 216 nodes
+  layer 3  real quality     A/WL/R    :     4.72 s ( 31.5%)  10372 iterations, 9093 accepted / 1279 rejected, best found at 0.17 s (cost 74.7628 -> 64.0169), converged: converged (no improvement for 10000 iterations); best cost 64.0169 last improved at iteration 372 and has since occupied 0.0% of the 10372 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :    10.26 s ( 68.5%)
+  full run (layers 1+2+3)             :    14.98 s (100.0%)
+✓ Saved result to ../result/hp6_m/solution_4_seed03_cost_64.016943.json: 6 chiplets, 3 EMIB connections
+  ✓ Bridges legal (3 bridge(s))
+
+✓ Layout visualization saved to: ../result/hp6_m/solution_4_seed03_cost_64.016943.png
+  - Number of chiplets: 6
+  - Number of connections: 3
+  - Layout dimensions: 16.0 x 33.0
+  - Layout area: 527.3
+  ✓ Solution saved: solution_4_seed03_cost_64.016943.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #5/5 (seed=4, elapsed: 1.3 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 16 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 16 trees, 216 total nodes (layer 1 3.60s, layer 2 8.88s)
+
+Selected ECG 2 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 12.48s (1 build(s))
+✓ Done: cost=59.666931, total run time 17.81s (annealing 5.33s, 11773 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     3.60 s ( 20.2%)  30 base-derivation runs (17 entered the legality SA_1, 13 already legal) -> 2203 legal solutions / 16 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     8.88 s ( 49.9%)  16 trees, 36 neighbour SA calls (72000 iterations), 200 candidates, forest of 216 nodes
+  layer 3  real quality     A/WL/R    :     5.33 s ( 29.9%)  11773 iterations, 9873 accepted / 1900 rejected, best found at 0.81 s (cost 95.8961 -> 59.6669), converged: converged (no improvement for 10000 iterations); best cost 59.6669 last improved at iteration 1773 and has since occupied 0.1% of the 11773 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :    12.48 s ( 70.1%)
+  full run (layers 1+2+3)             :    17.81 s (100.0%)
+✓ Saved result to ../result/hp6_m/solution_5_seed04_cost_59.666931.json: 6 chiplets, 3 EMIB connections
+  ✓ Bridges legal (3 bridge(s))
+
+✓ Layout visualization saved to: ../result/hp6_m/solution_5_seed04_cost_59.666931.png
+  - Number of chiplets: 6
+  - Number of connections: 3
+  - Layout dimensions: 18.1 x 33.0
+  - Layout area: 596.7
+  ✓ Solution saved: solution_5_seed04_cost_59.666931.json
+
+================================================================================
+Completed 5/5 successful runs; all solutions already saved
+================================================================================
+
+Run statistics:
+  Success: 5/5
+  Failed: 0/5
+  Hit time limit: 0
+  Converged (no best-cost improvement for 10000 iterations): 5/5
+    seed 0: 20632 iterations, 9.35 s, best cost occupied 0.4% of the run, converged
+    seed 1: 25614 iterations, 11.74 s, best cost occupied 39.4% of the run, converged
+    seed 2: 20716 iterations, 9.49 s, best cost occupied 0.2% of the run, converged
+    seed 3: 10372 iterations, 4.72 s, best cost occupied 0.0% of the run, converged
+    seed 4: 11773 iterations, 5.33 s, best cost occupied 0.1% of the run, converged
+
+Cost statistics:
+  Best: 59.666931
+  Worst: 64.016943
+  Average: 61.825494
+  Std Dev: 1.669226
+
+Time statistics (whole run = tree build + annealing):
+  Avg total run time: 19.28 s
+  Min / Max: 14.98 / 23.95 s
+  Avg tree build time: 11.16 s (5 build(s) total)
+  Avg annealing time: 8.13 s
+  Layer 3 annealing wall clock (sum): 40.63 s, avg 8.13 s, min/max 4.72 / 11.74 s
+  Layer split (average over 5 run(s)):
+    Layer 1 legality      Pc/Pl     : 2.50 s
+    Layer 2 shape+similar Px/Py/Ps  : 8.66 s
+    Layer 3 real quality  A/WL/R    : 8.13 s
+
+✓ Log saved: ../result/hp6_m/log.json
+✓ Text log saved: ../result/hp6_m/log.txt
+
+
+################################################################################
+Progress: 3/5
+################################################################################
+
+================================================================================
+Test case: hp8_m
+Input file: ../../../benchmark/test_input/hp8_m.json
+Output dir: ../result/hp8_m
+Mode: 5 runs, seeds=[0, 1, 2, 3, 4], no iteration cap: stops when the best cost has not improved for 10000 iterations, or at the 3600s wall clock
+================================================================================
+
+✓ Loaded from ../../../benchmark/test_input/hp8_m.json: 8 chiplets, 7 EMIB connections (wireCount>255), 5 normal connections (wireCount<=255)
+Problem size: 8 chiplets, 7 connections
+
+
+────────────────────────────────────────────────────────────────────────────────
+Run #1/5 (seed=0, elapsed: 0.0 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 6 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 6 trees, 553 total nodes (layer 1 16.11s, layer 2 10.91s)
+
+Selected ECG 1 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 27.03s (1 build(s))
+✓ Done: cost=258.273477, total run time 41.26s (annealing 14.23s, 13756 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :    16.11 s ( 39.0%)  30 base-derivation runs (30 entered the legality SA_1, 0 already legal) -> 28 legal solutions / 6 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :    10.91 s ( 26.5%)  6 trees, 19 neighbour SA calls (34374 iterations), 547 candidates, forest of 553 nodes
+  layer 3  real quality     A/WL/R    :    14.23 s ( 34.5%)  13756 iterations, 10088 accepted / 3668 rejected, best found at 3.86 s (cost 286.4870 -> 258.2735), converged: converged (no improvement for 10000 iterations); best cost 258.2735 last improved at iteration 3756 and has since occupied 1.6% of the 13756 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :    27.03 s ( 65.5%)
+  full run (layers 1+2+3)             :    41.26 s (100.0%)
+✓ Saved result to ../result/hp8_m/solution_1_seed00_cost_258.273477.json: 8 chiplets, 7 EMIB connections
+  ⚠ Bridges ILLEGAL: 1 overlap pair(s), area 0.0355 -- A-F x F-H: bridge overlap 0.5934 x 0.0598 = 0.0355
+
+✓ Layout visualization saved to: ../result/hp8_m/solution_1_seed00_cost_258.273477.png
+  - Number of chiplets: 8
+  - Number of connections: 7
+  - Layout dimensions: 50.3 x 53.2
+  - Layout area: 2673.8
+  ✓ Solution saved: solution_1_seed00_cost_258.273477.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #2/5 (seed=1, elapsed: 0.7 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 1 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 1 trees, 101 total nodes (layer 1 17.53s, layer 2 1.69s)
+
+Selected ECG 1 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 19.22s (1 build(s))
+✓ Done: cost=261.191677, total run time 31.33s (annealing 12.11s, 12731 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :    17.53 s ( 55.9%)  30 base-derivation runs (30 entered the legality SA_1, 0 already legal) -> 2 legal solutions / 1 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     1.69 s (  5.4%)  1 trees, 3 neighbour SA calls (5449 iterations), 100 candidates, forest of 101 nodes
+  layer 3  real quality     A/WL/R    :    12.11 s ( 38.7%)  12731 iterations, 9677 accepted / 2066 rejected, best found at 2.63 s (cost 291.0829 -> 261.1917), converged: converged (no improvement for 10000 iterations); best cost 261.1917 last improved at iteration 2731 and has since occupied 0.5% of the 12731 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :    19.22 s ( 61.3%)
+  full run (layers 1+2+3)             :    31.33 s (100.0%)
+✓ Saved result to ../result/hp8_m/solution_2_seed01_cost_261.191677.json: 8 chiplets, 7 EMIB connections
+  ⚠ Bridges ILLEGAL: 1 overlap pair(s), area 0.4796 -- A-F x F-H: bridge overlap 0.5934 x 0.8083 = 0.4796
+
+✓ Layout visualization saved to: ../result/hp8_m/solution_2_seed01_cost_261.191677.png
+  - Number of chiplets: 8
+  - Number of connections: 7
+  - Layout dimensions: 50.3 x 53.2
+  - Layout area: 2673.8
+  ✓ Solution saved: solution_2_seed01_cost_261.191677.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #3/5 (seed=2, elapsed: 1.2 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 6 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 6 trees, 547 total nodes (layer 1 17.84s, layer 2 11.53s)
+
+Selected ECG 1 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 29.37s (1 build(s))
+✓ Done: cost=254.972632, total run time 56.60s (annealing 27.24s, 26483 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :    17.84 s ( 31.5%)  30 base-derivation runs (30 entered the legality SA_1, 0 already legal) -> 11 legal solutions / 6 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :    11.53 s ( 20.4%)  6 trees, 23 neighbour SA calls (42614 iterations), 541 candidates, forest of 547 nodes
+  layer 3  real quality     A/WL/R    :    27.24 s ( 48.1%)  26483 iterations, 10980 accepted / 15503 rejected, best found at 16.95 s (cost 295.5902 -> 254.9726), converged: converged (no improvement for 10000 iterations); best cost 254.9726 last improved at iteration 16483 and has since occupied 41.6% of the 26483 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :    29.37 s ( 51.9%)
+  full run (layers 1+2+3)             :    56.60 s (100.0%)
+✓ Saved result to ../result/hp8_m/solution_3_seed02_cost_254.972632.json: 8 chiplets, 7 EMIB connections
+  ⚠ Bridges ILLEGAL: 1 overlap pair(s), area 0.4329 -- A-F x F-H: bridge overlap 0.5934 x 0.7297 = 0.4329
+
+✓ Layout visualization saved to: ../result/hp8_m/solution_3_seed02_cost_254.972632.png
+  - Number of chiplets: 8
+  - Number of connections: 7
+  - Layout dimensions: 50.3 x 53.2
+  - Layout area: 2673.8
+  ✓ Solution saved: solution_3_seed02_cost_254.972632.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #4/5 (seed=3, elapsed: 2.2 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 4 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 4 trees, 404 total nodes (layer 1 16.01s, layer 2 8.64s)
+
+Selected ECG 1 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 24.65s (1 build(s))
+✓ Done: cost=256.845109, total run time 45.46s (annealing 20.81s, 20273 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :    16.01 s ( 35.2%)  30 base-derivation runs (30 entered the legality SA_1, 0 already legal) -> 17 legal solutions / 4 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     8.64 s ( 19.0%)  4 trees, 16 neighbour SA calls (28670 iterations), 400 candidates, forest of 404 nodes
+  layer 3  real quality     A/WL/R    :    20.81 s ( 45.8%)  20273 iterations, 10569 accepted / 9704 rejected, best found at 10.56 s (cost 293.4922 -> 256.8451), converged: converged (no improvement for 10000 iterations); best cost 256.8451 last improved at iteration 10273 and has since occupied 8.9% of the 20273 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :    24.65 s ( 54.2%)
+  full run (layers 1+2+3)             :    45.46 s (100.0%)
+✓ Saved result to ../result/hp8_m/solution_4_seed03_cost_256.845109.json: 8 chiplets, 7 EMIB connections
+  ⚠ Bridges ILLEGAL: 1 overlap pair(s), area 0.2361 -- A-F x F-H: bridge overlap 0.5933 x 0.3978 = 0.2361
+
+✓ Layout visualization saved to: ../result/hp8_m/solution_4_seed03_cost_256.845109.png
+  - Number of chiplets: 8
+  - Number of connections: 7
+  - Layout dimensions: 50.3 x 53.2
+  - Layout area: 2673.8
+  ✓ Solution saved: solution_4_seed03_cost_256.845109.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #5/5 (seed=4, elapsed: 2.9 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 5 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 5 trees, 505 total nodes (layer 1 16.54s, layer 2 9.72s)
+
+Selected ECG 1 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 26.26s (1 build(s))
+✓ Done: cost=256.127725, total run time 46.14s (annealing 19.88s, 19248 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :    16.54 s ( 35.8%)  30 base-derivation runs (30 entered the legality SA_1, 0 already legal) -> 18 legal solutions / 5 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     9.72 s ( 21.1%)  5 trees, 18 neighbour SA calls (30546 iterations), 500 candidates, forest of 505 nodes
+  layer 3  real quality     A/WL/R    :    19.88 s ( 43.1%)  19248 iterations, 10573 accepted / 8675 rejected, best found at 9.54 s (cost 283.4655 -> 256.1277), converged: converged (no improvement for 10000 iterations); best cost 256.1277 last improved at iteration 9248 and has since occupied 0.1% of the 19248 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :    26.26 s ( 56.9%)
+  full run (layers 1+2+3)             :    46.14 s (100.0%)
+✓ Saved result to ../result/hp8_m/solution_5_seed04_cost_256.127725.json: 8 chiplets, 7 EMIB connections
+  ⚠ Bridges ILLEGAL: 1 overlap pair(s), area 0.5063 -- A-F x F-H: bridge overlap 0.5934 x 0.8533 = 0.5063
+
+✓ Layout visualization saved to: ../result/hp8_m/solution_5_seed04_cost_256.127725.png
+  - Number of chiplets: 8
+  - Number of connections: 7
+  - Layout dimensions: 50.3 x 53.2
+  - Layout area: 2673.8
+  ✓ Solution saved: solution_5_seed04_cost_256.127725.json
+
+================================================================================
+Completed 5/5 successful runs; all solutions already saved
+================================================================================
+
+Run statistics:
+  Success: 5/5
+  Failed: 0/5
+  Hit time limit: 0
+  Converged (no best-cost improvement for 10000 iterations): 5/5
+    seed 0: 13756 iterations, 14.23 s, best cost occupied 1.6% of the run, converged
+    seed 1: 12731 iterations, 12.11 s, best cost occupied 0.5% of the run, converged
+    seed 2: 26483 iterations, 27.24 s, best cost occupied 41.6% of the run, converged
+    seed 3: 20273 iterations, 20.81 s, best cost occupied 8.9% of the run, converged
+    seed 4: 19248 iterations, 19.88 s, best cost occupied 0.1% of the run, converged
+
+Cost statistics:
+  Best: 254.972632
+  Worst: 261.191677
+  Average: 257.482124
+  Std Dev: 2.141250
+
+Time statistics (whole run = tree build + annealing):
+  Avg total run time: 44.16 s
+  Min / Max: 31.33 / 56.60 s
+  Avg tree build time: 25.30 s (5 build(s) total)
+  Avg annealing time: 18.85 s
+  Layer 3 annealing wall clock (sum): 94.27 s, avg 18.85 s, min/max 12.11 / 27.24 s
+  Layer split (average over 5 run(s)):
+    Layer 1 legality      Pc/Pl     : 16.81 s
+    Layer 2 shape+similar Px/Py/Ps  : 8.50 s
+    Layer 3 real quality  A/WL/R    : 18.85 s
+
+✓ Log saved: ../result/hp8_m/log.json
+✓ Text log saved: ../result/hp8_m/log.txt
+
+
+################################################################################
+Progress: 4/5
+################################################################################
+
+================================================================================
+Test case: multigpu
+Input file: ../../../benchmark/test_input/multigpu.json
+Output dir: ../result/multigpu
+Mode: 5 runs, seeds=[0, 1, 2, 3, 4], no iteration cap: stops when the best cost has not improved for 10000 iterations, or at the 3600s wall clock
+================================================================================
+
+✓ Loaded from ../../../benchmark/test_input/multigpu.json: 6 chiplets, 3 EMIB connections (wireCount>255), 3 normal connections (wireCount<=255)
+Problem size: 6 chiplets, 3 connections
+
+
+────────────────────────────────────────────────────────────────────────────────
+Run #1/5 (seed=0, elapsed: 0.0 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.50s)
+  Building similarity forest for ECG 1...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.50s)
+  Building similarity forest for ECG 2...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.49s)
+
+Selected ECG 1 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 1.49s (1 build(s))
+✓ Done: cost=167.738720, total run time 11.02s (annealing 9.54s, 10129 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     0.01 s (  0.1%)  90 base-derivation runs (0 entered the legality SA_1, 90 already legal) -> 6 legal solutions / 6 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     1.48 s ( 13.4%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes
+  layer 3  real quality     A/WL/R    :     9.54 s ( 86.5%)  10129 iterations, 9666 accepted / 463 rejected, best found at 0.12 s (cost 182.4716 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 129 and has since occupied 3.3% of the 10129 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :     1.49 s ( 13.5%)
+  full run (layers 1+2+3)             :    11.02 s (100.0%)
+✓ Saved result to ../result/multigpu/solution_1_seed00_cost_167.738720.json: 6 chiplets, 3 EMIB connections
+  ✓ Bridges legal (3 bridge(s))
+
+✓ Layout visualization saved to: ../result/multigpu/solution_1_seed00_cost_167.738720.png
+  - Number of chiplets: 6
+  - Number of connections: 3
+  - Layout dimensions: 25.9 x 48.4
+  - Layout area: 1256.0
+  ✓ Solution saved: solution_1_seed00_cost_167.738720.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #2/5 (seed=1, elapsed: 0.2 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.50s)
+  Building similarity forest for ECG 1...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.49s)
+  Building similarity forest for ECG 2...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.49s)
+
+Selected ECG 2 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 1.48s (1 build(s))
+✓ Done: cost=167.738720, total run time 11.15s (annealing 9.66s, 10163 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     0.01 s (  0.1%)  90 base-derivation runs (0 entered the legality SA_1, 90 already legal) -> 6 legal solutions / 6 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     1.47 s ( 13.2%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes
+  layer 3  real quality     A/WL/R    :     9.66 s ( 86.7%)  10163 iterations, 9695 accepted / 468 rejected, best found at 0.15 s (cost 176.4413 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 163 and has since occupied 3.0% of the 10163 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :     1.48 s ( 13.3%)
+  full run (layers 1+2+3)             :    11.15 s (100.0%)
+✓ Saved result to ../result/multigpu/solution_2_seed01_cost_167.738720.json: 6 chiplets, 3 EMIB connections
+  ✓ Bridges legal (3 bridge(s))
+
+✓ Layout visualization saved to: ../result/multigpu/solution_2_seed01_cost_167.738720.png
+  - Number of chiplets: 6
+  - Number of connections: 3
+  - Layout dimensions: 25.9 x 48.4
+  - Layout area: 1256.0
+  ✓ Solution saved: solution_2_seed01_cost_167.738720.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #3/5 (seed=2, elapsed: 0.4 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.50s)
+  Building similarity forest for ECG 1...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.50s)
+  Building similarity forest for ECG 2...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.50s)
+
+Selected ECG 0 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 1.51s (1 build(s))
+✓ Done: cost=167.738720, total run time 11.96s (annealing 10.45s, 10007 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     0.01 s (  0.1%)  90 base-derivation runs (0 entered the legality SA_1, 90 already legal) -> 6 legal solutions / 6 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     1.50 s ( 12.6%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes
+  layer 3  real quality     A/WL/R    :    10.45 s ( 87.4%)  10007 iterations, 9601 accepted / 406 rejected, best found at 0.01 s (cost 182.4975 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 7 and has since occupied 3.8% of the 10007 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :     1.51 s ( 12.6%)
+  full run (layers 1+2+3)             :    11.96 s (100.0%)
+✓ Saved result to ../result/multigpu/solution_3_seed02_cost_167.738720.json: 6 chiplets, 3 EMIB connections
+  ✓ Bridges legal (3 bridge(s))
+
+✓ Layout visualization saved to: ../result/multigpu/solution_3_seed02_cost_167.738720.png
+  - Number of chiplets: 6
+  - Number of connections: 3
+  - Layout dimensions: 25.9 x 48.4
+  - Layout area: 1256.0
+  ✓ Solution saved: solution_3_seed02_cost_167.738720.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #4/5 (seed=3, elapsed: 0.6 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.51s)
+  Building similarity forest for ECG 1...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.50s)
+  Building similarity forest for ECG 2...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.48s)
+
+Selected ECG 1 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 1.49s (1 build(s))
+✓ Done: cost=167.738720, total run time 10.91s (annealing 9.41s, 10050 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     0.01 s (  0.1%)  90 base-derivation runs (0 entered the legality SA_1, 90 already legal) -> 6 legal solutions / 6 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     1.49 s ( 13.6%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes
+  layer 3  real quality     A/WL/R    :     9.41 s ( 86.3%)  10050 iterations, 9624 accepted / 426 rejected, best found at 0.05 s (cost 182.4975 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 50 and has since occupied 3.1% of the 10050 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :     1.49 s ( 13.7%)
+  full run (layers 1+2+3)             :    10.91 s (100.0%)
+✓ Saved result to ../result/multigpu/solution_4_seed03_cost_167.738720.json: 6 chiplets, 3 EMIB connections
+  ✓ Bridges legal (3 bridge(s))
+
+✓ Layout visualization saved to: ../result/multigpu/solution_4_seed03_cost_167.738720.png
+  - Number of chiplets: 6
+  - Number of connections: 3
+  - Layout dimensions: 25.9 x 48.4
+  - Layout area: 1256.0
+  ✓ Solution saved: solution_4_seed03_cost_167.738720.json
+
+────────────────────────────────────────────────────────────────────────────────
+Run #5/5 (seed=4, elapsed: 0.8 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.51s)
+  Building similarity forest for ECG 1...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.01s, layer 2 0.50s)
+  Building similarity forest for ECG 2...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.51s)
+
+Selected ECG 0 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 1.53s (1 build(s))
+✓ Done: cost=167.738720, total run time 11.06s (annealing 9.53s, 10064 iterations)
+Per-layer time (three stacked SAs, one wall clock, different objectives):
+  layer 1  legality         Pc/Pl     :     0.01 s (  0.1%)  90 base-derivation runs (0 entered the legality SA_1, 90 already legal) -> 6 legal solutions / 6 root nodes
+  layer 2  shape+similarity Px/Py/Ps  :     1.52 s ( 13.7%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes
+  layer 3  real quality     A/WL/R    :     9.53 s ( 86.1%)  10064 iterations, 9629 accepted / 435 rejected, best found at 0.06 s (cost 182.4975 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 64 and has since occupied 3.1% of the 10064 iterations run
+  --------------------------------------------------------------
+  build total (layers 1+2)            :     1.53 s ( 13.9%)
+  full run (layers 1+2+3)             :    11.06 s (100.0%)
+✓ Saved result to ../result/multigpu/solution_5_seed04_cost_167.738720.json: 6 chiplets, 3 EMIB connections
+  ✓ Bridges legal (3 bridge(s))
+
+✓ Layout visualization saved to: ../result/multigpu/solution_5_seed04_cost_167.738720.png
+  - Number of chiplets: 6
+  - Number of connections: 3
+  - Layout dimensions: 25.9 x 48.4
+  - Layout area: 1256.0
+  ✓ Solution saved: solution_5_seed04_cost_167.738720.json
+
+================================================================================
+Completed 5/5 successful runs; all solutions already saved
+================================================================================
+
+Run statistics:
+  Success: 5/5
+  Failed: 0/5
+  Hit time limit: 0
+  Converged (no best-cost improvement for 10000 iterations): 5/5
+    seed 0: 10129 iterations, 9.54 s, best cost occupied 3.3% of the run, converged
+    seed 1: 10163 iterations, 9.66 s, best cost occupied 3.0% of the run, converged
+    seed 2: 10007 iterations, 10.45 s, best cost occupied 3.8% of the run, converged
+    seed 3: 10050 iterations, 9.41 s, best cost occupied 3.1% of the run, converged
+    seed 4: 10064 iterations, 9.53 s, best cost occupied 3.1% of the run, converged
+
+Cost statistics:
+  Best: 167.738720
+  Worst: 167.738720
+  Average: 167.738720
+  Std Dev: 0.000000
+
+Time statistics (whole run = tree build + annealing):
+  Avg total run time: 11.22 s
+  Min / Max: 10.91 / 11.96 s
+  Avg tree build time: 1.50 s (5 build(s) total)
+  Avg annealing time: 9.72 s
+  Layer 3 annealing wall clock (sum): 48.60 s, avg 9.72 s, min/max 9.41 / 10.45 s
+  Layer split (average over 5 run(s)):
+    Layer 1 legality      Pc/Pl     : 0.01 s
+    Layer 2 shape+similar Px/Py/Ps  : 1.49 s
+    Layer 3 real quality  A/WL/R    : 9.72 s
+
+✓ Log saved: ../result/multigpu/log.json
+✓ Text log saved: ../result/multigpu/log.txt
+
+
+################################################################################
+Progress: 5/5
+################################################################################
+
+================================================================================
+Test case: syn1
+Input file: ../../../benchmark/test_input/syn1.json
+Output dir: ../result/syn1
+Mode: 5 runs, seeds=[0, 1, 2, 3, 4], no iteration cap: stops when the best cost has not improved for 10000 iterations, or at the 3600s wall clock
+================================================================================
+
+✓ Loaded from ../../../benchmark/test_input/syn1.json: 10 chiplets, 7 EMIB connections (wireCount>255), 10 normal connections (wireCount<=255)
+Problem size: 10 chiplets, 7 connections
+
+
+────────────────────────────────────────────────────────────────────────────────
+Run #1/5 (seed=0, elapsed: 0.0 min)
+────────────────────────────────────────────────────────────────────────────────
+
+============================================================
+Building BT Tree
+============================================================
+  Building similarity forest for ECG 0...
+    Running base derivation...
+    Base derivation complete, 2 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 2 trees, 4 total nodes (layer 1 0.00s, layer 2 0.53s)
+  Building similarity forest for ECG 1...
+    Running base derivation...
+    Base derivation complete, 16 root nodes generated
+    Running Group Construction...
+    ✓ Forest built: 16 trees, 1523 total nodes (layer 1 12.41s, layer 2 15.24s)
+
+Selected ECG 3 as root
+
+✓ BT tree built
+============================================================
+  ✓ BT tree built in 28.18s (1 build(s))

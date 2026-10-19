@@ -1085,10 +1085,6 @@ def build_placement_ilp_model(
 
 
     for i, j in all_pairs:
-        bump_gap = float(getattr(nodes[i], "bump_pitch", 0.0) or 0.0) + float(
-            getattr(nodes[j], "bump_pitch", 0.0) or 0.0
-        )
-    
         model.addConstr(
             p_left[(i, j)] + p_right[(i, j)] + p_down[(i, j)] + p_up[(i, j)] >= 1,
             name=f"non_overlap_any_{i}_{j}"
@@ -1097,42 +1093,42 @@ def build_placement_ilp_model(
     
     
         model.addConstr(
-            x_grid_var[i] + w_var[i] + bump_gap - x_grid_var[j] <= M * (1 - p_left[(i, j)]),
+            x_grid_var[i] + w_var[i] - x_grid_var[j] <= M * (1 - p_left[(i, j)]),
             name=f"non_overlap_left_{i}_{j}"
         )
     
         model.addConstr(
-            x_grid_var[j] - (x_grid_var[i] + w_var[i] + bump_gap) <= M * p_left[(i, j)],
+            x_grid_var[j] - (x_grid_var[i] + w_var[i]) <= M * p_left[(i, j)],
             name=f"non_overlap_left_rev_{i}_{j}"
         )
         
     
         model.addConstr(
-            x_grid_var[j] + w_var[j] + bump_gap - x_grid_var[i] <= M * (1 - p_right[(i, j)]),
+            x_grid_var[j] + w_var[j] - x_grid_var[i] <= M * (1 - p_right[(i, j)]),
             name=f"non_overlap_right_{i}_{j}"
         )
         model.addConstr(
-            x_grid_var[i] - (x_grid_var[j] + w_var[j] + bump_gap) <= M * p_right[(i, j)],
+            x_grid_var[i] - (x_grid_var[j] + w_var[j]) <= M * p_right[(i, j)],
             name=f"non_overlap_right_rev_{i}_{j}"
         )
         
     
         model.addConstr(
-            y_grid_var[i] + h_var[i] + bump_gap - y_grid_var[j] <= M * (1 - p_down[(i, j)]),
+            y_grid_var[i] + h_var[i] - y_grid_var[j] <= M * (1 - p_down[(i, j)]),
             name=f"non_overlap_down_{i}_{j}"
         )
         model.addConstr(
-            y_grid_var[j] - (y_grid_var[i] + h_var[i] + bump_gap) <= M * p_down[(i, j)],
+            y_grid_var[j] - (y_grid_var[i] + h_var[i]) <= M * p_down[(i, j)],
             name=f"non_overlap_down_rev_{i}_{j}"
         )
         
     
         model.addConstr(
-            y_grid_var[j] + h_var[j] + bump_gap - y_grid_var[i] <= M * (1 - p_up[(i, j)]),
+            y_grid_var[j] + h_var[j] - y_grid_var[i] <= M * (1 - p_up[(i, j)]),
             name=f"non_overlap_up_{i}_{j}"
         )
         model.addConstr(
-            y_grid_var[i] - (y_grid_var[j] + h_var[j] + bump_gap) <= M * p_up[(i, j)],
+            y_grid_var[i] - (y_grid_var[j] + h_var[j]) <= M * p_up[(i, j)],
             name=f"non_overlap_up_rev_{i}_{j}"
         )
 

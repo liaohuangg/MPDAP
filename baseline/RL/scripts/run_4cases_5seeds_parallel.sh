@@ -116,6 +116,8 @@ run_case_worker() {
                 --exact_action_slots "${EXACT_ACTION_SLOTS}" \
                 --thermal_intp_size "${THERMAL_INTP_SIZE}" \
                 --seed "${seed}" \
+                --use_emib_length_adjacency \
+                --enforce_bridge_overlap \
                 --skip_thermal_tables \
             2>&1 | tee -a "${seed_log}" "${worker_log}"
         exit_code="${PIPESTATUS[0]}"

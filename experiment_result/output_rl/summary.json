@@ -1,5 +1,5 @@
 {
- "source_prefix": "rl_5x9_20261016_162549",
+ "source_prefix": "rl_emib_hard_20261019_1744",
  "format": "bt_tree-compatible (output_bt_tree_10_18)",
  "cases_with_results": [
   "acend910",
@@ -19,92 +19,92 @@
   {
    "case": "acend910",
    "seed": 0,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/acend910/solution_1_seed00_reward_228.4572.json",
-   "wirelength": 27594.453950412175,
-   "area": 1929.9,
-   "aspect_ratio": 0.63,
-   "reward": 228.45724616310545,
-   "rl_metrics_wirelength": 27594.45395041217
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/acend910/solution_1_seed00_reward_224.5284.json",
+   "wirelength": 26471.745893627456,
+   "area": 1665.7344000000003,
+   "aspect_ratio": 1.14,
+   "reward": 224.52836392657105,
+   "rl_metrics_wirelength": 26471.7458936274
   },
   {
    "case": "acend910",
    "seed": 1,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/acend910/solution_1_seed01_reward_233.8563.json",
-   "wirelength": 24772.15807141843,
-   "area": 1607.5178,
-   "aspect_ratio": 0.9,
-   "reward": 233.8563248576933,
-   "rl_metrics_wirelength": 24772.158071418446
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/acend910/solution_1_seed01_reward_228.8133.json",
+   "wirelength": 25337.89341988482,
+   "area": 1658.7855000000002,
+   "aspect_ratio": 1.08,
+   "reward": 228.8133365557191,
+   "rl_metrics_wirelength": 25407.496024862514
   },
   {
    "case": "acend910",
    "seed": 2,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/acend910/solution_1_seed02_reward_222.4891.json",
-   "wirelength": 28599.22426180024,
-   "area": 1790.3522,
-   "aspect_ratio": 0.84,
-   "reward": 222.48909954819578,
-   "rl_metrics_wirelength": 28599.224261800235
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/acend910/solution_1_seed02_reward_230.4342.json",
+   "wirelength": 28694.73022589893,
+   "area": 1585.5625,
+   "aspect_ratio": 1.92,
+   "reward": 230.43421431523217,
+   "rl_metrics_wirelength": 28694.730225898922
   },
   {
    "case": "acend910",
    "seed": 3,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/acend910/solution_1_seed03_reward_234.8678.json",
-   "wirelength": 26219.830996979614,
-   "area": 1454.3054999999997,
-   "aspect_ratio": 2.09,
-   "reward": 234.86779464365145,
-   "rl_metrics_wirelength": 26219.830996979574
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/acend910/solution_1_seed03_reward_227.9195.json",
+   "wirelength": 29573.8532838074,
+   "area": 1833.3499,
+   "aspect_ratio": 1.02,
+   "reward": 227.9194750827716,
+   "rl_metrics_wirelength": 29573.853283807373
   },
   {
    "case": "acend910",
    "seed": 4,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/acend910/solution_1_seed04_reward_230.6549.json",
-   "wirelength": 25942.137263801076,
-   "area": 1830.3840000000002,
-   "aspect_ratio": 0.98,
-   "reward": 230.65488293226457,
-   "rl_metrics_wirelength": 25942.13726380102
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/acend910/solution_1_seed04_reward_234.0220.json",
+   "wirelength": 25833.44878734827,
+   "area": 1588.6465000000003,
+   "aspect_ratio": 0.9,
+   "reward": 234.0220376001514,
+   "rl_metrics_wirelength": 25833.44878734828
   },
   {
    "case": "cpu-dram",
    "seed": 0,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/cpu-dram/solution_1_seed00_reward_164.6014.json",
-   "wirelength": 57376.248684974635,
-   "area": 1093.125,
-   "aspect_ratio": 1.45,
-   "reward": 164.60144248233263,
-   "rl_metrics_wirelength": 57376.24868497456
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/cpu-dram/solution_1_seed00_reward_164.3219.json",
+   "wirelength": 56173.48432985255,
+   "area": 1127.5,
+   "aspect_ratio": 1.49,
+   "reward": 164.32193049485838,
+   "rl_metrics_wirelength": 56173.484329852436
   },
   {
    "case": "cpu-dram",
    "seed": 1,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/cpu-dram/solution_1_seed01_reward_183.6738.json",
-   "wirelength": 55361.987461340956,
-   "area": 1034.625,
-   "aspect_ratio": 0.52,
-   "reward": 183.6737704296749,
-   "rl_metrics_wirelength": 55361.98746134099
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/cpu-dram/solution_1_seed01_reward_200.1764.json",
+   "wirelength": 56103.50305509624,
+   "area": 1051.1875,
+   "aspect_ratio": 0.87,
+   "reward": 200.17640829584772,
+   "rl_metrics_wirelength": 56103.50305509638
   },
   {
    "case": "cpu-dram",
    "seed": 2,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/cpu-dram/solution_1_seed02_reward_162.7899.json",
-   "wirelength": 58439.62019304883,
-   "area": 1181.875,
-   "aspect_ratio": 0.79,
-   "reward": 162.78991494592256,
-   "rl_metrics_wirelength": 58439.62019304877
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/cpu-dram/solution_1_seed02_reward_158.4898.json",
+   "wirelength": 55943.13887583321,
+   "area": 1139.5,
+   "aspect_ratio": 1.62,
+   "reward": 158.48977286038593,
+   "rl_metrics_wirelength": 55943.13887583329
   },
   {
    "case": "cpu-dram",
    "seed": 3,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/cpu-dram/solution_1_seed03_reward_173.8730.json",
-   "wirelength": 58720.729258602696,
-   "area": 1189.25,
-   "aspect_ratio": 0.94,
-   "reward": 173.87303371639027,
-   "rl_metrics_wirelength": 58720.72925860272
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/cpu-dram/solution_1_seed03_reward_192.4528.json",
+   "wirelength": 54675.24865469658,
+   "area": 911.0625,
+   "aspect_ratio": 1.14,
+   "reward": 192.452800774966,
+   "rl_metrics_wirelength": 54675.248654696414
   },
   {
    "case": "cpu-dram",
@@ -119,102 +119,102 @@
   {
    "case": "hp6_m",
    "seed": 0,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/hp6_m/solution_1_seed00_reward_186.2460.json",
-   "wirelength": 15336.022034924592,
-   "area": 815.7632000000001,
-   "aspect_ratio": 1.86,
-   "reward": 186.24603944390802,
-   "rl_metrics_wirelength": 15336.022034924601
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/hp6_m/solution_1_seed00_reward_162.5447.json",
+   "wirelength": 15150.860347663584,
+   "area": 603.1116,
+   "aspect_ratio": 2.25,
+   "reward": 162.5446571803389,
+   "rl_metrics_wirelength": 15150.860347663594
   },
   {
    "case": "hp6_m",
    "seed": 1,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/hp6_m/solution_1_seed01_reward_180.2677.json",
-   "wirelength": 14369.903163743811,
-   "area": 852.8435999999999,
-   "aspect_ratio": 1.57,
-   "reward": 180.2677253999547,
-   "rl_metrics_wirelength": 14369.903163743811
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/hp6_m/solution_1_seed01_reward_174.3256.json",
+   "wirelength": 15012.774275523208,
+   "area": 737.5283999999999,
+   "aspect_ratio": 3.05,
+   "reward": 174.32563357227613,
+   "rl_metrics_wirelength": 15012.774275523243
   },
   {
    "case": "hp6_m",
    "seed": 2,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/hp6_m/solution_1_seed02_reward_162.5446.json",
-   "wirelength": 14347.572796827324,
-   "area": 612.8416000000001,
-   "aspect_ratio": 0.5,
-   "reward": 162.54462807303327,
-   "rl_metrics_wirelength": 14347.572796827335
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/hp6_m/solution_1_seed02_reward_157.9444.json",
+   "wirelength": 14500.25533578414,
+   "area": 764.6179999999998,
+   "aspect_ratio": 0.39,
+   "reward": 157.944417527175,
+   "rl_metrics_wirelength": 14500.255335784097
   },
   {
    "case": "hp6_m",
    "seed": 3,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/hp6_m/solution_1_seed03_reward_177.3063.json",
-   "wirelength": 15280.079323916769,
-   "area": 681.2064,
-   "aspect_ratio": 2.26,
-   "reward": 177.3062946858685,
-   "rl_metrics_wirelength": 15280.07932391678
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/hp6_m/solution_1_seed03_reward_160.9874.json",
+   "wirelength": 14913.427528224684,
+   "area": 544.1904,
+   "aspect_ratio": 5.17,
+   "reward": 160.98737398546655,
+   "rl_metrics_wirelength": 14913.427528224662
   },
   {
    "case": "hp6_m",
    "seed": 4,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/hp6_m/solution_1_seed04_reward_159.4764.json",
-   "wirelength": 15828.84257212186,
-   "area": 813.14,
-   "aspect_ratio": 0.27,
-   "reward": 159.47642676858146,
-   "rl_metrics_wirelength": 15828.842572121868
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/hp6_m/solution_1_seed04_reward_188.2792.json",
+   "wirelength": 15021.739553662665,
+   "area": 574.2408,
+   "aspect_ratio": 0.44,
+   "reward": 188.27915589808222,
+   "rl_metrics_wirelength": 15021.739553662661
   },
   {
    "case": "multigpu",
    "seed": 0,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/multigpu/solution_1_seed00_reward_177.7120.json",
-   "wirelength": 62752.91772319567,
-   "area": 1831.8464999999999,
-   "aspect_ratio": 0.79,
-   "reward": 177.71197379648626,
-   "rl_metrics_wirelength": 62752.91772319554
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/multigpu/solution_1_seed00_reward_186.4912.json",
+   "wirelength": 56047.546101956985,
+   "area": 1181.004,
+   "aspect_ratio": 1.22,
+   "reward": 186.49118717676387,
+   "rl_metrics_wirelength": 56047.54610195698
   },
   {
    "case": "multigpu",
    "seed": 1,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/multigpu/solution_1_seed01_reward_158.0348.json",
-   "wirelength": 59201.759148358644,
-   "area": 1928.034,
-   "aspect_ratio": 1.29,
-   "reward": 158.03478966482797,
-   "rl_metrics_wirelength": 59201.7591483587
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/multigpu/solution_1_seed01_reward_173.5794.json",
+   "wirelength": 60275.91451006465,
+   "area": 1691.4315000000001,
+   "aspect_ratio": 1.17,
+   "reward": 173.5794300554093,
+   "rl_metrics_wirelength": 60275.91451006465
   },
   {
    "case": "multigpu",
    "seed": 2,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/multigpu/solution_1_seed02_reward_164.3003.json",
-   "wirelength": 58115.89579603254,
-   "area": 1734.3150000000003,
-   "aspect_ratio": 1.2,
-   "reward": 164.30028948566212,
-   "rl_metrics_wirelength": 58115.895796032506
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/multigpu/solution_1_seed02_reward_157.1592.json",
+   "wirelength": 57569.30550407058,
+   "area": 1769.8849,
+   "aspect_ratio": 1.0,
+   "reward": 157.15917843998733,
+   "rl_metrics_wirelength": 57569.30550407055
   },
   {
    "case": "multigpu",
    "seed": 3,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/multigpu/solution_1_seed03_reward_166.2803.json",
-   "wirelength": 58510.15095155419,
-   "area": 1890.669,
-   "aspect_ratio": 1.31,
-   "reward": 166.28032555341818,
-   "rl_metrics_wirelength": 58510.15095155425
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/multigpu/solution_1_seed03_reward_202.0225.json",
+   "wirelength": 60774.624921384304,
+   "area": 1643.9940000000001,
+   "aspect_ratio": 1.14,
+   "reward": 202.0225226276737,
+   "rl_metrics_wirelength": 60774.624921384115
   },
   {
    "case": "multigpu",
    "seed": 4,
-   "file": "/root/placement/MPDAP/experiment_result/output_rl/multigpu/solution_1_seed04_reward_181.8951.json",
-   "wirelength": 59009.151179946275,
-   "area": 1716.2990000000002,
-   "aspect_ratio": 0.69,
-   "reward": 181.89514560336787,
-   "rl_metrics_wirelength": 59009.151179946304
+   "file": "/root/placement/MPDAP/experiment_result/output_rl/multigpu/solution_1_seed04_reward_178.4286.json",
+   "wirelength": 61995.12855087168,
+   "area": 1980.2349,
+   "aspect_ratio": 1.12,
+   "reward": 178.42862105565615,
+   "rl_metrics_wirelength": 61995.12855087165
   }
  ],
  "missing_seeds": {

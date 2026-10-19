@@ -554,7 +554,7 @@ def visualize_layout_with_bridges(layout: Dict[str, Chiplet],
                                    show_bridges: bool = True,
                                    show_coordinates: bool = True):
     """Visualize chiplet layout and EMIB bridges, then save as PNG."""
-    from Bridge_Overlap_Adjustment import generate_silicon_bridges
+    from bridge_legality import bridge_specs_from_problem, layout_bridge_rects
     
     # Font configuration
     plt.rcParams['font.sans-serif'] = ['Arial', 'Helvetica', 'DejaVu Sans', 'Liberation Sans', 'sans-serif']
@@ -631,37 +631,35 @@ def visualize_layout_with_bridges(layout: Dict[str, Chiplet],
     # Draw bridges
     if show_bridges:
         try:
-            bridges = generate_silicon_bridges(layout, problem)
-            
+            # Real per-edge EMIB geometry, not the 1x1 placeholder used by
+            # Bridge_Overlap_Adjustment.SiliconBridge: EMIB_length runs ALONG
+            # the shared edge and 2 * EMIB_bump_width runs ACROSS it.  For
+            # up/down neighbours (horizontal shared edge) that means the
+            # rectangle is rotated 90 degrees -- along x across instead of
+            # across x along -- and layout_bridge_rects() applies exactly that
+            # rotation, centred on the shared boundary.
+            specs = bridge_specs_from_problem(problem)
+            bridges, bridge_errors = layout_bridge_rects(layout, specs)
+
             for bridge in bridges:
-                bbox = bridge.get_bounding_box()
-                x_min_b, y_min_b, x_max_b, y_max_b = bbox
+                x_min_b, y_min_b, x_max_b, y_max_b = bridge['rect']
                 width_b = x_max_b - x_min_b
                 height_b = y_max_b - y_min_b
-                
-                # Bridge rectangle
+
+                # Bridge rectangle (width/height already include the rotation
+                # above, so up/down bridges come out tall and narrow).
                 bridge_rect = Rectangle(
                     (x_min_b, y_min_b), width_b, height_b,
-                    linewidth=2,
+                    linewidth=1,
                     edgecolor='red',
                     facecolor='yellow',
                     alpha=0.5,
                     linestyle='--'
                 )
                 ax.add_patch(bridge_rect)
-                
-                # Bridge label
-                center_x_b = (x_min_b + x_max_b) / 2
-                center_y_b = (y_min_b + y_max_b) / 2
-                bridge_label = f"{bridge.chip1_id}-{bridge.chip2_id}"
-                ax.text(
-                    center_x_b, center_y_b, bridge_label,
-                    ha='center', va='center',
-                    fontsize=8,
-                    color='red',
-                    fontweight='bold',
-                    bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.7, edgecolor='red')
-                )
+
+            for err in bridge_errors:
+                print(f"  ⚠ bridge geometry: {err}")
         except Exception as e:
             print(f"Warning: failed to render bridges - {e}")
     

@@ -91,7 +91,6 @@ class ChipletNode:
     phys: List[Dict]
     power: float
     original_dimensions: Optional[Dict] = None
-    bump_pitch: float = 0.0
 
 def build_bump_region_map(edges: List[dict], name_to_idx: Dict[str, int]) -> Dict[Tuple[int, int, int], dict]:
     """
@@ -180,10 +179,6 @@ def load_emib_placement_json(
     with open(json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    bump_pitch = float(data.get("bump pitch", data.get("bump_pitch", 0.0)) or 0.0)
-    if bump_pitch < 0:
-        raise ValueError(f"JSON format error: bump pitch must be >= 0. File: {json_path}")
-
     if "chiplets" not in data or not isinstance(data["chiplets"], list):
         raise ValueError(f"JSON format error: must contain 'chiplets' list. File: {json_path}")
 
@@ -218,7 +213,6 @@ def load_emib_placement_json(
                 phys=[],
                 power=p_f,
                 original_dimensions={"x": w_f, "y": h_f},
-                bump_pitch=bump_pitch,
             )
         )
 
@@ -257,16 +251,7 @@ def load_emib_placement_json(
             raw_bump_width = float(row[6])
         except (TypeError, ValueError) as e:
             raise ValueError(f"Connection error: wireCount, EMIB_length, EMIB_width, EMIB_bump_width must be numeric. connections[{idx}]: {row}") from e
-        emib_available_width = emib_width - 2.0 * raw_bump_width
-        required_bump_pitch_space = bump_pitch
-        if bump_pitch and emib_available_width <= required_bump_pitch_space + 1e-9:
-            raise ValueError(
-                f"Connection error: EMIB_width - 2*EMIB_bump_width must be > bump pitch "
-                f"when bump pitch is non-zero. connections[{idx}]: "
-                f"{emib_width} - 2*{raw_bump_width} = {emib_available_width}, "
-                f"bump pitch={required_bump_pitch_space}"
-            )
-        bump_width = raw_bump_width + bump_pitch if bump_pitch else raw_bump_width
+        bump_width = raw_bump_width
         ct = _emib_type_to_conn_type(emib_type)
         a, b = (s, t) if s <= t else (t, s)
         if a not in chiplet_names_set or b not in chiplet_names_set:
@@ -924,15 +909,6 @@ def generate_placement_json_with_EMIB(
             "rotation": rot,
             "power": _r3(power),
         }
-        bump_pitch = float(getattr(node, "bump_pitch", 0.0) or 0.0)
-        original_dims = getattr(node, "original_dimensions", None) or {}
-        if bump_pitch:
-            ow0 = float(original_dims.get("x", w) or 0.0)
-            oh0 = float(original_dims.get("y", h) or 0.0)
-            ow, oh = (oh0, ow0) if rot else (ow0, oh0)
-            entry["width"] = _r3(ow)
-            entry["height"] = _r3(oh)
-            entry["bump pitch"] = _r3(bump_pitch)
         return entry
 
     layout = result.layout if hasattr(result, "layout") else {}
@@ -1024,10 +1000,6 @@ def generate_placement_json_with_EMIB(
         "area": _r3(area),
         "aspect_ratio": _r3(aspect_ratio),
     }
-    bump_pitch = max(float(getattr(node, "bump_pitch", 0.0) or 0.0) for node in nodes) if nodes else 0.0
-    if bump_pitch:
-        placement_data["bump pitch"] = _r3(bump_pitch)
-
     out = Path(output_path)
     out.parent.mkdir(parents=True, exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
@@ -1086,15 +1058,6 @@ def generate_placement_json(
             "rotation": rot,
             "power": _r3(power),
         }
-        bump_pitch = float(getattr(node, "bump_pitch", 0.0) or 0.0)
-        original_dims = getattr(node, "original_dimensions", None) or {}
-        if bump_pitch:
-            ow0 = float(original_dims.get("x", w) or 0.0)
-            oh0 = float(original_dims.get("y", h) or 0.0)
-            ow, oh = (oh0, ow0) if rot else (ow0, oh0)
-            entry["width"] = _r3(ow)
-            entry["height"] = _r3(oh)
-            entry["bump pitch"] = _r3(bump_pitch)
         return entry
 
     layout = result.layout if hasattr(result, "layout") else {}
@@ -1182,10 +1145,6 @@ def generate_placement_json(
         "area": _r3(area),
         "aspect_ratio": _r3(aspect_ratio),
     }
-    bump_pitch = max(float(getattr(node, "bump_pitch", 0.0) or 0.0) for node in nodes) if nodes else 0.0
-    if bump_pitch:
-        placement_data["bump pitch"] = _r3(bump_pitch)
-
     out = Path(output_path)
     out.parent.mkdir(parents=True, exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:

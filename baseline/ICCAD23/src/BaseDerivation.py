@@ -10,6 +10,7 @@ from TCG import TCG, generate_layout_from_tcg
 from Legality_optimized_SA import cost_legal, SA_1
 from GroupConstrua import SimilarityTreeNode, compute_similarity
 from chiplet_model import Chiplet, LayoutProblem
+from bridge_legality import make_bridge_checker
 
 
 def run_base_derivation(problem: LayoutProblem,
@@ -62,12 +63,18 @@ def run_base_derivation(problem: LayoutProblem,
     root_nodes: List[SimilarityTreeNode] = []  # Forest root nodes
     total_legal_solutions = 0  # Total legal solutions found
 
+    # Bridge gate for every node admitted to the forest: a layout whose EMIB
+    # bridges overlap (or do not fit their shared edge) is not a legal node,
+    # no matter what cost_legal says.
+    bridge_ok = make_bridge_checker(problem)
+
     # Counters of this layer, handed back through `stats` at the end.
     layer_stats: Dict = {
         'runs': num_runs,              # attempts, each starting from a fresh TCG
         'already_legal_runs': 0,       # Case 1: no SA needed at all
         'sa_runs': 0,                  # Case 2/3: SA_1 was actually run
         'legal_solutions': 0,          # legal TCGs SA_1 produced (before dedup)
+        'bridge_rejected': 0,          # candidates dropped for overlapping bridges
         'sa_seconds': 0.0,             # wall clock inside SA_1
         'root_nodes': 0,               # survived the similarity filter
     }
@@ -94,8 +101,8 @@ def run_base_derivation(problem: LayoutProblem,
         if verbose:
             print(f"Initial cost: {initial_cost:.4f}")
         
-        # Case 1: Initial layout is already legal
-        if abs(initial_cost) < 1e-6:
+        # Case 1: Initial layout is already legal (placement + bridges)
+        if abs(initial_cost) < 1e-6 and bridge_ok(layout):
             layer_stats['already_legal_runs'] += 1
             if verbose:
                 print("✓ Initial layout is legal (Case 1)")
@@ -128,8 +135,11 @@ def run_base_derivation(problem: LayoutProblem,
         
         # Initial layout illegal, run SA to find legal solutions
         if verbose:
-            print(f"Initial layout illegal, running SA...")
-        
+            if abs(initial_cost) < 1e-6:
+                print("Initial layout is placement-legal but its bridges overlap, running SA...")
+            else:
+                print(f"Initial layout illegal, running SA...")
+
         layer_stats['sa_runs'] += 1
         start_time = time.time()
         legal_tcgs, legal_layouts, final_cost = SA_1(
@@ -144,6 +154,13 @@ def run_base_derivation(problem: LayoutProblem,
         )
         elapsed_time = time.time() - start_time
         layer_stats['sa_seconds'] += elapsed_time
+
+        # Defensive re-check: only bridge-legal layouts may become tree nodes.
+        keep = [i for i in range(len(legal_tcgs)) if bridge_ok(legal_layouts[i])]
+        if len(keep) < len(legal_tcgs):
+            layer_stats['bridge_rejected'] += len(legal_tcgs) - len(keep)
+        legal_tcgs = [legal_tcgs[i] for i in keep]
+        legal_layouts = [legal_layouts[i] for i in keep]
 
         num_legal = len(legal_tcgs)
         

@@ -31,6 +31,7 @@ from unit import (
     save_convergence_curve,
 )
 from wirelength import calculate_manhattan_wirelength  # New wirelength computation module
+from bridge_legality import make_bridge_checker
 
 
 # ============================================================================
@@ -733,8 +734,9 @@ def overall_sa(bt_tree: BinaryTree,
 
     Returns:
         (best_layout, best_cost, best_found_time)
-        - best_layout: best layout
-        - best_cost: best cost
+        - best_layout: best bridge-legal layout, or None when no move ever
+          produced one
+        - best_cost: its cost (float('inf') when best_layout is None)
         - best_found_time: time to best solution (seconds)
     """
     if op_weights is None:
@@ -768,14 +770,20 @@ def overall_sa(bt_tree: BinaryTree,
     # ---- Initialization ----
     initialize_bt_node_layouts(bt_tree, ecg_manager)
 
+    # Bridge gate (layer-3 moves too): overlapping EMIB bridges are a physical
+    # violation, so a move that produces them is discarded outright and only
+    # bridge-legal layouts are eligible to become the best solution.
+    bridge_ok = make_bridge_checker(problem)
+
     current_layout = generate_global_layout(bt_tree, ecg_manager)
     current_cost = compute_overall_cost(current_layout, problem,
                                         alpha, beta, gamma, target_ratio)
 
     initial_cost = current_cost
 
-    best_layout = copy.deepcopy(current_layout)
-    best_cost = current_cost
+    initial_bridge_legal = bridge_ok(current_layout)
+    best_layout = copy.deepcopy(current_layout) if initial_bridge_legal else None
+    best_cost = current_cost if initial_bridge_legal else float('inf')
     best_found_time = 0.0  # Time when best solution is found (relative)
 
     # Minimum temperature threshold
@@ -793,6 +801,7 @@ def overall_sa(bt_tree: BinaryTree,
     temp = initial_temp
     accept_count = 0
     reject_count = 0
+    bridge_reject_count = 0  # moves discarded for overlapping EMIB bridges
     op_success = [0] * 5
     op_total = [0] * 5
     no_improve_count = 0
@@ -818,7 +827,8 @@ def overall_sa(bt_tree: BinaryTree,
         run the incumbent dominated.
         """
         nonlocal best_hold_total
-        if current_cost <= best_cost + 1e-9 * max(1.0, abs(best_cost)):
+        if (best_layout is not None
+                and current_cost <= best_cost + 1e-9 * max(1.0, abs(best_cost))):
             best_hold_total += 1
 
     start_time = time.perf_counter()  # monotonic: immune to wall-clock jumps (WSL2 resync)
@@ -873,6 +883,15 @@ def overall_sa(bt_tree: BinaryTree,
             _note_iteration()
             continue
 
+        # Bridge gate: a move whose EMIB bridges overlap (or no longer fit
+        # their shared edge) is physically illegal. Discard it outright --
+        # no Metropolis acceptance -- and never let it become the best.
+        if not bridge_ok(new_layout):
+            _restore_sa_state(bt_tree, saved_state)
+            bridge_reject_count += 1
+            _note_iteration()
+            continue
+
         # Metropolis criterion
         delta = new_cost - current_cost
         accepted = delta < 0 or random.random() < math.exp(-delta / max(temp, 1e-10))
@@ -883,7 +902,7 @@ def overall_sa(bt_tree: BinaryTree,
             current_cost = new_cost
             accept_count += 1
 
-            if current_cost < best_cost:
+            if best_layout is None or current_cost < best_cost:
                 best_layout = copy.deepcopy(current_layout)
                 best_cost = current_cost
                 best_found_time = time.perf_counter() - start_time
@@ -908,7 +927,7 @@ def overall_sa(bt_tree: BinaryTree,
             temp *= cooling_rate
 
         # Periodic log
-        if verbose and iteration % 2000 == 0 and iteration > 0:
+        if verbose and best_layout is not None and iteration % 2000 == 0 and iteration > 0:
             elapsed = time.perf_counter() - start_time
             total_decisions = accept_count + reject_count
             acc_rate = accept_count / total_decisions if total_decisions > 0 else 0
@@ -955,6 +974,12 @@ def overall_sa(bt_tree: BinaryTree,
 
     elapsed_total = time.perf_counter() - start_time
 
+    bridge_legal = best_layout is not None
+    if not bridge_legal:
+        stop_reason = ("no bridge-legal layout found (every candidate had "
+                       "overlapping or ill-fitting EMIB bridges)")
+        best_cost = float('inf')
+
     # Layer-3 bookkeeping for the caller. This is the only layer that looks at
     # real quality; the two build-time layers never see A / WL / R.
     if stats is not None:
@@ -964,6 +989,8 @@ def overall_sa(bt_tree: BinaryTree,
             'initial_cost': initial_cost,
             'accept': accept_count,
             'reject': reject_count,
+            'bridge_rejected': bridge_reject_count,
+            'bridge_legal': bridge_legal,
             'op_attempts': list(op_total),
             'op_success': list(op_success),
             'best_found_time': best_found_time,
@@ -982,7 +1009,15 @@ def overall_sa(bt_tree: BinaryTree,
         })
 
     # ---- Summary ----
-    if verbose:
+    if verbose and not bridge_legal:
+        print("\n" + "=" * 80)
+        print("Overall SA Complete -- NO BRIDGE-LEGAL LAYOUT")
+        print("=" * 80)
+        print(f"Iterations: {iteration + 1}, elapsed: {elapsed_total:.2f}s")
+        print(f"Moves discarded for overlapping bridges: {bridge_reject_count}")
+        print("=" * 80)
+
+    if verbose and bridge_legal:
         print("\n" + "=" * 80)
         print("Overall SA Complete")
         print("=" * 80)
@@ -1014,7 +1049,7 @@ def overall_sa(bt_tree: BinaryTree,
         print("=" * 80)
 
     # ---- Save ----
-    if save_best:
+    if save_best and bridge_legal:
         os.makedirs(output_dir, exist_ok=True)
         try:
             from unit import save_result
@@ -1190,6 +1225,11 @@ def run_single_case(json_path: str,
         stats=sa_stats,
     )
     sa_seconds = time.time() - sa_start
+
+    if best_layout is None:
+        raise RuntimeError(
+            f"Case [{case_name}]: no bridge-legal layout found; refusing to "
+            f"save an illegal solution")
 
     # 5. Save layout JSON + image + convergence curve, every name tagged `_seedNN`
     os.makedirs(output_dir, exist_ok=True)

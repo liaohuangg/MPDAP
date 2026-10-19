@@ -29,6 +29,7 @@ from unit import (load_problem_from_json, save_layout_image, save_result,
 from input_ECG import ECGManager
 from BtTree import BinaryTree
 from OverallSA import overall_sa, format_layer_timing
+from bridge_legality import check_problem_layout as check_bridge_layout
 
 
 # ---- Run configuration ----
@@ -176,6 +177,19 @@ def save_solution(layout, problem, cost, solution_idx, output_dir,
         output_dir, f"solution_{solution_idx}_{tag}_cost_{cost:.6f}.json")
     save_result(layout, json_path, problem)
 
+    # Check the physical EMIB bridges. The search itself optimises A/WL/R and
+    # never looks at the bridge rectangles, so this is where a finished layout
+    # is verified against the real per-edge geometry: every bridge must fit on
+    # its shared edge and no two bridges may overlap. It does not change the
+    # solution -- only the log records what was found.
+    bridge_report = check_bridge_layout(layout, problem)
+    if bridge_report["legal"]:
+        print(f"  ✓ Bridges legal ({bridge_report['bridge_count']} bridge(s))")
+    else:
+        print(f"  ⚠ Bridges ILLEGAL: {bridge_report['overlap_pairs']} "
+              f"overlap pair(s), area {bridge_report['overlap_area']:.4f} "
+              f"-- {bridge_report['errors'][0]}")
+
     # Save image
     img_path = os.path.join(
         output_dir, f"solution_{solution_idx}_{tag}_cost_{cost:.6f}.png")
@@ -208,6 +222,13 @@ def save_solution(layout, problem, cost, solution_idx, output_dir,
         'json_file': os.path.basename(json_path),
         'image_file': os.path.basename(img_path),
         'convergence_file': os.path.basename(curve_path) if curve_path else None,
+        # Physical EMIB bridge verdict (see bridge_legality.py): the same
+        # geometry and bridge-overlap rule the RL baseline is checked with.
+        'bridge_legal': bridge_report["legal"],
+        'bridge_count': bridge_report["bridge_count"],
+        'bridge_overlap_pairs': bridge_report["overlap_pairs"],
+        'bridge_overlap_area': bridge_report["overlap_area"],
+        'bridge_errors': bridge_report["errors"],
         'timing': timing or {},
     }
 
@@ -350,6 +371,10 @@ def run_case_all_seeds(json_path, case_name, output_dir,
             'sweep_time_limit_seconds': seed_sweep_time_limit if sweep else None,
             'statistics': stats,  # Summary statistics
             'run_details': run_details,  # Per-run details
+            # How many saved solutions pass the physical bridge check
+            # (bridge rectangles fit their shared edges and do not overlap).
+            'bridge_legal_solutions': sum(1 for e in log_entries
+                                          if e.get('bridge_legal')),
             # Sorted by cost for readability; file names keep run order
             'solutions': sorted(log_entries, key=lambda e: e['cost'])
         }
@@ -377,6 +402,8 @@ def run_case_all_seeds(json_path, case_name, output_dir,
                     f"{f'{time_limit} s ({time_limit/60:.1f} min)' if time_limit else 'none'}\n\n")
             f.write(f"Run statistics:\n")
             f.write(f"  Total solutions: {log_info['total_runs']}\n")
+            f.write(f"  Bridge-legal solutions: "
+                    f"{log_info['bridge_legal_solutions']}/{log_info['total_runs']}\n")
             f.write(f"  Actual time: {log_info['total_time_seconds']/60:.2f} min\n")
             if sweep:
                 here = log_info['total_time_seconds'] / 60
@@ -489,6 +516,16 @@ def run_case_all_seeds(json_path, case_name, output_dir,
                 f.write(f"  Image: {entry['image_file']}\n")
                 if entry.get('convergence_file'):
                     f.write(f"  Curve: {entry['convergence_file']}\n")
+                if entry.get('bridge_legal') is not None:
+                    f.write(f"  Bridges: "
+                            f"{'legal' if entry['bridge_legal'] else 'ILLEGAL'} "
+                            f"({entry.get('bridge_count', 0)} bridge(s)")
+                    if entry.get('bridge_overlap_pairs'):
+                        f.write(f", {entry['bridge_overlap_pairs']} overlap pair(s), "
+                                f"area {entry['bridge_overlap_area']:.4f}")
+                    f.write(f")\n")
+                    for err in entry.get('bridge_errors') or []:
+                        f.write(f"    ! {err}\n")
                 f.write(f"\n")
 
         return log_info
@@ -606,6 +643,13 @@ def run_case_all_seeds(json_path, case_name, output_dir,
                 convergence_patience=CONVERGENCE_PATIENCE
             )
             sa_seconds = time.time() - sa_start
+
+            # A run without a bridge-legal layout is a failed run: an illegal
+            # layout must never be recorded or saved as a solution.
+            if best_layout is None:
+                raise RuntimeError(
+                    "no bridge-legal layout found: every candidate in layer 3 "
+                    "had overlapping or ill-fitting EMIB bridges")
 
             run_time = time.time() - run_start_time
 
@@ -1029,6 +1073,10 @@ def main():
                 'num_seeds_tried': len(log_info.get('seeds') or []),
                 'best_cost': min(e['cost'] for e in solutions) if solutions else None,
                 'hit_time_limit_count': log_info['statistics'].get('hit_time_limit_count', 0),
+                # Solutions whose EMIB bridges pass the physical check
+                # (bridge_legality.py): every bridge fits on its shared edge
+                # and no two bridge rectangles overlap.
+                'bridge_legal_solutions': log_info.get('bridge_legal_solutions'),
                 # This invocation's own seconds, and the case's cumulative sweep
                 # seconds including the seeds run before it.
                 'time_seconds': log_info['total_time_seconds'],
