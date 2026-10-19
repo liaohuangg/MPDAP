@@ -1,6 +1,6 @@
 {
   "case_name": "multigpu",
-  "timestamp": "2026-10-20T01:42:45.303863",
+  "timestamp": "2026-10-20T04:02:38.708387",
   "status": "completed",
   "seeds": [
     0,
@@ -14,7 +14,7 @@
   "num_connections": 3,
   "max_iterations": null,
   "time_limit_seconds": 3600,
-  "total_time_seconds": 56.565645694732666,
+  "total_time_seconds": 56.674983739852905,
   "sweep_spent_before_seconds": null,
   "sweep_elapsed_seconds": null,
   "sweep_time_limit_seconds": null,
@@ -29,13 +29,13 @@
       "std_dev": 0.0
     },
     "time": {
-      "avg_total_time": 11.112501859664917,
-      "min_total_time": 11.00301194190979,
-      "max_total_time": 11.279909372329712,
-      "avg_layer1_legality_s": 0.008233165740966797,
-      "avg_layer2_similarity_s": 1.5728553771972655,
-      "avg_layer3_quality_s": 9.530666208267212,
-      "avg_tree_build_s": 1.581758975982666
+      "avg_total_time": 11.083079862594605,
+      "min_total_time": 11.032288551330566,
+      "max_total_time": 11.14823031425476,
+      "avg_layer1_legality_s": 0.00813140869140625,
+      "avg_layer2_similarity_s": 1.5387577533721923,
+      "avg_layer3_quality_s": 9.53585114479065,
+      "avg_tree_build_s": 1.5471641063690185
     }
   },
   "run_details": [
@@ -44,11 +44,11 @@
       "seed": 0,
       "status": "success",
       "cost": 167.73871995610043,
-      "total_time": 11.279909372329712,
-      "tree_build_time": 1.6855034828186035,
+      "total_time": 11.14823031425476,
+      "tree_build_time": 1.527395486831665,
       "tree_build_count": 1,
       "hit_time_limit": false,
-      "annealing_time": 9.594357013702393,
+      "annealing_time": 9.620782136917114,
       "annealing_iterations": 10129,
       "converged": true,
       "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 129 and has since occupied 3.3% of the 10129 iterations run",
@@ -57,20 +57,20 @@
       "stagnation_iterations": 10000,
       "stagnation_fraction": 0.9872642906506072,
       "last_improve_at": 129,
-      "seconds_to_best": 0.12284676299896091,
+      "seconds_to_best": 0.12241397000616416,
       "num_chiplets": 6,
-      "start_offset": 2.5272369384765625e-05,
+      "start_offset": 1.9311904907226562e-05,
       "timing": {
-        "layer1_legality_s": 0.00843954086303711,
-        "layer2_similarity_s": 1.6764428615570068,
-        "layer3_quality_s": 9.594357013702393,
-        "layer1_plus_layer2_s": 1.684882402420044,
-        "tree_build_s": 1.6855034828186035,
-        "total_s": 11.279909372329712,
+        "layer1_legality_s": 0.007982015609741211,
+        "layer2_similarity_s": 1.5191500186920166,
+        "layer3_quality_s": 9.620782136917114,
+        "layer1_plus_layer2_s": 1.5271320343017578,
+        "tree_build_s": 1.527395486831665,
+        "total_s": 11.14823031425476,
         "layer3_iterations": 10129,
         "layer3_converged": true,
         "layer3_stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 129 and has since occupied 3.3% of the 10129 iterations run",
-        "layer3_seconds_to_best": 0.12284676299896091,
+        "layer3_seconds_to_best": 0.12241397000616416,
         "layer1_stats": {
           "runs": 90,
           "already_legal_runs": 90,
@@ -94,7 +94,7 @@
           "sa_exceptions": 0
         },
         "layer3_stats": {
-          "seconds": 9.593209354992723,
+          "seconds": 9.619671964988811,
           "iterations": 10129,
           "initial_cost": 182.47160909780976,
           "accept": 9666,
@@ -115,7 +115,7 @@
             1340,
             816
           ],
-          "best_found_time": 0.12284676299896091,
+          "best_found_time": 0.12241397000616416,
           "best_cost": 167.73871995610043,
           "converged": true,
           "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 129 and has since occupied 3.3% of the 10129 iterations run",
@@ -125,17 +125,17 @@
           "last_improve_at": 129,
           "stagnation_iterations": 10000,
           "stagnation_fraction": 0.9872642906506072,
-          "seconds_to_best": 0.12284676299896091
+          "seconds_to_best": 0.12241397000616416
         }
       },
       "timing_lines": [
         "Per-layer time (three stacked SAs, one wall clock, different objectives):",
         "  layer 1  legality         Pc/Pl     :     0.01 s (  0.1%)  90 base-derivation runs (0 entered the legality SA_1, 90 already legal) -> 6 legal solutions / 6 root nodes",
-        "  layer 2  shape+similarity Px/Py/Ps  :     1.68 s ( 14.9%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes",
-        "  layer 3  real quality     A/WL/R    :     9.59 s ( 85.1%)  10129 iterations, 9666 accepted / 463 rejected, best found at 0.12 s (cost 182.4716 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 129 and has since occupied 3.3% of the 10129 iterations run",
+        "  layer 2  shape+similarity Px/Py/Ps  :     1.52 s ( 13.6%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes",
+        "  layer 3  real quality     A/WL/R    :     9.62 s ( 86.3%)  10129 iterations, 9666 accepted / 463 rejected, best found at 0.12 s (cost 182.4716 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 129 and has since occupied 3.3% of the 10129 iterations run",
         "  --------------------------------------------------------------",
-        "  build total (layers 1+2)            :     1.68 s ( 14.9%)",
-        "  full run (layers 1+2+3)             :    11.28 s (100.0%)"
+        "  build total (layers 1+2)            :     1.53 s ( 13.7%)",
+        "  full run (layers 1+2+3)             :    11.15 s (100.0%)"
       ]
     },
     {
@@ -143,11 +143,11 @@
       "seed": 1,
       "status": "success",
       "cost": 167.73871995610043,
-      "total_time": 11.11418080329895,
-      "tree_build_time": 1.5450780391693115,
+      "total_time": 11.137721538543701,
+      "tree_build_time": 1.529794692993164,
       "tree_build_count": 1,
       "hit_time_limit": false,
-      "annealing_time": 9.569025993347168,
+      "annealing_time": 9.607856273651123,
       "annealing_iterations": 10163,
       "converged": true,
       "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 163 and has since occupied 3.0% of the 10163 iterations run",
@@ -156,20 +156,20 @@
       "stagnation_iterations": 10000,
       "stagnation_fraction": 0.9839614287119944,
       "last_improve_at": 163,
-      "seconds_to_best": 0.1521321180043742,
+      "seconds_to_best": 0.15378256599069573,
       "num_chiplets": 6,
-      "start_offset": 11.482645511627197,
+      "start_offset": 11.497260093688965,
       "timing": {
-        "layer1_legality_s": 0.008008956909179688,
-        "layer2_similarity_s": 1.5363874435424805,
-        "layer3_quality_s": 9.569025993347168,
-        "layer1_plus_layer2_s": 1.5443964004516602,
-        "tree_build_s": 1.5450780391693115,
-        "total_s": 11.11418080329895,
+        "layer1_legality_s": 0.00786733627319336,
+        "layer2_similarity_s": 1.521641731262207,
+        "layer3_quality_s": 9.607856273651123,
+        "layer1_plus_layer2_s": 1.5295090675354004,
+        "tree_build_s": 1.529794692993164,
+        "total_s": 11.137721538543701,
         "layer3_iterations": 10163,
         "layer3_converged": true,
         "layer3_stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 163 and has since occupied 3.0% of the 10163 iterations run",
-        "layer3_seconds_to_best": 0.1521321180043742,
+        "layer3_seconds_to_best": 0.15378256599069573,
         "layer1_stats": {
           "runs": 90,
           "already_legal_runs": 90,
@@ -193,7 +193,7 @@
           "sa_exceptions": 0
         },
         "layer3_stats": {
-          "seconds": 9.56788494400098,
+          "seconds": 9.606804223993095,
           "iterations": 10163,
           "initial_cost": 176.44134627426862,
           "accept": 9695,
@@ -214,7 +214,7 @@
             1334,
             830
           ],
-          "best_found_time": 0.1521321180043742,
+          "best_found_time": 0.15378256599069573,
           "best_cost": 167.73871995610043,
           "converged": true,
           "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 163 and has since occupied 3.0% of the 10163 iterations run",
@@ -224,17 +224,17 @@
           "last_improve_at": 163,
           "stagnation_iterations": 10000,
           "stagnation_fraction": 0.9839614287119944,
-          "seconds_to_best": 0.1521321180043742
+          "seconds_to_best": 0.15378256599069573
         }
       },
       "timing_lines": [
         "Per-layer time (three stacked SAs, one wall clock, different objectives):",
         "  layer 1  legality         Pc/Pl     :     0.01 s (  0.1%)  90 base-derivation runs (0 entered the legality SA_1, 90 already legal) -> 6 legal solutions / 6 root nodes",
-        "  layer 2  shape+similarity Px/Py/Ps  :     1.54 s ( 13.8%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes",
-        "  layer 3  real quality     A/WL/R    :     9.57 s ( 86.1%)  10163 iterations, 9695 accepted / 468 rejected, best found at 0.15 s (cost 176.4413 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 163 and has since occupied 3.0% of the 10163 iterations run",
+        "  layer 2  shape+similarity Px/Py/Ps  :     1.52 s ( 13.7%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes",
+        "  layer 3  real quality     A/WL/R    :     9.61 s ( 86.3%)  10163 iterations, 9695 accepted / 468 rejected, best found at 0.15 s (cost 176.4413 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 163 and has since occupied 3.0% of the 10163 iterations run",
         "  --------------------------------------------------------------",
-        "  build total (layers 1+2)            :     1.54 s ( 13.9%)",
-        "  full run (layers 1+2+3)             :    11.11 s (100.0%)"
+        "  build total (layers 1+2)            :     1.53 s ( 13.7%)",
+        "  full run (layers 1+2+3)             :    11.14 s (100.0%)"
       ]
     },
     {
@@ -242,11 +242,11 @@
       "seed": 2,
       "status": "success",
       "cost": 167.73871995610043,
-      "total_time": 11.027208089828491,
-      "tree_build_time": 1.550065517425537,
+      "total_time": 11.034347772598267,
+      "tree_build_time": 1.57590913772583,
       "tree_build_count": 1,
       "hit_time_limit": false,
-      "annealing_time": 9.47703766822815,
+      "annealing_time": 9.458373069763184,
       "annealing_iterations": 10007,
       "converged": true,
       "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 7 and has since occupied 3.8% of the 10007 iterations run",
@@ -255,20 +255,20 @@
       "stagnation_iterations": 10000,
       "stagnation_fraction": 0.9993004896572399,
       "last_improve_at": 7,
-      "seconds_to_best": 0.00671041700115893,
+      "seconds_to_best": 0.006819169997470453,
       "num_chiplets": 6,
-      "start_offset": 22.797518730163574,
+      "start_offset": 22.84317398071289,
       "timing": {
-        "layer1_legality_s": 0.008299589157104492,
-        "layer2_similarity_s": 1.5410375595092773,
-        "layer3_quality_s": 9.47703766822815,
-        "layer1_plus_layer2_s": 1.5493371486663818,
-        "tree_build_s": 1.550065517425537,
-        "total_s": 11.027208089828491,
+        "layer1_legality_s": 0.008085012435913086,
+        "layer2_similarity_s": 1.5675780773162842,
+        "layer3_quality_s": 9.458373069763184,
+        "layer1_plus_layer2_s": 1.5756630897521973,
+        "tree_build_s": 1.57590913772583,
+        "total_s": 11.034347772598267,
         "layer3_iterations": 10007,
         "layer3_converged": true,
         "layer3_stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 7 and has since occupied 3.8% of the 10007 iterations run",
-        "layer3_seconds_to_best": 0.00671041700115893,
+        "layer3_seconds_to_best": 0.006819169997470453,
         "layer1_stats": {
           "runs": 90,
           "already_legal_runs": 90,
@@ -292,7 +292,7 @@
           "sa_exceptions": 0
         },
         "layer3_stats": {
-          "seconds": 9.475873950999812,
+          "seconds": 9.45723692199681,
           "iterations": 10007,
           "initial_cost": 182.49753000477043,
           "accept": 9601,
@@ -313,7 +313,7 @@
             1320,
             758
           ],
-          "best_found_time": 0.00671041700115893,
+          "best_found_time": 0.006819169997470453,
           "best_cost": 167.73871995610043,
           "converged": true,
           "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 7 and has since occupied 3.8% of the 10007 iterations run",
@@ -323,16 +323,16 @@
           "last_improve_at": 7,
           "stagnation_iterations": 10000,
           "stagnation_fraction": 0.9993004896572399,
-          "seconds_to_best": 0.00671041700115893
+          "seconds_to_best": 0.006819169997470453
         }
       },
       "timing_lines": [
         "Per-layer time (three stacked SAs, one wall clock, different objectives):",
         "  layer 1  legality         Pc/Pl     :     0.01 s (  0.1%)  90 base-derivation runs (0 entered the legality SA_1, 90 already legal) -> 6 legal solutions / 6 root nodes",
-        "  layer 2  shape+similarity Px/Py/Ps  :     1.54 s ( 14.0%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes",
-        "  layer 3  real quality     A/WL/R    :     9.48 s ( 85.9%)  10007 iterations, 9601 accepted / 406 rejected, best found at 0.01 s (cost 182.4975 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 7 and has since occupied 3.8% of the 10007 iterations run",
+        "  layer 2  shape+similarity Px/Py/Ps  :     1.57 s ( 14.2%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes",
+        "  layer 3  real quality     A/WL/R    :     9.46 s ( 85.7%)  10007 iterations, 9601 accepted / 406 rejected, best found at 0.01 s (cost 182.4975 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 7 and has since occupied 3.8% of the 10007 iterations run",
         "  --------------------------------------------------------------",
-        "  build total (layers 1+2)            :     1.55 s ( 14.1%)",
+        "  build total (layers 1+2)            :     1.58 s ( 14.3%)",
         "  full run (layers 1+2+3)             :    11.03 s (100.0%)"
       ]
     },
@@ -341,11 +341,11 @@
       "seed": 3,
       "status": "success",
       "cost": 167.73871995610043,
-      "total_time": 11.138199090957642,
-      "tree_build_time": 1.5616846084594727,
+      "total_time": 11.062811136245728,
+      "tree_build_time": 1.5662033557891846,
       "tree_build_count": 1,
       "hit_time_limit": false,
-      "annealing_time": 9.576435565948486,
+      "annealing_time": 9.49654221534729,
       "annealing_iterations": 10050,
       "converged": true,
       "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 50 and has since occupied 3.1% of the 10050 iterations run",
@@ -354,20 +354,20 @@
       "stagnation_iterations": 10000,
       "stagnation_fraction": 0.9950248756218906,
       "last_improve_at": 50,
-      "seconds_to_best": 0.048077964995172806,
+      "seconds_to_best": 0.04786523201619275,
       "num_chiplets": 6,
-      "start_offset": 34.02428913116455,
+      "start_offset": 34.09184241294861,
       "timing": {
-        "layer1_legality_s": 0.008289098739624023,
-        "layer2_similarity_s": 1.5527186393737793,
-        "layer3_quality_s": 9.576435565948486,
-        "layer1_plus_layer2_s": 1.5610077381134033,
-        "tree_build_s": 1.5616846084594727,
-        "total_s": 11.138199090957642,
+        "layer1_legality_s": 0.008197546005249023,
+        "layer2_similarity_s": 1.557697057723999,
+        "layer3_quality_s": 9.49654221534729,
+        "layer1_plus_layer2_s": 1.565894603729248,
+        "tree_build_s": 1.5662033557891846,
+        "total_s": 11.062811136245728,
         "layer3_iterations": 10050,
         "layer3_converged": true,
         "layer3_stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 50 and has since occupied 3.1% of the 10050 iterations run",
-        "layer3_seconds_to_best": 0.048077964995172806,
+        "layer3_seconds_to_best": 0.04786523201619275,
         "layer1_stats": {
           "runs": 90,
           "already_legal_runs": 90,
@@ -391,7 +391,7 @@
           "sa_exceptions": 0
         },
         "layer3_stats": {
-          "seconds": 9.5752723350015,
+          "seconds": 9.495376561011653,
           "iterations": 10050,
           "initial_cost": 182.49753000477037,
           "accept": 9624,
@@ -412,7 +412,7 @@
             1256,
             822
           ],
-          "best_found_time": 0.048077964995172806,
+          "best_found_time": 0.04786523201619275,
           "best_cost": 167.73871995610043,
           "converged": true,
           "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 50 and has since occupied 3.1% of the 10050 iterations run",
@@ -422,17 +422,17 @@
           "last_improve_at": 50,
           "stagnation_iterations": 10000,
           "stagnation_fraction": 0.9950248756218906,
-          "seconds_to_best": 0.048077964995172806
+          "seconds_to_best": 0.04786523201619275
         }
       },
       "timing_lines": [
         "Per-layer time (three stacked SAs, one wall clock, different objectives):",
         "  layer 1  legality         Pc/Pl     :     0.01 s (  0.1%)  90 base-derivation runs (0 entered the legality SA_1, 90 already legal) -> 6 legal solutions / 6 root nodes",
-        "  layer 2  shape+similarity Px/Py/Ps  :     1.55 s ( 13.9%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes",
-        "  layer 3  real quality     A/WL/R    :     9.58 s ( 86.0%)  10050 iterations, 9624 accepted / 426 rejected, best found at 0.05 s (cost 182.4975 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 50 and has since occupied 3.1% of the 10050 iterations run",
+        "  layer 2  shape+similarity Px/Py/Ps  :     1.56 s ( 14.1%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes",
+        "  layer 3  real quality     A/WL/R    :     9.50 s ( 85.8%)  10050 iterations, 9624 accepted / 426 rejected, best found at 0.05 s (cost 182.4975 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 50 and has since occupied 3.1% of the 10050 iterations run",
         "  --------------------------------------------------------------",
-        "  build total (layers 1+2)            :     1.56 s ( 14.0%)",
-        "  full run (layers 1+2+3)             :    11.14 s (100.0%)"
+        "  build total (layers 1+2)            :     1.57 s ( 14.2%)",
+        "  full run (layers 1+2+3)             :    11.06 s (100.0%)"
       ]
     },
     {
@@ -440,11 +440,11 @@
       "seed": 4,
       "status": "success",
       "cost": 167.73871995610043,
-      "total_time": 11.00301194190979,
-      "tree_build_time": 1.5664632320404053,
+      "total_time": 11.032288551330566,
+      "tree_build_time": 1.536517858505249,
       "tree_build_count": 1,
       "hit_time_limit": false,
-      "annealing_time": 9.436474800109863,
+      "annealing_time": 9.495702028274536,
       "annealing_iterations": 10064,
       "converged": true,
       "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 64 and has since occupied 3.1% of the 10064 iterations run",
@@ -453,20 +453,20 @@
       "stagnation_iterations": 10000,
       "stagnation_fraction": 0.9936406995230525,
       "last_improve_at": 64,
-      "seconds_to_best": 0.060717301996191964,
+      "seconds_to_best": 0.06061110700829886,
       "num_chiplets": 6,
-      "start_offset": 45.3615825176239,
+      "start_offset": 45.364606618881226,
       "timing": {
-        "layer1_legality_s": 0.008128643035888672,
-        "layer2_similarity_s": 1.5576903820037842,
-        "layer3_quality_s": 9.436474800109863,
-        "layer1_plus_layer2_s": 1.5658190250396729,
-        "tree_build_s": 1.5664632320404053,
-        "total_s": 11.00301194190979,
+        "layer1_legality_s": 0.00852513313293457,
+        "layer2_similarity_s": 1.527721881866455,
+        "layer3_quality_s": 9.495702028274536,
+        "layer1_plus_layer2_s": 1.5362470149993896,
+        "tree_build_s": 1.536517858505249,
+        "total_s": 11.032288551330566,
         "layer3_iterations": 10064,
         "layer3_converged": true,
         "layer3_stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 64 and has since occupied 3.1% of the 10064 iterations run",
-        "layer3_seconds_to_best": 0.060717301996191964,
+        "layer3_seconds_to_best": 0.06061110700829886,
         "layer1_stats": {
           "runs": 90,
           "already_legal_runs": 90,
@@ -490,7 +490,7 @@
           "sa_exceptions": 0
         },
         "layer3_stats": {
-          "seconds": 9.435348778002663,
+          "seconds": 9.49458595798933,
           "iterations": 10064,
           "initial_cost": 182.49753000477048,
           "accept": 9629,
@@ -511,7 +511,7 @@
             1364,
             817
           ],
-          "best_found_time": 0.060717301996191964,
+          "best_found_time": 0.06061110700829886,
           "best_cost": 167.73871995610043,
           "converged": true,
           "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 64 and has since occupied 3.1% of the 10064 iterations run",
@@ -521,17 +521,17 @@
           "last_improve_at": 64,
           "stagnation_iterations": 10000,
           "stagnation_fraction": 0.9936406995230525,
-          "seconds_to_best": 0.060717301996191964
+          "seconds_to_best": 0.06061110700829886
         }
       },
       "timing_lines": [
         "Per-layer time (three stacked SAs, one wall clock, different objectives):",
         "  layer 1  legality         Pc/Pl     :     0.01 s (  0.1%)  90 base-derivation runs (0 entered the legality SA_1, 90 already legal) -> 6 legal solutions / 6 root nodes",
-        "  layer 2  shape+similarity Px/Py/Ps  :     1.56 s ( 14.2%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes",
-        "  layer 3  real quality     A/WL/R    :     9.44 s ( 85.8%)  10064 iterations, 9629 accepted / 435 rejected, best found at 0.06 s (cost 182.4975 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 64 and has since occupied 3.1% of the 10064 iterations run",
+        "  layer 2  shape+similarity Px/Py/Ps  :     1.53 s ( 13.8%)  6 trees, 12 neighbour SA calls (24000 iterations), 6 candidates, forest of 12 nodes",
+        "  layer 3  real quality     A/WL/R    :     9.50 s ( 86.1%)  10064 iterations, 9629 accepted / 435 rejected, best found at 0.06 s (cost 182.4975 -> 167.7387), converged: converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 64 and has since occupied 3.1% of the 10064 iterations run",
         "  --------------------------------------------------------------",
-        "  build total (layers 1+2)            :     1.57 s ( 14.2%)",
-        "  full run (layers 1+2+3)             :    11.00 s (100.0%)"
+        "  build total (layers 1+2)            :     1.54 s ( 13.9%)",
+        "  full run (layers 1+2+3)             :    11.03 s (100.0%)"
       ]
     }
   ],
@@ -542,7 +542,7 @@
       "seed": 0,
       "cost": 167.73871995610043,
       "utilization": 86.18429433589705,
-      "total_time": 11.279909372329712,
+      "total_time": 11.14823031425476,
       "max_iterations": null,
       "hit_time_limit": false,
       "json_file": "solution_1_seed00_cost_167.738720.json",
@@ -554,16 +554,16 @@
       "bridge_overlap_area": 0,
       "bridge_errors": [],
       "timing": {
-        "layer1_legality_s": 0.00843954086303711,
-        "layer2_similarity_s": 1.6764428615570068,
-        "layer3_quality_s": 9.594357013702393,
-        "layer1_plus_layer2_s": 1.684882402420044,
-        "tree_build_s": 1.6855034828186035,
-        "total_s": 11.279909372329712,
+        "layer1_legality_s": 0.007982015609741211,
+        "layer2_similarity_s": 1.5191500186920166,
+        "layer3_quality_s": 9.620782136917114,
+        "layer1_plus_layer2_s": 1.5271320343017578,
+        "tree_build_s": 1.527395486831665,
+        "total_s": 11.14823031425476,
         "layer3_iterations": 10129,
         "layer3_converged": true,
         "layer3_stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 129 and has since occupied 3.3% of the 10129 iterations run",
-        "layer3_seconds_to_best": 0.12284676299896091,
+        "layer3_seconds_to_best": 0.12241397000616416,
         "layer1_stats": {
           "runs": 90,
           "already_legal_runs": 90,
@@ -587,7 +587,7 @@
           "sa_exceptions": 0
         },
         "layer3_stats": {
-          "seconds": 9.593209354992723,
+          "seconds": 9.619671964988811,
           "iterations": 10129,
           "initial_cost": 182.47160909780976,
           "accept": 9666,
@@ -608,7 +608,7 @@
             1340,
             816
           ],
-          "best_found_time": 0.12284676299896091,
+          "best_found_time": 0.12241397000616416,
           "best_cost": 167.73871995610043,
           "converged": true,
           "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 129 and has since occupied 3.3% of the 10129 iterations run",
@@ -618,7 +618,7 @@
           "last_improve_at": 129,
           "stagnation_iterations": 10000,
           "stagnation_fraction": 0.9872642906506072,
-          "seconds_to_best": 0.12284676299896091
+          "seconds_to_best": 0.12241397000616416
         }
       }
     },
@@ -627,7 +627,7 @@
       "seed": 1,
       "cost": 167.73871995610043,
       "utilization": 86.18429433589705,
-      "total_time": 11.11418080329895,
+      "total_time": 11.137721538543701,
       "max_iterations": null,
       "hit_time_limit": false,
       "json_file": "solution_2_seed01_cost_167.738720.json",
@@ -639,16 +639,16 @@
       "bridge_overlap_area": 0,
       "bridge_errors": [],
       "timing": {
-        "layer1_legality_s": 0.008008956909179688,
-        "layer2_similarity_s": 1.5363874435424805,
-        "layer3_quality_s": 9.569025993347168,
-        "layer1_plus_layer2_s": 1.5443964004516602,
-        "tree_build_s": 1.5450780391693115,
-        "total_s": 11.11418080329895,
+        "layer1_legality_s": 0.00786733627319336,
+        "layer2_similarity_s": 1.521641731262207,
+        "layer3_quality_s": 9.607856273651123,
+        "layer1_plus_layer2_s": 1.5295090675354004,
+        "tree_build_s": 1.529794692993164,
+        "total_s": 11.137721538543701,
         "layer3_iterations": 10163,
         "layer3_converged": true,
         "layer3_stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 163 and has since occupied 3.0% of the 10163 iterations run",
-        "layer3_seconds_to_best": 0.1521321180043742,
+        "layer3_seconds_to_best": 0.15378256599069573,
         "layer1_stats": {
           "runs": 90,
           "already_legal_runs": 90,
@@ -672,7 +672,7 @@
           "sa_exceptions": 0
         },
         "layer3_stats": {
-          "seconds": 9.56788494400098,
+          "seconds": 9.606804223993095,
           "iterations": 10163,
           "initial_cost": 176.44134627426862,
           "accept": 9695,
@@ -693,7 +693,7 @@
             1334,
             830
           ],
-          "best_found_time": 0.1521321180043742,
+          "best_found_time": 0.15378256599069573,
           "best_cost": 167.73871995610043,
           "converged": true,
           "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 163 and has since occupied 3.0% of the 10163 iterations run",
@@ -703,7 +703,7 @@
           "last_improve_at": 163,
           "stagnation_iterations": 10000,
           "stagnation_fraction": 0.9839614287119944,
-          "seconds_to_best": 0.1521321180043742
+          "seconds_to_best": 0.15378256599069573
         }
       }
     },
@@ -712,7 +712,7 @@
       "seed": 2,
       "cost": 167.73871995610043,
       "utilization": 86.18429433589705,
-      "total_time": 11.027208089828491,
+      "total_time": 11.034347772598267,
       "max_iterations": null,
       "hit_time_limit": false,
       "json_file": "solution_3_seed02_cost_167.738720.json",
@@ -724,16 +724,16 @@
       "bridge_overlap_area": 0,
       "bridge_errors": [],
       "timing": {
-        "layer1_legality_s": 0.008299589157104492,
-        "layer2_similarity_s": 1.5410375595092773,
-        "layer3_quality_s": 9.47703766822815,
-        "layer1_plus_layer2_s": 1.5493371486663818,
-        "tree_build_s": 1.550065517425537,
-        "total_s": 11.027208089828491,
+        "layer1_legality_s": 0.008085012435913086,
+        "layer2_similarity_s": 1.5675780773162842,
+        "layer3_quality_s": 9.458373069763184,
+        "layer1_plus_layer2_s": 1.5756630897521973,
+        "tree_build_s": 1.57590913772583,
+        "total_s": 11.034347772598267,
         "layer3_iterations": 10007,
         "layer3_converged": true,
         "layer3_stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 7 and has since occupied 3.8% of the 10007 iterations run",
-        "layer3_seconds_to_best": 0.00671041700115893,
+        "layer3_seconds_to_best": 0.006819169997470453,
         "layer1_stats": {
           "runs": 90,
           "already_legal_runs": 90,
@@ -757,7 +757,7 @@
           "sa_exceptions": 0
         },
         "layer3_stats": {
-          "seconds": 9.475873950999812,
+          "seconds": 9.45723692199681,
           "iterations": 10007,
           "initial_cost": 182.49753000477043,
           "accept": 9601,
@@ -778,7 +778,7 @@
             1320,
             758
           ],
-          "best_found_time": 0.00671041700115893,
+          "best_found_time": 0.006819169997470453,
           "best_cost": 167.73871995610043,
           "converged": true,
           "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 7 and has since occupied 3.8% of the 10007 iterations run",
@@ -788,7 +788,7 @@
           "last_improve_at": 7,
           "stagnation_iterations": 10000,
           "stagnation_fraction": 0.9993004896572399,
-          "seconds_to_best": 0.00671041700115893
+          "seconds_to_best": 0.006819169997470453
         }
       }
     },
@@ -797,7 +797,7 @@
       "seed": 3,
       "cost": 167.73871995610043,
       "utilization": 86.18429433589705,
-      "total_time": 11.138199090957642,
+      "total_time": 11.062811136245728,
       "max_iterations": null,
       "hit_time_limit": false,
       "json_file": "solution_4_seed03_cost_167.738720.json",
@@ -809,16 +809,16 @@
       "bridge_overlap_area": 0,
       "bridge_errors": [],
       "timing": {
-        "layer1_legality_s": 0.008289098739624023,
-        "layer2_similarity_s": 1.5527186393737793,
-        "layer3_quality_s": 9.576435565948486,
-        "layer1_plus_layer2_s": 1.5610077381134033,
-        "tree_build_s": 1.5616846084594727,
-        "total_s": 11.138199090957642,
+        "layer1_legality_s": 0.008197546005249023,
+        "layer2_similarity_s": 1.557697057723999,
+        "layer3_quality_s": 9.49654221534729,
+        "layer1_plus_layer2_s": 1.565894603729248,
+        "tree_build_s": 1.5662033557891846,
+        "total_s": 11.062811136245728,
         "layer3_iterations": 10050,
         "layer3_converged": true,
         "layer3_stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 50 and has since occupied 3.1% of the 10050 iterations run",
-        "layer3_seconds_to_best": 0.048077964995172806,
+        "layer3_seconds_to_best": 0.04786523201619275,
         "layer1_stats": {
           "runs": 90,
           "already_legal_runs": 90,
@@ -842,7 +842,7 @@
           "sa_exceptions": 0
         },
         "layer3_stats": {
-          "seconds": 9.5752723350015,
+          "seconds": 9.495376561011653,
           "iterations": 10050,
           "initial_cost": 182.49753000477037,
           "accept": 9624,
@@ -863,7 +863,7 @@
             1256,
             822
           ],
-          "best_found_time": 0.048077964995172806,
+          "best_found_time": 0.04786523201619275,
           "best_cost": 167.73871995610043,
           "converged": true,
           "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 50 and has since occupied 3.1% of the 10050 iterations run",
@@ -873,7 +873,7 @@
           "last_improve_at": 50,
           "stagnation_iterations": 10000,
           "stagnation_fraction": 0.9950248756218906,
-          "seconds_to_best": 0.048077964995172806
+          "seconds_to_best": 0.04786523201619275
         }
       }
     },
@@ -882,7 +882,7 @@
       "seed": 4,
       "cost": 167.73871995610043,
       "utilization": 86.18429433589705,
-      "total_time": 11.00301194190979,
+      "total_time": 11.032288551330566,
       "max_iterations": null,
       "hit_time_limit": false,
       "json_file": "solution_5_seed04_cost_167.738720.json",
@@ -894,16 +894,16 @@
       "bridge_overlap_area": 0,
       "bridge_errors": [],
       "timing": {
-        "layer1_legality_s": 0.008128643035888672,
-        "layer2_similarity_s": 1.5576903820037842,
-        "layer3_quality_s": 9.436474800109863,
-        "layer1_plus_layer2_s": 1.5658190250396729,
-        "tree_build_s": 1.5664632320404053,
-        "total_s": 11.00301194190979,
+        "layer1_legality_s": 0.00852513313293457,
+        "layer2_similarity_s": 1.527721881866455,
+        "layer3_quality_s": 9.495702028274536,
+        "layer1_plus_layer2_s": 1.5362470149993896,
+        "tree_build_s": 1.536517858505249,
+        "total_s": 11.032288551330566,
         "layer3_iterations": 10064,
         "layer3_converged": true,
         "layer3_stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 64 and has since occupied 3.1% of the 10064 iterations run",
-        "layer3_seconds_to_best": 0.060717301996191964,
+        "layer3_seconds_to_best": 0.06061110700829886,
         "layer1_stats": {
           "runs": 90,
           "already_legal_runs": 90,
@@ -927,7 +927,7 @@
           "sa_exceptions": 0
         },
         "layer3_stats": {
-          "seconds": 9.435348778002663,
+          "seconds": 9.49458595798933,
           "iterations": 10064,
           "initial_cost": 182.49753000477048,
           "accept": 9629,
@@ -948,7 +948,7 @@
             1364,
             817
           ],
-          "best_found_time": 0.060717301996191964,
+          "best_found_time": 0.06061110700829886,
           "best_cost": 167.73871995610043,
           "converged": true,
           "stop_reason": "converged (no improvement for 10000 iterations); best cost 167.7387 last improved at iteration 64 and has since occupied 3.1% of the 10064 iterations run",
@@ -958,7 +958,7 @@
           "last_improve_at": 64,
           "stagnation_iterations": 10000,
           "stagnation_fraction": 0.9936406995230525,
-          "seconds_to_best": 0.060717301996191964
+          "seconds_to_best": 0.06061110700829886
         }
       }
     }

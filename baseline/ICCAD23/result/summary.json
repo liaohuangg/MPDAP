@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-20T03:01:45.458490",
+  "timestamp": "2026-10-20T04:19:17.251381",
   "seed_mode": "sweep",
   "seeds": null,
   "seed_sweep_target": 5,
@@ -10,31 +10,20 @@
   "time_limit_seconds": 3600,
   "max_iterations": null,
   "convergence_patience": 10000,
-  "total_cases": 2,
-  "success_count": 2,
-  "total_time_hours": 1.0619011553128561,
+  "total_cases": 1,
+  "success_count": 1,
+  "total_time_hours": 0.058570127156045704,
   "results": [
-    {
-      "case_name": "hp8_m",
-      "status": "success",
-      "num_solutions": 5,
-      "num_seeds_tried": 6,
-      "best_cost": 257.7485823104705,
-      "hit_time_limit_count": 0,
-      "bridge_legal_solutions": 5,
-      "time_seconds": 215.86627888679504,
-      "sweep_elapsed_seconds": 215.8662793636322
-    },
     {
       "case_name": "cpu-dram",
       "status": "success",
-      "num_solutions": 1,
-      "num_seeds_tried": 178,
-      "best_cost": 223.4143698481978,
+      "num_solutions": 5,
+      "num_seeds_tried": 6,
+      "best_cost": 222.16382766652785,
       "hit_time_limit_count": 0,
-      "bridge_legal_solutions": 1,
-      "time_seconds": 3606.971780061722,
-      "sweep_elapsed_seconds": 3606.971780538559
+      "bridge_legal_solutions": 5,
+      "time_seconds": 210.84687185287476,
+      "sweep_elapsed_seconds": 210.84687280654907
     }
   ]
 }
