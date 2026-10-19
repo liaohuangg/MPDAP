@@ -9,6 +9,13 @@ from TCG import TCG
 from chiplet_model import Chiplet, LayoutProblem, MIN_OVERLAP, get_adjacency_info
 
 
+# One SA_1 call stops after this many legal candidates. The caller turns each
+# candidate into a comparison against the forest roots, and every accepted root
+# costs a full layer-2 tree build, so a larger pool only repeats near-identical
+# topologies at real cost.
+MAX_LEGAL_SOLUTIONS = 100
+
+
 def count_emib_closure_edges(tcg: TCG, problem: LayoutProblem) -> int:
     """
     Count how many EMIB edges are closure edges.
@@ -321,7 +328,7 @@ def SA_1(initial_tcg: TCG, problem: LayoutProblem,
             # is already 0 and can never improve, so gating collection on the
             # best-cost update would wrongly report "no legal solution".
             if (abs(neighbor_cost) < 1e-6
-                    and len(legal_tcgs) < 1000
+                    and len(legal_tcgs) < MAX_LEGAL_SOLUTIONS
                     and bridge_ok(neighbor_layout)):
                 legal_tcgs.append(copy.deepcopy(neighbor_tcg))
                 legal_layouts.append(copy.deepcopy(neighbor_layout))
@@ -366,7 +373,7 @@ def SA_1(initial_tcg: TCG, problem: LayoutProblem,
                   f"legalize_success={legalize_success_count}")
         
         # Early stopping
-        if len(legal_tcgs) >= 1000:
+        if len(legal_tcgs) >= MAX_LEGAL_SOLUTIONS:
             if verbose:
                 print(f"  Found {len(legal_tcgs)} legal solutions, stopping early")
             break

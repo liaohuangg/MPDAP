@@ -13,11 +13,18 @@ from chiplet_model import Chiplet, LayoutProblem
 from bridge_legality import make_bridge_checker
 
 
+# Layer 1 stops collecting roots here. Every root becomes one layer-2 tree,
+# and a low SA temperature can turn dozens of legal layouts into dozens of
+# distinct roots; beyond this count the extra trees mostly repeat topologies
+# the group-construction step already covers, at a full tree-build cost each.
+MAX_ROOT_NODES = 30
+
+
 def run_base_derivation(problem: LayoutProblem,
                         num_runs: int = 100,
                         min_similarity: float = 0.4,
                         max_iterations: int = 50000,
-                        initial_temp: float = 200.0,
+                        initial_temp: Optional[float] = None,
                         cooling_rate: float = 0.98,
                         alpha_c: float = 1.0,
                         beta_l: float = 0.3,
@@ -33,6 +40,15 @@ def run_base_derivation(problem: LayoutProblem,
     3. No legal solution found: discard
 
     Args:
+        initial_temp: Starting SA temperature. `None` (the default) picks a
+            value matched to the cost scale: `cost_legal` is a ratio in
+            [0, alpha_c + beta_l], so one violated EMIB edge moves the cost by
+            `beta_l / n_emib`. Taking half of that quantum as T makes a
+            single-edge uphill move cost 2T, so it is accepted with
+            probability exp(-2) ~ 0.14: SA still crosses plateaus but is
+            pulled downhill instead of wandering. The former flat 200.0 was
+            ~5000x the cost quantum on cpu-dram, so every move was accepted
+            and the 5000-iteration budget was a pure random walk.
         seed: Seed for the whole derivation. When given, the global RNG is
             seeded once here and all `num_runs` runs draw from that one
             stream, so the derivation is reproducible. When None, the
@@ -43,6 +59,12 @@ def run_base_derivation(problem: LayoutProblem,
             long they took). This is layer 1 of the pipeline -- it only ever
             looks at legality (Pc/Pl), never at area, wirelength or ratio.
     """
+    # Scale the starting temperature to the cost quantum. Computed before the
+    # verbose banner so the log reports the value SA_1 actually uses.
+    if initial_temp is None:
+        n_emib = problem.connection_graph.number_of_edges()
+        initial_temp = 0.5 * beta_l / max(1, n_emib)
+
     if verbose:
         print("="*80)
         print("Base Derivation - build similarity forest")
@@ -86,6 +108,11 @@ def run_base_derivation(problem: LayoutProblem,
             stats.update(layer_stats)
 
     for run_idx in range(num_runs):
+        if len(root_nodes) >= MAX_ROOT_NODES:
+            if verbose:
+                print(f"\nRoot node cap ({MAX_ROOT_NODES}) reached, stopping early")
+            break
+
         if verbose:
             print(f"\n{'─'*80}")
             print(f"Run {run_idx + 1}/{num_runs}")
@@ -114,7 +141,7 @@ def run_base_derivation(problem: LayoutProblem,
             # Check if unique compared to existing root nodes
             is_unique = _is_unique_solution(layout, root_nodes, min_similarity, verbose)
             
-            if is_unique:
+            if is_unique and len(root_nodes) < MAX_ROOT_NODES:
                 node = SimilarityTreeNode(
                     tcg=tcg,
                     layout=layout,
@@ -188,7 +215,7 @@ def run_base_derivation(problem: LayoutProblem,
         # Check if first solution is unique
         is_unique = _is_unique_solution(first_layout, root_nodes, min_similarity, verbose)
         
-        if is_unique:
+        if is_unique and len(root_nodes) < MAX_ROOT_NODES:
             node = SimilarityTreeNode(
                 tcg=first_tcg,
                 layout=first_layout,
@@ -209,6 +236,9 @@ def run_base_derivation(problem: LayoutProblem,
         skipped_count = 0 if is_unique else 1
         
         for idx in range(1, num_legal):
+            if len(root_nodes) >= MAX_ROOT_NODES:
+                break
+
             layout_i = legal_layouts[idx]
             tcg_i = legal_tcgs[idx]
             
