@@ -1,118 +1,29 @@
 {
-  "timestamp": "2026-10-19T12:22:19.075897",
+  "timestamp": "2026-10-20T04:19:17.251381",
   "seed_mode": "sweep",
   "seeds": null,
   "seed_sweep_target": 5,
   "seed_sweep_time_limit": 3600.0,
   "seed_sweep_start": 0,
-  "seed_sweep_spent": 0.0,
+  "seed_sweep_spent": null,
   "batch_time_limit": null,
   "time_limit_seconds": 3600,
   "max_iterations": null,
   "convergence_patience": 10000,
-  "total_cases": 10,
+  "total_cases": 1,
   "success_count": 1,
-  "total_time_hours": 9.874827334284783,
+  "total_time_hours": 0.058570127156045704,
   "results": [
     {
       "case_name": "cpu-dram",
       "status": "success",
       "num_solutions": 5,
-      "num_seeds_tried": 156,
-      "best_cost": 223.05697776582898,
+      "num_seeds_tried": 6,
+      "best_cost": 222.16382766652785,
       "hit_time_limit_count": 0,
-      "time_seconds": 3041.386423587799,
-      "sweep_elapsed_seconds": 3041.3864240646362
-    },
-    {
-      "case_name": "hp11_m",
-      "status": "no_solution",
-      "num_solutions": 0,
-      "num_seeds_tried": 143,
-      "best_cost": null,
-      "hit_time_limit_count": 0,
-      "time_seconds": 3601.9425468444824,
-      "sweep_elapsed_seconds": 3601.942547082901
-    },
-    {
-      "case_name": "syn2",
-      "status": "no_solution",
-      "num_solutions": 0,
-      "num_seeds_tried": 132,
-      "best_cost": null,
-      "hit_time_limit_count": 0,
-      "time_seconds": 3619.602462530136,
-      "sweep_elapsed_seconds": 3619.6024627685547
-    },
-    {
-      "case_name": "syn3",
-      "status": "no_solution",
-      "num_solutions": 0,
-      "num_seeds_tried": 124,
-      "best_cost": null,
-      "hit_time_limit_count": 0,
-      "time_seconds": 3613.639012813568,
-      "sweep_elapsed_seconds": 3613.6390132904053
-    },
-    {
-      "case_name": "syn4",
-      "status": "no_solution",
-      "num_solutions": 0,
-      "num_seeds_tried": 118,
-      "best_cost": null,
-      "hit_time_limit_count": 0,
-      "time_seconds": 3607.628426551819,
-      "sweep_elapsed_seconds": 3607.628427028656
-    },
-    {
-      "case_name": "syn5",
-      "status": "no_solution",
-      "num_solutions": 0,
-      "num_seeds_tried": 139,
-      "best_cost": null,
-      "hit_time_limit_count": 0,
-      "time_seconds": 3616.6247045993805,
-      "sweep_elapsed_seconds": 3616.6247050762177
-    },
-    {
-      "case_name": "syn6",
-      "status": "no_solution",
-      "num_solutions": 0,
-      "num_seeds_tried": 97,
-      "best_cost": null,
-      "hit_time_limit_count": 0,
-      "time_seconds": 3613.2290091514587,
-      "sweep_elapsed_seconds": 3613.2290093898773
-    },
-    {
-      "case_name": "xerox6_m",
-      "status": "no_solution",
-      "num_solutions": 0,
-      "num_seeds_tried": 206,
-      "best_cost": null,
-      "hit_time_limit_count": 0,
-      "time_seconds": 3613.924576997757,
-      "sweep_elapsed_seconds": 3613.9245772361755
-    },
-    {
-      "case_name": "xerox7_m",
-      "status": "no_solution",
-      "num_solutions": 0,
-      "num_seeds_tried": 183,
-      "best_cost": null,
-      "hit_time_limit_count": 0,
-      "time_seconds": 3615.4845044612885,
-      "sweep_elapsed_seconds": 3615.4845049381256
-    },
-    {
-      "case_name": "xerox8_m",
-      "status": "no_solution",
-      "num_solutions": 0,
-      "num_seeds_tried": 159,
-      "best_cost": null,
-      "hit_time_limit_count": 0,
-      "time_seconds": 3605.6411423683167,
-      "sweep_elapsed_seconds": 3605.6411426067352
+      "bridge_legal_solutions": 5,
+      "time_seconds": 210.84687185287476,
+      "sweep_elapsed_seconds": 210.84687280654907
     }
   ]
 }

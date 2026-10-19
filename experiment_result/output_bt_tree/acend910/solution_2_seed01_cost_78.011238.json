@@ -7,34 +7,34 @@
       "width": 14.5,
       "height": 31.4,
       "rotation": 0,
-      "power": 256
+      "power": 0.0
     },
     {
       "name": "C",
-      "x-position": 22.25,
-      "y-position": 7.660000000000002,
-      "width": 7.75,
-      "height": 11.87,
-      "rotation": 0,
-      "power": 20
-    },
-    {
-      "name": "D",
       "x-position": 0.0,
       "y-position": 19.53,
       "width": 7.75,
       "height": 11.87,
       "rotation": 0,
-      "power": 20
+      "power": 0.0
     },
     {
-      "name": "E",
+      "name": "D",
       "x-position": 22.25,
       "y-position": 19.53,
       "width": 7.75,
       "height": 11.87,
       "rotation": 0,
-      "power": 20
+      "power": 0.0
+    },
+    {
+      "name": "E",
+      "x-position": 22.25,
+      "y-position": 7.660000000000002,
+      "width": 7.75,
+      "height": 11.87,
+      "rotation": 0,
+      "power": 0.0
     },
     {
       "name": "F",
@@ -43,7 +43,7 @@
       "width": 7.75,
       "height": 11.87,
       "rotation": 0,
-      "power": 20
+      "power": 0.0
     },
     {
       "name": "B",
@@ -64,8 +64,8 @@
       "EMIB_max_width": 5,
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 21.25,
-      "EMIB-y-position": 13.168350000000002,
+      "EMIB-x-position": 6.75,
+      "EMIB-y-position": 25.03835,
       "EMIB-rotation": 1
     },
     {
@@ -76,7 +76,7 @@
       "EMIB_max_width": 5,
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 6.75,
+      "EMIB-x-position": 21.25,
       "EMIB-y-position": 25.03835,
       "EMIB-rotation": 1
     },
@@ -89,7 +89,7 @@
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
       "EMIB-x-position": 21.25,
-      "EMIB-y-position": 25.03835,
+      "EMIB-y-position": 13.168350000000002,
       "EMIB-rotation": 1
     },
     {
@@ -105,11 +105,7 @@
       "EMIB-rotation": 1
     }
   ],
-  "wirelength": 24239.47,
+  "wirelength": 24239.46634354089,
   "area": 1257.0,
-  "aspect_ratio": 0.72,
-  "interposer_size": 41.9,
-  "SAR": 0.4,
-  "max_temperature": 70.46,
-  "avg_temperature": 54.37
+  "aspect_ratio": 0.72
 }
