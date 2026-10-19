@@ -1,119 +1,118 @@
 {
-  "timestamp": "2026-10-16T07:02:24.150481",
+  "timestamp": "2026-10-19T12:22:19.075897",
   "seed_mode": "sweep",
   "seeds": null,
   "seed_sweep_target": 5,
   "seed_sweep_time_limit": 3600.0,
   "seed_sweep_start": 0,
-  "seed_sweep_spent": null,
+  "seed_sweep_spent": 0.0,
   "batch_time_limit": null,
   "time_limit_seconds": 3600,
   "max_iterations": null,
-  "convergence_window": 10000,
-  "convergence_cost_tol": 1e-06,
+  "convergence_patience": 10000,
   "total_cases": 10,
   "success_count": 1,
-  "total_time_hours": 9.718856488333808,
+  "total_time_hours": 9.874827334284783,
   "results": [
     {
       "case_name": "cpu-dram",
       "status": "success",
       "num_solutions": 5,
-      "num_seeds_tried": 372,
-      "best_cost": 222.92487329503982,
+      "num_seeds_tried": 156,
+      "best_cost": 223.05697776582898,
       "hit_time_limit_count": 0,
-      "time_seconds": 2549.5953311920166,
-      "sweep_elapsed_seconds": 2549.5953319072723
+      "time_seconds": 3041.386423587799,
+      "sweep_elapsed_seconds": 3041.3864240646362
     },
     {
       "case_name": "hp11_m",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 451,
+      "num_seeds_tried": 143,
       "best_cost": null,
       "hit_time_limit_count": 0,
-      "time_seconds": 3605.053386926651,
-      "sweep_elapsed_seconds": 3605.053387403488
-    },
-    {
-      "case_name": "syn5",
-      "status": "no_solution",
-      "num_solutions": 0,
-      "num_seeds_tried": 432,
-      "best_cost": null,
-      "hit_time_limit_count": 0,
-      "time_seconds": 3603.0811409950256,
-      "sweep_elapsed_seconds": 3603.081141471863
+      "time_seconds": 3601.9425468444824,
+      "sweep_elapsed_seconds": 3601.942547082901
     },
     {
       "case_name": "syn2",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 404,
+      "num_seeds_tried": 132,
       "best_cost": null,
       "hit_time_limit_count": 0,
-      "time_seconds": 3604.2679812908173,
-      "sweep_elapsed_seconds": 3604.2679817676544
+      "time_seconds": 3619.602462530136,
+      "sweep_elapsed_seconds": 3619.6024627685547
     },
     {
       "case_name": "syn3",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 386,
+      "num_seeds_tried": 124,
       "best_cost": null,
       "hit_time_limit_count": 0,
-      "time_seconds": 3604.97788977623,
-      "sweep_elapsed_seconds": 3604.977890253067
+      "time_seconds": 3613.639012813568,
+      "sweep_elapsed_seconds": 3613.6390132904053
     },
     {
       "case_name": "syn4",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 367,
+      "num_seeds_tried": 118,
       "best_cost": null,
       "hit_time_limit_count": 0,
-      "time_seconds": 3603.924085378647,
-      "sweep_elapsed_seconds": 3603.924085855484
+      "time_seconds": 3607.628426551819,
+      "sweep_elapsed_seconds": 3607.628427028656
+    },
+    {
+      "case_name": "syn5",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 139,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "time_seconds": 3616.6247045993805,
+      "sweep_elapsed_seconds": 3616.6247050762177
     },
     {
       "case_name": "syn6",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 301,
+      "num_seeds_tried": 97,
       "best_cost": null,
       "hit_time_limit_count": 0,
-      "time_seconds": 3606.60781955719,
-      "sweep_elapsed_seconds": 3606.607820034027
+      "time_seconds": 3613.2290091514587,
+      "sweep_elapsed_seconds": 3613.2290093898773
     },
     {
       "case_name": "xerox6_m",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 629,
+      "num_seeds_tried": 206,
       "best_cost": null,
       "hit_time_limit_count": 0,
-      "time_seconds": 3600.423297405243,
-      "sweep_elapsed_seconds": 3600.4232983589172
+      "time_seconds": 3613.924576997757,
+      "sweep_elapsed_seconds": 3613.9245772361755
     },
     {
       "case_name": "xerox7_m",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 555,
+      "num_seeds_tried": 183,
       "best_cost": null,
       "hit_time_limit_count": 0,
-      "time_seconds": 3605.1117238998413,
-      "sweep_elapsed_seconds": 3605.1117243766785
+      "time_seconds": 3615.4845044612885,
+      "sweep_elapsed_seconds": 3615.4845049381256
     },
     {
       "case_name": "xerox8_m",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 485,
+      "num_seeds_tried": 159,
       "best_cost": null,
       "hit_time_limit_count": 0,
-      "time_seconds": 3604.488475084305,
-      "sweep_elapsed_seconds": 3604.488475561142
+      "time_seconds": 3605.6411423683167,
+      "sweep_elapsed_seconds": 3605.6411426067352
     }
   ]
 }

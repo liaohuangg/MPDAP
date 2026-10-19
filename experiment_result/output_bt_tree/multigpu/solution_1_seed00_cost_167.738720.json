@@ -1,22 +1,22 @@
 {
   "chiplets": [
     {
-      "name": "B",
+      "name": "C",
       "x-position": 0.0,
       "y-position": 0.0,
       "width": 18.2,
       "height": 18.2,
       "rotation": 0,
-      "power": 0.0
+      "power": 295
     },
     {
-      "name": "E",
+      "name": "F",
       "x-position": 18.2,
-      "y-position": 6.33,
+      "y-position": 0.0,
       "width": 7.75,
       "height": 11.87,
       "rotation": 0,
-      "power": 0.0
+      "power": 20
     },
     {
       "name": "A",
@@ -25,34 +25,34 @@
       "width": 12.0,
       "height": 12.0,
       "rotation": 0,
-      "power": 0.0
+      "power": 105
     },
     {
       "name": "D",
       "x-position": 12.0,
-      "y-position": 18.33,
+      "y-position": 18.2,
       "width": 7.75,
       "height": 11.87,
       "rotation": 0,
-      "power": 0.0
+      "power": 20
     },
     {
-      "name": "C",
+      "name": "B",
       "x-position": 0.0,
       "y-position": 30.2,
       "width": 18.2,
       "height": 18.2,
       "rotation": 0,
-      "power": 0.0
+      "power": 295
     },
     {
-      "name": "F",
+      "name": "E",
       "x-position": 18.2,
-      "y-position": 36.53,
+      "y-position": 30.2,
       "width": 7.75,
       "height": 11.87,
       "rotation": 0,
-      "power": 0.0
+      "power": 20
     }
   ],
   "connections": [
@@ -65,7 +65,7 @@
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
       "EMIB-x-position": 11.0,
-      "EMIB-y-position": 22.558349999999997,
+      "EMIB-y-position": 22.42835,
       "EMIB-rotation": 1
     },
     {
@@ -77,7 +77,7 @@
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
       "EMIB-x-position": 17.2,
-      "EMIB-y-position": 10.55835,
+      "EMIB-y-position": 34.428349999999995,
       "EMIB-rotation": 1
     },
     {
@@ -89,7 +89,7 @@
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
       "EMIB-x-position": 17.2,
-      "EMIB-y-position": 40.75835,
+      "EMIB-y-position": 4.22835,
       "EMIB-rotation": 1
     }
   ],
@@ -97,5 +97,7 @@
   "area": 1255.98,
   "aspect_ratio": 0.54,
   "interposer_size": 48.4,
-  "SAR": 0.87
+  "SAR": 0.87,
+  "max_temperature": 84.04,
+  "avg_temperature": 66.77
 }

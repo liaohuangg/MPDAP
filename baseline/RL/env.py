@@ -222,6 +222,12 @@ class ChipletPlacementEnv:
         max_width: Optional[float] = None,
         max_height: Optional[float] = None,
         min_overlap: float = 1.0,
+        # EMIB 硬约束：每条非 interfaceC 连接边的共享边长 >= EMIB_length，
+        # 且硅桥之间不得重叠（终局复查 + 放置时增量检查）
+        use_emib_length_adjacency: bool = True,
+        interfacec_emib_overlap: bool = False,
+        enforce_bridge_overlap: bool = True,
+        bridge_overlap_penalty: float = 1000.0,
         # 奖励权重
         adjacency_reward: float = 100.0,  # 满足相邻约束的奖励
         placement_reward: float = 50.0,
@@ -250,14 +256,23 @@ class ChipletPlacementEnv:
             placement_order: 放置顺序（DFS生成）
             grid_resolution: 网格分辨率；None 或 "auto" 时按用例尺寸自动估计
             max_width/max_height: 边界框尺寸
-            min_overlap: 相邻最小重叠长度
+            min_overlap: 相邻最小重叠长度（作为全局下限）
+            use_emib_length_adjacency: 用每边的 EMIB_length 作为该边的共享边重叠下限
+            interfacec_emib_overlap: interfaceC 边也用 EMIB_length（默认只要求 min_overlap，
+                与 ilp_method_EMIB_chiplet.py / tool.py 一致：interfaceC 不打硅桥）
+            enforce_bridge_overlap: 硅桥不得互相重叠（放置时硬约束 + 终局复查）
+            bridge_overlap_penalty: 终局仍检出桥重叠时的惩罚（安全网）
             adjacency_reward: 满足相邻约束的奖励
             placement_reward: 成功放置奖励
             compact: 利用率奖励权重
         """
         self.problem = problem
         self.min_overlap = min_overlap
-        
+        self.use_emib_length_adjacency = bool(use_emib_length_adjacency)
+        self.interfacec_emib_overlap = bool(interfacec_emib_overlap)
+        self.enforce_bridge_overlap = bool(enforce_bridge_overlap)
+        self.bridge_overlap_penalty = float(bridge_overlap_penalty)
+
         # 奖励权重
         self.adjacency_reward = adjacency_reward
         self.placement_reward = placement_reward
@@ -500,7 +515,143 @@ class ChipletPlacementEnv:
         """
         neighbors = self.problem.get_neighbors(chip_id)
         return [n for n in neighbors if n in self.state.layout]
-    
+
+    # ------------------------------------------------------------------
+    # EMIB 边长 / 硅桥几何
+    # ------------------------------------------------------------------
+    def _edge_data(self, chip_id: str, neighbor_id: str) -> Dict[str, Any]:
+        """Return the connection graph attributes for a pair of chips."""
+        try:
+            return self.problem.connection_graph[chip_id][neighbor_id]
+        except (KeyError, TypeError):
+            return {}
+
+    def _edge_is_interfacec(self, edge_data: Dict[str, Any]) -> bool:
+        return str(edge_data.get("EMIBType", "")).lower() == "interfacec"
+
+    def _required_overlap(self, chip_id: str, neighbor_id: str) -> float:
+        """Required shared-edge length for a connected pair.
+
+        For non-interfaceC connections the silicon bridge runs along the shared
+        edge and is EMIB_length long, so the two dies must overlap by at least
+        that much.  interfaceC connections have no bridge in the reference flow
+        (ilp_method_EMIB_chiplet.py / tool.py skip them) and keep the global
+        min_overlap unless ``interfacec_emib_overlap`` is enabled.
+        """
+        data = self._edge_data(chip_id, neighbor_id)
+        if not self.use_emib_length_adjacency:
+            return float(self.min_overlap)
+        if self._edge_is_interfacec(data) and not self.interfacec_emib_overlap:
+            return float(self.min_overlap)
+
+        value = data.get("EMIB_length")
+        if value is None:
+            return float(self.min_overlap)
+        return max(float(self.min_overlap), float(value))
+
+    def _bridge_rect(
+        self,
+        chip_id: str,
+        neighbor_id: str,
+        chip: Chiplet,
+        neighbor: Chiplet,
+    ) -> Optional[Tuple[str, Tuple[float, float, float, float]]]:
+        """Physical bridge rectangle for one connection, or None.
+
+        The bridge is EMIB_length long along the shared edge and
+        2 * EMIB_bump_width across it, centred on the overlap interval and the
+        shared boundary (gap = 0; touching dies).  Returns
+        (pair_name, (x0, y0, x1, y1)).
+        """
+        data = self._edge_data(chip_id, neighbor_id)
+        if self._edge_is_interfacec(data):
+            return None
+        length = data.get("EMIB_length")
+        if length is None:
+            return None
+
+        required = self._required_overlap(chip_id, neighbor_id)
+        is_adj, overlap_len, direction = get_adjacency_info(chip, neighbor, required)
+        if not is_adj or overlap_len <= 0.0:
+            return None
+
+        bump = data.get("EMIB_bump_width")
+        bump = 1.0 if bump is None else float(bump)
+        along = float(length)
+        across = 2.0 * bump
+
+        x1, y1, x1b, y1b = chip.get_bounds()
+        x2, y2, x2b, y2b = neighbor.get_bounds()
+
+        if direction in ("right", "left"):
+            boundary = x1b if direction == "right" else x1
+            lo = max(y1, y2)
+            hi = min(y1b, y2b)
+            mid = (lo + hi) / 2.0
+            rect = (boundary - across / 2.0, mid - along / 2.0,
+                    boundary + across / 2.0, mid + along / 2.0)
+        else:  # top / bottom: horizontal shared edge, bridge rotated 90 degrees
+            boundary = y1b if direction == "top" else y1
+            lo = max(x1, x2)
+            hi = min(x1b, x2b)
+            mid = (lo + hi) / 2.0
+            rect = (mid - along / 2.0, boundary - across / 2.0,
+                    mid + along / 2.0, boundary + across / 2.0)
+
+        pair = "-".join(sorted((chip_id, neighbor_id)))
+        return pair, rect
+
+    def _iter_bridge_rects(
+        self, layout: Dict[str, Chiplet]
+    ) -> List[Tuple[str, Tuple[float, float, float, float]]]:
+        """All bridge rectangles implied by the placed layout."""
+        bridges: List[Tuple[str, Tuple[float, float, float, float]]] = []
+        for chip_id1, chip_id2, edge_data in self.problem.connection_graph.edges(data=True):
+            if self._edge_is_interfacec(edge_data):
+                continue
+            chip1 = layout.get(chip_id1)
+            chip2 = layout.get(chip_id2)
+            if chip1 is None or chip2 is None:
+                continue
+            bridge = self._bridge_rect(chip_id1, chip_id2, chip1, chip2)
+            if bridge is not None:
+                bridges.append(bridge)
+        return bridges
+
+    @staticmethod
+    def _bridge_overlap_report(
+        bridges: List[Tuple[str, Tuple[float, float, float, float]]]
+    ) -> Tuple[int, float, List[str]]:
+        """Count pairwise bridge overlaps: (pairs, total_area, pair names)."""
+        count = 0
+        total_area = 0.0
+        names: List[str] = []
+        for i in range(len(bridges)):
+            name1, r1 = bridges[i]
+            for j in range(i + 1, len(bridges)):
+                name2, r2 = bridges[j]
+                dx = min(r1[2], r2[2]) - max(r1[0], r2[0])
+                dy = min(r1[3], r2[3]) - max(r1[1], r2[1])
+                if dx > 1e-9 and dy > 1e-9:
+                    count += 1
+                    total_area += dx * dy
+                    names.append(f"{name1}x{name2}")
+        return count, total_area, names
+
+    def check_bridge_legality(
+        self, layout: Optional[Dict[str, Chiplet]] = None
+    ) -> Tuple[bool, Dict[str, Any]]:
+        """Terminal bridge-overlap check on a complete layout."""
+        layout = self.state.layout if layout is None else layout
+        bridges = self._iter_bridge_rects(layout)
+        count, area, names = self._bridge_overlap_report(bridges)
+        return count == 0, {
+            "bridge_count": len(bridges),
+            "bridge_overlap_pairs": count,
+            "bridge_overlap_area": area,
+            "bridge_overlap_names": names,
+        }
+
     def _is_valid_placement(
         self,
         new_chiplet: Chiplet,
@@ -538,13 +689,26 @@ class ChipletPlacementEnv:
                 else:
                     return False, f"overlap_with_non_neighbor_{placed_chip_id}"
             
-            # 对于邻接芯片，必须满足相邻约束
+            # 对于邻接芯片，必须满足该边的相邻约束（非 interfaceC 边要求
+            # 共享边长 >= EMIB_length，才能放得下硅桥）
             if placed_chip_id in adjacent_neighbors:
-                is_adjacent, overlap_len, direction = get_adjacency_info(new_chiplet, placed_chip)
-                if not (is_adjacent and overlap_len >= self.min_overlap):
+                required = self._required_overlap(chip_id, placed_chip_id)
+                is_adjacent, overlap_len, direction = get_adjacency_info(
+                    new_chiplet, placed_chip, required
+                )
+                if not (is_adjacent and overlap_len >= required):
                     # 关键修改：与任何一个已放置的邻居不相邻都不行
                     return False, f"not_adjacent_to_neighbor_{placed_chip_id}"
-        
+
+        # 3. 硅桥之间不得重叠：把新芯片加入布局后增量复查所有已形成的桥
+        if self.enforce_bridge_overlap and self.state.layout:
+            trial_layout = dict(self.state.layout)
+            trial_layout[chip_id] = new_chiplet
+            bridges = self._iter_bridge_rects(trial_layout)
+            count, _, names = self._bridge_overlap_report(bridges)
+            if count > 0:
+                return False, f"bridge_overlap_{names[0]}"
+
         return True, "ok"
     
     def _get_valid_positions(self, chip_id: str) -> List[Tuple[float, float, int]]:
@@ -576,8 +740,9 @@ class ChipletPlacementEnv:
         
         for neighbor_id in adjacent_neighbors:
             placed_chip = self.state.layout[neighbor_id]
+            required = self._required_overlap(chip_id, neighbor_id)
             neighbor_candidates = {}  # 当前邻域的候选位置 {(x_key, y_key): {"coords": (x, y), "rotations": set}}
-            
+
             # 对每种旋转计算可能的边接触位置
             for rotation in range(self.num_rotations):
                 if rotation == 0:
@@ -598,7 +763,7 @@ class ChipletPlacementEnv:
                 candidate_y_positions = [y_down_ideal, y_up_ideal]
                 
                 # 水平方向：与Y重叠区域组合
-                y_overlap_positions = self._get_overlapping_y_positions(placed_chip, h)
+                y_overlap_positions = self._get_overlapping_y_positions(placed_chip, h, required)
                 for x in candidate_x_positions:
                     if 0.0 <= x <= self.max_width - w:
                         for y in y_overlap_positions:
@@ -608,15 +773,17 @@ class ChipletPlacementEnv:
                             temp_chip.y = y
                             
                             if not has_overlap(temp_chip, placed_chip):
-                                is_adj, overlap_len, _ = get_adjacency_info(temp_chip, placed_chip)
-                                if is_adj and overlap_len >= self.min_overlap:
+                                is_adj, overlap_len, _ = get_adjacency_info(
+                                    temp_chip, placed_chip, required
+                                )
+                                if is_adj and overlap_len >= required:
                                     key = self._position_key(x, y)
                                     if key not in neighbor_candidates:
                                         neighbor_candidates[key] = {"coords": (x, y), "rotations": set()}
                                     neighbor_candidates[key]["rotations"].add(rotation)
                 
                 # 竖直方向：与X重叠区域组合
-                x_overlap_positions = self._get_overlapping_x_positions(placed_chip, w)
+                x_overlap_positions = self._get_overlapping_x_positions(placed_chip, w, required)
                 for y in candidate_y_positions:
                     if 0.0 <= y <= self.max_height - h:
                         for x in x_overlap_positions:
@@ -625,8 +792,10 @@ class ChipletPlacementEnv:
                             temp_chip.y = y
                             
                             if not has_overlap(temp_chip, placed_chip):
-                                is_adj, overlap_len, _ = get_adjacency_info(temp_chip, placed_chip)
-                                if is_adj and overlap_len >= self.min_overlap:
+                                is_adj, overlap_len, _ = get_adjacency_info(
+                                    temp_chip, placed_chip, required
+                                )
+                                if is_adj and overlap_len >= required:
                                     key = self._position_key(x, y)
                                     if key not in neighbor_candidates:
                                         neighbor_candidates[key] = {"coords": (x, y), "rotations": set()}
@@ -697,13 +866,22 @@ class ChipletPlacementEnv:
                     deduped.setdefault(self._coord_key(snapped_value), snapped_value)
         return list(deduped.values())
 
-    def _get_overlapping_x_positions(self, placed_chip: Chiplet, new_width: float) -> List[float]:
+    def _get_overlapping_x_positions(
+        self,
+        placed_chip: Chiplet,
+        new_width: float,
+        required_overlap: Optional[float] = None,
+    ) -> List[float]:
         """
         计算与placed_chip在X方向有重叠的候选坐标。
 
         返回真实坐标，不强制落在粗网格上。除网格采样外，还加入边缘对齐坐标，
         避免 18.2、11.87 这类尺寸在 0.25 网格上被截断后无法形成多邻接布局。
+
+        required_overlap: 该连接边要求的最小共享边长（非 interfaceC 边为
+        EMIB_length）；None 时退回全局 min_overlap。
         """
+        threshold = self.min_overlap if required_overlap is None else float(required_overlap)
         positions: List[float] = []
         upper = self.max_width - new_width
 
@@ -712,24 +890,30 @@ class ChipletPlacementEnv:
         for x_idx in range(int(np.floor(x_min / self.step_x)), int(np.ceil(x_max / self.step_x)) + 1):
             x = x_idx * self.step_x
             overlap = min(x + new_width, placed_chip.x + placed_chip.width) - max(x, placed_chip.x)
-            if overlap >= self.min_overlap:
+            if overlap >= threshold:
                 positions.append(x)
 
         exact_candidates = [
             placed_chip.x,
             placed_chip.x + placed_chip.width - new_width,
-            placed_chip.x - new_width + self.min_overlap,
-            placed_chip.x + placed_chip.width - self.min_overlap,
+            placed_chip.x - new_width + threshold,
+            placed_chip.x + placed_chip.width - threshold,
         ]
         for x in exact_candidates:
             overlap = min(x + new_width, placed_chip.x + placed_chip.width) - max(x, placed_chip.x)
-            if overlap >= self.min_overlap:
+            if overlap >= threshold:
                 positions.append(x)
 
         return self._dedupe_positions(positions, upper)
 
-    def _get_overlapping_y_positions(self, placed_chip: Chiplet, new_height: float) -> List[float]:
+    def _get_overlapping_y_positions(
+        self,
+        placed_chip: Chiplet,
+        new_height: float,
+        required_overlap: Optional[float] = None,
+    ) -> List[float]:
         """计算与placed_chip在Y方向有重叠的真实坐标候选。"""
+        threshold = self.min_overlap if required_overlap is None else float(required_overlap)
         positions: List[float] = []
         upper = self.max_height - new_height
 
@@ -738,23 +922,28 @@ class ChipletPlacementEnv:
         for y_idx in range(int(np.floor(y_min / self.step_y)), int(np.ceil(y_max / self.step_y)) + 1):
             y = y_idx * self.step_y
             overlap = min(y + new_height, placed_chip.y + placed_chip.height) - max(y, placed_chip.y)
-            if overlap >= self.min_overlap:
+            if overlap >= threshold:
                 positions.append(y)
 
         exact_candidates = [
             placed_chip.y,
             placed_chip.y + placed_chip.height - new_height,
-            placed_chip.y - new_height + self.min_overlap,
-            placed_chip.y + placed_chip.height - self.min_overlap,
+            placed_chip.y - new_height + threshold,
+            placed_chip.y + placed_chip.height - threshold,
         ]
         for y in exact_candidates:
             overlap = min(y + new_height, placed_chip.y + placed_chip.height) - max(y, placed_chip.y)
-            if overlap >= self.min_overlap:
+            if overlap >= threshold:
                 positions.append(y)
 
         return self._dedupe_positions(positions, upper)
 
-    def _get_overlapping_x_indices(self, placed_chip: Chiplet, new_width: float) -> List[int]:
+    def _get_overlapping_x_indices(
+        self,
+        placed_chip: Chiplet,
+        new_width: float,
+        required_overlap: Optional[float] = None,
+    ) -> List[int]:
         """
         计算与placed_chip在X方向有重叠的网格索引范围
         
@@ -768,8 +957,9 @@ class ChipletPlacementEnv:
         
         要有重叠，需要：overlap = min(x+w, a_x+a_w) - max(x, a_x) >= min_overlap
         """
+        threshold = self.min_overlap if required_overlap is None else float(required_overlap)
         indices = []
-        
+
         # 范围：保证至少有min_overlap的重叠
         # 最左位置：x + new_width = a_x (刚好接触左边)
         x_min_left = placed_chip.x - new_width
@@ -792,18 +982,24 @@ class ChipletPlacementEnv:
                 # 验证确实有重叠
                 x = x_idx * self.step_x
                 overlap = min(x + new_width, placed_chip.x + placed_chip.width) - max(x, placed_chip.x)
-                if overlap >= self.min_overlap:
+                if overlap >= threshold:
                     if x_idx not in indices:
                         indices.append(x_idx)
         
         return indices
     
-    def _get_overlapping_y_indices(self, placed_chip: Chiplet, new_height: float) -> List[int]:
+    def _get_overlapping_y_indices(
+        self,
+        placed_chip: Chiplet,
+        new_height: float,
+        required_overlap: Optional[float] = None,
+    ) -> List[int]:
         """
         计算与placed_chip在Y方向有重叠的网格索引范围
         """
+        threshold = self.min_overlap if required_overlap is None else float(required_overlap)
         indices = []
-        
+
         y_min = placed_chip.y - new_height
         y_max = placed_chip.y + placed_chip.height
         
@@ -812,7 +1008,7 @@ class ChipletPlacementEnv:
                 # 验证确实有重叠
                 y = y_idx * self.step_y
                 overlap = min(y + new_height, placed_chip.y + placed_chip.height) - max(y, placed_chip.y)
-                if overlap >= self.min_overlap:
+                if overlap >= threshold:
                     if y_idx not in indices:
                         indices.append(y_idx)
         
@@ -866,11 +1062,13 @@ class ChipletPlacementEnv:
         satisfied_count = 0
         for chip_id1, chip_id2 in self.problem.connection_graph.edges():
             if chip_id1 in self.state.layout and chip_id2 in self.state.layout:
+                required = self._required_overlap(chip_id1, chip_id2)
                 is_adj, overlap, _ = get_adjacency_info(
                     self.state.layout[chip_id1],
-                    self.state.layout[chip_id2]
+                    self.state.layout[chip_id2],
+                    required,
                 )
-                if is_adj and overlap >= self.min_overlap:
+                if is_adj and overlap >= required:
                     satisfied_count += 1
         
         features.append(satisfied_count)
@@ -1421,7 +1619,9 @@ class ChipletPlacementEnv:
             if placed_chip_id != current_chip_id:  # 排除自己
                 # 如果不是必须连接的邻接，但实际邻接，则给予额外奖励
                 if placed_chip_id not in neighbors:
-                    is_adj, overlap_len, _ = get_adjacency_info(new_chiplet, placed_chip)
+                    is_adj, overlap_len, _ = get_adjacency_info(
+                        new_chiplet, placed_chip, self.min_overlap
+                    )
                     if is_adj and overlap_len >= self.min_overlap:
                         reward += self.extra_adjacency_reward*overlap_len 
         
@@ -1460,8 +1660,11 @@ class ChipletPlacementEnv:
         for neighbor_id in neighbors:
             if neighbor_id in self.state.layout:
                 neighbor_chip = self.state.layout[neighbor_id]
-                is_adj, overlap_len, _ = get_adjacency_info(new_chiplet, neighbor_chip)
-                if is_adj and overlap_len >= self.min_overlap:
+                required = self._required_overlap(current_chip_id, neighbor_id)
+                is_adj, overlap_len, _ = get_adjacency_info(
+                    new_chiplet, neighbor_chip, required
+                )
+                if is_adj and overlap_len >= required:
                     reward += self.adjacency_reward
                     
                 #     # 边缘对齐奖励（工艺友好）
@@ -1524,6 +1727,20 @@ class ChipletPlacementEnv:
             if self.terminal_rlplanner_cost_scale != 0.0:
                 rlplanner_reward, terminal_metrics = self._calculate_rlplanner_terminal_reward(self.state.layout)
                 reward += self.terminal_rlplanner_cost_scale * rlplanner_reward
+
+            # 终局硅桥复查：桥矩形两两不得重叠。放置阶段已在
+            # _is_valid_placement 里做增量硬约束，这里是兜底与指标记录。
+            if self.enforce_bridge_overlap:
+                bridges_legal, bridge_metrics = self.check_bridge_legality(self.state.layout)
+                terminal_metrics["bridges_legal"] = 1.0 if bridges_legal else 0.0
+                terminal_metrics["bridge_count"] = float(bridge_metrics["bridge_count"])
+                terminal_metrics["bridge_overlap_pairs"] = float(bridge_metrics["bridge_overlap_pairs"])
+                terminal_metrics["bridge_overlap_area"] = float(bridge_metrics["bridge_overlap_area"])
+                if not bridges_legal:
+                    if self.bridge_overlap_penalty != 0.0:
+                        reward -= self.bridge_overlap_penalty * bridge_metrics["bridge_overlap_pairs"]
+                    if bridge_metrics["bridge_overlap_names"]:
+                        terminal_metrics["bridge_overlap_first"] = bridge_metrics["bridge_overlap_names"][0]
 
 
         

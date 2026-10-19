@@ -1,101 +1,99 @@
 {
-  "chiplets": [
-    {
-      "name": "A",
-      "x-position": 1.62,
-      "y-position": 18.06,
-      "width": 10.36,
-      "height": 4.62,
-      "rotation": 0,
-      "power": 61.0
-    },
-    {
-      "name": "B",
-      "x-position": 8.2,
-      "y-position": 2.1,
-      "width": 3.78,
-      "height": 7.0,
-      "rotation": 0,
-      "power": 61.0
-    },
-    {
-      "name": "C",
-      "x-position": 9.8,
-      "y-position": 22.68,
-      "width": 2.1,
-      "height": 9.8,
-      "rotation": 0,
-      "power": 52.0
-    },
-    {
-      "name": "D",
-      "x-position": 0.0,
-      "y-position": 22.68,
-      "width": 9.8,
-      "height": 2.1,
-      "rotation": 0,
-      "power": 48.0
-    },
-    {
-      "name": "E",
-      "x-position": 7.04,
-      "y-position": 0.0,
-      "width": 9.8,
-      "height": 2.1,
-      "rotation": 0,
-      "power": 28.0
-    },
-    {
-      "name": "F",
-      "x-position": 11.98,
-      "y-position": 2.1,
-      "width": 5.46,
-      "height": 33.04,
-      "rotation": 0,
-      "power": 45.0
-    }
-  ],
-  "connections": [
-    {
-      "node1": "A",
-      "node2": "C",
-      "EMIBType": "interfaceB",
-      "EMIB_length": 1.7067,
-      "EMIB_max_width": 5,
-      "EMIB_width": 2.0,
-      "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 9.996667,
-      "EMIB-y-position": 21.68,
-      "EMIB-rotation": 0
-    },
-    {
-      "node1": "A",
-      "node2": "F",
-      "EMIBType": "interfaceB",
-      "EMIB_length": 0.8533,
-      "EMIB_max_width": 5,
-      "EMIB_width": 2.0,
-      "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 10.98,
-      "EMIB-y-position": 19.943333,
-      "EMIB-rotation": 1
-    },
-    {
-      "node1": "C",
-      "node2": "D",
-      "EMIBType": "interfaceB",
-      "EMIB_length": 0.8533,
-      "EMIB_max_width": 5,
-      "EMIB_width": 2.0,
-      "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 8.8,
-      "EMIB-y-position": 23.303333,
-      "EMIB-rotation": 1
-    }
-  ],
-  "wirelength": 14434.01,
-  "area": 612.84,
-  "aspect_ratio": 0.5,
-  "interposer_size": 35.14,
-  "SAR": 1.01
+ "chiplets": [
+  {
+   "name": "A",
+   "x-position": 1.62,
+   "y-position": 18.06,
+   "width": 10.36,
+   "height": 4.62,
+   "rotation": 0,
+   "power": 61.0
+  },
+  {
+   "name": "B",
+   "x-position": 8.2,
+   "y-position": 2.1,
+   "width": 3.78,
+   "height": 7.0,
+   "rotation": 0,
+   "power": 61.0
+  },
+  {
+   "name": "C",
+   "x-position": 9.8,
+   "y-position": 22.68,
+   "width": 2.1,
+   "height": 9.8,
+   "rotation": 0,
+   "power": 52.0
+  },
+  {
+   "name": "D",
+   "x-position": 0.0,
+   "y-position": 22.68,
+   "width": 9.8,
+   "height": 2.1,
+   "rotation": 0,
+   "power": 48.0
+  },
+  {
+   "name": "E",
+   "x-position": 7.04,
+   "y-position": 0.0,
+   "width": 9.8,
+   "height": 2.1,
+   "rotation": 0,
+   "power": 28.0
+  },
+  {
+   "name": "F",
+   "x-position": 11.98,
+   "y-position": 2.1,
+   "width": 5.46,
+   "height": 33.04,
+   "rotation": 0,
+   "power": 45.0
+  }
+ ],
+ "connections": [
+  {
+   "node1": "A",
+   "node2": "C",
+   "EMIBType": "interfaceB",
+   "EMIB_length": 2.0,
+   "EMIB_max_width": 5,
+   "EMIB_width": 1.7067,
+   "EMIB_bump_width": 1.0,
+   "EMIB-x-position": 9.996667,
+   "EMIB-y-position": 21.68,
+   "EMIB-rotation": 1
+  },
+  {
+   "node1": "A",
+   "node2": "F",
+   "EMIBType": "interfaceB",
+   "EMIB_length": 0.8533,
+   "EMIB_max_width": 5,
+   "EMIB_width": 2.0,
+   "EMIB_bump_width": 1.0,
+   "EMIB-x-position": 10.98,
+   "EMIB-y-position": 19.943333,
+   "EMIB-rotation": 0
+  },
+  {
+   "node1": "C",
+   "node2": "D",
+   "EMIBType": "interfaceB",
+   "EMIB_length": 0.8533,
+   "EMIB_max_width": 5,
+   "EMIB_width": 2.0,
+   "EMIB_bump_width": 1.0,
+   "EMIB-x-position": 8.8,
+   "EMIB-y-position": 23.303333,
+   "EMIB-rotation": 0
+  }
+ ],
+ "wirelength": 14347.572796827324,
+ "area": 612.8416000000001,
+ "aspect_ratio": 0.5
 }

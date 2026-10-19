@@ -16,12 +16,18 @@
   - chiplets: width/height 直接取 RL 的最终尺寸（旋转已在 RL 侧体现在长宽互换上），
     rotation 恒为 0，power 取自 test_input；坐标整体平移到以 (0,0) 为左下角。
   - connections: 只输出非 interfaceC 的边（与参考一致）。
-    EMIB_length     = wireCount / LinearIODensity
-    EMIB_bump_width = LinearIODensity / AreaIODensity
-    EMIB_width      = 物理间隙 + 2 * EMIB_bump_width   （共边时间隙为 0）
-    EMIB_max_width  = max_Reach_length
-    竖直共边(左右相邻): rotation=1, x=边界x-EMIB_width/2,  y=重叠区中点-EMIB_length/2
-    水平共边(上下相邻): rotation=0, x=重叠区中点-EMIB_length/2, y=边界y-EMIB_width/2
+    原始尺寸：EMIB_length = wireCount / LinearIODensity        （沿共享边）
+              EMIB_bump_width = LinearIODensity / AreaIODensity
+              EMIB_width = 物理间隙 + 2 * EMIB_bump_width      （跨共享边，共边时间隙为 0）
+              EMIB_max_width = max_Reach_length
+    输出尺寸与参考 ilp/tool 口径一致，即 EMIB_width / EMIB_length 是旋转后的
+    最终 x / y 向尺寸：
+      竖直共边(左右相邻，不旋转): rotation=0,
+          EMIB_width=跨缝宽, EMIB_length=沿边宽,
+          x=边界x-EMIB_width/2, y=重叠区中点-EMIB_length/2
+      水平共边(上下相邻，旋转90°): rotation=1, 长宽交换,
+          EMIB_width=沿边宽, EMIB_length=跨缝宽,
+          x=重叠区中点-EMIB_width/2, y=边界y-EMIB_length/2
   - wirelength: 非 C 边 = 两芯片各 16x16 网格点到 EMIB 桥中心的欧氏距离和 × wireCount/256；
                 C 边 = 两芯片中心曼哈顿距离 × wireCount（与 calculate_area_and_aspect_ratio.py 一致）。
   - area/aspect_ratio: 所有 chiplet 的包围盒面积与宽高比（aspect 保留 2 位）。
@@ -126,21 +132,26 @@ def export_case(case: str, seed: int, prefix: str, out_dir: Path, emib: dict) ->
         iface = emib[etype]
         wire_count = float(conn.get("wireCount", 1))
 
-        emib_length = wire_count / iface["LinearIODensity"]
+        emib_length = wire_count / iface["LinearIODensity"]  # along shared edge
         emib_bump_width = iface["LinearIODensity"] / iface["AreaIODensity"]
         kind, boundary, mid, gap = identify_edge(placed[n1], placed[n2])
-        emib_width = gap + 2.0 * emib_bump_width
+        emib_width = gap + 2.0 * emib_bump_width  # across shared edge
 
         if kind == "vertical":
+            # Left-right neighbours, vertical shared edge: bridge is not rotated.
             cx, cy = boundary, mid
             x_bl = cx - emib_width / 2.0
             y_bl = cy - emib_length / 2.0
-            rotation = 1
+            rotation = 0
+            out_width, out_length = emib_width, emib_length
         else:
+            # Up-down neighbours, horizontal shared edge: bridge rotated 90°,
+            # so the exported width/length are swapped (final x/y extents).
             cx, cy = mid, boundary
             x_bl = cx - emib_length / 2.0
             y_bl = cy - emib_width / 2.0
-            rotation = 0
+            rotation = 1
+            out_width, out_length = emib_length, emib_width
 
         bridge_centers[(n1, n2)] = (cx, cy)
         bridge_centers[(n2, n1)] = (cx, cy)
@@ -148,9 +159,9 @@ def export_case(case: str, seed: int, prefix: str, out_dir: Path, emib: dict) ->
             "node1": n1,
             "node2": n2,
             "EMIBType": etype,
-            "EMIB_length": round(emib_length, 4),
+            "EMIB_length": round(out_length, 4),
             "EMIB_max_width": iface["max_Reach_length"],
-            "EMIB_width": round(emib_width, 4),
+            "EMIB_width": round(out_width, 4),
             "EMIB_bump_width": round(emib_bump_width, 4),
             "EMIB-x-position": round(x_bl, 6),
             "EMIB-y-position": round(y_bl, 6),

@@ -1,0 +1,145 @@
+======================================================================
+case=acend910 seed=0 run=smoke_rl_20261019_acend910_seed0
+started_at=2026-10-19 17:30:05
+timeout=300s
+使用设备: cuda
+随机种子: 0
+Run name: smoke_rl_20261019_acend910_seed0
+Run directory: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_acend910_seed0
+Training log: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_acend910_seed0/train.log
+Default RL canvas aligned to fastTM interposer: 100.0 x 100.0
+======================================================================
+PPO训练 - 芯片布局优化
+======================================================================
+
+环境信息:
+  芯片数量: 6
+  放置顺序: ['A', 'B', 'C', 'D', 'E', 'F']
+  观察维度: 10
+  动作维度: 370000
+
+开始训练...
+----------------------------------------------------------------------
+BEST_LAYOUT
+  episode: 1/200
+  reward: 109.38
+  found_at: 2026-10-19T17:30:09
+  累计RL时间: 1.374s
+  累计总时间: 1.374s
+  温度: 75.7831
+  总线长: 26050.4382
+  平均线长: 21.2830
+  EMIB线长: 22152.4382
+  普通线长: 3898.0000
+  芯片总面积: 991.2700
+  bbox面积: 1993.9322
+  bbox利用率: 0.4971
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_acend910_seed0/results/top_layouts/layout_best_ep1_r109.38.json
+BEST_LAYOUT
+  episode: 2/200
+  reward: 112.71
+  found_at: 2026-10-19T17:30:10
+  累计RL时间: 2.040s
+  累计总时间: 2.040s
+  温度: 75.0922
+  总线长: 26686.5488
+  平均线长: 21.8027
+  EMIB线长: 21696.5488
+  普通线长: 4990.0000
+  芯片总面积: 991.2700
+  bbox面积: 1708.3884
+  bbox利用率: 0.5802
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_acend910_seed0/results/top_layouts/layout_best_ep2_r112.71.json
+BEST_LAYOUT
+  episode: 3/200
+  reward: 114.49
+  found_at: 2026-10-19T17:30:10
+  累计RL时间: 2.463s
+  累计总时间: 2.463s
+  温度: 76.2981
+  总线长: 25243.9916
+  平均线长: 20.6242
+  EMIB线长: 20253.9916
+  普通线长: 4990.0000
+  芯片总面积: 991.2700
+  bbox面积: 1632.8480
+  bbox利用率: 0.6071
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_acend910_seed0/results/top_layouts/layout_best_ep3_r114.49.json
+BEST_LAYOUT
+  episode: 23/200
+  reward: 114.70
+  found_at: 2026-10-19T17:30:13
+  累计RL时间: 4.964s
+  累计总时间: 4.964s
+  温度: 76.0165
+  总线长: 24282.4125
+  平均线长: 19.8386
+  EMIB线长: 19892.4125
+  普通线长: 4390.0000
+  芯片总面积: 991.2700
+  bbox面积: 1640.1484
+  bbox利用率: 0.6044
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_acend910_seed0/results/top_layouts/layout_best_ep23_r114.70.json
+BEST_LAYOUT
+  episode: 35/200
+  reward: 115.55
+  found_at: 2026-10-19T17:30:14
+  累计RL时间: 6.661s
+  累计总时间: 6.661s
+  温度: 76.6472
+  总线长: 24361.2062
+  平均线长: 19.9029
+  EMIB线长: 20121.2062
+  普通线长: 4240.0000
+  芯片总面积: 991.2700
+  bbox面积: 1558.9428
+  bbox利用率: 0.6359
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_acend910_seed0/results/top_layouts/layout_best_ep35_r115.55.json
+Episode 100/200
+  平均奖励: 111.86
+  成功率: 100.0%
+  累计RL时间: 14.02s
+  本区间时间: 14.02s
+  损失: 478.5156
+  熵: 3.3479
+  KL散度: 14.864983
+Episode 200/200
+  平均奖励: 111.64
+  成功率: 100.0%
+  累计RL时间: 24.48s
+  本区间时间: 10.46s
+  损失: 457.0003
+  熵: 3.6972
+  KL散度: 9.900864
+模型已保存到 /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_acend910_seed0/checkpoints/ppo_episode_200.pt
+  NEW_BEST_MODEL 平均奖励: 111.75
+模型已保存到 /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_acend910_seed0/checkpoints/ppo_model.pt
+
+BEST_MODEL saved: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_acend910_seed0/checkpoints/ppo_episode_200.pt
+  最佳平均奖励: 111.75
+
+======================================================================
+训练完成！
+  总episodes: 200
+  最终成功率: 100.0%
+  平均奖励: 111.64
+======================================================================
+  最佳布局发现时间: 2026-10-19T17:30:14
+  最佳布局累计RL时间: 6.661s
+  最佳布局累计总时间: 6.661s
+  最佳温度: 76.64718862070124
+  最佳总线长: 24361.20618568265
+  最佳平均线长: 19.902946230132883
+  最佳EMIB线长: 20121.20618568265
+  最佳普通线长: 4240.000000000001
+
+运行时间统计:
+  热阻表: 0.000s
+  RL求解: 28.839s
+  总时间: 28.839s
+  best layout发现时间: 2026-10-19T17:30:14
+  best layout累计RL时间: 6.661s
+  best layout累计总时间: 6.661s
+
+Model saved to /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_acend910_seed0/checkpoints/ppo_model.pt
+finished_at=2026-10-19 17:30:36 status=ok exit_code=0 seconds=31

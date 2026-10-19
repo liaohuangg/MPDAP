@@ -11,7 +11,12 @@ from matplotlib.colors import ListedColormap
 import numpy as np
 
 # 复用 FLP 生成时的布局逻辑，保证芯粒和硅桥的平移方式一致
-from gen_flp_trace import load_json_layout, build_layout
+from gen_flp_trace import (
+    load_json_layout,
+    build_layout,
+    package_layer_side_mm,
+    round_to_grid_mm,
+)
 
 def read_flp_blocks(flp_file):
     """
@@ -136,6 +141,110 @@ def read_flp_layout(flp_file):
     return chiplets, tims
 
 
+def read_heat_package_sizes(config_dir):
+    """Read heat sink / spreader side from example.config, returned in mm."""
+    sink_mm = spreader_mm = None
+    config_path = os.path.join(config_dir, "example.config")
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            for line in f:
+                parts = line.split()
+                if len(parts) >= 2 and parts[0] == "-s_sink":
+                    sink_mm = float(parts[1]) * 1000.0
+                elif len(parts) >= 2 and parts[0] == "-s_spreader":
+                    spreader_mm = float(parts[1]) * 1000.0
+    except OSError:
+        pass
+    return sink_mm, spreader_mm
+
+def read_floorplan_box_mm(flp_path):
+    """Read the single Unit box of a layer floorplan, returned in mm."""
+    try:
+        with open(flp_path, "r", encoding="utf-8") as f:
+            for line in f:
+                parts = line.split()
+                if len(parts) >= 3 and parts[0].startswith("Unit"):
+                    return float(parts[1]) * 1000.0, float(parts[2]) * 1000.0
+    except OSError:
+        pass
+    return None
+
+
+def _bridge_shared_edge(node1, node2, chip_rects):
+    """Return (kind, boundary, lo, hi) of the edge shared by two chiplets.
+
+    kind == "LR" for left-right neighbours (vertical shared edge, boundary is
+    its x), "UD" for up-down neighbours (horizontal edge, boundary is its y).
+    lo/hi is the overlap interval along the edge. None if a chip is missing.
+    """
+    a, b = chip_rects.get(node1), chip_rects.get(node2)
+    if not (a and b):
+        return None
+    ax0, ay0, aw, ah = a
+    bx0, by0, bw, bh = b
+    overlap_x = min(ax0 + aw, bx0 + bw) - max(ax0, bx0)
+    overlap_y = min(ay0 + ah, by0 + bh) - max(ay0, by0)
+    if overlap_y > overlap_x:
+        # 左右相邻：共享竖边
+        if ax0 <= bx0:
+            boundary = (ax0 + aw + bx0) / 2.0
+        else:
+            boundary = (bx0 + bw + ax0) / 2.0
+        return "LR", boundary, max(ay0, by0), min(ay0 + ah, by0 + bh)
+    # 上下相邻：共享横边
+    if ay0 <= by0:
+        boundary = (ay0 + ah + by0) / 2.0
+    else:
+        boundary = (by0 + bh + ay0) / 2.0
+    return "UD", boundary, max(ax0, bx0), min(ax0 + aw, bx0 + bw)
+
+
+def _bridge_center_offset(x, y, w, h, edge):
+    """Distance between the bridge centre and the shared edge, across the edge.
+
+    Both exporters compute the bridge bottom-left so that the bridge centre
+    sits exactly on the shared edge *in the correct orientation*; only the
+    width/length fields differ in meaning. So the orientation whose centre
+    lands on the edge is the right one.
+    """
+    kind, boundary, _, _ = edge
+    center = x + w / 2.0 if kind == "LR" else y + h / 2.0
+    return abs(center - boundary)
+
+
+def _emib_rect(x, y, w, h, node1, node2, chip_rects, bump_width=None):
+    """Orient the EMIB so it straddles the edge shared by its two chiplets.
+
+    The result files use two different conventions:
+      * tool.py (exp / parameter_result): EMIB_width/EMIB_length are already
+        the final x/y extents and (x, y) is the final bottom-left;
+      * RL / bt_tree: EMIB_width/EMIB_length are the raw across-gap /
+        along-edge sizes and (x, y) is the unrotated bottom-left, so an
+        up-down pair needs the two dimensions swapped.
+    Rather than assume either, keep the orientation whose centre lies on the
+    shared edge. Left-right neighbours use a vertical shared edge (the bridge
+    crosses in x), up-down neighbours a horizontal one (crosses in y).
+
+    The across-gap size is always drawn as 2 * EMIB_bump_width (the two bump
+    rows sit either side of the shared edge), regardless of which of
+    EMIB_width/EMIB_length the exporter put it in; the along-edge size keeps
+    the stored value. The bridge stays centred on the shared edge.
+    """
+    edge = _bridge_shared_edge(node1, node2, chip_rects)
+    if edge is None:
+        return x, y, w, h
+    if _bridge_center_offset(x, y, h, w, edge) < _bridge_center_offset(x, y, w, h, edge):
+        x, y, w, h = x, y, h, w
+    if bump_width is not None and float(bump_width) > 0.0:
+        kind, boundary, _, _ = edge
+        half = float(bump_width)
+        if kind == "LR":
+            x, w = boundary - half, 2.0 * half
+        else:
+            y, h = boundary - half, 2.0 * half
+    return x, y, w, h
+
+
 def plot_grid_layer2_thermal_map(
     flp_file,
     grid_steady_file,
@@ -182,12 +291,21 @@ def plot_grid_layer2_thermal_map(
     chiplets = [(n, w*1000, h*1000, x*1000, y*1000) for n, w, h, x, y in chiplets]
     tims = [(n, w*1000, h*1000, x*1000, y*1000) for n, w, h, x, y in tims]
     all_blocks = chiplets + tims
-    total_width = total_length = 0.0
-    for _, w, h, x, y in all_blocks:
-        total_width = max(total_width, x + w)
-        total_length = max(total_length, y + h)
-    if total_width <= 0 or total_length <= 0:
-        total_width = total_length = max(0.01, 0.05)
+    # 热图范围取封装层（_sub.flp，与 TIM/Substrate/C4-underfill 同尺寸）的方块；
+    # 芯片布局居中显示在这个范围内。文件缺失时才退回块的外接范围。
+    pkg_dir = os.path.dirname(os.path.abspath(flp_file))
+    flp_base = os.path.splitext(os.path.basename(flp_file))[0]
+    pkg_box = (read_floorplan_box_mm(os.path.join(pkg_dir, flp_base + "_sub.flp"))
+               or read_floorplan_box_mm(os.path.join(pkg_dir, flp_base + "_C4.flp")))
+    if pkg_box is not None:
+        total_width, total_length = pkg_box
+    else:
+        total_width = total_length = 0.0
+        for _, w, h, x, y in all_blocks:
+            total_width = max(total_width, x + w)
+            total_length = max(total_length, y + h)
+        if total_width <= 0 or total_length <= 0:
+            total_width = total_length = max(0.01, 0.05)
 
     # 构造与 grid_thermal_map.pl 相同的 21 级 RGB 调色板。
     # 注意：matplotlib 中 vmin 映射到调色板第 0 个颜色、vmax 映射到最后一个颜色，
@@ -236,7 +354,7 @@ def plot_grid_layer2_thermal_map(
     cbar.set_label("Temperature (°C)", fontsize=18)
     cbar.ax.tick_params(labelsize=14)
     ax.set_title(
-        f"Layer {layer_num} Grid Thermal Map (Max = {max_c:.2f} °C, AVG = {avg_c:.2f} °C)",
+        f"MaxT = {max_c:.2f} °C, AvgT = {avg_c:.2f} °C",
         fontsize=18,
     )
     ax.set_xlabel("X (mm)", fontsize=18)
@@ -245,9 +363,36 @@ def plot_grid_layer2_thermal_map(
     ax.set_xlabel("X (mm)")
     ax.set_ylabel("Y (mm)")
 
-    # 叠加 chiplet 框及名称和功耗（facecolor='none' 保持热图可见）
+    # 图下方小字注明各层尺寸（mm）：芯片布局、TIM/Substrate/C4-underfill、热沉、均热板
+    size_caption = None
+    if chiplets:
+        chip_min_x = min(x for _, _, _, x, _ in chiplets)
+        chip_min_y = min(y for _, _, _, _, y in chiplets)
+        chip_max_x = max(x + w for _, w, _, x, _ in chiplets)
+        chip_max_y = max(y + h for _, _, h, _, y in chiplets)
+        layout_w = chip_max_x - chip_min_x
+        layout_h = chip_max_y - chip_min_y
+        sink_mm, spreader_mm = read_heat_package_sizes(pkg_dir)
+        size_parts = [
+            f"Chip layout: {layout_w:.2f} × {layout_h:.2f} mm (centered)"
+        ]
+        if pkg_box is not None:
+            size_parts.append(
+                f"TIM / Substrate / C4-underfill: {pkg_box[0]:.2f} × {pkg_box[1]:.2f} mm")
+        if spreader_mm is not None:
+            size_parts.append(f"Heat spreader: {spreader_mm:.2f} mm")
+        if sink_mm is not None:
+            size_parts.append(f"Heat sink: {sink_mm:.2f} mm")
+        size_caption = "   |   ".join(size_parts)
+
+    # 只绘制芯粒：TIM（T*）块的轮廓与标签不再显示。名称和功耗保持 14 pt
+    # 横向两行、居中于本芯粒；zorder=20 保证标签压在热图和 EMIB 硅桥之上。
+    # 窄芯粒的横向文字会略微越界，这里再在本芯粒内做纵向微调，避免相邻
+    # 芯粒的标签互相压字（文字本身不缩小、不旋转）。
+    label_items = []
     for name, w, h, x, y in chiplets:
-        rect = patches.Rectangle((x, y), w, h, linewidth=1.5, edgecolor="black", facecolor="none")
+        rect = patches.Rectangle((x, y), w, h, linewidth=1.5, edgecolor="black",
+                                 facecolor="none", zorder=6)
         ax.add_patch(rect)
         cx, cy = x + w / 2, y + h / 2
         # 名称和功耗统一在芯粒中心，使用两行文本，保证完全居中
@@ -257,7 +402,7 @@ def plot_grid_layer2_thermal_map(
             label = f"{name}\n{power_text}"
         else:
             label = name
-        ax.text(
+        txt = ax.text(
             cx,
             cy,
             label,
@@ -267,15 +412,42 @@ def plot_grid_layer2_thermal_map(
             fontweight="bold",
             color="white",
             linespacing=1.2,
+            zorder=20,
             path_effects=[withStroke(linewidth=2, foreground="black")],
         )
-    # 叠加 TIM 框及名称（可选，红色边框）
-    for name, w, h, x, y in tims:
-        rect = patches.Rectangle((x, y), w, h, linewidth=1, edgecolor="red", facecolor="none", alpha=0.7)
-        ax.add_patch(rect)
-        cx, cy = x + w / 2, y + h / 2
-        ax.text(cx, cy, name, ha="center", va="center", fontsize=12, color="white",
-                path_effects=[withStroke(linewidth=1, foreground="black")])
+        label_items.append((txt, (x, y, w, h)))
+
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+
+    def _bbox_data(txt):
+        bb = txt.get_window_extent(renderer=renderer)
+        (x0, y0) = ax.transData.inverted().transform((bb.x0, bb.y0))
+        (x1, y1) = ax.transData.inverted().transform((bb.x1, bb.y1))
+        return x0, y0, x1, y1
+
+    def _overlaps(a, b, pad=0.02):
+        return not (a[0] >= b[2] - pad or a[2] <= b[0] + pad or
+                    a[1] >= b[3] - pad or a[3] <= b[1] + pad)
+
+    placed = []
+    for txt, (x, y, w, h) in label_items:
+        cx, cy = x + w / 2.0, y + h / 2.0
+        bb = _bbox_data(txt)
+        label_h = bb[3] - bb[1]
+        chosen = 0.0
+        for k in (0, 1, -1, 2, -2, 3, -3):
+            dy = k * (label_h + 0.15)
+            if bb[1] + dy < y + 0.02 or bb[3] + dy > y + h - 0.02:
+                continue
+            cand = (bb[0], bb[1] + dy, bb[2], bb[3] + dy)
+            if not any(_overlaps(cand, p) for p in placed):
+                chosen = dy
+                break
+        if chosen:
+            txt.set_position((cx, cy + chosen))
+            bb = _bbox_data(txt)
+        placed.append(bb)
 
     # 叠加 EMIB 硅桥（只画 EMIBType 为 interfaceA / interfaceB 的，跳过 interfaceC，显示在最上层）
     if json_basename:
@@ -296,7 +468,12 @@ def plot_grid_layer2_thermal_map(
                 # 用 gen_flp_trace 的逻辑重新算一遍 Chiplet 平移，以获得与 FLP 一致的平移量
                 try:
                     orig_chiplets = load_json_layout(json_path)  # 原始 JSON 布局（mm）
-                    shifted_chiplets, _ = build_layout(orig_chiplets)  # 平移 + 居中后的布局（mm）
+                    shifted_chiplets, layout_side = build_layout(orig_chiplets)  # 平移 + 居中后的布局（mm）
+                    # gen_flp_trace 还会把整个布局平移到该 case 最大 interposer 方块的中心，
+                    # 硅桥必须叠加同一段偏移，否则会整体偏离芯片。
+                    package_side = max(
+                        package_layer_side_mm(json_basename, layout_side), layout_side)
+                    center_offset = round_to_grid_mm((package_side - layout_side) / 2.0)
                     # 计算全局平移量（理论上每个芯粒的 shift_x / shift_y 都相同，这里取平均更鲁棒）
                     dx_list = []
                     dy_list = []
@@ -310,10 +487,14 @@ def plot_grid_layer2_thermal_map(
                         dy_list.append(sc["y"] - oc["y"])
                     shift_x = sum(dx_list) / len(dx_list) if dx_list else 0.0
                     shift_y = sum(dy_list) / len(dy_list) if dy_list else 0.0
+                    shift_x += center_offset
+                    shift_y += center_offset
                 except Exception as e:
                     print(f"[警告] 计算 Chiplet 平移量失败，硅桥不做平移: {e}")
                     shift_x = shift_y = 0.0
 
+                # 芯粒矩形（mm），用于判断每座硅桥该横放还是竖放
+                chip_rects = {n: (cx, cy, cw, ch) for n, cw, ch, cx, cy in chiplets}
                 for conn in placement_data.get("connections", []):
                     emib_type = conn.get("EMIBType")
                     if emib_type == "interfaceC":
@@ -329,12 +510,18 @@ def plot_grid_layer2_thermal_map(
                     w_mm, h_mm = float(w), float(h)
                     if w_mm <= 0.0 or h_mm <= 0.0:
                         continue
-                    # 硅桥颜色改回浅肉色 RGB(251,229,214)
+                    # 硅桥方向由两侧芯粒的共享边决定（结果文件里两种导出约定
+                    # 混用：ILP 的 x/y 已含旋转，RL 的 x/y 未含旋转）。
+                    rect_x, rect_y, rect_w, rect_h = _emib_rect(
+                        x_mm, y_mm, w_mm, h_mm,
+                        conn.get("node1"), conn.get("node2"), chip_rects,
+                        conn.get("EMIB_bump_width"))
+                    # 硅桥恢复浅肉色 RGB(251,229,214)；芯粒轮廓 zorder=6 在其上
                     emib_color = (251 / 255.0, 229 / 255.0, 214 / 255.0)
                     rect = patches.Rectangle(
-                        (x_mm, y_mm),
-                        w_mm,
-                        h_mm,
+                        (rect_x, rect_y),
+                        rect_w,
+                        rect_h,
                         linewidth=1.0,
                         edgecolor="black",
                         facecolor=emib_color,
@@ -351,6 +538,9 @@ def plot_grid_layer2_thermal_map(
     if out_dir:
         os.makedirs(out_dir, exist_ok=True)
     plt.tight_layout()
+    if size_caption:
+        fig.text(0.5, 0.006, size_caption, ha="center", va="bottom", fontsize=9)
+        fig.subplots_adjust(bottom=0.17)
     plt.savefig(output_image, dpi=300, bbox_inches="tight", facecolor="white")
     plt.close()
     print(f"【成功】Layer {layer_num} 网格热图已保存至：{output_image}")

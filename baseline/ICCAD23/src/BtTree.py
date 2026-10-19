@@ -23,7 +23,8 @@ from BaseDerivation import run_base_derivation
 #
 # It is a cap on *attempts*, not on root nodes. One attempt returns every
 # distinct legal layout its SA visited and all of them are kept, so the forest
-# comes out wider than this number (acend910 seed 1: 10 attempts -> 51 roots).
+# comes out wider than this number (acend910 seed 1, measured at base 10:
+# 10 attempts -> 51 roots, so at base 30 it is at least that wide).
 #
 # It is NOT a clean search-budget knob, though. `run_base_derivation` seeds the
 # *global* RNG (`BaseDerivation.py:58`), so the position that stream is left in
@@ -36,7 +37,7 @@ from BaseDerivation import run_base_derivation
 # comparing two bases is confounded -- the difference includes "a different tree
 # was built" -- and it can go either way (cpu-dram seed 3 is worse at 50 than
 # at 30). Only a single ECG's derivation roots are monotone in this number.
-BASE_DERIVATION_RUNS = 10
+BASE_DERIVATION_RUNS = 30
 
 
 class BTNode:
@@ -171,15 +172,16 @@ class BTNode:
                 similarity_trees = GroupConstrua_full(
                     root_nodes=root_nodes,
                     problem=problem,
-                    # 30 legal variants (neighbours) per tree, was 100. Layer 2
-                    # no longer ranks candidates, so a tree is a diverse
+                    # 100 legal variants (neighbours) per tree -- back to the
+                    # value used before the base/width experiment. Layer 2 no
+                    # longer ranks candidates, so a tree is a diverse
                     # legal-variant pool; layer 3 does the ranking on the real
-                    # objective. Note the pool is capped by the space, not by
+                    # objective. The pool is capped by the space rather than by
                     # this number: a 4-chiplet ECG has only ~15 mutually
-                    # distinct legal layouts, so a request for 100 was already
-                    # mostly duplicates (and duplicates are what re-weight the
-                    # pool layer 3 samples from).
-                    num_topologies_to_generate=30,
+                    # distinct legal layouts, so part of a request for 100 is
+                    # duplicates (and duplicates do re-weight the pool layer 3
+                    # samples from).
+                    num_topologies_to_generate=100,
                     children_per_node=2,
                     max_iterations_sa=2000,
                     alpha_x=1.0,

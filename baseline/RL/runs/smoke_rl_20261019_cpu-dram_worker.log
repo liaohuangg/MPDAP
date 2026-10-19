@@ -1,0 +1,145 @@
+======================================================================
+case=cpu-dram seed=0 run=smoke_rl_20261019_cpu-dram_seed0
+started_at=2026-10-19 17:30:05
+timeout=300s
+使用设备: cuda
+随机种子: 0
+Run name: smoke_rl_20261019_cpu-dram_seed0
+Run directory: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_cpu-dram_seed0
+Training log: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_cpu-dram_seed0/train.log
+Default RL canvas aligned to fastTM interposer: 100.0 x 100.0
+======================================================================
+PPO训练 - 芯片布局优化
+======================================================================
+
+环境信息:
+  芯片数量: 8
+  放置顺序: ['A', 'B', 'C', 'D', 'H', 'G', 'F', 'E']
+  观察维度: 10
+  动作维度: 370000
+
+开始训练...
+----------------------------------------------------------------------
+BEST_LAYOUT
+  episode: 1/200
+  reward: 43.08
+  found_at: 2026-10-19T17:30:09
+  累计RL时间: 1.378s
+  累计总时间: 1.378s
+  温度: 124.5729
+  总线长: 55553.1717
+  平均线长: 10.8502
+  EMIB线长: 55553.1717
+  普通线长: 0.0000
+  芯片总面积: 603.2500
+  bbox面积: 1314.0000
+  bbox利用率: 0.4591
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_cpu-dram_seed0/results/top_layouts/layout_best_ep1_r43.08.json
+BEST_LAYOUT
+  episode: 4/200
+  reward: 52.93
+  found_at: 2026-10-19T17:30:10
+  累计RL时间: 2.236s
+  累计总时间: 2.236s
+  温度: 121.8020
+  总线长: 57289.0509
+  平均线长: 11.1893
+  EMIB线长: 57289.0509
+  普通线长: 0.0000
+  芯片总面积: 603.2500
+  bbox面积: 1275.0000
+  bbox利用率: 0.4731
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_cpu-dram_seed0/results/top_layouts/layout_best_ep4_r52.93.json
+BEST_LAYOUT
+  episode: 8/200
+  reward: 76.84
+  found_at: 2026-10-19T17:30:11
+  累计RL时间: 2.893s
+  累计总时间: 2.893s
+  温度: 125.6046
+  总线长: 57563.7967
+  平均线长: 11.2429
+  EMIB线长: 57563.7967
+  普通线长: 0.0000
+  芯片总面积: 603.2500
+  bbox面积: 1464.3750
+  bbox利用率: 0.4120
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_cpu-dram_seed0/results/top_layouts/layout_best_ep8_r76.84.json
+BEST_LAYOUT
+  episode: 17/200
+  reward: 78.69
+  found_at: 2026-10-19T17:30:12
+  累计RL时间: 3.957s
+  累计总时间: 3.957s
+  温度: 126.3918
+  总线长: 56752.4890
+  平均线长: 11.0845
+  EMIB线长: 56752.4890
+  普通线长: 0.0000
+  芯片总面积: 603.2500
+  bbox面积: 1499.8750
+  bbox利用率: 0.4022
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_cpu-dram_seed0/results/top_layouts/layout_best_ep17_r78.69.json
+BEST_LAYOUT
+  episode: 76/200
+  reward: 100.92
+  found_at: 2026-10-19T17:30:16
+  累计RL时间: 8.597s
+  累计总时间: 8.597s
+  温度: 120.3645
+  总线长: 58893.5588
+  平均线长: 11.5026
+  EMIB线长: 58893.5588
+  普通线长: 0.0000
+  芯片总面积: 603.2500
+  bbox面积: 1416.0625
+  bbox利用率: 0.4260
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_cpu-dram_seed0/results/top_layouts/layout_best_ep76_r100.92.json
+Episode 100/200
+  平均奖励: 56.09
+  成功率: 53.0%
+  累计RL时间: 10.61s
+  本区间时间: 10.61s
+  损失: 298.6999
+  熵: 5.1861
+  KL散度: 8.179004
+Episode 200/200
+  平均奖励: 52.67
+  成功率: 49.0%
+  累计RL时间: 17.64s
+  本区间时间: 7.04s
+  损失: 98.6307
+  熵: 6.4097
+  KL散度: 8.363374
+模型已保存到 /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_cpu-dram_seed0/checkpoints/ppo_episode_200.pt
+  NEW_BEST_MODEL 平均奖励: 54.38
+模型已保存到 /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_cpu-dram_seed0/checkpoints/ppo_model.pt
+
+BEST_MODEL saved: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_cpu-dram_seed0/checkpoints/ppo_episode_200.pt
+  最佳平均奖励: 54.38
+
+======================================================================
+训练完成！
+  总episodes: 200
+  最终成功率: 49.0%
+  平均奖励: 52.67
+======================================================================
+  最佳布局发现时间: 2026-10-19T17:30:16
+  最佳布局累计RL时间: 8.597s
+  最佳布局累计总时间: 8.597s
+  最佳温度: 120.36451312892456
+  最佳总线长: 58893.55883486845
+  最佳平均线长: 11.502648209935243
+  最佳EMIB线长: 58893.55883486845
+  最佳普通线长: 0.0
+
+运行时间统计:
+  热阻表: 0.000s
+  RL求解: 22.303s
+  总时间: 22.303s
+  best layout发现时间: 2026-10-19T17:30:16
+  best layout累计RL时间: 8.597s
+  best layout累计总时间: 8.597s
+
+Model saved to /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_cpu-dram_seed0/checkpoints/ppo_model.pt
+finished_at=2026-10-19 17:30:29 status=ok exit_code=0 seconds=24

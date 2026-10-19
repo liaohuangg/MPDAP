@@ -1,0 +1,166 @@
+Run name: smoke_rl_20261019_hp6_m_seed0
+Run directory: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_hp6_m_seed0
+Training log: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_hp6_m_seed0/train.log
+Default RL canvas aligned to fastTM interposer: 100.0 x 100.0
+======================================================================
+PPO训练 - 芯片布局优化
+======================================================================
+
+环境信息:
+  芯片数量: 6
+  放置顺序: ['A', 'C', 'D', 'F', 'B', 'E']
+  观察维度: 10
+  动作维度: 370000
+
+开始训练...
+----------------------------------------------------------------------
+BEST_LAYOUT
+  episode: 1/200
+  reward: 57.95
+  found_at: 2026-10-19T17:30:09
+  累计RL时间: 1.376s
+  累计总时间: 1.376s
+  温度: 101.6804
+  总线长: 13123.9137
+  平均线长: 10.2531
+  EMIB线长: 9754.9537
+  普通线长: 3368.9600
+  芯片总面积: 316.4616
+  bbox面积: 1327.7628
+  bbox利用率: 0.2383
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_hp6_m_seed0/results/top_layouts/layout_best_ep1_r57.95.json
+BEST_LAYOUT
+  episode: 3/200
+  reward: 86.31
+  found_at: 2026-10-19T17:30:10
+  累计RL时间: 2.128s
+  累计总时间: 2.128s
+  温度: 91.8876
+  总线长: 14830.7928
+  平均线长: 11.5866
+  EMIB线长: 11095.7528
+  普通线长: 3735.0400
+  芯片总面积: 316.4616
+  bbox面积: 1308.0928
+  bbox利用率: 0.2419
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_hp6_m_seed0/results/top_layouts/layout_best_ep3_r86.31.json
+BEST_LAYOUT
+  episode: 4/200
+  reward: 95.03
+  found_at: 2026-10-19T17:30:10
+  累计RL时间: 2.485s
+  累计总时间: 2.485s
+  温度: 89.6629
+  总线长: 15297.8239
+  平均线长: 11.9514
+  EMIB线长: 11439.9039
+  普通线长: 3857.9200
+  芯片总面积: 316.4616
+  bbox面积: 935.2572
+  bbox利用率: 0.3384
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_hp6_m_seed0/results/top_layouts/layout_best_ep4_r95.03.json
+BEST_LAYOUT
+  episode: 27/200
+  reward: 102.08
+  found_at: 2026-10-19T17:30:12
+  累计RL时间: 4.874s
+  累计总时间: 4.875s
+  温度: 89.4198
+  总线长: 14514.2394
+  平均线长: 11.3392
+  EMIB线长: 11191.3594
+  普通线长: 3322.8800
+  芯片总面积: 316.4616
+  bbox面积: 615.8964
+  bbox利用率: 0.5138
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_hp6_m_seed0/results/top_layouts/layout_best_ep27_r102.08.json
+BEST_LAYOUT
+  episode: 40/200
+  reward: 102.56
+  found_at: 2026-10-19T17:30:14
+  累计RL时间: 6.439s
+  累计总时间: 6.439s
+  温度: 106.0372
+  总线长: 13030.4395
+  平均线长: 10.1800
+  EMIB线长: 10844.1995
+  普通线长: 2186.2400
+  芯片总面积: 316.4616
+  bbox面积: 578.3544
+  bbox利用率: 0.5472
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_hp6_m_seed0/results/top_layouts/layout_best_ep40_r102.56.json
+BEST_LAYOUT
+  episode: 75/200
+  reward: 103.89
+  found_at: 2026-10-19T17:30:18
+  累计RL时间: 10.129s
+  累计总时间: 10.129s
+  温度: 86.8506
+  总线长: 15512.5982
+  平均线长: 12.1192
+  EMIB线长: 11913.2382
+  普通线长: 3599.3600
+  芯片总面积: 316.4616
+  bbox面积: 801.9456
+  bbox利用率: 0.3946
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_hp6_m_seed0/results/top_layouts/layout_best_ep75_r103.89.json
+Episode 100/200
+  平均奖励: 71.11
+  成功率: 100.0%
+  累计RL时间: 12.84s
+  本区间时间: 12.84s
+  损失: 321.5641
+  熵: 5.2695
+  KL散度: 7.598869
+BEST_LAYOUT
+  episode: 109/200
+  reward: 133.40
+  found_at: 2026-10-19T17:30:21
+  累计RL时间: 13.709s
+  累计总时间: 13.709s
+  温度: 94.3309
+  总线长: 13916.4027
+  平均线长: 10.8722
+  EMIB线长: 10094.3227
+  普通线长: 3822.0800
+  芯片总面积: 316.4616
+  bbox面积: 847.1456
+  bbox利用率: 0.3736
+  json: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_hp6_m_seed0/results/top_layouts/layout_best_ep109_r133.40.json
+Episode 200/200
+  平均奖励: 81.41
+  成功率: 100.0%
+  累计RL时间: 22.44s
+  本区间时间: 9.60s
+  损失: 421.1303
+  熵: 6.4091
+  KL散度: 7.492974
+模型已保存到 /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_hp6_m_seed0/checkpoints/ppo_episode_200.pt
+  NEW_BEST_MODEL 平均奖励: 76.26
+模型已保存到 /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_hp6_m_seed0/checkpoints/ppo_model.pt
+
+BEST_MODEL saved: /root/placement/MPDAP/baseline/RL/runs/smoke_rl_20261019_hp6_m_seed0/checkpoints/ppo_episode_200.pt
+  最佳平均奖励: 76.26
+
+======================================================================
+训练完成！
+  总episodes: 200
+  最终成功率: 100.0%
+  平均奖励: 81.41
+======================================================================
+  最佳布局发现时间: 2026-10-19T17:30:21
+  最佳布局累计RL时间: 13.709s
+  最佳布局累计总时间: 13.709s
+  最佳温度: 94.33088941884915
+  最佳总线长: 13916.402654879883
+  最佳平均线长: 10.872189574124908
+  最佳EMIB线长: 10094.322654879881
+  最佳普通线长: 3822.080000000001
+
+运行时间统计:
+  热阻表: 0.000s
+  RL求解: 27.030s
+  总时间: 27.030s
+  best layout发现时间: 2026-10-19T17:30:21
+  best layout累计RL时间: 13.709s
+  best layout累计总时间: 13.709s

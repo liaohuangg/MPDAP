@@ -208,33 +208,43 @@ def has_overlap(chip1: Chiplet, chip2: Chiplet) -> bool:
     return x_overlap and y_overlap
 
 
-def get_adjacency_info(chip1: Chiplet, chip2: Chiplet) -> Tuple[bool, float, str]:
+def get_adjacency_info(
+    chip1: Chiplet,
+    chip2: Chiplet,
+    min_overlap: float = MIN_OVERLAP,
+) -> Tuple[bool, float, str]:
     """
     Check whether two chiplets are adjacent and return shared edge length.
 
     Direction is from chip1's perspective: right, left, top, bottom, or none.
+
+    ``min_overlap`` is the required shared-edge length.  The default keeps the
+    historical global MIN_OVERLAP, but callers that know the edge's EMIB_length
+    must pass it explicitly: interfaceB bridges on smaller dies can require
+    only 0.8533, which the hard-coded 1.0 would wrongly reject.
     """
     x1_min, y1_min, x1_max, y1_max = chip1.get_bounds()
     x2_min, y2_min, x2_max, y2_max = chip2.get_bounds()
+    threshold = MIN_OVERLAP if min_overlap is None else float(min_overlap)
 
     if abs(x1_max - x2_min) < EPSILON:
         overlap_length = min(y1_max, y2_max) - max(y1_min, y2_min)
-        if overlap_length >= MIN_OVERLAP - EPSILON:
+        if overlap_length >= threshold - EPSILON:
             return True, overlap_length, "right"
 
     if abs(x1_min - x2_max) < EPSILON:
         overlap_length = min(y1_max, y2_max) - max(y1_min, y2_min)
-        if overlap_length >= MIN_OVERLAP - EPSILON:
+        if overlap_length >= threshold - EPSILON:
             return True, overlap_length, "left"
 
     if abs(y1_max - y2_min) < EPSILON:
         overlap_length = min(x1_max, x2_max) - max(x1_min, x2_min)
-        if overlap_length >= MIN_OVERLAP - EPSILON:
+        if overlap_length >= threshold - EPSILON:
             return True, overlap_length, "top"
 
     if abs(y1_min - y2_max) < EPSILON:
         overlap_length = min(x1_max, x2_max) - max(x1_min, x2_min)
-        if overlap_length >= MIN_OVERLAP - EPSILON:
+        if overlap_length >= threshold - EPSILON:
             return True, overlap_length, "bottom"
 
     return False, 0.0, "none"

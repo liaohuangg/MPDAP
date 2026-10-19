@@ -633,6 +633,9 @@ class PPOTrainer:
                 'max_width': self.env.max_width,
                 'max_height': self.env.max_height,
                 'min_overlap': self.env.min_overlap,
+                'use_emib_length_adjacency': self.env.use_emib_length_adjacency,
+                'interfacec_emib_overlap': self.env.interfacec_emib_overlap,
+                'enforce_bridge_overlap': self.env.enforce_bridge_overlap,
                 'observation_dim': self.env.observation_dim,
                 'action_dim': self.env.action_dim,
                 'terminal_rlplanner_cost_scale': self.env.terminal_rlplanner_cost_scale,
@@ -1112,6 +1115,25 @@ if __name__ == "__main__":
         help="fastTM interposer size in mm; layouts larger than this skip thermal evaluation",
     )
     parser.add_argument("--min_overlap", type=float, default=0.5)
+    parser.add_argument(
+        "--use_emib_length_adjacency",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="每条非 interfaceC 连接边要求共享边长 >= EMIB_length（默认开）",
+    )
+    parser.add_argument(
+        "--interfacec_emib_overlap",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="interfaceC 边也要求 EMIB_length（默认关：interfaceC 不打桥，沿用 min_overlap）",
+    )
+    parser.add_argument(
+        "--enforce_bridge_overlap",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="硅桥互不重叠：放置时增量硬约束 + 终局复查（默认开）",
+    )
+    parser.add_argument("--bridge_overlap_penalty", type=float, default=1000.0)
     parser.add_argument("--exact_action_slots", type=int, default=50000, help="off-grid 精确坐标的动态动作槽数量")
     parser.add_argument("--seed", type=int, default=None, help="随机种子；用于多次独立重复实验")
     parser.add_argument("--force_thermal_tables", action="store_true", help="强制重算 fastTM 热阻表")
@@ -1136,6 +1158,10 @@ if __name__ == "__main__":
         max_height=args.max_height,
         thermal_intp_size=args.thermal_intp_size,
         min_overlap=args.min_overlap,
+        use_emib_length_adjacency=args.use_emib_length_adjacency,
+        interfacec_emib_overlap=args.interfacec_emib_overlap,
+        enforce_bridge_overlap=args.enforce_bridge_overlap,
+        bridge_overlap_penalty=args.bridge_overlap_penalty,
         exact_action_slots=args.exact_action_slots,
         placement_reward=1,  # 放置奖励
         adjacency_reward=20,   # 邻接奖励
