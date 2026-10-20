@@ -36,5 +36,43 @@
       "width": 11.87,
       "height": 7.75
     }
-  }
+  },
+  "connections": [
+    {
+      "node1": "A",
+      "node2": "D",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 43.0,
+      "EMIB-y-position": 49.16835,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "B",
+      "node2": "E",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 41.75,
+      "EMIB-y-position": 57.54335,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "C",
+      "node2": "F",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 55.0,
+      "EMIB-y-position": 39.19335,
+      "EMIB-rotation": 1
+    }
+  ]
 }

@@ -1,40 +1,101 @@
 {
-  "chiplets": {
-    "A": {
-      "x": 44.0,
-      "y": 44.0,
+  "chiplets": [
+    {
+      "name": "A",
+      "x-position": 44.0,
+      "y-position": 44.0,
       "width": 12.0,
-      "height": 12.0
+      "height": 12.0,
+      "rotation": 0,
+      "power": 0.0
     },
-    "B": {
-      "x": 25.8,
-      "y": 43.5,
+    {
+      "name": "B",
+      "x-position": 25.8,
+      "y-position": 43.5,
       "width": 18.2,
-      "height": 18.2
+      "height": 18.2,
+      "rotation": 0,
+      "power": 0.0
     },
-    "C": {
-      "x": 44.0,
-      "y": 56.0,
+    {
+      "name": "C",
+      "x-position": 44.0,
+      "y-position": 56.0,
       "width": 18.2,
-      "height": 18.2
+      "height": 18.2,
+      "rotation": 0,
+      "power": 0.0
     },
-    "F": {
-      "x": 36.25,
-      "y": 62.75,
+    {
+      "name": "D",
+      "x-position": 56.0,
+      "y-position": 44.13,
       "width": 7.75,
-      "height": 11.87
+      "height": 11.87,
+      "rotation": 0,
+      "power": 0.0
     },
-    "E": {
-      "x": 28.5,
-      "y": 61.7,
+    {
+      "name": "E",
+      "x-position": 28.5,
+      "y-position": 61.7,
       "width": 7.75,
-      "height": 11.87
+      "height": 11.87,
+      "rotation": 0,
+      "power": 0.0
     },
-    "D": {
-      "x": 56.0,
-      "y": 44.13,
+    {
+      "name": "F",
+      "x-position": 36.25,
+      "y-position": 62.75,
       "width": 7.75,
-      "height": 11.87
+      "height": 11.87,
+      "rotation": 0,
+      "power": 0.0
     }
-  }
+  ],
+  "connections": [
+    {
+      "node1": "A",
+      "node2": "D",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 55.0,
+      "EMIB-y-position": 48.35835,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "B",
+      "node2": "E",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 30.66835,
+      "EMIB-y-position": 60.7,
+      "EMIB-rotation": 0
+    },
+    {
+      "node1": "C",
+      "node2": "F",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 3.4133,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 43.0,
+      "EMIB-y-position": 66.76835,
+      "EMIB-rotation": 1
+    }
+  ],
+  "wirelength": 56047.55,
+  "area": 1181.0,
+  "aspect_ratio": 1.22,
+  "interposer_size": 37.95,
+  "SAR": 0.22
 }

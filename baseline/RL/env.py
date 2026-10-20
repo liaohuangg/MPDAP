@@ -35,6 +35,7 @@ try:
         calculate_iccad23_wirelength,
         calculate_layout_utilization,
         visualize_layout_with_bridges,
+        _emib_type_defs,
     )
 except ImportError:
     from chiplet_model import (
@@ -50,6 +51,7 @@ except ImportError:
         calculate_iccad23_wirelength,
         calculate_layout_utilization,
         visualize_layout_with_bridges,
+        _emib_type_defs,
     )
 
 TEMP_LIMIT = 80.0
@@ -651,6 +653,63 @@ class ChipletPlacementEnv:
             "bridge_overlap_area": area,
             "bridge_overlap_names": names,
         }
+
+    def bridge_connection_records(
+        self, layout: Optional[Dict[str, Chiplet]] = None
+    ) -> List[Dict[str, Any]]:
+        """Export the bridges this env enforces, in solution-JSON form.
+
+        The rectangles are the ones `_bridge_rect` computed for the placement
+        gate (EMIB_length along the shared edge, 2 * EMIB_bump_width across
+        it), serialized like bt_tree's unit.save_result: EMIB_width is the
+        across size, EMIB_length the along size, EMIB-rotation 1 for a
+        left/right (vertical) shared edge and 0 for up/down, and x/y is the
+        rectangle's lower-left corner.
+        """
+        layout = self.state.layout if layout is None else layout
+        if not layout:
+            return []
+        types = _emib_type_defs()
+        records: List[Dict[str, Any]] = []
+        for chip_id1, chip_id2, edge_data in self.problem.connection_graph.edges(data=True):
+            if self._edge_is_interfacec(edge_data):
+                continue
+            chip1 = layout.get(chip_id1)
+            chip2 = layout.get(chip_id2)
+            if chip1 is None or chip2 is None:
+                continue
+            bridge = self._bridge_rect(chip_id1, chip_id2, chip1, chip2)
+            if bridge is None:
+                continue
+            _, (x0, y0, x1, y1) = bridge
+
+            required = self._required_overlap(chip_id1, chip_id2)
+            is_adj, _, direction = get_adjacency_info(chip1, chip2, required)
+            if not is_adj:
+                continue
+            rotation = 1 if direction in ("left", "right") else 0
+            # Take the sizes from the benchmark edge data rather than from the
+            # rectangle's extent, so the JSON keeps the exact 0.8533 / 2.0
+            # values bt_tree writes instead of float-difference noise.
+            along = float(edge_data["EMIB_length"])
+            bump = edge_data.get("EMIB_bump_width")
+            across = 2.0 * (1.0 if bump is None else float(bump))
+
+            emib_type = edge_data.get("EMIBType", "interfaceB")
+            iface = types.get(emib_type, {})
+            records.append({
+                "node1": chip_id1,
+                "node2": chip_id2,
+                "EMIBType": emib_type,
+                "EMIB_length": along,
+                "EMIB_max_width": iface.get("max_Reach_length", 5),
+                "EMIB_width": across,
+                "EMIB_bump_width": across / 2.0,
+                "EMIB-x-position": round(x0, 6),
+                "EMIB-y-position": round(y0, 6),
+                "EMIB-rotation": rotation,
+            })
+        return records
 
     def _is_valid_placement(
         self,

@@ -7,8 +7,9 @@ Bridge_Overlap_Adjustment.py):
 
   1. every non-interfaceC connection exists in the JSON and its chiplets
      actually share an edge;
-  2. the exported EMIB_width / EMIB_length match the rotated final x/y extents
-     (left-right: width=across, length=along; up-down: rotated, swapped);
+  2. the exported EMIB_width / EMIB_length match the benchmark sizes
+     (width = across the shared edge, length = along it, for both
+     orientations) and the rectangle extents match the rotated position;
   3. the along-edge size fits inside the shared-edge overlap;
   4. the bridge rectangle stays inside the two chiplets along the shared edge;
   5. bridge rectangles do not overlap each other.
@@ -116,23 +117,20 @@ def check_file(path: Path, bench_dir: Path,
         across = gap + 2.0 * bump
         shared = hi - lo
 
-        want_rot = 1 if kind == "UD" else 0
+        want_rot = 1 if kind == "LR" else 0
         if int(e.get("EMIB-rotation", -1)) != want_rot:
             errors.append(
                 f"{name}: EMIB-rotation={e.get('EMIB-rotation')} but {kind} needs {want_rot}")
 
-        if kind == "LR":
-            want_w, want_h = across, along
-            x_straddle, y_lo, y_hi = "x", lo, hi
-        else:
-            want_w, want_h = along, across
-            x_straddle, y_lo, y_hi = "y", lo, hi
+        # unit.save_result keeps EMIB_width = across and EMIB_length = along
+        # for BOTH orientations; only the rectangle's extents swap.
+        want_w, want_l = across, along
         got_w = float(e.get("EMIB_width", 0.0))
-        got_h = float(e.get("EMIB_length", 0.0))
-        if abs(got_w - want_w) > SIZE_TOL or abs(got_h - want_h) > SIZE_TOL:
+        got_l = float(e.get("EMIB_length", 0.0))
+        if abs(got_w - want_w) > SIZE_TOL or abs(got_l - want_l) > SIZE_TOL:
             errors.append(
-                f"{name}: rotated size ({got_w:g} x {got_h:g}) != expected "
-                f"({want_w:g} x {want_h:g}) for {kind}")
+                f"{name}: (EMIB_width, EMIB_length) = ({got_w:g}, {got_l:g}) "
+                f"!= expected ({want_w:g}, {want_l:g}) for {kind}")
 
         if along > shared + SIZE_TOL:
             errors.append(
@@ -140,15 +138,23 @@ def check_file(path: Path, bench_dir: Path,
                 f"(short by {along - shared:.4f})")
 
         x, y = float(e["EMIB-x-position"]), float(e["EMIB-y-position"])
-        w, h = float(e["EMIB_width"]), float(e["EMIB_length"])
-        rect = (x, y, x + w, y + h)
+        w, l = got_w, got_l
+        # LR: width lies in x, length in y.  UD: the rectangle is rotated, so
+        # the length lies in x and the width in y.
+        if kind == "LR":
+            rect = (x, y, x + w, y + l)
+            center_across = x + w / 2.0
+            along_lo, along_hi = y, y + l
+        else:
+            rect = (x, y, x + l, y + w)
+            center_across = y + w / 2.0
+            along_lo, along_hi = x, x + l
 
         # Centre must sit on the shared edge in the across direction.
-        if abs((x + w / 2.0 if kind == "LR" else y + h / 2.0) - boundary) > POS_TOL:
+        if abs(center_across - boundary) > POS_TOL:
             errors.append(f"{name}: bridge centre is not on the shared boundary")
 
         # Along the edge the bridge must stay inside the overlap interval.
-        along_lo, along_hi = (y, y + h) if kind == "LR" else (x, x + w)
         if along_lo < lo - POS_TOL or along_hi > hi + POS_TOL:
             errors.append(
                 f"{name}: bridge [{along_lo:.4f}, {along_hi:.4f}] exceeds "

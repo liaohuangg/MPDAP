@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-20T04:19:17.251381",
+  "timestamp": "2026-10-20T07:21:02.182263",
   "seed_mode": "sweep",
   "seeds": null,
   "seed_sweep_target": 5,
@@ -10,20 +10,42 @@
   "time_limit_seconds": 3600,
   "max_iterations": null,
   "convergence_patience": 10000,
-  "total_cases": 1,
-  "success_count": 1,
-  "total_time_hours": 0.058570127156045704,
+  "total_cases": 3,
+  "success_count": 0,
+  "total_time_hours": 3.0061359586318335,
   "results": [
     {
-      "case_name": "cpu-dram",
-      "status": "success",
-      "num_solutions": 5,
-      "num_seeds_tried": 6,
-      "best_cost": 222.16382766652785,
+      "case_name": "hp11_m",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 134,
+      "best_cost": null,
       "hit_time_limit_count": 0,
-      "bridge_legal_solutions": 5,
-      "time_seconds": 210.84687185287476,
-      "sweep_elapsed_seconds": 210.84687280654907
+      "bridge_legal_solutions": 0,
+      "time_seconds": 3603.8107566833496,
+      "sweep_elapsed_seconds": 3603.8107573986053
+    },
+    {
+      "case_name": "syn5",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 134,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 0,
+      "time_seconds": 3609.5799717903137,
+      "sweep_elapsed_seconds": 3609.579972267151
+    },
+    {
+      "case_name": "syn4",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 114,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 0,
+      "time_seconds": 3608.686311006546,
+      "sweep_elapsed_seconds": 3608.6863112449646
     }
   ]
 }

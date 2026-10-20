@@ -125,7 +125,12 @@ def generate_ptrace_file(chiplet_list, tim_list, json_path, output_ptrace_path, 
 
     power_dict = {}
     if 'chiplets' in data:
-        for chip in data['chiplets']:
+        # RL exports chiplets as {name: {...}}; ICCAD23/gurobi as a list.
+        chip_records = ([dict(chip, name=chip.get('name', name))
+                         for name, chip in data['chiplets'].items()]
+                        if isinstance(data['chiplets'], dict)
+                        else data['chiplets'])
+        for chip in chip_records:
             original_name = chip.get('name')
             if original_name:
 
@@ -161,11 +166,18 @@ def load_json_layout(json_path):
     chiplets = []
     if 'chiplets' not in data:
         raise ValueError("No 'chiplets' field found in JSON")
-    for idx, chip in enumerate(data['chiplets']):
+    # Two export formats: a list of chip dicts with `name`/`x-position`
+    # (ICCAD23, gurobi) and a {name: {x, y, width, height}} mapping (RL).
+    if isinstance(data['chiplets'], dict):
+        chip_records = [dict(chip, name=chip.get('name', name))
+                        for name, chip in data['chiplets'].items()]
+    else:
+        chip_records = data['chiplets']
+    for idx, chip in enumerate(chip_records):
         original_name = chip.get('name', chr(65 + idx))
-        name = original_name  
-        x = float(chip['x-position'])
-        y = float(chip['y-position'])
+        name = original_name
+        x = float(chip.get('x-position', chip.get('x', 0.0)))
+        y = float(chip.get('y-position', chip.get('y', 0.0)))
         w = float(chip['width'])
         h = float(chip['height'])
         bump_pitch = float(chip.get("bump pitch", chip.get("bump_pitch", top_bump_pitch)) or 0.0)
@@ -673,18 +685,19 @@ def _can_merge_v(a, b):
 
 
 # 每种 case 在所有方法（bt_tree / RL / gurobi 参数扫描）解中的最大 interposer size（mm）。
-# 统计口径：experiment_result + parameter_result；排除以下 3 个文件：
+# 统计口径：experiment_result + parameter_result；排除以下不可行/预览产物：
 #   experiment_result/output_gurobi_EMIB_chiplet_5_6_01_17_md1_ca0/placement/multigpu.json
-#   parameter_result/output_gurobi_EMIB_chiplet_5_6_01_24/placement/multigpu.json
-#   parameter_result/output_gurobi_EMIB_chiplet_5_6_01_25/placement/multigpu.json
+#   experiment_result/result_process（预览输入目录）
+#   parameter_result/output_gurobi_EMIB_chiplet_5_6_01_24、..._25（整个目录）
+# 数值与 thermal_sim/thermal_pkg.txt 的 [Combined maximum and thermal config] 一致。
 CASE_MAX_INTERPOSER_MM = {
     "acend910": 55.15,
-    "cpu-dram": 44.50,
+    "cpu-dram": 43.00,
     "hp11_m": 63.84,
-    "hp6_m": 54.50,
+    "hp6_m": 53.04,
     "hp8_m": 53.20,
-    "multigpu": 49.82,
-    "syn1": 47.00,
+    "multigpu": 48.40,
+    "syn1": 40.00,
     "syn5": 34.00,
 }
 # 规则：heat spreader = heat sink = 该 case 所有方法解的最大 interposer size。
@@ -702,6 +715,24 @@ def get_case_key(json_basename):
     if m:
         case_key = m.group(1)
     return case_key
+
+
+def resolve_case_key(name, source_path=None):
+    """Look up the case name used by the package-size tables.
+
+    Solution files come in two naming schemes: `<case>_seed<NN>` (older runs)
+    and bt_tree/RL's `solution_<i>_seed<NN>_cost_...` / `..._reward_...`,
+    where the case name survives only in the parent directory
+    (`.../output_bt_tree/hp8_m/`). Try the stem, then the parent directory.
+    """
+    key = get_case_key(name)
+    if key in CASE_MAX_INTERPOSER_MM:
+        return key
+    if source_path:
+        parent = os.path.basename(os.path.dirname(os.path.abspath(source_path)))
+        if parent in CASE_MAX_INTERPOSER_MM:
+            return parent
+    return key
 
 
 def package_layer_side_mm(json_basename, layout_side_mm):
@@ -734,7 +765,8 @@ def heat_sink_sizes_m(json_basename, bbox_longest_side=None):
     return val, val
 
 
-def copy_config_templates(template_dir, target_dir, json_basename=None, bbox_longest_side=None):
+def copy_config_templates(template_dir, target_dir, json_basename=None,
+                          bbox_longest_side=None, case_key=None):
     """Copy config templates and patch -s_sink/-s_spreader and floorplan reference."""
     files = ["example.config", "example.lcf", "example.materials"]
     for fname in files:
@@ -745,7 +777,8 @@ def copy_config_templates(template_dir, target_dir, json_basename=None, bbox_lon
             os.chmod(dst, 0o755)
             
     
-    spreader_m, sink_m = heat_sink_sizes_m(json_basename, bbox_longest_side)
+    spreader_m, sink_m = heat_sink_sizes_m(case_key or json_basename,
+                                           bbox_longest_side)
     if spreader_m is not None:
         spreader_str = f"{spreader_m:.6f}"
         sink_str = f"{sink_m:.6f}"
@@ -825,7 +858,8 @@ def generate_flp_file(chiplet_list_m, tim_list_m, output_flp_path):
     
     
 
-def main(json_path, output_flp_path=None, output_ptrace_path=None):
+def main(json_path, output_flp_path=None, output_ptrace_path=None,
+         output_dir=None, name=None):
     """
     Main: generate FLP according to new spec
     1. Extract and validate base data
@@ -833,11 +867,17 @@ def main(json_path, output_flp_path=None, output_ptrace_path=None):
     3. Chiplet grid alignment + centering (0.01 mm)
     4. TIM split + merge
     5. Convert mm->m and write outputs
+
+    `output_dir` overrides the default `config/<name>_config` target and
+    `name` overrides the file stem, so parallel batch runs can write unique
+    directories without racing on a shared `config/<case>_config`.
     """
-    json_basename = os.path.splitext(os.path.basename(json_path))[0]
+    json_basename = name or os.path.splitext(os.path.basename(json_path))[0]
+    case_key = resolve_case_key(json_basename, json_path)
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_dir = os.path.normpath(os.path.join(script_dir, "..", "config"))
-    output_config_dir = os.path.join(config_dir, f"{json_basename}_config")
+    output_config_dir = (os.path.abspath(output_dir) if output_dir
+                         else os.path.join(config_dir, f"{json_basename}_config"))
     os.makedirs(output_config_dir, exist_ok=True)
 
     if output_flp_path is None:
@@ -857,7 +897,7 @@ def main(json_path, output_flp_path=None, output_ptrace_path=None):
     # 各层 floorplan 的宽高一致，因此 chip 层的外框同样取该尺寸，芯片内容
     # 仍按布局大小、居中放置。
     package_side_mm = max(
-        package_layer_side_mm(json_basename, square_side_mm), square_side_mm)
+        package_layer_side_mm(case_key, square_side_mm), square_side_mm)
     center_offset_mm = round_to_grid_mm((package_side_mm - square_side_mm) / 2.0)
     if center_offset_mm > 0:
         for b in chiplet_envelope_list_mm:
@@ -882,7 +922,8 @@ def main(json_path, output_flp_path=None, output_ptrace_path=None):
     template_dir = os.path.join(config_dir, "template_config")
     if os.path.isdir(template_dir):
 
-        copy_config_templates(template_dir, output_config_dir, json_basename, package_side_m)
+        copy_config_templates(template_dir, output_config_dir, json_basename,
+                              package_side_m, case_key=case_key)
     else:
         print("DEBUG")
 
@@ -902,5 +943,10 @@ if __name__ == "__main__":
     parser.add_argument('--json_path', type=str, required=True, help='Input JSON layout path (mm units)')
     parser.add_argument('--output_flp', type=str, default=None, help='Output .flp path (default auto-generated)')
     parser.add_argument('--output_ptrace', type=str, default=None, help='Output .ptrace path (default auto-generated)')
+    parser.add_argument('--config_dir', type=str, default=None,
+                        help='Output config directory (default config/<name>_config)')
+    parser.add_argument('--name', type=str, default=None,
+                        help='Output file stem (default: input JSON stem)')
     args = parser.parse_args()
-    main(args.json_path, args.output_flp, args.output_ptrace)
+    main(args.json_path, args.output_flp, args.output_ptrace,
+         output_dir=args.config_dir, name=args.name)

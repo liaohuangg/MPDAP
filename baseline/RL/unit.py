@@ -109,12 +109,57 @@ def compute_bridge_rects(layout: Dict[str, Chiplet], problem: LayoutProblem) -> 
 
         bridges.append({
             "name": f"{n1}-{n2}",
+            "node1": n1,
+            "node2": n2,
             "rect": rect,
             "kind": kind,
             "along": along,
             "across": across,
+            "type": etype,
+            "wire_count": wire_count,
+            "rotation": 1 if kind == "LR" else 0,
         })
     return bridges
+
+
+EMIB_TYPES_PATH = (Path(__file__).resolve().parent.parent.parent
+                   / "benchmark" / "test_input" / "EMIB.json")
+
+
+def _emib_type_defs() -> dict:
+    try:
+        data = json.loads(EMIB_TYPES_PATH.read_text(encoding="utf-8"))
+    except OSError:
+        return {}
+    return {e["name"]: e for e in data.get("EMIBTypes", [])}
+
+
+def bridge_connection_records(layout: Dict[str, Chiplet], problem) -> List[dict]:
+    """EMIB records in the ICCAD23 solution-JSON schema (unit.save_result).
+
+    `EMIB_width` is the size ACROSS the shared edge (2 * EMIB_bump_width),
+    `EMIB_length` the size ALONG it, `EMIB-rotation` is 1 for a left/right
+    (vertical) shared edge and 0 for up/down, and the stored x/y is the
+    rectangle's lower-left corner -- the same fields bt_tree solutions carry.
+    """
+    types = _emib_type_defs()
+    records = []
+    for b in compute_bridge_rects(layout, problem):
+        iface = types.get(b["type"], {})
+        x0, y0 = b["rect"][0], b["rect"][1]
+        records.append({
+            "node1": b["node1"],
+            "node2": b["node2"],
+            "EMIBType": b["type"],
+            "EMIB_length": b["along"],
+            "EMIB_max_width": iface.get("max_Reach_length", 5),
+            "EMIB_width": b["across"],
+            "EMIB_bump_width": b["across"] / 2.0,
+            "EMIB-x-position": round(x0, 6),
+            "EMIB-y-position": round(y0, 6),
+            "EMIB-rotation": b["rotation"],
+        })
+    return records
 
 
 def calculate_wirelength(layout: Dict[str, Chiplet], problem: LayoutProblem) -> float:

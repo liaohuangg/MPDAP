@@ -15,6 +15,7 @@ from gen_flp_trace import (
     load_json_layout,
     build_layout,
     package_layer_side_mm,
+    resolve_case_key,
     round_to_grid_mm,
 )
 
@@ -199,6 +200,52 @@ def _bridge_shared_edge(node1, node2, chip_rects):
     return "UD", boundary, max(ax0, bx0), min(ax0 + aw, bx0 + bw)
 
 
+def _benchmark_emib_connections(json_path, chip_rects):
+    """Synthesise bridge rectangles for layouts that carry no `connections`.
+
+    RL layouts are exported as {name: {x, y, width, height}} only, so the
+    benchmark's EMIB list is the only source of bridge sizes. Each rectangle
+    is placed the same way bridge_legality.layout_bridge_rects does it: the
+    bridge length runs along the shared edge, 2 * EMIB_bump_width across it,
+    centred on the overlap midpoint. Coordinates come from `chip_rects`, which
+    are already in the FLP frame (mm), so no extra shift is applied.
+    """
+    case = resolve_case_key(
+        os.path.splitext(os.path.basename(json_path))[0], json_path)
+    bench_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__)))), "benchmark", "test_input", f"{case}.json")
+    if not os.path.exists(bench_path):
+        return []
+    with open(bench_path, "r", encoding="utf-8") as f:
+        bench = json.load(f)
+
+    bridges = []
+    for conn in bench.get("connections", []):
+        if int(conn.get("wireCount", 1)) <= 255:
+            continue
+        if str(conn.get("EMIBType", "")).lower() == "interfacec":
+            continue
+        n1, n2 = conn.get("node1"), conn.get("node2")
+        edge = _bridge_shared_edge(n1, n2, chip_rects)
+        along = float(conn.get("EMIB_length") or 0.0)
+        bump = conn.get("EMIB_bump_width")
+        if edge is None or along <= 0.0 or bump is None:
+            continue
+        kind, boundary, lo, hi = edge
+        across = 2.0 * float(bump)
+        mid = (lo + hi) / 2.0
+        if kind == "LR":
+            x, y, w, h = boundary - across / 2.0, mid - along / 2.0, across, along
+        else:
+            x, y, w, h = mid - along / 2.0, boundary - across / 2.0, along, across
+        bridges.append({
+            "node1": n1, "node2": n2,
+            "x": x, "y": y, "w": w, "h": h,
+            "synthetic": True,
+        })
+    return bridges
+
+
 def _bridge_center_offset(x, y, w, h, edge):
     """Distance between the bridge centre and the shared edge, across the edge.
 
@@ -245,6 +292,311 @@ def _emib_rect(x, y, w, h, node1, node2, chip_rects, bump_width=None):
     return x, y, w, h
 
 
+def _plot_bridge_rects(chiplets, json_basename, layout_json, placement_dir):
+    """EMIB bridge rectangles (mm, plot coordinates) for the layer-2 map.
+
+    Returns a list of (x, y, w, h).  The chiplet shift that gen_flp_trace
+    applied to build the FLP is re-derived here so the bridges land on the
+    same coordinates as the chip rectangles.
+    """
+    if not json_basename:
+        return []
+    try:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        # 优先使用外部传入的 placement_dir（对应当前处理的 output_gurobi_EMIB_chiplet_* 目录）
+        if placement_dir:
+            json_dir = os.path.normpath(placement_dir)
+        else:
+            # 兼容旧用法：默认从 output_gurobi_EMIB_chiplet_5_6_01_0/placement 读取 JSON
+            root_dir = os.path.normpath(os.path.join(script_dir, "..", ".."))
+            json_dir = os.path.join(root_dir, "output_gurobi_EMIB_chiplet_5_6_01_0", "placement")
+        # bt_tree / RL 的解文件名（solution_..._cost_...）与配置名不同，
+        # 批处理时通过 layout_json 直接指定实际使用的布局文件。
+        json_path = (os.path.normpath(layout_json) if layout_json
+                     else os.path.join(json_dir, f"{json_basename}.json"))
+        if not os.path.exists(json_path):
+            print(f"[警告] 未找到 placement JSON：{json_path}，跳过 EMIB 绘制")
+            return []
+        with open(json_path, "r", encoding="utf-8") as f:
+            placement_data = json.load(f)
+
+        # 用 gen_flp_trace 的逻辑重新算一遍 Chiplet 平移，以获得与 FLP 一致的平移量
+        try:
+            orig_chiplets = load_json_layout(json_path)  # 原始 JSON 布局（mm）
+            shifted_chiplets, layout_side = build_layout(orig_chiplets)  # 平移 + 居中后的布局（mm）
+            # gen_flp_trace 还会把整个布局平移到该 case 最大 interposer 方块的中心，
+            # 硅桥必须叠加同一段偏移，否则会整体偏离芯片。
+            case_key = resolve_case_key(json_basename, json_path)
+            package_side = max(
+                package_layer_side_mm(case_key, layout_side), layout_side)
+            center_offset = round_to_grid_mm((package_side - layout_side) / 2.0)
+            # 计算全局平移量（理论上每个芯粒的 shift_x / shift_y 都相同，这里取平均更鲁棒）
+            dx_list = []
+            dy_list = []
+            orig_by_name = {c["name"]: c for c in orig_chiplets}
+            shifted_by_name = {c["name"]: c for c in shifted_chiplets}
+            for name, oc in orig_by_name.items():
+                sc = shifted_by_name.get(name)
+                if not sc:
+                    continue
+                dx_list.append(sc["x"] - oc["x"])
+                dy_list.append(sc["y"] - oc["y"])
+            shift_x = sum(dx_list) / len(dx_list) if dx_list else 0.0
+            shift_y = sum(dy_list) / len(dy_list) if dy_list else 0.0
+            shift_x += center_offset
+            shift_y += center_offset
+        except Exception as e:
+            print(f"[警告] 计算 Chiplet 平移量失败，硅桥不做平移: {e}")
+            shift_x = shift_y = 0.0
+
+        # 芯粒矩形（mm），用于判断每座硅桥该横放还是竖放
+        chip_rects = {n: (cx, cy, cw, ch) for n, cw, ch, cx, cy in chiplets}
+        connections = placement_data.get("connections", [])
+        if not connections:
+            # RL 布局文件只有芯粒坐标，没有 connections；按 benchmark
+            # 的 EMIB 规格在共享边上补出硅桥矩形。
+            connections = _benchmark_emib_connections(json_path, chip_rects)
+
+        rects = []
+        for conn in connections:
+            emib_type = conn.get("EMIBType")
+            if emib_type == "interfaceC":
+                continue
+            if emib_type not in ("interfaceA", "interfaceB", None):
+                continue
+            if conn.get("synthetic"):
+                rect_x, rect_y = conn["x"], conn["y"]
+                rect_w, rect_h = conn["w"], conn["h"]
+            else:
+                x = conn.get("EMIB-x-position", 0.0)
+                y = conn.get("EMIB-y-position", 0.0)
+                w = conn.get("EMIB_width", 0.0)
+                h = conn.get("EMIB_length", 0.0)
+                # JSON 里的 EMIB 坐标和尺寸已经是 mm，这里叠加与 Chiplet 相同的平移量，保证相对位置一致
+                x_mm, y_mm = float(x) + shift_x, float(y) + shift_y
+                w_mm, h_mm = float(w), float(h)
+                if w_mm <= 0.0 or h_mm <= 0.0:
+                    continue
+                # 硅桥方向由两侧芯粒的共享边决定（结果文件里两种导出约定
+                # 混用：ILP 的 x/y 已含旋转，RL 的 x/y 未含旋转）。
+                rect_x, rect_y, rect_w, rect_h = _emib_rect(
+                    x_mm, y_mm, w_mm, h_mm,
+                    conn.get("node1"), conn.get("node2"), chip_rects,
+                    conn.get("EMIB_bump_width"))
+            rects.append((rect_x, rect_y, rect_w, rect_h))
+        return rects
+    except Exception as e:
+        print(f"[警告] 解析/绘制 EMIB 硅桥失败：{e}")
+        return []
+
+
+# 标签之间至少留出的空隙（mm），避免两行文字在视觉上连成一片。
+LABEL_GAP = 0.25
+
+
+def _rect_overlap_area(a, b):
+    dx = min(a[2], b[2]) - max(a[0], b[0])
+    dy = min(a[3], b[3]) - max(a[1], b[1])
+    return dx * dy if dx > 0.0 and dy > 0.0 else 0.0
+
+
+def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
+                       fontsize=14, pad=0.12):
+    """Place each chip's name inside its rectangle, power centred below it.
+
+    The name and the power are two separate texts so the name can stay inside
+    the chip while the power line (directly below the name, on the same
+    vertical axis) is allowed to hang past the chip border when the chip is
+    shallower than the two lines together.
+
+    For every chip the name slides over a 9x5 grid of anchors crossed with the
+    nine alignments (top-left first) and the placement with the least overlap
+    against other labels, the EMIB bridges and the chip border wins: the name
+    prefers staying inside its own chip, while neither text may really
+    overlap another label or a bridge.  Font size stays fixed and the power
+    line never moves away from the name's centre axis.
+    """
+    label_items = []
+    for name, w, h, x, y in chiplets:
+        power = power_dict.get(name, 0.0)
+        name_txt = ax.text(
+            x + w / 2.0,
+            y + h / 2.0,
+            name,
+            ha="center",
+            va="center",
+            fontsize=fontsize,
+            fontweight="bold",
+            color="white",
+            zorder=20,
+            path_effects=[withStroke(linewidth=2, foreground="black")],
+        )
+        power_txt = None
+        if power > 0:
+            power_txt = ax.text(
+                x + w / 2.0,
+                y + h / 2.0,
+                f"{power:.2f}W",
+                ha="center",
+                va="top",
+                fontsize=fontsize,
+                fontweight="bold",
+                color="white",
+                zorder=20,
+                path_effects=[withStroke(linewidth=2, foreground="black")],
+            )
+        label_items.append((name_txt, power_txt, (x, y, w, h)))
+
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+
+    def measure(txt):
+        bb = txt.get_window_extent(renderer=renderer)
+        (x0, y0) = ax.transData.inverted().transform((bb.x0, bb.y0))
+        (x1, y1) = ax.transData.inverted().transform((bb.x1, bb.y1))
+        return abs(x1 - x0), abs(y1 - y0)
+
+    sizes = []
+    for name_txt, power_txt, _ in label_items:
+        sizes.append((measure(name_txt),
+                      measure(power_txt) if power_txt is not None else None))
+
+    POWER_GAP = 0.06
+    # 描边（path_effects linewidth=2）不在文本 bbox 内：2pt 约合 0.15mm，
+    # 每侧半个描边约 0.08mm，按这个余量外扩保证可见轮廓也在芯粒上。
+    NAME_STROKE = 0.08
+
+    def candidates(x, y, w, h, tw, th, tpw, tph):
+        """(name anchor, ha, va, name bbox, power bbox) candidates.
+
+        The name may slide anywhere over the chip: a 9x5 grid of anchors
+        (left..right x top..bottom) crossed with the nine alignments, top-left
+        first.  The power text is always centred under the name with a small
+        gap, so it moves together with it.
+        """
+
+        def make(ax, ay, ha, va):
+            if ha == "left":
+                x0, x1 = ax, ax + tw
+            elif ha == "right":
+                x0, x1 = ax - tw, ax
+            else:
+                x0, x1 = ax - tw / 2.0, ax + tw / 2.0
+            if va == "top":
+                y0, y1 = ay - th, ay
+            elif va == "bottom":
+                y0, y1 = ay, ay + th
+            else:
+                y0, y1 = ay - th / 2.0, ay + th / 2.0
+            name_bb = (x0, y0, x1, y1)
+            power_bb = None
+            if tpw is not None:
+                cx = (x0 + x1) / 2.0
+                py1 = y0 - POWER_GAP
+                power_bb = (cx - tpw / 2.0, py1 - tph, cx + tpw / 2.0, py1)
+            return ((ax, ay), ha, va, name_bb, power_bb)
+
+        aligns = [("left", "top"), ("right", "top"), ("center", "top"),
+                  ("left", "center"), ("right", "center"), ("center", "center"),
+                  ("left", "bottom"), ("right", "bottom"), ("center", "bottom")]
+        # 锚点至少要内缩一个描边余量，否则最靠边的候选也会让可见轮廓
+        # 越出芯粒（窄条芯粒上这一点点就足以把名字挤出边界）。
+        inset = max(pad, NAME_STROKE)
+        xs = [x + inset + (w - 2.0 * inset) * i / 8.0 for i in range(9)]
+        ys = [y + h - inset - (h - 2.0 * inset) * j / 4.0 for j in range(5)]
+        out = []
+        for ha, va in aligns:
+            for ay in ys:
+                for ax in xs:
+                    out.append(make(ax, ay, ha, va))
+        return out
+
+    placed = []
+    (ax_x0, ax_x1), (ax_y0, ax_y1) = ax.get_xlim(), ax.get_ylim()
+    ax_rect = (ax_x0, ax_y0, ax_x1, ax_y1)
+    for (name_txt, power_txt, (x, y, w, h)), (nsize, psize) in zip(label_items, sizes):
+        chip_rect = (x, y, x + w, y + h)
+        other_chips = [(ox, oy, ox + ow, oy + oh)
+                       for _, ow, oh, ox, oy in chiplets
+                       if (ox, oy, ow, oh) != (x, y, w, h)]
+        ntw, nth = nsize
+        if psize is not None:
+            tpw, tph = psize
+        else:
+            tpw = tph = None
+        best = None
+        for index, (pos, ha, va, nbb, pbb) in enumerate(
+                candidates(x, y, w, h, ntw, nth, tpw, tph)):
+            boxes = [nbb] + ([pbb] if pbb is not None else [])
+            # 真实重叠是硬约束：宁可把标签挤出去，也不能压到别的标签或
+            # 硅桥。留 0.25mm 空隙的那一档是软约束，权重低一档。
+            real_label = sum(_rect_overlap_area(b, p)
+                             for b in boxes for p in placed)
+            real_bridge = sum(_rect_overlap_area(b, r)
+                              for b in boxes for r in bridge_rects)
+            label_gap = sum(_rect_overlap_area(_inflate(b, LABEL_GAP), p)
+                            for b in boxes for p in placed)
+            bridge_gap = sum(_rect_overlap_area(_inflate(b, LABEL_GAP), r)
+                             for b in boxes for r in bridge_rects)
+            # 芯粒名必须落在芯粒上：按描边后的可见范围（文字框外扩
+            # STROKE）判断，权重高于一切，名字宁可不避让也要留在芯粒内。
+            # 功耗行跟随名称，允许垂到芯粒外。
+            name_vis = _inflate(nbb, NAME_STROKE)
+            name_out = _area(name_vis) - _rect_overlap_area(name_vis, chip_rect)
+            power_out = (0.0 if pbb is None else
+                         _area(pbb) - _rect_overlap_area(pbb, chip_rect))
+            chip_overlap = sum(_rect_overlap_area(b, c)
+                               for b in boxes for c in other_chips)
+            outside_canvas = sum(_area(b) - _rect_overlap_area(b, ax_rect)
+                                 for b in boxes)
+            penalty = (1e8 * name_out + 1e7 * real_label + 1e6 * real_bridge
+                       + 2000.0 * label_gap + 1000.0 * bridge_gap
+                       + 10.0 * power_out + 100.0 * chip_overlap
+                       + 50.0 * outside_canvas + 1e-6 * index)
+            if best is None or penalty < best[0]:
+                best = (penalty, pos, ha, va, nbb, pbb)
+            if penalty < 1e-9:
+                break
+        _, pos, ha, va, nbb, pbb = best
+        name_txt.set_position(pos)
+        name_txt.set_ha(ha)
+        name_txt.set_va(va)
+        boxes = [nbb]
+        if power_txt is not None and pbb is not None:
+            cx = (nbb[0] + nbb[2]) / 2.0
+            power_txt.set_position((cx, nbb[1] - POWER_GAP))
+            power_txt.set_ha("center")
+            power_txt.set_va("top")
+            boxes.append(pbb)
+        real_label_overlap = sum(_rect_overlap_area(b, p)
+                                 for b in boxes for p in placed)
+        real_bridge_overlap = sum(_rect_overlap_area(b, r)
+                                  for b in boxes for r in bridge_rects)
+        name_vis = _inflate(nbb, NAME_STROKE)
+        name_vis_out = _area(name_vis) - _rect_overlap_area(name_vis, chip_rect)
+        placed.extend(boxes)
+        if name_vis_out > 1e-6:
+            print(f"[警告] 标签 {name_txt.get_text()} 的名称未完全落在芯粒上"
+                  f"（越界 {name_vis_out:.3f} mm²）")
+        if real_label_overlap > 1e-6 or real_bridge_overlap > 1e-6:
+            parts = []
+            if real_label_overlap > 1e-6:
+                parts.append("其他标签")
+            if real_bridge_overlap > 1e-6:
+                parts.append("EMIB 硅桥")
+            print(f"[警告] 标签 {name_txt.get_text()} 仍与"
+                  f"{'、'.join(parts)}重叠 "
+                  f"{real_label_overlap + real_bridge_overlap:.3f} mm²")
+
+
+def _area(bb):
+    return max(0.0, bb[2] - bb[0]) * max(0.0, bb[3] - bb[1])
+
+
+def _inflate(bb, margin):
+    return (bb[0] - margin, bb[1] - margin, bb[2] + margin, bb[3] + margin)
+
+
 def plot_grid_layer2_thermal_map(
     flp_file,
     grid_steady_file,
@@ -252,6 +604,7 @@ def plot_grid_layer2_thermal_map(
     json_basename=None,
     placement_dir=None,
     layer_num=2,
+    layout_json=None,
 ):
     """
     读取 .grid.steady 中 Layer 2 的数据，绘制网格热图，并叠加 chiplet 框、名称和功耗。
@@ -385,154 +738,29 @@ def plot_grid_layer2_thermal_map(
             size_parts.append(f"Heat sink: {sink_mm:.2f} mm")
         size_caption = "   |   ".join(size_parts)
 
-    # 只绘制芯粒：TIM（T*）块的轮廓与标签不再显示。名称和功耗保持 14 pt
-    # 横向两行、居中于本芯粒；zorder=20 保证标签压在热图和 EMIB 硅桥之上。
-    # 窄芯粒的横向文字会略微越界，这里再在本芯粒内做纵向微调，避免相邻
-    # 芯粒的标签互相压字（文字本身不缩小、不旋转）。
-    label_items = []
+    # 只绘制芯粒：TIM（T*）块的轮廓与标签不再显示。硅桥先算出来，名称/功耗
+    # 标签再避开它们摆放（优先芯粒左上角，其次右上角，最后才回落到中心）。
+    bridge_rects = _plot_bridge_rects(chiplets, json_basename,
+                                     layout_json, placement_dir)
     for name, w, h, x, y in chiplets:
         rect = patches.Rectangle((x, y), w, h, linewidth=1.5, edgecolor="black",
                                  facecolor="none", zorder=6)
         ax.add_patch(rect)
-        cx, cy = x + w / 2, y + h / 2
-        # 名称和功耗统一在芯粒中心，使用两行文本，保证完全居中
-        power = power_dict.get(name, 0.0)
-        power_text = f"{power:.2f}W" if power > 0 else ""
-        if power_text:
-            label = f"{name}\n{power_text}"
-        else:
-            label = name
-        txt = ax.text(
-            cx,
-            cy,
-            label,
-            ha="center",
-            va="center",
-            fontsize=14,
-            fontweight="bold",
-            color="white",
-            linespacing=1.2,
-            zorder=20,
-            path_effects=[withStroke(linewidth=2, foreground="black")],
-        )
-        label_items.append((txt, (x, y, w, h)))
+    _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects)
 
-    fig.canvas.draw()
-    renderer = fig.canvas.get_renderer()
-
-    def _bbox_data(txt):
-        bb = txt.get_window_extent(renderer=renderer)
-        (x0, y0) = ax.transData.inverted().transform((bb.x0, bb.y0))
-        (x1, y1) = ax.transData.inverted().transform((bb.x1, bb.y1))
-        return x0, y0, x1, y1
-
-    def _overlaps(a, b, pad=0.02):
-        return not (a[0] >= b[2] - pad or a[2] <= b[0] + pad or
-                    a[1] >= b[3] - pad or a[3] <= b[1] + pad)
-
-    placed = []
-    for txt, (x, y, w, h) in label_items:
-        cx, cy = x + w / 2.0, y + h / 2.0
-        bb = _bbox_data(txt)
-        label_h = bb[3] - bb[1]
-        chosen = 0.0
-        for k in (0, 1, -1, 2, -2, 3, -3):
-            dy = k * (label_h + 0.15)
-            if bb[1] + dy < y + 0.02 or bb[3] + dy > y + h - 0.02:
-                continue
-            cand = (bb[0], bb[1] + dy, bb[2], bb[3] + dy)
-            if not any(_overlaps(cand, p) for p in placed):
-                chosen = dy
-                break
-        if chosen:
-            txt.set_position((cx, cy + chosen))
-            bb = _bbox_data(txt)
-        placed.append(bb)
-
-    # 叠加 EMIB 硅桥（只画 EMIBType 为 interfaceA / interfaceB 的，跳过 interfaceC，显示在最上层）
-    if json_basename:
-        try:
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            # 优先使用外部传入的 placement_dir（对应当前处理的 output_gurobi_EMIB_chiplet_* 目录）
-            if placement_dir:
-                json_dir = os.path.normpath(placement_dir)
-            else:
-                # 兼容旧用法：默认从 output_gurobi_EMIB_chiplet_5_6_01_0/placement 读取 JSON
-                root_dir = os.path.normpath(os.path.join(script_dir, "..", ".."))
-                json_dir = os.path.join(root_dir, "output_gurobi_EMIB_chiplet_5_6_01_0", "placement")
-            json_path = os.path.join(json_dir, f"{json_basename}.json")
-            if os.path.exists(json_path):
-                with open(json_path, "r", encoding="utf-8") as f:
-                    placement_data = json.load(f)
-
-                # 用 gen_flp_trace 的逻辑重新算一遍 Chiplet 平移，以获得与 FLP 一致的平移量
-                try:
-                    orig_chiplets = load_json_layout(json_path)  # 原始 JSON 布局（mm）
-                    shifted_chiplets, layout_side = build_layout(orig_chiplets)  # 平移 + 居中后的布局（mm）
-                    # gen_flp_trace 还会把整个布局平移到该 case 最大 interposer 方块的中心，
-                    # 硅桥必须叠加同一段偏移，否则会整体偏离芯片。
-                    package_side = max(
-                        package_layer_side_mm(json_basename, layout_side), layout_side)
-                    center_offset = round_to_grid_mm((package_side - layout_side) / 2.0)
-                    # 计算全局平移量（理论上每个芯粒的 shift_x / shift_y 都相同，这里取平均更鲁棒）
-                    dx_list = []
-                    dy_list = []
-                    orig_by_name = {c["name"]: c for c in orig_chiplets}
-                    shifted_by_name = {c["name"]: c for c in shifted_chiplets}
-                    for name, oc in orig_by_name.items():
-                        sc = shifted_by_name.get(name)
-                        if not sc:
-                            continue
-                        dx_list.append(sc["x"] - oc["x"])
-                        dy_list.append(sc["y"] - oc["y"])
-                    shift_x = sum(dx_list) / len(dx_list) if dx_list else 0.0
-                    shift_y = sum(dy_list) / len(dy_list) if dy_list else 0.0
-                    shift_x += center_offset
-                    shift_y += center_offset
-                except Exception as e:
-                    print(f"[警告] 计算 Chiplet 平移量失败，硅桥不做平移: {e}")
-                    shift_x = shift_y = 0.0
-
-                # 芯粒矩形（mm），用于判断每座硅桥该横放还是竖放
-                chip_rects = {n: (cx, cy, cw, ch) for n, cw, ch, cx, cy in chiplets}
-                for conn in placement_data.get("connections", []):
-                    emib_type = conn.get("EMIBType")
-                    if emib_type == "interfaceC":
-                        continue
-                    if emib_type not in ("interfaceA", "interfaceB", None):
-                        continue
-                    x = conn.get("EMIB-x-position", 0.0)
-                    y = conn.get("EMIB-y-position", 0.0)
-                    w = conn.get("EMIB_width", 0.0)
-                    h = conn.get("EMIB_length", 0.0)
-                    # JSON 里的 EMIB 坐标和尺寸已经是 mm，这里叠加与 Chiplet 相同的平移量，保证相对位置一致
-                    x_mm, y_mm = float(x) + shift_x, float(y) + shift_y
-                    w_mm, h_mm = float(w), float(h)
-                    if w_mm <= 0.0 or h_mm <= 0.0:
-                        continue
-                    # 硅桥方向由两侧芯粒的共享边决定（结果文件里两种导出约定
-                    # 混用：ILP 的 x/y 已含旋转，RL 的 x/y 未含旋转）。
-                    rect_x, rect_y, rect_w, rect_h = _emib_rect(
-                        x_mm, y_mm, w_mm, h_mm,
-                        conn.get("node1"), conn.get("node2"), chip_rects,
-                        conn.get("EMIB_bump_width"))
-                    # 硅桥恢复浅肉色 RGB(251,229,214)；芯粒轮廓 zorder=6 在其上
-                    emib_color = (251 / 255.0, 229 / 255.0, 214 / 255.0)
-                    rect = patches.Rectangle(
-                        (rect_x, rect_y),
-                        rect_w,
-                        rect_h,
-                        linewidth=1.0,
-                        edgecolor="black",
-                        facecolor=emib_color,
-                        alpha=0.95,
-                        zorder=5,  # 硅桥放在最上层
-                    )
-                    ax.add_patch(rect)
-            else:
-                print(f"[警告] 未找到 placement JSON：{json_path}，跳过 EMIB 绘制")
-        except Exception as e:
-            print(f"[警告] 解析/绘制 EMIB 硅桥失败：{e}")
+    # 叠加 EMIB 硅桥（只画 EMIBType 为 interfaceA / interfaceB 的，跳过 interfaceC）
+    emib_color = (251 / 255.0, 229 / 255.0, 214 / 255.0)
+    for rect_x, rect_y, rect_w, rect_h in bridge_rects:
+        ax.add_patch(patches.Rectangle(
+            (rect_x, rect_y),
+            rect_w,
+            rect_h,
+            linewidth=1.0,
+            edgecolor="black",
+            facecolor=emib_color,
+            alpha=0.95,
+            zorder=5,
+        ))
 
     out_dir = os.path.dirname(output_image)
     if out_dir:
@@ -651,12 +879,28 @@ if __name__ == "__main__":
         required=False,
         help='对应 JSON 布局所在的 placement 目录，如 output_gurobi_EMIB_chiplet_x_x_x_x/placement',
     )
+    parser.add_argument(
+        '--layout_json',
+        type=str,
+        required=False,
+        help='实际参与仿真的布局 JSON 路径（文件名与配置名不同时使用；用于 EMIB 叠加）',
+    )
+    parser.add_argument(
+        '--plot-only',
+        action='store_true',
+        help='复用已有的 .grid.steady，只重绘热图（不跑 HotSpot）',
+    )
     args = parser.parse_args()
 
     config_dir = os.path.normpath(os.path.abspath(args.config_dir))
     placement_dir = (
         os.path.normpath(os.path.abspath(args.placement_dir))
         if args.placement_dir
+        else None
+    )
+    layout_json = (
+        os.path.normpath(os.path.abspath(args.layout_json))
+        if args.layout_json
         else None
     )
 
@@ -667,10 +911,18 @@ if __name__ == "__main__":
         exit(1)
     json_basename = dir_basename[:-7]  # 去掉 "_config"
 
-    steady_file, grid_steady_file = run_hotspot_simulation(config_dir, json_basename)
-    if not steady_file:
-        print("【错误】热仿真执行失败，程序退出！")
-        exit(1)
+    if args.plot_only:
+        grid_steady_file = os.path.join(
+            config_dir, "output", f"{json_basename}.grid.steady")
+        if not os.path.exists(grid_steady_file):
+            print(f"【错误】找不到已有的 {grid_steady_file}，无法只重绘")
+            exit(1)
+    else:
+        steady_file, grid_steady_file = run_hotspot_simulation(
+            config_dir, json_basename)
+        if not steady_file:
+            print("【错误】热仿真执行失败，程序退出！")
+            exit(1)
 
     output_dir = os.path.join(config_dir, "output")
     flp_file = os.path.join(config_dir, f"{json_basename}.flp")
@@ -684,4 +936,5 @@ if __name__ == "__main__":
         json_basename=json_basename,
         placement_dir=placement_dir,
         layer_num=2,
+        layout_json=layout_json,
     )

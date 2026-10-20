@@ -31,9 +31,9 @@ try:
 except ImportError:
     matplotlib = None
 try:
-    from .unit import visualize_layout_with_bridges
+    from .unit import visualize_layout_with_bridges, bridge_connection_records
 except ImportError:
-    from unit import visualize_layout_with_bridges
+    from unit import visualize_layout_with_bridges, bridge_connection_records
 import contextlib
 import os
 
@@ -958,7 +958,20 @@ def _train_impl(
                             }
                             for chip_id, chip in layout.items()
                         }
+                        # 同时写出 EMIB 硅桥的位置与旋转，字段与 bt_tree 解一致
+                        # （EMIB_width 跨共享边、EMIB_length 沿共享边、
+                        #  rotation 1=左右相邻、0=上下相邻、x/y 为左下角）。
+                        # 直接导出 env 在放置时用来判桥重叠的矩形，避免另算一套。
                         layout_data = {"chiplets": chiplet_data}
+                        try:
+                            if hasattr(env, "bridge_connection_records"):
+                                connections = env.bridge_connection_records(layout)
+                            else:
+                                connections = bridge_connection_records(
+                                    layout, env.problem)
+                            layout_data["connections"] = connections
+                        except Exception as exc:
+                            print(f"  WARNING: 写 EMIB 连接失败: {exc}")
                         metrics_data = {
                             "episode": episode,
                             "reward": float(reward),
