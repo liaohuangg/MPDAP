@@ -502,8 +502,8 @@ def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
         # 锚点至少要内缩一个描边余量，否则最靠边的候选也会让可见轮廓
         # 越出芯粒（窄条芯粒上这一点点就足以把名字挤出边界）。
         inset = max(pad, NAME_STROKE)
-        xs = [x + inset + (w - 2.0 * inset) * i / 8.0 for i in range(9)]
-        ys = [y + h - inset - (h - 2.0 * inset) * j / 4.0 for j in range(5)]
+        xs = [x + inset + (w - 2.0 * inset) * i / 16.0 for i in range(17)]
+        ys = [y + h - inset - (h - 2.0 * inset) * j / 6.0 for j in range(7)]
         out = []
         for ha, va in aligns:
             for ay in ys:
@@ -511,70 +511,100 @@ def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
                     out.append(make(ax, ay, ha, va))
         return out
 
-    placed = []
+    placed = []          # (owner index, bbox) for every placed name/power box
+    chosen = {}          # owner index -> (pos, ha, va, nbb, pbb)
     (ax_x0, ax_x1), (ax_y0, ax_y1) = ax.get_xlim(), ax.get_ylim()
     ax_rect = (ax_x0, ax_y0, ax_x1, ax_y1)
-    for (name_txt, power_txt, (x, y, w, h)), (nsize, psize) in zip(label_items, sizes):
+    # 先摆最受约束的芯粒（名号几乎顶满芯粒高度的薄芯粒），把它们的
+    # 名字和功耗先钉住，空间宽松的大芯粒再绕开它们摆。
+    order = sorted(
+        range(len(label_items)),
+        key=lambda i: (label_items[i][2][3] - sizes[i][0][1],
+                       label_items[i][2][2] * label_items[i][2][3]),
+    )
+    # 多轮坐标下降：每轮把每个标签拿起来重新摆一次（看到其他所有标签
+    # 的当前位置），前一轮留下的冲突可以在后一轮被别的芯粒让开。
+    for _sweep in range(10):
+        for i in order:
+            name_txt, power_txt, (x, y, w, h) = label_items[i]
+            nsize, psize = sizes[i]
+            chip_rect = (x, y, x + w, y + h)
+            other_chips = [(ox, oy, ox + ow, oy + oh)
+                           for _, ow, oh, ox, oy in chiplets
+                           if (ox, oy, ow, oh) != (x, y, w, h)]
+            ntw, nth = nsize
+            if psize is not None:
+                tpw, tph = psize
+            else:
+                tpw = tph = None
+            occupied = [b for owner, b in placed if owner != i]
+            best = None
+            for index, (pos, ha, va, nbb, pbb) in enumerate(
+                    candidates(x, y, w, h, ntw, nth, tpw, tph)):
+                boxes = [nbb] + ([pbb] if pbb is not None else [])
+                # 真实重叠是硬约束：宁可把标签挤出去，也不能压到别的标签或
+                # 硅桥。留 0.25mm 空隙的那一档是软约束，权重低一档。
+                real_label = sum(_rect_overlap_area(b, p)
+                                 for b in boxes for p in occupied)
+                real_bridge = sum(_rect_overlap_area(b, r)
+                                  for b in boxes for r in bridge_rects)
+                label_gap = sum(_rect_overlap_area(_inflate(b, LABEL_GAP), p)
+                                for b in boxes for p in occupied)
+                bridge_gap = sum(_rect_overlap_area(_inflate(b, LABEL_GAP), r)
+                                 for b in boxes for r in bridge_rects)
+                # 芯粒名必须落在芯粒上：按描边后的可见范围（文字框外扩
+                # STROKE）判断，权重高于一切，名字宁可不避让也要留在芯粒内。
+                # 功耗行跟随名称，允许垂到芯粒外。
+                name_vis = _inflate(nbb, NAME_STROKE)
+                name_out = _area(name_vis) - _rect_overlap_area(name_vis, chip_rect)
+                power_out = (0.0 if pbb is None else
+                             _area(pbb) - _rect_overlap_area(pbb, chip_rect))
+                chip_overlap = sum(_rect_overlap_area(b, c)
+                                   for b in boxes for c in other_chips)
+                outside_canvas = sum(_area(b) - _rect_overlap_area(b, ax_rect)
+                                     for b in boxes)
+                penalty = (1e8 * name_out + 1e7 * real_label + 1e6 * real_bridge
+                           + 2000.0 * label_gap + 1000.0 * bridge_gap
+                           + 10.0 * power_out + 100.0 * chip_overlap
+                           + 50.0 * outside_canvas + 1e-6 * index)
+                if best is None or penalty < best[0]:
+                    best = (penalty, pos, ha, va, nbb, pbb)
+                if penalty < 1e-9:
+                    break
+            _, pos, ha, va, nbb, pbb = best
+            name_txt.set_position(pos)
+            name_txt.set_ha(ha)
+            name_txt.set_va(va)
+            if power_txt is not None and pbb is not None:
+                cx = (nbb[0] + nbb[2]) / 2.0
+                power_txt.set_position((cx, nbb[1] - POWER_GAP))
+                power_txt.set_ha("center")
+                power_txt.set_va("top")
+            chosen[i] = (nbb, pbb)
+            placed = [(owner, b) for owner, b in placed if owner != i]
+            placed.append((i, nbb))
+            if pbb is not None:
+                placed.append((i, pbb))
+
+    # 最终冲突检查（此时所有标签都已经过四轮互相避让）
+    if os.environ.get("LABEL_DEBUG"):
+        for i, (nbb, pbb) in chosen.items():
+            nm = label_items[i][0].get_text()
+            rect = label_items[i][2]
+            print(f"    DUMP {nm:3s} chip={tuple(round(v, 2) for v in rect)} "
+                  f"name={tuple(round(v, 2) for v in nbb)} "
+                  f"power={None if pbb is None else tuple(round(v, 2) for v in pbb)}")
+    for i, (nbb, pbb) in chosen.items():
+        name_txt, power_txt, (x, y, w, h) = label_items[i]
         chip_rect = (x, y, x + w, y + h)
-        other_chips = [(ox, oy, ox + ow, oy + oh)
-                       for _, ow, oh, ox, oy in chiplets
-                       if (ox, oy, ow, oh) != (x, y, w, h)]
-        ntw, nth = nsize
-        if psize is not None:
-            tpw, tph = psize
-        else:
-            tpw = tph = None
-        best = None
-        for index, (pos, ha, va, nbb, pbb) in enumerate(
-                candidates(x, y, w, h, ntw, nth, tpw, tph)):
-            boxes = [nbb] + ([pbb] if pbb is not None else [])
-            # 真实重叠是硬约束：宁可把标签挤出去，也不能压到别的标签或
-            # 硅桥。留 0.25mm 空隙的那一档是软约束，权重低一档。
-            real_label = sum(_rect_overlap_area(b, p)
-                             for b in boxes for p in placed)
-            real_bridge = sum(_rect_overlap_area(b, r)
-                              for b in boxes for r in bridge_rects)
-            label_gap = sum(_rect_overlap_area(_inflate(b, LABEL_GAP), p)
-                            for b in boxes for p in placed)
-            bridge_gap = sum(_rect_overlap_area(_inflate(b, LABEL_GAP), r)
-                             for b in boxes for r in bridge_rects)
-            # 芯粒名必须落在芯粒上：按描边后的可见范围（文字框外扩
-            # STROKE）判断，权重高于一切，名字宁可不避让也要留在芯粒内。
-            # 功耗行跟随名称，允许垂到芯粒外。
-            name_vis = _inflate(nbb, NAME_STROKE)
-            name_out = _area(name_vis) - _rect_overlap_area(name_vis, chip_rect)
-            power_out = (0.0 if pbb is None else
-                         _area(pbb) - _rect_overlap_area(pbb, chip_rect))
-            chip_overlap = sum(_rect_overlap_area(b, c)
-                               for b in boxes for c in other_chips)
-            outside_canvas = sum(_area(b) - _rect_overlap_area(b, ax_rect)
-                                 for b in boxes)
-            penalty = (1e8 * name_out + 1e7 * real_label + 1e6 * real_bridge
-                       + 2000.0 * label_gap + 1000.0 * bridge_gap
-                       + 10.0 * power_out + 100.0 * chip_overlap
-                       + 50.0 * outside_canvas + 1e-6 * index)
-            if best is None or penalty < best[0]:
-                best = (penalty, pos, ha, va, nbb, pbb)
-            if penalty < 1e-9:
-                break
-        _, pos, ha, va, nbb, pbb = best
-        name_txt.set_position(pos)
-        name_txt.set_ha(ha)
-        name_txt.set_va(va)
-        boxes = [nbb]
-        if power_txt is not None and pbb is not None:
-            cx = (nbb[0] + nbb[2]) / 2.0
-            power_txt.set_position((cx, nbb[1] - POWER_GAP))
-            power_txt.set_ha("center")
-            power_txt.set_va("top")
-            boxes.append(pbb)
+        boxes = [nbb] + ([pbb] if pbb is not None else [])
+        occupied = [b for owner, b in placed if owner != i]
         real_label_overlap = sum(_rect_overlap_area(b, p)
-                                 for b in boxes for p in placed)
+                                 for b in boxes for p in occupied)
         real_bridge_overlap = sum(_rect_overlap_area(b, r)
                                   for b in boxes for r in bridge_rects)
         name_vis = _inflate(nbb, NAME_STROKE)
         name_vis_out = _area(name_vis) - _rect_overlap_area(name_vis, chip_rect)
-        placed.extend(boxes)
         if name_vis_out > 1e-6:
             print(f"[警告] 标签 {name_txt.get_text()} 的名称未完全落在芯粒上"
                   f"（越界 {name_vis_out:.3f} mm²）")
@@ -587,6 +617,18 @@ def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
             print(f"[警告] 标签 {name_txt.get_text()} 仍与"
                   f"{'、'.join(parts)}重叠 "
                   f"{real_label_overlap + real_bridge_overlap:.3f} mm²")
+            if os.environ.get("LABEL_DEBUG"):
+                for owner, b in placed:
+                    if owner == i:
+                        continue
+                    for my in boxes:
+                        a = _rect_overlap_area(my, b)
+                        if a > 1e-9:
+                            oc = chiplets[owner]
+                            print(f"    DEBUG {name_txt.get_text()} box={tuple(round(v,2) for v in my)}"
+                                  f" x {oc[0]} box={tuple(round(v,2) for v in b)}"
+                                  f" = {a:.3f}")
+                print(f"    DEBUG chip={tuple(round(v,2) for v in chip_rect)}")
 
 
 def _area(bb):
