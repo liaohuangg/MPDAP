@@ -7,6 +7,8 @@ relations are created using layout similarity.
 """
 
 import copy
+import math
+import random
 from typing import Dict, List, Tuple, Optional, Set
 from TCG import TCG
 from chiplet_model import Chiplet, LayoutProblem, EPSILON
@@ -360,57 +362,69 @@ def compute_neighbor_cost(base_layout: Dict[str, Chiplet],
 def SA_neighbor_generation(base_node: SimilarityTreeNode,
                           problem: LayoutProblem,
                           max_iterations: int = 5000,
-                          initial_temp: float = 50.0,   # kept for API compatibility, unused
-                          cooling_rate: float = 0.95,   # kept for API compatibility, unused
+                          initial_temp: float = 0.2,
+                          cooling_rate: float = 0.95,
                           alpha_x: float = 1.0,
-                          beta_y: float = 1.0,
+                          beta_y: float = 0.7,
                           gamma_s: float = 2.0,
                           expected_similarity: float = 0.8,
                           max_neighbors: int = 10,
                           duplicate_threshold: float = 0.95,
                           exclude_layouts: Optional[List[Dict[str, Chiplet]]] = None,
+                          steer_by_cost: bool = True,
                           verbose: bool = False,
                           stats: Optional[Dict] = None) -> List[Tuple[TCG, Dict[str, Chiplet], float]]:
     """
-                        Sample legal topology variants by random walk.
+        Neighboring Topology Generation (paper §III-C1, Fig. 10(b)).
 
-    Admission rule -- a perturbed TCG is kept if and only if
+        Legal topologies are searched around the base `sigma_i` with
+        legality-optimized SA, steered by
 
-    1. `is_valid()` holds after the perturbation, and
-    2. it is a legal placement (`cost_legal` is zero, legalized first if not), and
-    3. its layout is not a duplicate (similarity > `duplicate_threshold`) of a
-       layout already kept by this call or listed in `exclude_layouts`.
+            C_neighbor = alpha_x * P_x(sigma_i, T_j)
+                       + beta_y  * P_y(sigma_i, T_j)
+                       + gamma_s * P_s(sigma_i, T_j),
 
-    Quality is *not* checked: the old strict-improvement gate
-    (`neighbor_cost < best_cost`) is gone, so every legal, non-duplicate
-    topology enters the candidate pool -- the pool is meant to be a diverse set
-    of legal variants, and ranking them is layer 3's job. The shape/similarity
-    cost (Px/Py/Ps) is still computed and recorded in the returned tuple, but it
-    is a label for reporting only; it never admits or rejects a candidate, and
-    it never steers the walk.
+        the paper's similarity force. `P_x` / `P_y` are the width and height
+        ratios against the base (width is penalized harder: a horizontal
+        contour can compress height later, but nothing can compress width) and
+        `P_s = |SD - S_e| / (1 - S_e)` pulls the walk toward the expected
+        similarity `S_e` so it does not drift into topologies far from the
+        base.
 
-    The walk is therefore a plain random walk over legal topologies: every
-    perturbation that survives the legality gate becomes the new current TCG.
-    That is what makes the early exit reachable -- the loop stops as soon as
-    `max_neighbors` variants are harvested, which the old strict-improvement
-    rule almost never managed (measured: 3 kept per 2000-iteration budget).
+        Each perturbed TCG is kept as a neighbour when
+
+        1. `is_valid()` holds after the perturbation,
+        2. it is a legal placement (`cost_legal` is zero, legalized first if
+           not), and
+        3. its layout is not a duplicate (similarity > `duplicate_threshold`)
+           of a layout already kept by this call or listed in `exclude_layouts`.
+
+        Collection and steering are separate decisions, as in the paper: every
+        legal topology found is inserted into the base group `G_i`, while the
+        Metropolis rule on `C_neighbor` decides which topology the walk
+        continues from. (With `steer_by_cost=False` the walk reverts to a
+        plain random walk that accepts every legal perturbation -- the
+        pre-Cneighbor behaviour, kept for A/B comparison.)
 
     Args:
         base_node: Base (root) node the variants are sampled around
         problem: Layout problem
         max_iterations: Maximum walk iterations (the budget, not a target)
-        initial_temp, cooling_rate: Unused; retained so existing callers keep working
-        alpha_x, beta_y, gamma_s: Shape/similarity weights, for the recorded cost only
-        expected_similarity: Expected similarity S_e, for the recorded cost only
+        initial_temp: Starting temperature of the `C_neighbor` Metropolis rule
+        cooling_rate: Temperature multiplier applied every 100 iterations
+        alpha_x, beta_y, gamma_s: Weights of `C_neighbor` (paper: alpha_x > beta_y)
+        expected_similarity: Expected similarity `S_e`
         max_neighbors: Maximum number of variants to harvest in this call
         duplicate_threshold: Similarity above which a layout counts as a duplicate
         exclude_layouts: Layouts already held elsewhere (e.g. the earlier
             candidates of the same tree, and the root itself); a new layout
             matching any of them is treated as a duplicate too.
+        steer_by_cost: Use `C_neighbor` to steer the walk (paper behaviour).
         verbose: Print detailed logs if True
         stats: Optional dict filled in with what this call did (iterations
             actually run, how many candidates it rejected for being invalid,
-            illegal or duplicate, how many it kept).
+            illegal, bridge-illegal or duplicate, how many moves the
+            Metropolis rule accepted, how many it kept).
 
     Returns:
         Variant list: `[(TCG, Layout, cost), ...]`.
@@ -427,8 +441,16 @@ def SA_neighbor_generation(base_node: SimilarityTreeNode,
     if verbose:
         print(f"\n  Generating neighbors for node #{base_node.node_id}...")
 
+    # The base sigma_i is the fixed reference of the similarity force.
     base_layout = base_node.layout
     current_tcg = copy.deepcopy(base_node.tcg)
+    current_layout = copy.deepcopy(base_layout)
+    current_cost = (compute_neighbor_cost(base_layout, current_layout,
+                                          alpha_x, beta_y, gamma_s,
+                                          expected_similarity)
+                    if steer_by_cost else 0.0)
+    temp = initial_temp
+
     neighbors = []
     # Layouts this call must not repeat: what the caller already holds, plus
     # every variant harvested below (appended as we go).
@@ -442,6 +464,8 @@ def SA_neighbor_generation(base_node: SimilarityTreeNode,
         'duplicates': 0,        # legal, but repeats a layout already held
         'exceptions': 0,
         'neighbors': 0,
+        'accepted': 0,          # Metropolis accepted the C_neighbor move
+        'rejected_uphill': 0,   # Metropolis rejected an uphill move
         'iterations': 0,        # filled in by _publish with the real count
     }
 
@@ -453,6 +477,15 @@ def SA_neighbor_generation(base_node: SimilarityTreeNode,
         call_stats['iterations'] = iterations_run
         if stats is not None:
             stats.update(call_stats)
+
+    def _accept(neighbor_cost: float) -> bool:
+        """Metropolis rule on C_neighbor (paper's similarity force)."""
+        if not steer_by_cost:
+            return True
+        delta = neighbor_cost - current_cost
+        if delta < 0:
+            return True
+        return random.random() < math.exp(-delta / max(temp, 1e-9))
 
     for iteration in range(max_iterations):
         iterations_run += 1
@@ -486,29 +519,35 @@ def SA_neighbor_generation(base_node: SimilarityTreeNode,
                 call_stats['bridge_rejected'] += 1
                 continue
 
-            # Legality is the whole admission test: the legal TCG is always the
-            # next step of the walk (no Metropolis accept/reject, no "must beat
-            # the best so far"), which is what keeps the walk exploring instead
-            # of stalling on one incumbent.
-            current_tcg = copy.deepcopy(neighbor_tcg)
-
-            # Shape/similarity cost: recorded, never compared (see docstring).
+            # C_neighbor against the base: recorded on every legal candidate
+            # and used to steer the walk.
             neighbor_cost = compute_neighbor_cost(base_layout, neighbor_layout,
                                                 alpha_x, beta_y, gamma_s, expected_similarity)
 
-            # Avoid duplicates
+            # Paper §III-C1: every legal topology found during the search is
+            # inserted into the base group, whether or not the walk moves to it.
             is_duplicate = any(compute_similarity(neighbor_layout, ex_layout) > duplicate_threshold
                              for ex_layout in seen_layouts)
 
             if is_duplicate:
                 call_stats['duplicates'] += 1
-                continue
+            else:
+                kept_layout = copy.deepcopy(neighbor_layout)
+                neighbors.append((copy.deepcopy(neighbor_tcg), kept_layout, neighbor_cost))
+                seen_layouts.append(kept_layout)
+                if verbose and len(neighbors) <= 3:
+                    print(f"    Found neighbor #{len(neighbors)}: cost={neighbor_cost:.4f}")
 
-            kept_layout = copy.deepcopy(neighbor_layout)
-            neighbors.append((copy.deepcopy(neighbor_tcg), kept_layout, neighbor_cost))
-            seen_layouts.append(kept_layout)
-            if verbose and len(neighbors) <= 3:
-                print(f"    Found neighbor #{len(neighbors)}: cost={neighbor_cost:.4f}")
+            # Similarity force: the walk follows C_neighbor, independently of
+            # whether this candidate was a duplicate.
+            if _accept(neighbor_cost):
+                current_tcg = copy.deepcopy(neighbor_tcg)
+                current_layout = neighbor_layout
+                current_cost = neighbor_cost
+                call_stats['accepted'] += 1
+            else:
+                call_stats['rejected_uphill'] += 1
+
             if len(neighbors) >= max_neighbors:
                 if verbose:
                     print(f"    Reached {max_neighbors} neighbors, stopping early")
@@ -517,6 +556,10 @@ def SA_neighbor_generation(base_node: SimilarityTreeNode,
         except Exception:
             call_stats['exceptions'] += 1
             continue
+
+        # Cool down: once per 100 iterations, like SA_1.
+        if iteration % 100 == 0:
+            temp *= cooling_rate
 
     if verbose:
         print(f"    Done: found {len(neighbors)} legal neighbors")
@@ -530,22 +573,25 @@ def GroupConstrua_full(root_nodes: List[SimilarityTreeNode],
                       children_per_node: int = 5,
                       max_iterations_sa: int = 5000,
                       alpha_x: float = 1.0,
-                      beta_y: float = 1.0,
+                      beta_y: float = 0.7,
                       gamma_s: float = 2.0,
                       expected_similarity: float = 0.8,
+                      neighbor_temp: float = 0.2,
+                      neighbor_cooling: float = 0.95,
+                      steer_by_cost: bool = True,
                       verbose: bool = True,
                       stats: Optional[Dict] = None) -> List[SimilarityTree]:
     """
      Group Construction: build multiple similarity trees using BFS.
 
-     Strategy:
-     1. Perturb each root with SA to generate candidate topologies. Candidates
-        are admitted on legality + non-duplication only -- they are not ranked
-        by Px/Py/Ps, and the walk keeps moving through every legal topology it
-        reaches, so a tree holds a diverse set of legal variants of its root
-        (see `SA_neighbor_generation`).
+     Strategy (paper §III-C):
+     1. Perturb each root with legality-optimized SA to generate its base group
+        `G_i`. The walk is steered by `C_neighbor` (similarity force: width /
+        height ratios against the base, plus the distance from the expected
+        similarity `S_e`), and every legal, non-duplicate topology it reaches
+        is collected -- see `SA_neighbor_generation`.
      2. Build the tree in BFS order by attaching the top-N most
-         similar unconnected topologies to each current node.
+        similar unconnected topologies to each current node.
 
     Args:
         root_nodes: Root nodes from base derivation
@@ -553,8 +599,12 @@ def GroupConstrua_full(root_nodes: List[SimilarityTreeNode],
         num_topologies_to_generate: Candidate count per tree
         children_per_node: Max children per node
         max_iterations_sa: Max SA iterations per call (a budget, not a target)
-        alpha_x, beta_y, gamma_s: Cost parameters
-        expected_similarity: Expected similarity
+        alpha_x, beta_y, gamma_s: Weights of `C_neighbor`
+        expected_similarity: Expected similarity `S_e`
+        neighbor_temp: Starting temperature of the `C_neighbor` Metropolis rule
+        neighbor_cooling: Cooling multiplier applied every 100 iterations
+        steer_by_cost: Steer the walk with `C_neighbor` (False = plain random
+            walk over legal topologies, for A/B comparison)
         verbose: Print detailed logs if True
         stats: Optional dict filled in with what this layer did (trees built,
             SA calls, candidate topologies, nodes in the forest, and the SA
@@ -591,6 +641,8 @@ def GroupConstrua_full(root_nodes: List[SimilarityTreeNode],
         'sa_bridge_rejected': 0,
         'sa_duplicates': 0,
         'sa_exceptions': 0,
+        'sa_accepted': 0,
+        'sa_rejected_uphill': 0,
     }
 
     for tree_idx, root in enumerate(root_nodes):
@@ -619,17 +671,19 @@ def GroupConstrua_full(root_nodes: List[SimilarityTreeNode],
             neighbors = SA_neighbor_generation(
                 base_node=root, problem=problem,
                 max_iterations=max_iterations_sa,
-                initial_temp=50.0, cooling_rate=0.95,
+                initial_temp=neighbor_temp, cooling_rate=neighbor_cooling,
                 alpha_x=alpha_x, beta_y=beta_y, gamma_s=gamma_s,
                 expected_similarity=expected_similarity,
                 max_neighbors=min(100, num_topologies_to_generate - generated_count),
                 exclude_layouts=seen_layouts,
+                steer_by_cost=steer_by_cost,
                 verbose=False,
                 stats=call_stats
             )
             layer_stats['sa_calls'] += 1
             for key in ('iterations', 'invalid_tcg', 'illegal_rejected',
-                        'bridge_rejected', 'duplicates', 'exceptions'):
+                        'bridge_rejected', 'duplicates', 'exceptions',
+                        'accepted', 'rejected_uphill'):
                 layer_stats[f'sa_{key}'] += call_stats.get(key, 0)
             candidate_topologies.extend(neighbors)
             seen_layouts.extend(layout for _, layout, _ in neighbors)

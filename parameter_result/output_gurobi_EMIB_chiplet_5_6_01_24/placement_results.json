@@ -1,74 +1,74 @@
 [
-    {
-        "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
-        "file": "acend910.json",
-        "wirelength": 25082.08,
-        "area": 1443.46,
-        "aspect_ratio": 1.062,
-        "interposer_size": 39.15,
-        "SAR": 0.062
-    },
-    {
-        "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
-        "file": "cpu-dram.json",
-        "wirelength": 54712.52,
-        "area": 707.72,
-        "aspect_ratio": 1.0,
-        "interposer_size": 26.6,
-        "SAR": 0.0
-    },
-    {
-        "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
-        "file": "hp11_m.json",
-        "wirelength": 101796.63,
-        "area": 1864.12,
-        "aspect_ratio": 1.708,
-        "interposer_size": 56.42,
-        "SAR": 0.708
-    },
-    {
-        "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
-        "file": "hp6_m.json",
-        "wirelength": 10012.13,
-        "area": 666.09,
-        "aspect_ratio": 0.61,
-        "interposer_size": 33.04,
-        "SAR": 0.639
-    },
-    {
-        "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
-        "file": "hp8_m.json",
-        "wirelength": 44151.89,
-        "area": 712.5,
-        "aspect_ratio": 0.451,
-        "interposer_size": 39.76,
-        "SAR": 1.217
-    },
-    {
-        "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
-        "file": "multigpu.json",
-        "wirelength": 108413.45,
-        "area": 19881.0,
-        "aspect_ratio": 1.0,
-        "interposer_size": 141.0,
-        "SAR": 0.0
-    },
-    {
-        "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
-        "file": "syn1.json",
-        "wirelength": 48995.27,
-        "area": 989.93,
-        "aspect_ratio": 1.1,
-        "interposer_size": 33.0,
-        "SAR": 0.1
-    },
-    {
-        "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
-        "file": "syn5.json",
-        "wirelength": 68429.5,
-        "area": 837.0,
-        "aspect_ratio": 1.148,
-        "interposer_size": 31.0,
-        "SAR": 0.148
-    }
+  {
+    "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
+    "file": "acend910.json",
+    "wirelength": 25082.08,
+    "area": 1443.46,
+    "aspect_ratio": 1.062,
+    "interposer_size": 39.15,
+    "SAR": 0.0618
+  },
+  {
+    "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
+    "file": "cpu-dram.json",
+    "wirelength": 54712.52,
+    "area": 707.72,
+    "aspect_ratio": 1.0,
+    "interposer_size": 26.6,
+    "SAR": 0.0
+  },
+  {
+    "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
+    "file": "hp11_m.json",
+    "wirelength": 101796.63,
+    "area": 1864.12,
+    "aspect_ratio": 1.708,
+    "interposer_size": 56.42,
+    "SAR": 0.7076
+  },
+  {
+    "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
+    "file": "hp6_m.json",
+    "wirelength": 10012.13,
+    "area": 666.09,
+    "aspect_ratio": 0.61,
+    "interposer_size": 33.04,
+    "SAR": 0.6389
+  },
+  {
+    "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
+    "file": "hp8_m.json",
+    "wirelength": 44151.89,
+    "area": 712.5,
+    "aspect_ratio": 0.451,
+    "interposer_size": 39.76,
+    "SAR": 1.2187
+  },
+  {
+    "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
+    "file": "multigpu.json",
+    "wirelength": 108413.45,
+    "area": 19881.0,
+    "aspect_ratio": 1.0,
+    "interposer_size": 141.0,
+    "SAR": 0.0
+  },
+  {
+    "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
+    "file": "syn1.json",
+    "wirelength": 48995.27,
+    "area": 989.93,
+    "aspect_ratio": 1.1,
+    "interposer_size": 33.0,
+    "SAR": 0.1001
+  },
+  {
+    "folder": "output_gurobi_EMIB_chiplet_5_6_01_24",
+    "file": "syn5.json",
+    "wirelength": 68429.5,
+    "area": 837.0,
+    "aspect_ratio": 1.148,
+    "interposer_size": 31.0,
+    "SAR": 0.1481
+  }
 ]

@@ -15,7 +15,7 @@ import numpy as np
 from gen_flp_trace import (
     load_json_layout,
     build_layout,
-    package_layer_side_mm,
+    package_square_side_mm,
     resolve_case_key,
     round_to_grid_mm,
 )
@@ -325,11 +325,9 @@ def _plot_bridge_rects(chiplets, json_basename, layout_json, placement_dir):
         try:
             orig_chiplets = load_json_layout(json_path)  # 原始 JSON 布局（mm）
             shifted_chiplets, layout_side = build_layout(orig_chiplets)  # 平移 + 居中后的布局（mm）
-            # gen_flp_trace 还会把整个布局平移到该 case 最大 interposer 方块的中心，
-            # 硅桥必须叠加同一段偏移，否则会整体偏离芯片。
-            case_key = resolve_case_key(json_basename, json_path)
-            package_side = max(
-                package_layer_side_mm(case_key, layout_side), layout_side)
+            # gen_flp_trace 还会把整个布局平移到封装方块（边长 = 布局最长边
+            # 的中心，硅桥必须叠加同一段偏移，否则会整体偏离芯片。
+            package_side = package_square_side_mm(layout_side)
             center_offset = round_to_grid_mm((package_side - layout_side) / 2.0)
             # 计算全局平移量（理论上每个芯粒的 shift_x / shift_y 都相同，这里取平均更鲁棒）
             dx_list = []
@@ -942,7 +940,7 @@ def run_hotspot_simulation(config_dir, json_basename):
         f"-steady_file output/{json_basename}.steady "
         f"-grid_steady_file output/{json_basename}.grid.steady "
         f"-model_type grid "
-        f"-detailed_3D on "
+        f"-detailed_3D off "
         f"-grid_layer_file example.lcf "
         f"-materials_file example.materials"
     )
@@ -988,6 +986,11 @@ if __name__ == "__main__":
         action='store_true',
         help='复用已有的 .grid.steady，只重绘热图（不跑 HotSpot）',
     )
+    parser.add_argument(
+        '--no-plot',
+        action='store_true',
+        help='只跑 HotSpot，不画热图（批处理改由 generate_grid_heatmaps_with_bridge.py 出图）',
+    )
     args = parser.parse_args()
 
     config_dir = os.path.normpath(os.path.abspath(args.config_dir))
@@ -1021,6 +1024,10 @@ if __name__ == "__main__":
         if not steady_file:
             print("【错误】热仿真执行失败，程序退出！")
             exit(1)
+
+    if args.no_plot:
+        print("已指定 --no-plot，跳过热图绘制")
+        exit(0)
 
     output_dir = os.path.join(config_dir, "output")
     flp_file = os.path.join(config_dir, f"{json_basename}.flp")

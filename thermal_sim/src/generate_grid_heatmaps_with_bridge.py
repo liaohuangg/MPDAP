@@ -19,8 +19,7 @@ from generate_grid_heatmaps_no_bridge import (
 from gen_flp_trace import (
     build_layout,
     load_json_layout,
-    package_layer_side_mm,
-    resolve_case_key,
+    package_square_side_mm,
     round_to_grid_mm,
 )
 # 芯粒名称/功耗标签的避让算法与 test_thermal 共用一套，避免两边各写一份。
@@ -94,11 +93,9 @@ def compute_json_to_flp_shift(json_path: str):
     shift_y = sum(dy_list) / len(dy_list) if dy_list else 0.0
 
     # build_layout 只是把布局居中到它自己的外接方框；gen_flp_trace 还会把
-    # 整个布局再平移到该 case 最大 interposer 方块的中心。硅桥必须叠加
-    # 同一段偏移，否则会整体偏到芯片左下方。
-    case_name = os.path.splitext(os.path.basename(json_path))[0]
-    case_key = resolve_case_key(case_name, json_path)
-    package_side = max(package_layer_side_mm(case_key, layout_side), layout_side)
+    # 整个布局再平移到封装方块（边长 = 布局最长边）的中心。硅桥
+    # 必须叠加同一段偏移，否则会整体偏到芯片左下方。
+    package_side = package_square_side_mm(layout_side)
     center_offset = round_to_grid_mm((package_side - layout_side) / 2.0)
     shift_x += center_offset
     shift_y += center_offset
@@ -231,7 +228,14 @@ def plot_heatmap(flp_file, grid_steady_file, output_image, layer_num, placement_
     plt.close(fig)
 
 
-def discover_jobs(input_dir, suffix, placement_dir=None, cases=None):
+def discover_jobs(input_dir, suffix, placement_dir=None, cases=None,
+                  placement_json=None):
+    """(flp, grid.steady, png, placement JSON) for every config under input_dir.
+
+    `placement_json`, when given, is used for every job instead of looking for
+    `<case_name>.json`; bt_tree / RL layouts are named solution_*.json, so
+    their caller has to pass the file explicitly.
+    """
     jobs = []
     for name in sorted(os.listdir(input_dir)):
         config_dir = os.path.join(input_dir, name)
@@ -246,8 +250,13 @@ def discover_jobs(input_dir, suffix, placement_dir=None, cases=None):
         if not os.path.exists(flp_file) or not os.path.exists(grid_steady_file):
             continue
         output_image = os.path.join(output_dir, f"{case_name}{suffix}.png")
-        placement_json = find_placement_json(input_dir, case_name, placement_dir)
-        jobs.append((flp_file, grid_steady_file, output_image, placement_json))
+        if placement_json:
+            job_placement_json = os.path.abspath(placement_json)
+        else:
+            job_placement_json = find_placement_json(
+                input_dir, case_name, placement_dir)
+        jobs.append((flp_file, grid_steady_file, output_image,
+                     job_placement_json))
     return jobs
 
 
@@ -264,6 +273,9 @@ def main():
     parser.add_argument("--suffix", default=DEFAULT_SUFFIX)
     parser.add_argument("--case", action="append", default=None,
                         help="只画指定 case（可重复或逗号分隔），默认画全部")
+    parser.add_argument("--placement_json", default=None,
+                        help="直接指定布局 JSON（bt_tree/RL 的 solution_*.json 用），"
+                             "优先于按 <case>.json 查找")
     args = parser.parse_args()
 
     cases = None
@@ -271,7 +283,8 @@ def main():
         cases = {c.strip() for item in args.case for c in item.split(",") if c.strip()}
 
     input_dir = os.path.abspath(args.input_dir)
-    jobs = discover_jobs(input_dir, args.suffix, args.placement_dir, cases)
+    jobs = discover_jobs(input_dir, args.suffix, args.placement_dir, cases,
+                         args.placement_json)
     if not jobs:
         raise SystemExit(f"No *_config/output/*.grid.steady jobs found under {args.input_dir}")
 

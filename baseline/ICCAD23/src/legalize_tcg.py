@@ -113,7 +113,11 @@ def compute_constrained_longest_path(graph: nx.DiGraph, problem: LayoutProblem,
     for iteration in range(50):
         adjusted = False
         
-        for chip1_id, chip2_id in emib_edges:
+        # `emib_edges` is a set of string tuples; iterating it directly is
+        # PYTHONHASHSEED-dependent. The adjustment below mutates coordinates as
+        # it walks, so the visit order changes the final layout (and therefore
+        # legality) between processes even for a fixed random seed.
+        for chip1_id, chip2_id in sorted(emib_edges):
             chip1 = problem.get_chiplet(chip1_id)
             chip2 = problem.get_chiplet(chip2_id)
             
@@ -164,9 +168,10 @@ def detect_illegal_loop(emib_edges: Set[Tuple[str, str]], layout: Dict[str, Chip
     Returns:
         Whether an illegal loop exists
     """
-    # Build graph from EMIB edges
+    # Build graph from EMIB edges. Sorted so `find_cycle` sees a fixed edge
+    # insertion order (the set itself is hash-order dependent).
     emib_graph = nx.Graph()
-    for chip1_id, chip2_id in emib_edges:
+    for chip1_id, chip2_id in sorted(emib_edges):
         emib_graph.add_edge(chip1_id, chip2_id)
     
     # Check cycles

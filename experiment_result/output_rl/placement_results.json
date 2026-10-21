@@ -7,9 +7,9 @@
     "area": 1666.42,
     "aspect_ratio": 1.213,
     "interposer_size": 45.26,
-    "max_temperature": 69.83,
-    "avg_temperature": 54.37,
-    "SAR": 0.253
+    "max_temperature": 122.3,
+    "avg_temperature": 83.63,
+    "SAR": 0.254
   },
   {
     "folder": "output_rl/cpu-dram",
@@ -19,8 +19,8 @@
     "area": 1005.01,
     "aspect_ratio": 1.248,
     "interposer_size": 36.15,
-    "max_temperature": 101.65,
-    "avg_temperature": 67.64,
+    "max_temperature": 232.82,
+    "avg_temperature": 146.31,
     "SAR": 0.303
   },
   {
@@ -31,9 +31,9 @@
     "area": 644.74,
     "aspect_ratio": 2.261,
     "interposer_size": 43.52,
-    "max_temperature": 81.16,
-    "avg_temperature": 53.14,
-    "SAR": 2.058
+    "max_temperature": 137.3,
+    "avg_temperature": 79.66,
+    "SAR": 2.059
   },
   {
     "folder": "output_rl/multigpu",
@@ -43,8 +43,8 @@
     "area": 1653.31,
     "aspect_ratio": 1.131,
     "interposer_size": 43.0,
-    "max_temperature": 85.81,
-    "avg_temperature": 67.42,
+    "max_temperature": 187.99,
+    "avg_temperature": 131.31,
     "SAR": 0.131
   }
 ]

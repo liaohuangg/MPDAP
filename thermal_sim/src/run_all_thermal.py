@@ -5,11 +5,18 @@ The group list mirrors thermal_sim/thermal_pkg.txt: the experiment layouts
 layout this script
 
     1. runs gen_flp_trace.py into config_sum/<group>/<name>_config,
-    2. runs test_thermal.py in that directory (HotSpot + layer-2 PNG).
+    2. runs test_thermal.py in that directory (HotSpot only, --no-plot),
+    3. draws the layer-2 heatmap with generate_grid_heatmaps_with_bridge.py
+       (EMIB silicon bridges overlaid from the placement JSON).
 
-The package size (TIM / substrate / C4 / heat spreader / heat sink) comes from
-CASE_MAX_INTERPOSER_MM in gen_flp_trace.py, which is kept in sync with
-thermal_pkg.txt.  Jobs run in parallel because HotSpot is single-threaded.
+The package geometry follows HotSpot's default conventions per layout: the
+TIM / substrate / C4-underfill layers are a square whose side is the layout's
+longest edge, the layout is
+centred in it, the heat spreader is 2x that edge and the heat sink 2x the
+spreader.  Ambient (45 C) and the 64x64 grid come from template_config.
+The convective resistance follows the TAP-2.5D rule, recomputed per layout:
+r_convec = 0.1 * 0.06^2 / s_sink^2 (i.e. 1/(h*A_sink) with h fixed).
+Jobs run in parallel because HotSpot is single-threaded.
 
 Usage:
     python3 src/run_all_thermal.py               # all groups
@@ -31,6 +38,8 @@ CONFIG_SUM_DIR = os.path.join(THERMAL_DIR, "config_sum")
 
 GEN = os.path.join(SRC_DIR, "gen_flp_trace.py")
 RUN = os.path.join(SRC_DIR, "test_thermal.py")
+PLOT = os.path.join(SRC_DIR, "generate_grid_heatmaps_with_bridge.py")
+PLOT_SUFFIX = "_layer2_grid_thermal_with_bridge"
 
 # Excluded by thermal_pkg.txt: not engineering-feasible.
 EXCLUDE_FILES = {
@@ -113,6 +122,7 @@ def run_job(job, log_root, plot_only=False):
     log_path = os.path.join(log_root, f"{group}__{name}.log")
 
     os.makedirs(dst, exist_ok=True)
+    os.makedirs(os.path.dirname(log_path), exist_ok=True)
     env = dict(os.environ, MPLBACKEND="Agg")
     with open(log_path, "w", encoding="utf-8") as log:
         if not plot_only:
@@ -122,17 +132,30 @@ def run_job(job, log_root, plot_only=False):
                 cwd=SRC_DIR, env=env, stdout=log, stderr=subprocess.STDOUT)
             if gen.returncode != 0:
                 return job, "gen failed", log_path
-        sim_cmd = [sys.executable, RUN, "--config_dir", dst,
-                   "--placement_dir", placement_dir, "--layout_json", layout_json]
-        if plot_only:
-            sim_cmd.append("--plot-only")
-        sim = subprocess.run(sim_cmd, cwd=SRC_DIR, env=env,
-                             stdout=log, stderr=subprocess.STDOUT)
-        if sim.returncode != 0:
-            return job, "sim failed", log_path
+            # HotSpot only; the map is drawn by generate_grid_heatmaps_with_bridge.py
+            # below (with the EMIB bridges overlaid from the layout JSON).
+            sim = subprocess.run(
+                [sys.executable, RUN, "--config_dir", dst,
+                 "--placement_dir", placement_dir,
+                 "--layout_json", layout_json, "--no-plot"],
+                cwd=SRC_DIR, env=env, stdout=log, stderr=subprocess.STDOUT)
+            if sim.returncode != 0:
+                return job, "sim failed", log_path
+        # The plotter discovers `<case>_config` dirs, so point it at this
+        # group's directory and select the one case; layout_json is passed
+        # explicitly because bt_tree/RL use solution_*.json names.
+        plot = subprocess.run(
+            [sys.executable, PLOT, "--input_dir", os.path.dirname(dst),
+             "--case", name, "--placement_json", layout_json],
+            cwd=SRC_DIR, env=env, stdout=log, stderr=subprocess.STDOUT)
+        if plot.returncode != 0:
+            return job, "plot failed", log_path
     grid = os.path.join(dst, "output", f"{name}.grid.steady")
     if not os.path.exists(grid):
         return job, "no grid.steady", log_path
+    png = os.path.join(dst, "output", f"{name}{PLOT_SUFFIX}.png")
+    if not os.path.exists(png):
+        return job, "no heatmap", log_path
     return job, "ok", log_path
 
 
@@ -142,7 +165,8 @@ def main():
                     help="only run groups whose config_* directory matches these names")
     ap.add_argument("--jobs", type=int, default=8, help="parallel HotSpot runs")
     ap.add_argument("--plot-only", action="store_true",
-                    help="reuse existing .grid.steady files and only redraw the PNGs")
+                    help="reuse existing .grid.steady files and only redraw the "
+                         "with-bridge heatmaps")
     args = ap.parse_args()
 
     jobs = collect_jobs(args.groups)

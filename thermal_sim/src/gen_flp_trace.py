@@ -1,5 +1,4 @@
 import json
-import math
 import os
 import re
 import shutil
@@ -640,8 +639,10 @@ def get_tim_blocks(chiplet_list_mm, square_side_mm):
             'y': round_to_grid_mm(y),
             'w': round_to_grid_mm(w),
             'h': round_to_grid_mm(h),
-            'specific_heat': 2523888.888888889,
-            'thermal_resistivity': 0.014130946773433819
+            # 芯片层里芯粒之间的空隙是 underfill/塑封，不是 C4 铜柱，
+            # 因此用 underfill 的热参数（k = 1.6），而不是 C4 混合材料的 0.01413。
+            'specific_heat': 2.32E+06,
+            'thermal_resistivity': 0.625
         })
 
     
@@ -690,6 +691,7 @@ def _can_merge_v(a, b):
 #   experiment_result/result_process（预览输入目录）
 #   parameter_result/output_gurobi_EMIB_chiplet_5_6_01_24、..._25（整个目录）
 # 数值与 thermal_sim/thermal_pkg.txt 的 [Combined maximum and thermal config] 一致。
+# 仅作记录：热仿真已改为按每个布局自己的最长边取正方形，不再用它统一封装尺寸。
 CASE_MAX_INTERPOSER_MM = {
     "acend910": 55.15,
     "cpu-dram": 43.00,
@@ -700,12 +702,22 @@ CASE_MAX_INTERPOSER_MM = {
     "syn1": 40.00,
     "syn5": 34.00,
 }
-# 规则：heat spreader = heat sink = 该 case 所有方法解的最大 interposer size。
-# 需加 0.2 mm 余量：若封装边长与布局最长边严格相等，芯片边恰好落在 HotSpot
-# 网格单元的边界上，仿真会输出全 -nan 的温度场。
-HEAT_SPREADER_SCALE = 1.0
-HEAT_SINK_SCALE = 1.0
-HEAT_PACKAGE_MARGIN_MM = 0.2
+# 规则（HotSpot 默认约定）：interposer（TIM / Substrate / C4-underfill）取布局外接
+# 正方形，边长 = 布局最长边，布局居中；heat spreader 边长 = 2 × interposer，
+# heat sink 边长 = 2 × spreader。环境温度 45 °C、网格 64 × 64 见 example.config。
+# 不加余量：spreader / sink 都远大于 floorplan，实测边长严格等于最长边也不会
+# 出现 -nan；会让 HotSpot 输出全 -nan 的是 sink/spreader 恰好等于 floorplan。
+HEAT_SPREADER_SCALE = 2.0
+HEAT_SINK_SCALE = 2.0          # 相对 spreader，即 4 × interposer
+# 对流热阻按 TAP-2.5D 的口径逐 case 重算：
+#   r_convec = 1 / (h · A_sink) = 0.1 · 0.06² / s_sink²
+# 0.1 K/W 与 0.06 m 是 HotSpot 模板默认的 (r_convec, s_sink)，两者相乘即 1/h
+# = 0.00036 m²K/W（h ≈ 2778 W/(m²·K)），因此换散热器面积时保持 h 不变。
+# 注意 HotSpot 的 grid 模型会再按 site 面积把它拆到每个网格上
+# （temperature_grid.c: rz += r_convec · s_sink²/(cw·ch)），而网格只铺到
+# interposer 方形，所以等效对流热阻实际是 r_convec · s_sink²/(W·H)；这里
+# 的 1/s_sink² 正好把 s_sink² 抵消掉，与 TAP 产物里的 new_hotspot.config 一致。
+TAP_R_CONVEC_REF_M2K_W = 0.1 * 0.06 * 0.06
 
 
 def get_case_key(json_basename):
@@ -735,39 +747,35 @@ def resolve_case_key(name, source_path=None):
     return key
 
 
-def package_layer_side_mm(json_basename, layout_side_mm):
-    """TIM / Substrate / C4-underfill 层的边长（mm）。
+def package_square_side_mm(layout_side_mm):
+    """TIM / Substrate / C4-underfill 层的正方形边长（mm）。
 
-    已知 case：用该 case 所有方法解中的最大 interposer 尺寸；
-    未知 case：退回布局尺寸（旧行为）。
+    边长 = 该布局自己的最长边（外接正方形），布局居中；不再按 case 取
+    统一的 interposer 尺寸。
     """
-    max_interposer_mm = CASE_MAX_INTERPOSER_MM.get(get_case_key(json_basename))
-    if max_interposer_mm is None:
-        return layout_side_mm
-    return max_interposer_mm
+    return round_to_grid_mm(layout_side_mm)
 
 
-def heat_sink_sizes_m(json_basename, bbox_longest_side=None):
+def heat_sink_sizes_m(package_side_mm):
     """返回 (s_spreader, s_sink)，单位米。
 
-    已知 case：spreader = sink = 该 case 所有方法解的最大 interposer + 0.2 mm。
-    未知 case：退回旧规则（布局最长边向上取整到 1 mm 再加 1 mm）。
+    spreader = HEAT_SPREADER_SCALE × interposer 边长（2×），
+    sink = HEAT_SINK_SCALE × spreader 边长（2× spreader = 4× interposer）。
     """
-    max_interposer_mm = CASE_MAX_INTERPOSER_MM.get(get_case_key(json_basename))
-    if max_interposer_mm is not None:
-        side_mm = max_interposer_mm + HEAT_PACKAGE_MARGIN_MM
-        spreader = HEAT_SPREADER_SCALE * side_mm / 1000.0
-        sink = HEAT_SINK_SCALE * side_mm / 1000.0
-        return spreader, sink
-    if bbox_longest_side is None:
-        return None, None
-    val = math.ceil(bbox_longest_side * 1000) / 1000 + 0.001
-    return val, val
+    side_m = float(package_side_mm) / 1000.0
+    spreader_m = HEAT_SPREADER_SCALE * side_m
+    sink_m = HEAT_SINK_SCALE * spreader_m
+    return spreader_m, sink_m
+
+
+def tap_convection_resistance(sink_m):
+    """TAP-2.5D 口径的对流热阻 r_convec（K/W）= 0.1 · 0.06² / s_sink²。"""
+    return TAP_R_CONVEC_REF_M2K_W / (sink_m * sink_m)
 
 
 def copy_config_templates(template_dir, target_dir, json_basename=None,
-                          bbox_longest_side=None, case_key=None):
-    """Copy config templates and patch -s_sink/-s_spreader and floorplan reference."""
+                          package_side_mm=None, case_key=None):
+    """Copy config templates and patch -s_sink/-s_spreader/-r_convec and floorplan reference."""
     files = ["example.config", "example.lcf", "example.materials"]
     for fname in files:
         src = os.path.join(template_dir, fname)
@@ -777,17 +785,23 @@ def copy_config_templates(template_dir, target_dir, json_basename=None,
             os.chmod(dst, 0o755)
             
     
-    spreader_m, sink_m = heat_sink_sizes_m(case_key or json_basename,
-                                           bbox_longest_side)
+    if package_side_mm is None:
+        spreader_m = sink_m = None
+    else:
+        spreader_m, sink_m = heat_sink_sizes_m(package_side_mm)
     if spreader_m is not None:
         spreader_str = f"{spreader_m:.6f}"
         sink_str = f"{sink_m:.6f}"
+        r_convec = tap_convection_resistance(sink_m)
         config_path = os.path.join(target_dir, "example.config")
         if os.path.exists(config_path):
             with open(config_path, 'r', encoding='utf-8') as f:
                 content = f.read()
             content = re.sub(r"(-s_sink\s+)[\d.e+-]+", rf"\g<1>{sink_str}", content)
             content = re.sub(r"(-s_spreader\s+)[\d.e+-]+", rf"\g<1>{spreader_str}", content)
+            # 正则必须带 \s，否则会把 -r_convec_sec 一起改掉
+            content = re.sub(r"(-r_convec\s+)[\d.e+-]+",
+                             rf"\g<1>{r_convec!r}", content)
             with open(config_path, 'w', encoding='utf-8') as f:
                 f.write(content)
             
@@ -892,12 +906,10 @@ def main(json_path, output_flp_path=None, output_ptrace_path=None,
     
     chiplet_envelope_list_mm, square_side_mm = build_layout(chiplets)
 
-    # 封装层（TIM / Substrate / C4-underfill）统一使用该 case 所有方法解中的
-    # 最大 interposer 尺寸；芯片布局在这个更大的方块内居中。HotSpot 要求
-    # 各层 floorplan 的宽高一致，因此 chip 层的外框同样取该尺寸，芯片内容
-    # 仍按布局大小、居中放置。
-    package_side_mm = max(
-        package_layer_side_mm(case_key, square_side_mm), square_side_mm)
+    # 封装层（TIM / Substrate / C4-underfill）取该布局外接正方形：边长 =
+    # 布局最长边，芯片布局居中。HotSpot 要求各层
+    # floorplan 的宽高一致，因此 chip 层的外框同样取该尺寸。
+    package_side_mm = package_square_side_mm(square_side_mm)
     center_offset_mm = round_to_grid_mm((package_side_mm - square_side_mm) / 2.0)
     if center_offset_mm > 0:
         for b in chiplet_envelope_list_mm:
@@ -923,7 +935,7 @@ def main(json_path, output_flp_path=None, output_ptrace_path=None,
     if os.path.isdir(template_dir):
 
         copy_config_templates(template_dir, output_config_dir, json_basename,
-                              package_side_m, case_key=case_key)
+                              package_side_mm, case_key=case_key)
     else:
         print("DEBUG")
 

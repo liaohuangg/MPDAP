@@ -17,7 +17,17 @@ from bridge_legality import make_bridge_checker
 # and a low SA temperature can turn dozens of legal layouts into dozens of
 # distinct roots; beyond this count the extra trees mostly repeat topologies
 # the group-construction step already covers, at a full tree-build cost each.
-MAX_ROOT_NODES = 30
+MAX_ROOT_NODES = 10
+
+# Paper §III-B4 repeats MST-based partitioning "until a sufficient number of
+# bases are obtained"; the number of attempts is not the stopping rule. Since
+# one attempt often yields no base, `num_runs` is treated as a per-base budget:
+# the loop keeps generating initial topologies for up to
+# `num_runs * BASE_DERIVATION_ATTEMPT_FACTOR` attempts, stopping earlier once
+# MAX_ROOT_NODES bases exist. The absolute cap keeps a case whose topologies
+# almost never legalize from running forever.
+BASE_DERIVATION_ATTEMPT_FACTOR = 4
+BASE_DERIVATION_ATTEMPT_CAP = 150
 
 
 def run_base_derivation(problem: LayoutProblem,
@@ -50,10 +60,13 @@ def run_base_derivation(problem: LayoutProblem,
             ~5000x the cost quantum on cpu-dram, so every move was accepted
             and the 5000-iteration budget was a pure random walk.
         seed: Seed for the whole derivation. When given, the global RNG is
-            seeded once here and all `num_runs` runs draw from that one
-            stream, so the derivation is reproducible. When None, the
-            caller's current RNG stream is used as-is (no reseeding), which
-            is what makes an outer seed the single source of randomness.
+            seeded once here and all attempts draw from that one stream, so the
+            derivation is reproducible. When None, the caller's current RNG
+            stream is used as-is (no reseeding), which is what makes an outer
+            seed the single source of randomness.
+        num_runs: Per-base attempt budget, not the stopping rule. The loop runs
+            up to `num_runs * BASE_DERIVATION_ATTEMPT_FACTOR` attempts and stops
+            as soon as MAX_ROOT_NODES bases are obtained (paper §III-B4).
         stats: Optional dict filled in with what this layer did (runs, how
             many of them were already legal, how many SA_1 calls ran and how
             long they took). This is layer 1 of the pipeline -- it only ever
@@ -65,12 +78,17 @@ def run_base_derivation(problem: LayoutProblem,
         n_emib = problem.connection_graph.number_of_edges()
         initial_temp = 0.5 * beta_l / max(1, n_emib)
 
+    # Paper §III-B4: keep partitioning until enough bases exist. `num_runs` is
+    # the per-base budget, and the absolute cap bounds a pathological case.
+    max_attempts = min(num_runs * BASE_DERIVATION_ATTEMPT_FACTOR,
+                       BASE_DERIVATION_ATTEMPT_CAP)
+
     if verbose:
         print("="*80)
         print("Base Derivation - build similarity forest")
         print("="*80)
         print(f"Problem size: {len(problem.chiplets)} chiplets, {problem.connection_graph.number_of_edges()} connections")
-        print(f"Runs: {num_runs}")
+        print(f"Runs: up to {max_attempts} attempts, stopping at {MAX_ROOT_NODES} bases")
         print(f"Similarity threshold: {min_similarity} (save as new root only if below this value)")
         print(f"SA params: max_iter={max_iterations}, T0={initial_temp}, cooling={cooling_rate}")
         print("="*80 + "\n")
@@ -92,12 +110,13 @@ def run_base_derivation(problem: LayoutProblem,
 
     # Counters of this layer, handed back through `stats` at the end.
     layer_stats: Dict = {
-        'runs': num_runs,              # attempts, each starting from a fresh TCG
+        'runs': max_attempts,          # safety bound on attempts (paper: stop at enough bases)
         'already_legal_runs': 0,       # Case 1: no SA needed at all
         'sa_runs': 0,                  # Case 2/3: SA_1 was actually run
         'legal_solutions': 0,          # legal TCGs SA_1 produced (before dedup)
         'bridge_rejected': 0,          # candidates dropped for overlapping bridges
         'sa_seconds': 0.0,             # wall clock inside SA_1
+        'pc_restarts': 0,              # SA_1 walks abandoned by the Pc >= lc rule
         'root_nodes': 0,               # survived the similarity filter
     }
 
@@ -107,15 +126,16 @@ def run_base_derivation(problem: LayoutProblem,
         if stats is not None:
             stats.update(layer_stats)
 
-    for run_idx in range(num_runs):
+    for run_idx in range(max_attempts):
         if len(root_nodes) >= MAX_ROOT_NODES:
             if verbose:
-                print(f"\nRoot node cap ({MAX_ROOT_NODES}) reached, stopping early")
+                print(f"\nRoot node cap ({MAX_ROOT_NODES}) reached after "
+                      f"{run_idx} attempt(s), stopping")
             break
 
         if verbose:
             print(f"\n{'─'*80}")
-            print(f"Run {run_idx + 1}/{num_runs}")
+            print(f"Run {run_idx + 1}/{max_attempts}")
             print(f"{'─'*80}")
 
         # Generate initial TCG (no reseed here: keeps drawing from the stream above)
@@ -169,6 +189,7 @@ def run_base_derivation(problem: LayoutProblem,
 
         layer_stats['sa_runs'] += 1
         start_time = time.time()
+        sa_stats: Dict = {}
         legal_tcgs, legal_layouts, final_cost = SA_1(
             tcg, problem,
             max_iterations=max_iterations,
@@ -177,8 +198,13 @@ def run_base_derivation(problem: LayoutProblem,
             alpha_c=alpha_c,
             beta_l=beta_l,
             use_legalize=True,
-            verbose=False
+            verbose=False,
+            # Paper §III-B5: a topology with Pc >= lc is abandoned and MST-based
+            # partitioning is run again instead of annealing a hopeless region.
+            repartition=lambda: generate_initial_TCG(problem),
+            stats=sa_stats
         )
+        layer_stats['pc_restarts'] += sa_stats.get('pc_restarts', 0)
         elapsed_time = time.time() - start_time
         layer_stats['sa_seconds'] += elapsed_time
 
@@ -272,7 +298,7 @@ def run_base_derivation(problem: LayoutProblem,
         print("\n" + "="*80)
         print("Base Derivation completed")
         print("="*80)
-        print(f"Total runs: {num_runs}")
+        print(f"Total attempts allowed: {max_attempts}")
         print(f"Total legal solutions found: {total_legal_solutions}")
         print(f"Forest root node count: {len(root_nodes)}")
         print(f"Similarity threshold: {min_similarity}")

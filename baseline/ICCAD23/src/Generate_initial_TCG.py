@@ -3,146 +3,364 @@ Initial TCG Generator.
 
 Converts an undirected connection graph into an initial TCG
 (transitive closure graph) and its geometric layout.
-Uses a maximum spanning tree (MST) as the backbone and assigns
-constraints to horizontal/vertical graphs.
+
+Implements the maximum-spanning-tree-based partitioning of Lee & Chang,
+"Floorplanning for Embedded Multi-Die Interconnect Bridge Packages",
+ICCAD'23, §III-B1 (Fig. 7):
+
+  Step 1. Find a maximum spanning tree (MST) in the ECG.
+  Step 2. Choose a random root and direct every tree edge parent -> child.
+  Step 3. Add `ni -> nj` for every ancestor/descendant pair. The graph that
+          holds this closure is the "current topology" (Ch or Cv, chosen at
+          random); every pair still unconstrained is given a random direction
+          in the other graph.
+  Step 4. Alternatively, randomly partition the ECG into two sub-graphs, hold
+          one in Ch and the other in Cv, run the MST-based method on each
+          separately, and separate the two groups with a partition line.
+
+The MST weight is the bridge bandwidth (`wireCount`), so the highest-bandwidth
+bridges become tree edges and therefore reduction edges -- the property the
+paper's Step 3 is there to guarantee (`Di - 1` reduction edges per ECG).
 """
+import heapq
+import itertools
 import json
 import networkx as nx
 import random
-from typing import Dict, Tuple, List, Set
+from typing import Dict, Tuple, List, Set, Optional
 from chiplet_model import Chiplet, LayoutProblem
 from TCG import TCG, generate_layout_from_tcg
 
 
-def generate_initial_TCG(problem: LayoutProblem, seed: int = None) -> TCG:
+# Probability of using the paper's two-sub-graph partition variant (§III-B1,
+# Fig. 7(c)) instead of one MST over the whole ECG. The partition is the main
+# source of structural diversity between bases; the single-MST path remains
+# the fallback (and is the only sensible choice for 2-die ECGs).
+PARTITION_PROB = 0.5
+
+# Below this die count a random partition only splits off one or two dies and
+# adds no structure the single-MST path does not already produce.
+MIN_PARTITION_SIZE = 3
+
+
+def generate_initial_TCG(problem: LayoutProblem, seed: int = None,
+                         use_partition: bool = True) -> TCG:
     """
     Generate an initial TCG candidate from the problem graph.
-    
-    Steps:
-    1. Build MST using edge weights.
-    2. Choose a root and orient MST edges.
-    3. Build `TCG.Ch` from MST transitive closure.
-    4. Build `TCG.Cv` for unconstrained node pairs.
-    
+
+    Steps (paper §III-B1):
+    1. Build a maximum spanning tree, weighted by bridge bandwidth.
+    2. Choose a random root and orient the tree parent -> child.
+    3. Put the ancestor/descendant closure into Ch or Cv (random choice) and
+       the remaining pairs, with random directions, into the other graph.
+    4. With probability `PARTITION_PROB` (and enough dies), use the partition
+       variant instead: two random sub-graphs, one held in Ch and one in Cv,
+       separated by a partition line.
+
     Args:
         problem: Layout problem with chiplets and undirected graph.
         seed: Optional random seed for reproducibility.
-        
+        use_partition: False forces the single-MST variant (used by tests and
+            by callers that want the pre-partition behaviour).
+
     Returns:
-        Generated TCG object.
-        
+        Generated TCG object (one Ch/Cv relation per die pair).
+
     Raises:
         ValueError: If there are no chiplets or graph has no edges.
     """
     if seed is not None:
         random.seed(seed)
-    
+
     # Validate input
     if len(problem.chiplets) == 0:
         raise ValueError("No chiplets found in problem")
-    
+
     if problem.connection_graph.number_of_edges() == 0:
         raise ValueError("Connection graph is empty, cannot build MST")
-    
-    # Step 1: Build maximum spanning tree (MST)
-    # Use negative weights with `minimum_spanning_tree` to get MST.
-    mst = _compute_maximum_spanning_tree(problem.connection_graph)
-    
-    # Step 2: Choose root and orient MST
-    root = random.choice(list(problem.chiplets.keys()))
-    # print(f"\nSelected MST root: {root}")
-    directed_mst_edges = _orient_tree_from_root(mst, root)
-    # print(f"Directed MST edges: {directed_mst_edges}")
-    
-    # Step 3: Create initial TCG
+
     chip_ids = list(problem.chiplets.keys())
     tcg = TCG(chip_ids)
 
-    # Step 4: Build TCG.Ch
-    # print("Building TCG.Ch edges...")
-    ch_edges = creat_tcg_ch(directed_mst_edges)
-    tcg.Ch.add_edges_from(ch_edges)
-    # print(f"Current Ch: {list(tcg.Ch.edges())}")
-   
-    # Track reachable pairs in Ch
-    ch_reachable = _build_reachability_set(directed_mst_edges, is_mst=True)
-    # print(f"Reachable pairs in Ch: {ch_reachable}")
+    if (use_partition
+            and len(chip_ids) >= MIN_PARTITION_SIZE
+            and random.random() < PARTITION_PROB):
+        _build_partitioned_tcg(problem, tcg, chip_ids)
+    else:
+        _build_single_mst_tcg(problem, tcg, chip_ids)
 
-    # Step 5: Build TCG.Cv
-    # print("\nBuilding TCG.Cv edges...")
-    cv_edges = creat_tcg_cv(chip_ids, tcg.Ch)
-    tcg.Cv.add_edges_from(cv_edges)
-    # print(f"Current Cv: {list(tcg.Cv.edges())}")
-    
     return tcg
+
+
+def _build_single_mst_tcg(problem: LayoutProblem, tcg: TCG,
+                          chip_ids: List[str]) -> str:
+    """
+    Paper §III-B1 Steps 1-3 on the whole ECG.
+
+    The MST closure goes into Ch or Cv (random, "choose the current topology
+    to be in Ch (Cv)"); all remaining pairs go into the other graph with
+    random directions.
+
+    Returns:
+        Name of the graph that holds the MST closure ('Ch' or 'Cv').
+    """
+    mst = _compute_maximum_spanning_tree(problem.connection_graph)
+    root = random.choice(chip_ids)
+    closure = creat_tcg_ch(_orient_tree_from_root(mst, root))
+
+    mst_graph = 'Ch' if random.random() < 0.5 else 'Cv'
+    other_graph = 'Cv' if mst_graph == 'Ch' else 'Ch'
+    _graph(tcg, mst_graph).add_edges_from(closure)
+    _complete_constraints(chip_ids, tcg, other_graph)
+    return mst_graph
+
+
+def _build_partitioned_tcg(problem: LayoutProblem, tcg: TCG,
+                           chip_ids: List[str]) -> str:
+    """
+    Paper §III-B1 Step 4: partition the ECG into two sub-graphs, one held in
+    Ch and the other in Cv (Fig. 7(c)(d)).
+
+    Each sub-graph gets its own maximum spanning tree, random root and
+    ancestor/descendant closure. Every pair that spans the partition is then
+    ordered by the partition line: either all of group 0 left of group 1 (line
+    in Ch) or all of group 0 below group 1 (line in Cv). The remaining pairs
+    are completed in Cv, as in Step 3.
+
+    Returns:
+        Name of the graph that carries the partition line ('Ch' or 'Cv').
+    """
+    order = list(chip_ids)
+    random.shuffle(order)
+    cut = random.randint(1, len(order) - 1)
+    groups = (order[:cut], order[cut:])
+
+    group_closures = []
+    for group in groups:
+        # The induced sub-graph can be disconnected (the partition cuts tree
+        # edges); the MST helper returns a forest and the orientation below
+        # roots every component separately.
+        #
+        # Build the induced graph as a real Graph in `group` order instead of
+        # using `connection_graph.subgraph(group)`: the view's node/edge
+        # iteration follows an internal set, so its order changes with
+        # PYTHONHASHSEED. That leaked into the MST start node, the tree's node
+        # order and then into `_orient_tree_from_root` -- two processes with
+        # the same random seed built different initial topologies.
+        group_nodes = set(group)
+        sub_graph = nx.Graph()
+        sub_graph.add_nodes_from(group)
+        for u, v, data in problem.connection_graph.edges(data=True):
+            if u in group_nodes and v in group_nodes:
+                sub_graph.add_edge(u, v, **data)
+        forest = _compute_maximum_spanning_tree(sub_graph)
+        group_closures.append(
+            creat_tcg_ch(_orient_tree_from_root(forest, random.choice(group))))
+
+    if random.random() < 0.5:
+        # Vertical partition line: group 0 is left of group 1.
+        tcg.Ch.add_edges_from(group_closures[0])
+        tcg.Cv.add_edges_from(group_closures[1])
+        for left in groups[0]:
+            for right in groups[1]:
+                tcg.Ch.add_edge(left, right)
+        line_graph = 'Ch'
+    else:
+        # Horizontal partition line: group 0 is below group 1.
+        tcg.Cv.add_edges_from(group_closures[0])
+        tcg.Ch.add_edges_from(group_closures[1])
+        for bottom in groups[0]:
+            for top in groups[1]:
+                tcg.Cv.add_edge(bottom, top)
+        line_graph = 'Cv'
+
+    # Paper Step 3: the pairs not constrained by the partition or either MST
+    # go into the other graph with random directions.
+    _complete_constraints(chip_ids, tcg,
+                          'Cv' if line_graph == 'Ch' else 'Ch')
+    return line_graph
+
+
+def _graph(tcg: TCG, name: str) -> nx.DiGraph:
+    """Return `tcg.Ch` or `tcg.Cv` by name."""
+    return tcg.Ch if name == 'Ch' else tcg.Cv
+
+
+def _mst_weight(data: Dict) -> float:
+    """
+    Weight of one bridge edge for the maximum spanning tree.
+
+    Uses the bridge bandwidth `wireCount` (falling back to the generic
+    `weight`): maximizing it makes the highest-bandwidth bridges tree edges,
+    hence reduction edges, which is what the EMIB adjacency constraint needs.
+    """
+    try:
+        value = data.get('wireCount', data.get('weight', 1.0))
+        return float(value) if value is not None else 1.0
+    except (TypeError, ValueError):
+        return 1.0
 
 
 def _compute_maximum_spanning_tree(graph: nx.Graph) -> nx.Graph:
     """
-    Compute maximum spanning tree from an undirected graph.
-    
+    Compute a maximum spanning tree (forest if disconnected) from an
+    undirected graph, weighted by bridge bandwidth.
+
+    Paper §III-B1 Step 1 names Prim's algorithm, but NetworkX's `prim` starts
+    from `set(G).pop()`: for string die ids that order changes with
+    PYTHONHASHSEED, and with the many tied integer `wireCount` weights it
+    produces a different tree in every process. That leaked into the whole
+    pipeline -- the same random seed could legalize 411 or 148 topologies
+    depending on the process. The Prim below keeps the algorithm and the
+    weight/tie-break rule (`(weight, discovery order)`) but starts from the
+    first node in the graph's deterministic insertion order and expands in
+    deterministic adjacency order.
+
     Args:
-        graph: Undirected graph, edges may contain `weight`.
-        
+        graph: Undirected graph whose edges carry `wireCount`/`weight`.
+
     Returns:
         Maximum spanning tree as `nx.Graph`.
     """
-    # Create a weighted copy with negated weights
     weighted_graph = nx.Graph()
     for u, v, data in graph.edges(data=True):
-        weight = data.get('weight', 1.0)
-        weighted_graph.add_edge(u, v, weight=-weight)
-    
-    # Apply minimum spanning tree on negated weights
-    mst = nx.minimum_spanning_tree(weighted_graph)
-    
-    return mst
+        weighted_graph.add_edge(u, v, weight=_mst_weight(data))
+
+    if weighted_graph.number_of_nodes() == 0:
+        return weighted_graph
+
+    return _prim_maximum_forest(weighted_graph)
+
+
+def _prim_maximum_forest(graph: nx.Graph) -> nx.Graph:
+    """Deterministic Prim maximum spanning forest (see the caller)."""
+    tree = nx.Graph()
+    tree.add_nodes_from(graph.nodes())
+    visited: Set[str] = set()
+
+    # Every component is started from its first node in insertion order, so the
+    # forest does not depend on set iteration order.
+    for start in graph.nodes():
+        if start in visited:
+            continue
+        visited.add(start)
+        frontier: List[Tuple[float, int, str, str]] = []
+        order = itertools.count()
+
+        def push(u: str) -> None:
+            for v, data in graph.adj[u].items():
+                if v in visited:
+                    continue
+                weight = data.get('weight', 1.0)
+                heapq.heappush(frontier, (-weight, next(order), u, v))
+
+        push(start)
+        while frontier:
+            neg_weight, _, u, v = heapq.heappop(frontier)
+            if v in visited:
+                continue
+            visited.add(v)
+            tree.add_edge(u, v, weight=-neg_weight)
+            push(v)
+
+    return tree
 
 
 def _orient_tree_from_root(tree: nx.Graph, root: str) -> List[Tuple[str, str]]:
     """
     Orient all tree edges away from the root.
-    
-    Uses BFS to direct edges from parent to child.
-    
+
+    Uses BFS to direct edges from parent to child. When `tree` is a forest
+    (possible inside a partition group), the root's component is oriented from
+    `root` and every other component from a randomly chosen node, so that no
+    component is left out of the topology.
+
     Args:
-        tree: Undirected tree.
+        tree: Undirected tree or forest.
         root: Root node.
-        
+
     Returns:
         Directed edge list `[(source, target), ...]`.
     """
-    directed_edges = []
-    visited = {root}
-    queue = [root]
-    
-    while queue:
-        current = queue.pop(0)
-        
-        for neighbor in tree.neighbors(current):
-            if neighbor not in visited:
-                visited.add(neighbor)
-                directed_edges.append((current, neighbor))
-                queue.append(neighbor)
-    
+    directed_edges: List[Tuple[str, str]] = []
+    visited: Set[str] = set()
+
+    def bfs(start: str):
+        visited.add(start)
+        queue = [start]
+        while queue:
+            current = queue.pop(0)
+            for neighbor in tree.neighbors(current):
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    directed_edges.append((current, neighbor))
+                    queue.append(neighbor)
+
+    if root in tree:
+        bfs(root)
+
+    # Remaining components, in sorted node order (deterministic regardless of
+    # how the caller's graph was built). The component root is drawn from the
+    # sorted unvisited list for the same reason: `random.choice` must index a
+    # list whose order does not depend on PYTHONHASHSEED.
+    for node in sorted(tree.nodes()):
+        if node not in visited:
+            unvisited = sorted(n for n in tree.nodes() if n not in visited)
+            bfs(random.choice(unvisited))
+
     return directed_edges
 
 
-def _build_reachability_set(edges: List[Tuple[str, str]], is_mst: bool = True) -> Set[Tuple[str, str]]:
+def _complete_constraints(chip_ids: List[str], tcg: TCG,
+                          target_name: str) -> List[Tuple[str, str]]:
     """
-    Build a reachability set from directed edges.
-    
+    Give every still-unconstrained die pair one random relation in `target`.
+
+    Paper §III-B1 Step 3 ("the remaining edges ... should be added in the
+    other graph"). `TCG.is_valid()` requires exactly one direct relation per
+    pair, so pairs with no relation in either graph are completed here.
+
+    A direction that would close a cycle is flipped; the reverse direction is
+    then always safe, because a cycle in the reverse would mean `target`
+    already contains both a path u -> v and a path v -> u, which a DAG cannot.
+
     Args:
-        edges: Directed edge list.
-        is_mst: Reserved flag for future extension (currently unused).
-        
+        chip_ids: All die ids, in the problem's order.
+        tcg: TCG being built.
+        target_name: 'Ch' or 'Cv'.
+
     Returns:
-        Set of reachable node pairs.
+        The edges added.
     """
-    reachable = set()
-    for source, target in edges:
-        reachable.add((source, target))
-    return reachable
+    target = _graph(tcg, target_name)
+    other = _graph(tcg, 'Cv' if target_name == 'Ch' else 'Ch')
+
+    unconstrained = []
+    for i, chip1 in enumerate(chip_ids):
+        for chip2 in chip_ids[i + 1:]:
+            if (target.has_edge(chip1, chip2) or target.has_edge(chip2, chip1)
+                    or other.has_edge(chip1, chip2) or other.has_edge(chip2, chip1)):
+                continue
+            unconstrained.append((chip1, chip2))
+
+    # Shuffling the pair order varies which direction each later pair gets:
+    # an earlier pair constrains the DAG and can force the reverse of a later
+    # one, so the order is part of the topology's diversity.
+    random.shuffle(unconstrained)
+
+    added = []
+    for chip1, chip2 in unconstrained:
+        if random.random() < 0.5:
+            edge, reverse = (chip1, chip2), (chip2, chip1)
+        else:
+            edge, reverse = (chip2, chip1), (chip1, chip2)
+
+        if nx.has_path(target, edge[1], edge[0]):
+            edge = reverse
+        target.add_edge(*edge)
+        added.append(edge)
+
+    return added
 
 
 def _has_path_in_graph(graph: nx.DiGraph, source: str, target: str) -> bool:

@@ -31,7 +31,13 @@ from unit import (
     save_convergence_curve,
 )
 from wirelength import calculate_manhattan_wirelength  # New wirelength computation module
-from bridge_legality import make_bridge_checker
+from bridge_legality import (
+    make_bridge_checker,
+    shared_edge,
+    bridge_specs,
+    layout_bridge_rects,
+    bridge_conflicts,
+)
 
 
 # ============================================================================
@@ -147,30 +153,266 @@ class ContourLine:
         self.segments = new_segments
 
 
-def pack_bt_tree(bt_tree: BinaryTree) -> Dict[int, Tuple[float, float]]:
-    """
-    Convert BT tree into global positions of ECG bounding boxes.
+_EPS = 1e-6
 
-    B*-tree packing rules:
-    - Root at origin `(0, 0)`
-    - Left child: to the right of parent; y from contour
-    - Right child: same x as parent; y from contour
+
+def _ecg_bridge_specs(ecg: ECG, ecg_manager: ECGManager):
+    """
+    Return `(specs, {frozenset({id_a, id_b}): EMIB_length})` for one ECG.
+
+    Cached on the manager rather than on the BT node: `op_swap_nodes` moves the
+    `ecg` attribute between nodes, so a per-node cache would go stale.
+    """
+    cache = getattr(ecg_manager, '_bridge_spec_cache', None)
+    if cache is None:
+        cache = {}
+        ecg_manager._bridge_spec_cache = cache
+
+    if ecg.id not in cache:
+        specs = []
+        try:
+            sub_problem = ecg_manager.get_ecg_subproblem(ecg.id)
+        except Exception:
+            sub_problem = None
+        if sub_problem is not None:
+            specs = bridge_specs(getattr(sub_problem, 'all_connections', []))
+        lengths = {frozenset((s['node1'], s['node2'])): float(s['along'])
+                   for s in specs}
+        cache[ecg.id] = (specs, lengths)
+
+    return cache[ecg.id]
+
+
+def _pack_ecg_rigid(node: BTNode, x0: float,
+                    contour: 'ContourLine') -> Optional[Dict[str, Tuple[float, float]]]:
+    """
+    Place an ECG as one rigid block: the pre-per-die behaviour.
+
+    Kept as the fallback for a local layout whose dies cannot be re-legalized
+    after they are moved independently.
+    """
+    layout = getattr(node, 'current_layout', None)
+    w = getattr(node, 'current_width', 0)
+    h = getattr(node, 'current_height', 0)
+    if not layout or w <= 0 or h <= 0:
+        return None
+
+    chips = list(layout.values())
+    local_x_min = min(c.x for c in chips)
+    local_y_min = min(c.y for c in chips)
+
+    # The whole bounding box sits on the highest contour point it covers.
+    y0 = contour.get_max_height(x0, x0 + w)
+    contour.update(x0, x0 + w, y0 + h)
+
+    return {c.id: (x0 + (c.x - local_x_min), y0 + (c.y - local_y_min))
+            for c in chips}
+
+
+def _pack_ecg(node: BTNode, x0: float, contour: 'ContourLine',
+              ecg_manager: ECGManager) -> Optional[Dict[str, Tuple[float, float]]]:
+    """
+    Pack one ECG against the contour, die by die (paper §III-D2).
+
+    A die may descend to the contour under its own x-range instead of the whole
+    ECG being lifted to the maximum over its bounding box. Two steps mirror the
+    paper's packing scheme:
+
+    - dummy-node step: each die's lower bound is the contour over its x-range,
+      i.e. the contour segments participate in the placement directly;
+    - Cv EMIB-legalization step: the vertical relations of the frozen local
+      layout are re-established on the moved dies, so every bridge inside this
+      ECG survives the independent vertical movement. Stacked bridges keep
+      exact contact (their two dies stay locked); side-by-side bridges keep at
+      least the bridge's `EMIB_length` of overlap along the shared edge.
+
+    Constraints are difference constraints, so the lowest feasible placement is
+    a longest path from the contour bounds. Bridges that compaction slides into
+    each other at a die corner are handled by pinning those bridge pairs back
+    to their local offsets (the paper's bridge-overlap adjustment, §III-B2-3).
+    The contour is then updated with this ECG's real silhouette, which lets
+    later nodes use the hollows the ECG leaves behind rather than being blocked
+    by its bounding box.
+
+    Returns None when the local layout is inconsistent, the constraint graph
+    has a positive cycle, or a bridge conflict survives the adjustment; the
+    caller falls back to the rigid block placement.
+    """
+    layout = getattr(node, 'current_layout', None)
+    if not layout:
+        return None
+
+    chips = list(layout.values())
+    ids = [c.id for c in chips]
+
+    local_x_min = min(c.x for c in chips)
+    gx = {c.id: x0 + (c.x - local_x_min) for c in chips}
+    w = {c.id: c.width for c in chips}
+    h = {c.id: c.height for c in chips}
+
+    # Difference constraints, all written as `y[v] >= y[u] + weight`.
+    edges: List[Tuple[str, str, float]] = []
+
+    # Vertical order between x-overlapping dies, as in the local layout.
+    for i, a in enumerate(ids):
+        ca = layout[a]
+        for b in ids[i + 1:]:
+            cb = layout[b]
+            ox = min(gx[a] + w[a], gx[b] + w[b]) - max(gx[a], gx[b])
+            if ox <= _EPS:
+                continue
+            if ca.y + h[a] <= cb.y + _EPS:
+                edges.append((a, b, h[a]))
+            elif cb.y + h[b] <= ca.y + _EPS:
+                edges.append((b, a, h[b]))
+            else:
+                return None  # the local layout itself overlaps
+
+    # EMIB constraints: stacked bridges lock exact contact, side-by-side
+    # bridges bound how far the two dies may slide vertically.
+    specs, lengths = _ecg_bridge_specs(node.ecg, ecg_manager)
+    for pair, length in lengths.items():
+        a, b = tuple(pair)
+        if a not in layout or b not in layout:
+            continue
+
+        info = shared_edge(layout[a], layout[b])
+        if info is None:
+            return None  # a bridge without a shared edge: not re-legalizable
+
+        if info[0] == 'UD':
+            lower, upper = (a, b) if layout[a].y <= layout[b].y else (b, a)
+            edges.append((upper, lower, -h[lower]))
+        else:  # 'LR': overlap along y must stay >= the bridge length
+            lo, hi = (a, b) if layout[a].y <= layout[b].y else (b, a)
+            edges.append((hi, lo, length - h[lo]))
+
+    def _solve(frozen):
+        """Longest path from the contour bounds, plus `frozen` contact pairs.
+
+        Bellman-Ford, because the contact constraints carry negative weights.
+        Returns None on a positive cycle (constraints unsatisfiable).
+        """
+        yy = {cid: contour.get_max_height(gx[cid], gx[cid] + w[cid])
+              for cid in ids}
+        all_edges = list(edges)
+        for a, b in frozen:
+            # Keep this bridge pair at the vertical offset it has in the
+            # (already legal) local layout.
+            dy = layout[b].y - layout[a].y
+            all_edges.append((a, b, dy))
+            all_edges.append((b, a, -dy))
+
+        for _ in range(len(ids) + 1):
+            changed = False
+            for u, v, weight in all_edges:
+                candidate = yy[u] + weight
+                if candidate > yy[v] + _EPS:
+                    yy[v] = candidate
+                    changed = True
+            if not changed:
+                return yy
+        return None  # positive cycle: the constraints cannot be satisfied
+
+    y = _solve(())
+    if y is None:
+        return None
+
+    # Bridge overlap adjustment (paper §III-B2-3). Compaction can slide two
+    # bridges that meet at a die corner into each other. Pin the vertical
+    # offset of the bridge pairs involved back to the local layout -- the
+    # local arrangement is known to be conflict-free -- and re-solve. A layout
+    # that still conflicts falls back to the rigid block placement.
+    if len(specs) > 1:
+        name_to_pair = {f"{s['node1']}-{s['node2']}": (s['node1'], s['node2'])
+                        for s in specs}
+        frozen = set()
+        for _round in range(3):
+            trial = {cid: Chiplet(chip_id=cid, width=w[cid], height=h[cid],
+                                  x=gx[cid], y=y[cid]) for cid in ids}
+            bridges, errors = layout_bridge_rects(trial, specs)
+            if errors:
+                return None
+            conflicts = bridge_conflicts(bridges)
+            if not conflicts:
+                break
+
+            added = False
+            for conflict in conflicts:
+                for name in conflict['pair']:
+                    pair = name_to_pair.get(name)
+                    if (pair is None or pair in frozen
+                            or pair[0] not in layout or pair[1] not in layout):
+                        continue
+                    frozen.add(pair)
+                    added = True
+            if not added:
+                return None
+            y = _solve(frozen)
+            if y is None:
+                return None
+        else:
+            trial = {cid: Chiplet(chip_id=cid, width=w[cid], height=h[cid],
+                                  x=gx[cid], y=y[cid]) for cid in ids}
+            bridges, errors = layout_bridge_rects(trial, specs)
+            if errors or bridge_conflicts(bridges):
+                return None
+
+    # Expose this ECG's true silhouette, not its bounding box. Ascending order
+    # keeps the higher die wherever two dies share an x-range (stacked dies).
+    for cid in sorted(ids, key=lambda c: y[c] + h[c]):
+        contour.update(gx[cid], gx[cid] + w[cid], y[cid] + h[cid])
+
+    return {cid: (gx[cid], y[cid]) for cid in ids}
+
+
+def _emit_positions(node: BTNode, positions: Dict[str, Tuple[float, float]],
+                    out: Dict[str, Chiplet]):
+    """Copy one ECG's placed chiplets into the global layout dictionary."""
+    layout = node.current_layout
+    for chip_id, (x, y) in positions.items():
+        chip = layout[chip_id]
+        out[chip_id] = Chiplet(
+            chip_id=chip.id,
+            width=chip.width,
+            height=chip.height,
+            x=x,
+            y=y,
+            rotation=chip.rotation,
+            power=chip.power,
+        )
+
+
+def generate_global_layout(bt_tree: BinaryTree,
+                           ecg_manager: ECGManager) -> Dict[str, Chiplet]:
+    """
+    Generate global chiplet layout from BT tree.
+
+    B*-tree placement rules are unchanged (root at x=0, left child to the right
+    of its parent, right child at the parent's x), but each ECG is packed die
+    by die against the contour instead of being translated as one rectangular
+    block. An ECG's local layout is still frozen; only its dies' y-coordinates
+    are recomputed, under the constraints that keep its bridges legal.
+
+    Falls back to the rigid block placement per ECG when the per-die placement
+    cannot be re-legalized.
 
     Args:
         bt_tree: BT tree
+        ecg_manager: ECG manager
 
     Returns:
-        ECG position dict `{node_id: (x, y)}`
+        Global layout dictionary `{chip_id: Chiplet}`
     """
     if bt_tree.root is None:
         return {}
 
-    positions: Dict[int, Tuple[float, float]] = {}
     contour = ContourLine()
+    global_layout: Dict[str, Chiplet] = {}
 
-    def _pack(node: BTNode, parent_x: float, parent_width: float,
-              is_left_child: bool):
-        """Recursive DFS packing."""
+    def _place(node: BTNode, parent_x: float, parent_width: float,
+               is_left_child: bool):
+        """Recursive DFS packing, one ECG at a time."""
         if node is None:
             return
 
@@ -186,76 +428,30 @@ def pack_bt_tree(bt_tree: BinaryTree) -> Dict[int, Tuple[float, float]]:
             # Right child: same x as parent
             x = parent_x
 
-        y = contour.get_max_height(x, x + w)
-
-        positions[node.node_id] = (x, y)
-        contour.update(x, x + w, y + h)
+        positions = _pack_ecg(node, x, contour, ecg_manager)
+        if positions is None:
+            positions = _pack_ecg_rigid(node, x, contour)
+        if positions is not None:
+            _emit_positions(node, positions, global_layout)
 
         # Pack left child first, then right child
-        _pack(node.left_child, x, w, True)
-        _pack(node.right_child, x, w, False)
+        _place(node.left_child, x, w, True)
+        _place(node.right_child, x, w, False)
 
     root = bt_tree.root
     rw = getattr(root, 'current_width', 0)
     rh = getattr(root, 'current_height', 0)
+    if rw <= 0 or rh <= 0:
+        return global_layout
 
-    positions[root.node_id] = (0.0, 0.0)
-    contour.update(0.0, rw, rh)
+    positions = _pack_ecg(root, 0.0, contour, ecg_manager)
+    if positions is None:
+        positions = _pack_ecg_rigid(root, 0.0, contour)
+    if positions is not None:
+        _emit_positions(root, positions, global_layout)
 
-    _pack(root.left_child, 0.0, rw, True)
-    _pack(root.right_child, 0.0, rw, False)
-
-    return positions
-
-
-def generate_global_layout(bt_tree: BinaryTree,
-                           ecg_manager: ECGManager) -> Dict[str, Chiplet]:
-    """
-    Generate global chiplet layout from BT tree.
-
-    Steps:
-    1. Use B*-tree packing to place each ECG bounding box.
-    2. Translate each ECG local layout into global coordinates.
-    3. Merge all chiplets into one layout dictionary.
-
-    Args:
-        bt_tree: BT tree
-        ecg_manager: ECG manager
-
-    Returns:
-        Global layout dictionary `{chip_id: Chiplet}`
-    """
-    ecg_positions = pack_bt_tree(bt_tree)
-    global_layout: Dict[str, Chiplet] = {}
-
-    for node in bt_tree.all_nodes:
-        if node.node_id not in ecg_positions:
-            continue
-
-        ecg_x, ecg_y = ecg_positions[node.node_id]
-        layout = getattr(node, 'current_layout', None)
-        if not layout:
-            continue
-
-        chips = list(layout.values())
-        if not chips:
-            continue
-
-        # Local coordinate origin
-        local_x_min = min(c.x for c in chips)
-        local_y_min = min(c.y for c in chips)
-
-        for chip_id, chip in layout.items():
-            global_chip = Chiplet(
-                chip_id=chip.id,
-                width=chip.width,
-                height=chip.height,
-                x=ecg_x + (chip.x - local_x_min),
-                y=ecg_y + (chip.y - local_y_min),
-                rotation=chip.rotation,
-                power=chip.power,
-            )
-            global_layout[chip_id] = global_chip
+    _place(root.left_child, 0.0, rw, True)
+    _place(root.right_child, 0.0, rw, False)
 
     return global_layout
 

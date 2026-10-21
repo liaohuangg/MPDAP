@@ -4,7 +4,7 @@ Legality-optimized simulated annealing.
 Uses a legality cost function to guide TCG optimization.
 """
 import networkx as nx
-from typing import Dict, Set, Tuple, List
+from typing import Callable, Dict, Optional, Set, Tuple, List
 from TCG import TCG
 from chiplet_model import Chiplet, LayoutProblem, MIN_OVERLAP, get_adjacency_info
 
@@ -200,20 +200,32 @@ def cost_legal(tcg: TCG, problem: LayoutProblem, layout: Dict[str, Chiplet],
     return Clegal
 
 
-def SA_1(initial_tcg: TCG, problem: LayoutProblem, 
+def SA_1(initial_tcg: TCG, problem: LayoutProblem,
          max_iterations: int = 10000,
          initial_temp: float = 100.0,
          cooling_rate: float = 0.95,
          alpha_c: float = 1.0,
          beta_l: float = 2.0,
          use_legalize: bool = True,
-         verbose: bool = False) -> Tuple[List[TCG], List[Dict[str, Chiplet]], float]:
+         verbose: bool = False,
+         repartition: Optional[Callable[[], TCG]] = None,
+         pc_threshold: float = 0.7,
+         max_repartitions: int = 5,
+         stats: Optional[Dict] = None) -> Tuple[List[TCG], List[Dict[str, Chiplet]], float]:
     """
         Legality-optimized simulated annealing.
 
         Searches from an initial (possibly illegal) TCG toward legal
         solutions with `cost_legal = 0`, optionally using `legalize_tcg`.
-    
+
+        Paper §III-B5 heuristic truncation: `Ti` (Fig. 10(a)) is the initial
+        topology, and `Pc(Ti)` is its baseline. When `Pc(Ti) >= lc`
+        (lc = `pc_threshold`, 0.5 < lc < 1) the topology is structurally far
+        from any legal one, so it is replaced *before* the walk starts by a
+        fresh topology from MST-based partitioning (`repartition()`), and the
+        test is re-applied to that one. At most `max_repartitions` fresh
+        starts are taken per call.
+
     Args:
         initial_tcg: Initial TCG (may be illegal)
         problem: Layout problem
@@ -224,7 +236,15 @@ def SA_1(initial_tcg: TCG, problem: LayoutProblem,
         beta_l: Penalty for illegal EMIB edges
         use_legalize: Try `legalize_tcg` on neighbors
         verbose: Print detailed logs
-        
+        repartition: Zero-argument callable returning a fresh TCG built by
+            MST-based partitioning (`Generate_initial_TCG.generate_initial_TCG`
+            bound to this problem). `None` disables the restart rule.
+        pc_threshold: `lc` in the paper; a topology with `Pc >= lc` is
+            abandoned.
+        max_repartitions: Cap on restarts inside one call, so a problem whose
+            every topology has high Pc cannot loop forever.
+        stats: Optional dict; receives `pc_restarts`.
+
     Returns:
         `(legal_tcgs, legal_layouts, best_cost)`:
         - `legal_tcgs`: all found legal TCGs
@@ -255,6 +275,42 @@ def SA_1(initial_tcg: TCG, problem: LayoutProblem,
             print(f"SA_1 legality optimization: initial TCG is already legal")
             print(f"  Initial cost: {current_cost:.4f}")
         return [copy.deepcopy(current_tcg)], [copy.deepcopy(current_layout)], 0.0
+
+    # Paper §III-B5: Ti denotes the *initial* topology (Fig. 10(a)). Its
+    # Pc(Ti) is the baseline; a topology already at Pc >= lc is abandoned
+    # before the walk starts and MST-based partitioning supplies a fresh Ti.
+    # The rule is re-applied to that fresh topology, so the SA never starts
+    # from a structure far from legality. `max_repartitions` only bounds the
+    # pathological case where every topology of the problem has high Pc.
+    n_emib = problem.connection_graph.number_of_edges()
+    pc_restarts = 0
+
+    def _pc_ratio(candidate: TCG) -> float:
+        if n_emib == 0:
+            return 0.0
+        return count_emib_closure_edges(candidate, problem) / n_emib
+
+    if repartition is not None:
+        while (pc_restarts < max_repartitions
+               and _pc_ratio(current_tcg) >= pc_threshold):
+            try:
+                fresh_tcg = repartition()
+                fresh_layout = generate_layout_from_tcg(fresh_tcg, problem)
+            except Exception:
+                break
+            current_tcg = fresh_tcg
+            current_layout = fresh_layout
+            current_cost = cost_legal(current_tcg, problem, current_layout,
+                                      alpha_c, beta_l)
+            pc_restarts += 1
+            if verbose:
+                print(f"  Pc >= {pc_threshold}: "
+                      f"MST-based re-partition #{pc_restarts}")
+            if abs(current_cost) < 1e-6 and bridge_ok(current_layout):
+                if stats is not None:
+                    stats['pc_restarts'] = pc_restarts
+                return ([copy.deepcopy(current_tcg)],
+                        [copy.deepcopy(current_layout)], 0.0)
 
     # If enabled, try legalizing initial TCG first
     if use_legalize:
@@ -295,7 +351,9 @@ def SA_1(initial_tcg: TCG, problem: LayoutProblem,
     temp = initial_temp
     iterations_without_improvement = 0
     legalize_success_count = 0
-    
+
+    # Pc(Ti) is layout-independent, so the restart test only needs the TCG.
+    # (The test itself ran once above, on the initial topology.)
     for iteration in range(max_iterations):
         # Generate neighbor by random operation
         neighbor_tcg = _generate_neighbor_tcg(current_tcg, problem)
@@ -389,8 +447,12 @@ def SA_1(initial_tcg: TCG, problem: LayoutProblem,
         print(f"  Best cost: {best_cost:.4f}")
         print(f"  Legal solutions found: {len(legal_tcgs)}")
         print(f"  Total iterations: {iteration + 1}")
+        print(f"  MST-based re-partitions: {pc_restarts}")
         if use_legalize:
             print(f"  legalize success count: {legalize_success_count}")
+
+    if stats is not None:
+        stats['pc_restarts'] = pc_restarts
     
     # Return legal solution set if found; otherwise return best cost only
     if len(legal_tcgs) > 0:
