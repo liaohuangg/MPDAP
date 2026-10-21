@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-10-20T04:19:17.251381",
+  "timestamp": "2026-10-21T14:13:54.290003",
   "seed_mode": "sweep",
   "seeds": null,
   "seed_sweep_target": 5,
-  "seed_sweep_time_limit": 3600.0,
+  "seed_sweep_time_limit": 1500.0,
   "seed_sweep_start": 0,
   "seed_sweep_spent": null,
   "batch_time_limit": null,
@@ -12,18 +12,18 @@
   "convergence_patience": 10000,
   "total_cases": 1,
   "success_count": 1,
-  "total_time_hours": 0.058570127156045704,
+  "total_time_hours": 0.11258924663066865,
   "results": [
     {
       "case_name": "cpu-dram",
       "status": "success",
       "num_solutions": 5,
-      "num_seeds_tried": 6,
-      "best_cost": 222.16382766652785,
+      "num_seeds_tried": 5,
+      "best_cost": 219.40242136889745,
       "hit_time_limit_count": 0,
       "bridge_legal_solutions": 5,
-      "time_seconds": 210.84687185287476,
-      "sweep_elapsed_seconds": 210.84687280654907
+      "time_seconds": 405.3189821243286,
+      "sweep_elapsed_seconds": 405.31898283958435
     }
   ]
 }

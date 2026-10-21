@@ -1,21 +1,23 @@
 # thermal_pkg.txt
-# Generated: 2026-10-20
+# Generated: 2026-10-21
 # interposer_size = longest side of the layout bounding box (mm)
 
 # layer sizes used by the HotSpot simulation
-# chip content (chiplets) = the layout's own bounding square
-# TIM / Substrate / C4-underfill floorplans = max interposer across all
-#   solutions of the case (same value as the heat-package rule below);
-#   the chip layout is centered inside that square. HotSpot requires every
-#   layer in the .lcf to have the same width/height, so the chip layer's
-#   floorplan square is also this size, with TIM filler blocks in the margin.
+# interposer (TIM / Substrate / C4-underfill) = the case's largest
+#   bounding-box longest side across all of its layouts; every layout of
+#   the case is centred inside that square. HotSpot requires every layer in
+#   the .lcf to have the same width/height, so the chip layer's floorplan
+#   is this size too, with TIM filler blocks in the margin.
 # units: mm
 
 # heat sink & heat spreader
-# heat spreader = heat sink = max interposer across all solutions of the case
-#   + 0.2 mm margin: an exact match puts the layout edge on a HotSpot grid
-#   boundary and produces an all-NaN temperature field
+# heat spreader = 2 x interposer edge
+# heat sink      = 2 x heat spreader edge  (= 4 x interposer)
 # units: mm (the *_m columns are the values written into example.config, in meters)
+
+# convective resistance (TAP-2.5D rule):
+# r_convec = 1 / (h * A_sink) = 0.1 * 0.06^2 / s_sink^2  (K/W),
+# 0.1 K/W and 0.06 m being the HotSpot template defaults for (r_convec, s_sink).
 
 # Exclusion scope
 # Excluded layouts are not engineering-feasible; the preview input directory is not a result layout.
@@ -24,60 +26,84 @@ experiment_result: exclude file experiment_result/output_gurobi_EMIB_chiplet_5_6
                    exclude directory experiment_result/result_process  # preview input, not a result layout
 parameter_result : exclude directories parameter_result/output_gurobi_EMIB_chiplet_5_6_01_24 and ..._25  # not engineering-feasible
 
-[experiment_result]
+[experiment_result: output_bt_tree]
 case              n       min       max
 ----------------------------------------
-acend910         14     36.87     55.15
-cpu-dram         14     26.60     43.00
-hp11_m            4     35.56     46.06
-hp6_m            14     33.04     53.04
-hp8_m             9     39.76     53.20
-multigpu         13     37.95     48.40
-syn1              9     31.00     40.00
-syn5              4     28.00     29.00
+acend910         5     41.90     59.27
+cpu-dram         5     42.25     44.50
+hp11_m              0         -         -
+hp6_m            5     33.04     53.20
+hp8_m            5     43.12     52.08
+multigpu         5     48.40     48.40
+syn1             5     37.00     47.00
+syn5                0         -         -
+
+[experiment_result: output_rl]
+case              n       min       max
+----------------------------------------
+acend910         5     41.95     55.15
+cpu-dram         5     29.75     43.00
+hp11_m              0         -         -
+hp6_m            5     35.98     53.04
+hp8_m               0         -         -
+multigpu         5     37.95     47.07
+syn1                0         -         -
+syn5                0         -         -
+
+[experiment_result: gurobi sweeps]
+case              n       min       max
+----------------------------------------
+acend910         4     36.87     39.15
+cpu-dram         4     26.60     34.00
+hp11_m           4     35.56     46.06
+hp6_m            4     33.04     33.04
+hp8_m            4     39.76     41.86
+multigpu         3     37.95     48.40
+syn1             4     31.00     33.00
+syn5             4     28.00     29.00
 
 [parameter_result]
 case              n       min       max
 ----------------------------------------
-acend910         23     39.15     40.50
-cpu-dram         23     26.60     34.00
-hp11_m           23     35.56     63.84
-hp6_m            23     33.04     33.04
-hp8_m            23     39.76     41.86
-multigpu         23     37.95     40.98
-syn1             23     31.00     37.00
-syn5             23     27.00     34.00
+acend910        23     39.15     40.50
+cpu-dram        23     26.60     34.00
+hp11_m          23     35.56     63.84
+hp6_m           23     33.04     33.04
+hp8_m           23     39.76     41.86
+multigpu        23     37.95     40.99
+syn1            23     31.00     37.00
+syn5            23     27.00     34.00
 
 [File composition per case]
 case           bt_tree   rl  gurobi experiment parameter
 --------------------------------------------------------------
-acend910             5    5       4         14        23
-cpu-dram             5    5       4         14        23
-hp11_m               0    0       4          4        23
-hp6_m                5    5       4         14        23
-hp8_m                5    0       4          9        23
-multigpu             5    5       3         13        23
-syn1                 5    0       4          9        23
-syn5                 0    0       4          4        23
+acend910            5    5       4         14        23
+cpu-dram            5    5       4         14        23
+hp11_m              0    0       4          4        23
+hp6_m               5    5       4         14        23
+hp8_m               5    0       4          9        23
+multigpu            5    5       3         13        23
+syn1                5    0       4          9        23
+syn5                0    0       4          4        23
 
 [Combined maximum and thermal config]
-case            max_inter   spreader   spreader_m       sink     sink_m
-------------------------------------------------------------------------
-acend910            55.15      55.35     0.055350      55.35   0.055350
-cpu-dram            43.00      43.20     0.043200      43.20   0.043200
-hp11_m              63.84      64.04     0.064040      64.04   0.064040
-hp6_m               53.04      53.24     0.053240      53.24   0.053240
-hp8_m               53.20      53.40     0.053400      53.40   0.053400
-multigpu            48.40      48.60     0.048600      48.60   0.048600
-syn1                40.00      40.20     0.040200      40.20   0.040200
-syn5                34.00      34.20     0.034200      34.20   0.034200
+case            max_inter   spreader   spreader_m       sink     sink_m    r_convec
+---------------------------------------------------------------------------------
+acend910           59.27     118.54     0.118540     237.08   0.237080 0.006404905
+cpu-dram           44.50      89.00     0.089000     178.00   0.178000 0.011362202
+hp11_m             63.84     127.68     0.127680     255.36   0.255360 0.005520733
+hp6_m              53.20     106.40     0.106400     212.80   0.212800 0.007949856
+hp8_m              52.08     104.16     0.104160     208.32   0.208320 0.008295462
+multigpu           48.40      96.80     0.096800     193.60   0.193600 0.009604877
+syn1               47.00      94.00     0.094000     188.00   0.188000 0.010185604
+syn5               34.00      68.00     0.068000     136.00   0.136000 0.019463668
 
 [Source file of max interposer per case]
-acend910         55.15  experiment_result/output_rl/acend910/solution_1_seed02_reward_230.4300.json
-cpu-dram         43.00  experiment_result/output_rl/cpu-dram/solution_1_seed02_reward_158.4900.json
-hp11_m           63.84  parameter_result/output_gurobi_EMIB_chiplet_5_6_01_13/placement/hp11_m.json
-hp6_m            53.04  experiment_result/output_rl/hp6_m/solution_1_seed03_reward_160.9900.json
-hp8_m            53.20  experiment_result/output_bt_tree/hp8_m/solution_3_seed02_cost_257.689762.json (tie: 5 files)
-multigpu         48.40  experiment_result/output_bt_tree/multigpu/solution_5_seed04_cost_167.738720.json (tie: 6 files)
-syn1             40.00  experiment_result/output_bt_tree/syn1/solution_1_seed00_cost_195.266026.json (tie: 4 files)
-syn5             34.00  parameter_result/output_gurobi_EMIB_chiplet_5_6_01_13/placement/syn5.json
+acend910           59.27  experiment_result/output_bt_tree/acend910/solution_5_seed04_cost_91.990761.json
+cpu-dram           44.50  experiment_result/output_bt_tree/cpu-dram/solution_2_seed01_cost_227.466667.json (tie: 3 files)
+hp11_m             63.84  parameter_result/output_gurobi_EMIB_chiplet_5_6_01_13/placement/hp11_m.json
+hp6_m              53.20  experiment_result/output_bt_tree/hp6_m/solution_4_seed03_cost_83.662909.json
+hp8_m              52.08  experiment_result/output_bt_tree/hp8_m/solution_5_seed04_cost_234.618585.json
+multigpu           48.40  experiment_result/output_bt_tree/multigpu/solution_1_seed00_cost_167.790453.json (tie: 6 files)
+syn1               47.00  experiment_result/output_bt_tree/syn1/solution_1_seed00_cost_182.053245.json
+syn5               34.00  parameter_result/output_gurobi_EMIB_chiplet_5_6_01_13/placement/syn5.json

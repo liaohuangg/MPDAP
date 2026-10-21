@@ -1,19 +1,30 @@
 {
-  "timestamp": "2026-10-21T14:13:54.290003",
+  "timestamp": "2026-10-21T15:15:06.779972",
   "seed_mode": "sweep",
   "seeds": null,
   "seed_sweep_target": 5,
-  "seed_sweep_time_limit": 1500.0,
+  "seed_sweep_time_limit": 3600.0,
   "seed_sweep_start": 0,
   "seed_sweep_spent": null,
   "batch_time_limit": null,
   "time_limit_seconds": 3600,
   "max_iterations": null,
   "convergence_patience": 10000,
-  "total_cases": 1,
-  "success_count": 1,
-  "total_time_hours": 0.11258924663066865,
+  "total_cases": 9,
+  "success_count": 6,
+  "total_time_hours": 1.1183,
   "results": [
+    {
+      "case_name": "acend910",
+      "status": "success",
+      "num_solutions": 5,
+      "num_seeds_tried": 5,
+      "best_cost": 78.01123766054316,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 5,
+      "time_seconds": 130.0823621749878,
+      "sweep_elapsed_seconds": 130.08236265182495
+    },
     {
       "case_name": "cpu-dram",
       "status": "success",
@@ -24,6 +35,83 @@
       "bridge_legal_solutions": 5,
       "time_seconds": 405.3189821243286,
       "sweep_elapsed_seconds": 405.31898283958435
+    },
+    {
+      "case_name": "hp6_m",
+      "status": "success",
+      "num_solutions": 5,
+      "num_seeds_tried": 5,
+      "best_cost": 62.13977386487692,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 5,
+      "time_seconds": 80.50201153755188,
+      "sweep_elapsed_seconds": 80.5020124912262
+    },
+    {
+      "case_name": "hp8_m",
+      "status": "success",
+      "num_solutions": 5,
+      "num_seeds_tried": 5,
+      "best_cost": 222.5311536774323,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 5,
+      "time_seconds": 286.51229786872864,
+      "sweep_elapsed_seconds": 286.5122985839844
+    },
+    {
+      "case_name": "multigpu",
+      "status": "success",
+      "num_solutions": 5,
+      "num_seeds_tried": 5,
+      "best_cost": 167.79045257214548,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 5,
+      "time_seconds": 90.51626634597778,
+      "sweep_elapsed_seconds": 90.51626706123352
+    },
+    {
+      "case_name": "syn1",
+      "status": "success",
+      "num_solutions": 5,
+      "num_seeds_tried": 5,
+      "best_cost": 172.0473096054049,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 5,
+      "time_seconds": 250.4405677318573,
+      "sweep_elapsed_seconds": 250.44056820869446
+    },
+    {
+      "case_name": "hp11_m",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 31,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 0,
+      "time_seconds": 3582.95320892334,
+      "sweep_elapsed_seconds": 3582.953209400177
+    },
+    {
+      "case_name": "syn4",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 25,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 0,
+      "time_seconds": 3580.540409564972,
+      "sweep_elapsed_seconds": 3580.5404102802277
+    },
+    {
+      "case_name": "syn5",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 30,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 0,
+      "time_seconds": 3587.0479488372803,
+      "sweep_elapsed_seconds": 3587.047949552536
     }
   ]
 }

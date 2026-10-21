@@ -17,13 +17,16 @@ from generate_grid_heatmaps_no_bridge import (
     read_power,
 )
 from gen_flp_trace import (
+    CASE_MAX_INTERPOSER_MM,
     build_layout,
     load_json_layout,
     package_square_side_mm,
+    resolve_case_key,
     round_to_grid_mm,
 )
-# 芯粒名称/功耗标签的避让算法与 test_thermal 共用一套，避免两边各写一份。
-from test_thermal import _place_chip_labels
+# 芯粒名称/功耗标签的避让和硅桥朝向的判断与 test_thermal 共用一套，避免两边
+# 各写一份、逐渐走样。
+from test_thermal import _emib_rect, _place_chip_labels
 
 
 DEFAULT_SUFFIX = "_layer2_grid_thermal_with_bridge"
@@ -93,9 +96,13 @@ def compute_json_to_flp_shift(json_path: str):
     shift_y = sum(dy_list) / len(dy_list) if dy_list else 0.0
 
     # build_layout 只是把布局居中到它自己的外接方框；gen_flp_trace 还会把
-    # 整个布局再平移到封装方块（边长 = 布局最长边）的中心。硅桥
-    # 必须叠加同一段偏移，否则会整体偏到芯片左下方。
-    package_side = package_square_side_mm(layout_side)
+    # 整个布局再平移到封装方块的中心。封装边长取该 case 所有布局的最大外接边，
+    # 硅桥必须叠加同一段偏移，否则会整体偏到芯片左下方。
+    case_key = resolve_case_key(
+        os.path.splitext(os.path.basename(json_path))[0], json_path)
+    case_side = CASE_MAX_INTERPOSER_MM.get(case_key)
+    package_side = (round_to_grid_mm(case_side) if case_side is not None
+                    else package_square_side_mm(layout_side))
     center_offset = round_to_grid_mm((package_side - layout_side) / 2.0)
     shift_x += center_offset
     shift_y += center_offset
@@ -119,11 +126,17 @@ def iter_emib_bridges(json_path: str):
         h = float(conn.get("EMIB_length", 0.0) or 0.0)
         if w <= 0.0 or h <= 0.0:
             continue
-        yield x, y, w, h, emib_type
+        yield (x, y, w, h, emib_type,
+               conn.get("node1"), conn.get("node2"), conn.get("EMIB_bump_width"))
 
 
-def draw_emib_bridges(ax, placement_json: Optional[str]):
-    """画 EMIB 硅桥，返回它们的 (x, y, w, h) 列表（数据坐标，供标签避让用）。"""
+def draw_emib_bridges(ax, placement_json: Optional[str], chip_rects=None):
+    """画 EMIB 硅桥，返回它们的 (x, y, w, h) 列表（数据坐标，供标签避让用）。
+
+    chip_rects 是 FLP 坐标（mm）下的 {name: (x, y, w, h)}，用来按共享边决定
+    硅桥横放还是竖放；RL / bt_tree 的结果文件里 EMIB_width/EMIB_length 是
+    未旋转的，exp / parameter 的已含旋转，交给 _emib_rect 统一判断。
+    """
     if not placement_json:
         return []
 
@@ -135,9 +148,14 @@ def draw_emib_bridges(ax, placement_json: Optional[str]):
 
     rects = []
     try:
-        for x, y, w, h, _ in iter_emib_bridges(placement_json):
+        for (x, y, w, h, _, node1, node2, bump) in iter_emib_bridges(placement_json):
+            if chip_rects:
+                x, y, w, h = _emib_rect(x + shift_x, y + shift_y, w, h,
+                                        node1, node2, chip_rects, bump)
+            else:
+                x, y = x + shift_x, y + shift_y
             rect = patches.Rectangle(
-                (x + shift_x, y + shift_y),
+                (x, y),
                 w,
                 h,
                 linewidth=1.0,
@@ -147,7 +165,7 @@ def draw_emib_bridges(ax, placement_json: Optional[str]):
                 zorder=5,
             )
             ax.add_patch(rect)
-            rects.append((x + shift_x, y + shift_y, w, h))
+            rects.append((x, y, w, h))
     except Exception as e:
         print(f"[WARNING] Failed to parse/draw EMIB bridges from {placement_json}: {e}")
         return []
@@ -188,7 +206,8 @@ def plot_heatmap(flp_file, grid_steady_file, output_image, layer_num, placement_
     ax.set_ylabel("Y (mm)", fontsize=24)
     ax.tick_params(axis="both", labelsize=22)
 
-    bridge_rects = draw_emib_bridges(ax, placement_json)
+    chip_rects = {n: (x, y, w, h) for n, w, h, x, y in chiplets}
+    bridge_rects = draw_emib_bridges(ax, placement_json, chip_rects)
     if placement_json and not bridge_rects:
         print(f"[WARNING] No EMIB bridges drawn for {placement_json}")
 

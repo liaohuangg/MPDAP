@@ -13,6 +13,7 @@ import numpy as np
 
 # 复用 FLP 生成时的布局逻辑，保证芯粒和硅桥的平移方式一致
 from gen_flp_trace import (
+    CASE_MAX_INTERPOSER_MM,
     load_json_layout,
     build_layout,
     package_square_side_mm,
@@ -201,52 +202,6 @@ def _bridge_shared_edge(node1, node2, chip_rects):
     return "UD", boundary, max(ax0, bx0), min(ax0 + aw, bx0 + bw)
 
 
-def _benchmark_emib_connections(json_path, chip_rects):
-    """Synthesise bridge rectangles for layouts that carry no `connections`.
-
-    RL layouts are exported as {name: {x, y, width, height}} only, so the
-    benchmark's EMIB list is the only source of bridge sizes. Each rectangle
-    is placed the same way bridge_legality.layout_bridge_rects does it: the
-    bridge length runs along the shared edge, 2 * EMIB_bump_width across it,
-    centred on the overlap midpoint. Coordinates come from `chip_rects`, which
-    are already in the FLP frame (mm), so no extra shift is applied.
-    """
-    case = resolve_case_key(
-        os.path.splitext(os.path.basename(json_path))[0], json_path)
-    bench_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
-        os.path.abspath(__file__)))), "benchmark", "test_input", f"{case}.json")
-    if not os.path.exists(bench_path):
-        return []
-    with open(bench_path, "r", encoding="utf-8") as f:
-        bench = json.load(f)
-
-    bridges = []
-    for conn in bench.get("connections", []):
-        if int(conn.get("wireCount", 1)) <= 255:
-            continue
-        if str(conn.get("EMIBType", "")).lower() == "interfacec":
-            continue
-        n1, n2 = conn.get("node1"), conn.get("node2")
-        edge = _bridge_shared_edge(n1, n2, chip_rects)
-        along = float(conn.get("EMIB_length") or 0.0)
-        bump = conn.get("EMIB_bump_width")
-        if edge is None or along <= 0.0 or bump is None:
-            continue
-        kind, boundary, lo, hi = edge
-        across = 2.0 * float(bump)
-        mid = (lo + hi) / 2.0
-        if kind == "LR":
-            x, y, w, h = boundary - across / 2.0, mid - along / 2.0, across, along
-        else:
-            x, y, w, h = mid - along / 2.0, boundary - across / 2.0, along, across
-        bridges.append({
-            "node1": n1, "node2": n2,
-            "x": x, "y": y, "w": w, "h": h,
-            "synthetic": True,
-        })
-    return bridges
-
-
 def _bridge_center_offset(x, y, w, h, edge):
     """Distance between the bridge centre and the shared edge, across the edge.
 
@@ -293,103 +248,7 @@ def _emib_rect(x, y, w, h, node1, node2, chip_rects, bump_width=None):
     return x, y, w, h
 
 
-def _plot_bridge_rects(chiplets, json_basename, layout_json, placement_dir):
-    """EMIB bridge rectangles (mm, plot coordinates) for the layer-2 map.
-
-    Returns a list of (x, y, w, h).  The chiplet shift that gen_flp_trace
-    applied to build the FLP is re-derived here so the bridges land on the
-    same coordinates as the chip rectangles.
-    """
-    if not json_basename:
-        return []
-    try:
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        # 优先使用外部传入的 placement_dir（对应当前处理的 output_gurobi_EMIB_chiplet_* 目录）
-        if placement_dir:
-            json_dir = os.path.normpath(placement_dir)
-        else:
-            # 兼容旧用法：默认从 output_gurobi_EMIB_chiplet_5_6_01_0/placement 读取 JSON
-            root_dir = os.path.normpath(os.path.join(script_dir, "..", ".."))
-            json_dir = os.path.join(root_dir, "output_gurobi_EMIB_chiplet_5_6_01_0", "placement")
-        # bt_tree / RL 的解文件名（solution_..._cost_...）与配置名不同，
-        # 批处理时通过 layout_json 直接指定实际使用的布局文件。
-        json_path = (os.path.normpath(layout_json) if layout_json
-                     else os.path.join(json_dir, f"{json_basename}.json"))
-        if not os.path.exists(json_path):
-            print(f"[警告] 未找到 placement JSON：{json_path}，跳过 EMIB 绘制")
-            return []
-        with open(json_path, "r", encoding="utf-8") as f:
-            placement_data = json.load(f)
-
-        # 用 gen_flp_trace 的逻辑重新算一遍 Chiplet 平移，以获得与 FLP 一致的平移量
-        try:
-            orig_chiplets = load_json_layout(json_path)  # 原始 JSON 布局（mm）
-            shifted_chiplets, layout_side = build_layout(orig_chiplets)  # 平移 + 居中后的布局（mm）
-            # gen_flp_trace 还会把整个布局平移到封装方块（边长 = 布局最长边
-            # 的中心，硅桥必须叠加同一段偏移，否则会整体偏离芯片。
-            package_side = package_square_side_mm(layout_side)
-            center_offset = round_to_grid_mm((package_side - layout_side) / 2.0)
-            # 计算全局平移量（理论上每个芯粒的 shift_x / shift_y 都相同，这里取平均更鲁棒）
-            dx_list = []
-            dy_list = []
-            orig_by_name = {c["name"]: c for c in orig_chiplets}
-            shifted_by_name = {c["name"]: c for c in shifted_chiplets}
-            for name, oc in orig_by_name.items():
-                sc = shifted_by_name.get(name)
-                if not sc:
-                    continue
-                dx_list.append(sc["x"] - oc["x"])
-                dy_list.append(sc["y"] - oc["y"])
-            shift_x = sum(dx_list) / len(dx_list) if dx_list else 0.0
-            shift_y = sum(dy_list) / len(dy_list) if dy_list else 0.0
-            shift_x += center_offset
-            shift_y += center_offset
-        except Exception as e:
-            print(f"[警告] 计算 Chiplet 平移量失败，硅桥不做平移: {e}")
-            shift_x = shift_y = 0.0
-
-        # 芯粒矩形（mm），用于判断每座硅桥该横放还是竖放
-        chip_rects = {n: (cx, cy, cw, ch) for n, cw, ch, cx, cy in chiplets}
-        connections = placement_data.get("connections", [])
-        if not connections:
-            # RL 布局文件只有芯粒坐标，没有 connections；按 benchmark
-            # 的 EMIB 规格在共享边上补出硅桥矩形。
-            connections = _benchmark_emib_connections(json_path, chip_rects)
-
-        rects = []
-        for conn in connections:
-            emib_type = conn.get("EMIBType")
-            if emib_type == "interfaceC":
-                continue
-            if emib_type not in ("interfaceA", "interfaceB", None):
-                continue
-            if conn.get("synthetic"):
-                rect_x, rect_y = conn["x"], conn["y"]
-                rect_w, rect_h = conn["w"], conn["h"]
-            else:
-                x = conn.get("EMIB-x-position", 0.0)
-                y = conn.get("EMIB-y-position", 0.0)
-                w = conn.get("EMIB_width", 0.0)
-                h = conn.get("EMIB_length", 0.0)
-                # JSON 里的 EMIB 坐标和尺寸已经是 mm，这里叠加与 Chiplet 相同的平移量，保证相对位置一致
-                x_mm, y_mm = float(x) + shift_x, float(y) + shift_y
-                w_mm, h_mm = float(w), float(h)
-                if w_mm <= 0.0 or h_mm <= 0.0:
-                    continue
-                # 硅桥方向由两侧芯粒的共享边决定（结果文件里两种导出约定
-                # 混用：ILP 的 x/y 已含旋转，RL 的 x/y 未含旋转）。
-                rect_x, rect_y, rect_w, rect_h = _emib_rect(
-                    x_mm, y_mm, w_mm, h_mm,
-                    conn.get("node1"), conn.get("node2"), chip_rects,
-                    conn.get("EMIB_bump_width"))
-            rects.append((rect_x, rect_y, rect_w, rect_h))
-        return rects
-    except Exception as e:
-        print(f"[警告] 解析/绘制 EMIB 硅桥失败：{e}")
-        return []
-
-
-# 标签之间至少留出的空隙（mm），避免两行文字在视觉上连成一片。
+# 标签之间至少留出的空隙（mm），避免两行文字在画布上连成片。
 LABEL_GAP = 0.25
 
 
@@ -420,8 +279,8 @@ def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
     scoring, so the labels keep a visible gap to the bridge instead of merely
     not touching it (strokes and antialiasing bleed past the text bbox).
 
-    bridge_rects holds EMIB bridges as (x, y, w, h) in mm, the same form
-    _plot_bridge_rects returns; inside everything is converted to
+    bridge_rects holds EMIB bridges as (x, y, w, h) in mm, the same form as
+    the chip rectangles; inside everything is converted to
     (x0, y0, x1, y1) so it can be compared with the text boxes.
     """
     # 调用方给的是 (x, y, w, h)，重叠判断一律用角点 (x0, y0, x1, y1)。
@@ -692,182 +551,31 @@ def plot_grid_layer2_thermal_map(
     layer_num=2,
     layout_json=None,
 ):
+    """Layer 2 网格热图：网格温度 + 芯粒框 + 名称/功耗 + EMIB 硅桥。
+
+    出图统一走 generate_grid_heatmaps_with_bridge.plot_heatmap（字体、版面、
+    硅桥朝向、标签避让都只有那一份实现）。
     """
-    读取 .grid.steady 中 Layer 2 的数据，绘制网格热图，并叠加 chiplet 框、名称和功耗。
-    颜色映射和 HotSpot 自带的 `grid_thermal_map.pl` 保持一致（红-黄-绿-青-蓝，越热越红）。
-    """
-    # 从 ptrace 文件读取功耗数据
-    power_dict = {}
-    ptrace_file = flp_file.replace('.flp', '.ptrace')
-    if os.path.exists(ptrace_file):
-        try:
-            with open(ptrace_file, 'r', encoding='utf-8') as f:
-                lines = f.readlines()
-            if len(lines) >= 2:
-                names = lines[0].strip().split()
-                powers = lines[1].strip().split()
-                if len(names) == len(powers):
-                    for name, power_str in zip(names, powers):
-                        try:
-                            power_dict[name] = float(power_str)
-                        except ValueError:
-                            pass
-        except Exception as e:
-            print(f"[警告]读取ptrace文件失败: {e}")
-    
-    temps, rows, cols = read_grid_steady_layer(grid_steady_file, layer_num)
-    if not temps or rows is None:
-        print(f"【错误】无法读取 Layer {layer_num} 温度数据")
-        return
+    # 延迟导入：generate_grid_heatmaps_with_bridge 模块级依赖本模块的
+    # _place_chip_labels / _emib_rect，模块级导入会形成循环。
+    from generate_grid_heatmaps_with_bridge import plot_heatmap
 
-    # HotSpot 输出为绝对温度(K)，与 grid_thermal_map.pl 一致，这里转换为摄氏度用于着色和显示
-    temps = np.array(temps).reshape(rows, cols)
-    # 为了让物理布局的“上方”在图像上也显示在上方，这里先对矩阵做一次上下翻转
-    temps = np.flipud(temps)
-    temps_c = temps - 273.15
-    chiplets, tims = read_flp_layout(flp_file)
-    # 将坐标从米转换为毫米
-    chiplets = [(n, w*1000, h*1000, x*1000, y*1000) for n, w, h, x, y in chiplets]
-    tims = [(n, w*1000, h*1000, x*1000, y*1000) for n, w, h, x, y in tims]
-    all_blocks = chiplets + tims
-    # 热图范围取封装层（_sub.flp，与 TIM/Substrate/C4-underfill 同尺寸）的方块；
-    # 芯片布局居中显示在这个范围内。文件缺失时才退回块的外接范围。
-    pkg_dir = os.path.dirname(os.path.abspath(flp_file))
-    flp_base = os.path.splitext(os.path.basename(flp_file))[0]
-    pkg_box = (read_floorplan_box_mm(os.path.join(pkg_dir, flp_base + "_sub.flp"))
-               or read_floorplan_box_mm(os.path.join(pkg_dir, flp_base + "_C4.flp")))
-    if pkg_box is not None:
-        total_width, total_length = pkg_box
-    else:
-        total_width = total_length = 0.0
-        for _, w, h, x, y in all_blocks:
-            total_width = max(total_width, x + w)
-            total_length = max(total_length, y + h)
-        if total_width <= 0 or total_length <= 0:
-            total_width = total_length = max(0.01, 0.05)
+    json_path = None
+    if layout_json:
+        json_path = os.path.normpath(layout_json)
+    elif json_basename:
+        if placement_dir:
+            json_dir = os.path.normpath(placement_dir)
+        else:
+            root_dir = os.path.normpath(os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+            json_dir = os.path.join(root_dir,
+                                    "output_gurobi_EMIB_chiplet_5_6_01_0",
+                                    "placement")
+        candidate = os.path.join(json_dir, f"{json_basename}.json")
+        json_path = candidate if os.path.exists(candidate) else None
 
-    # 构造与 grid_thermal_map.pl 相同的 21 级 RGB 调色板。
-    # 注意：matplotlib 中 vmin 映射到调色板第 0 个颜色、vmax 映射到最后一个颜色，
-    # 为了让“高温=红、低温=蓝”，这里将原始（红→蓝）序列反转成（蓝→红）。
-    palette_rgb = [
-        (255, 0, 0),
-        (255, 51, 0),
-        (255, 102, 0),
-        (255, 153, 0),
-        (255, 204, 0),
-        (255, 255, 0),
-        (204, 255, 0),
-        (153, 255, 0),
-        (102, 255, 0),
-        (51, 255, 0),
-        (0, 255, 0),
-        (0, 255, 51),
-        (0, 255, 102),
-        (0, 255, 153),
-        (0, 255, 204),
-        (0, 255, 255),
-        (0, 204, 255),
-        (0, 153, 255),
-        (0, 102, 255),
-        (0, 51, 255),
-        (0, 0, 255),
-    ]
-    # 反转顺序：低温用蓝色，高温用红色
-    palette_rgb = list(reversed(palette_rgb))
-    palette_norm = [(r / 255.0, g / 255.0, b / 255.0) for r, g, b in palette_rgb]
-    cmap = ListedColormap(palette_norm, name="hotspot_grid_palette")
-
-    # 正方形出图：画布取 1:1，坐标框再锁定为正方形（set_box_aspect(1)）。
-    # extent 仍是真实物理尺寸，aspect="auto" 让温度矩阵铺满正方框，
-    # 不因为中介层不是 1:1 而在面板里留出空白。
-    fig, ax = plt.subplots(1, figsize=(10, 10))
-    im = ax.imshow(
-        temps_c,
-        cmap=cmap,
-        extent=(0, total_width, 0, total_length),
-        origin="lower",
-        aspect="auto",
-    )
-    ax.set_box_aspect(1)
-    max_c = float(np.max(temps_c))
-    avg_c = float(np.mean(temps_c))
-    im.set_clim(np.min(temps_c), max_c)
-    cbar = fig.colorbar(im, ax=ax)
-    # 与 EMIBplot.py 保持相近：轴标签 18，刻度 14
-    cbar.set_label("Temperature (°C)", fontsize=18)
-    cbar.ax.tick_params(labelsize=14)
-    ax.set_title(
-        f"MaxT = {max_c:.2f} °C, AvgT = {avg_c:.2f} °C",
-        fontsize=18,
-    )
-    ax.set_xlabel("X (mm)", fontsize=18)
-    ax.set_ylabel("Y (mm)", fontsize=18)
-    ax.tick_params(axis="both", labelsize=14)
-    ax.set_xlabel("X (mm)")
-    ax.set_ylabel("Y (mm)")
-
-    # 图下方小字注明各层尺寸（mm）：芯片布局、TIM/Substrate/C4-underfill、热沉、均热板
-    size_caption = None
-    if chiplets:
-        chip_min_x = min(x for _, _, _, x, _ in chiplets)
-        chip_min_y = min(y for _, _, _, _, y in chiplets)
-        chip_max_x = max(x + w for _, w, _, x, _ in chiplets)
-        chip_max_y = max(y + h for _, _, h, _, y in chiplets)
-        layout_w = chip_max_x - chip_min_x
-        layout_h = chip_max_y - chip_min_y
-        sink_mm, spreader_mm = read_heat_package_sizes(pkg_dir)
-        size_parts = [
-            f"Chip layout: {layout_w:.2f} × {layout_h:.2f} mm (centered)"
-        ]
-        if pkg_box is not None:
-            size_parts.append(
-                f"TIM / Substrate / C4-underfill: {pkg_box[0]:.2f} × {pkg_box[1]:.2f} mm")
-        if spreader_mm is not None:
-            size_parts.append(f"Heat spreader: {spreader_mm:.2f} mm")
-        if sink_mm is not None:
-            size_parts.append(f"Heat sink: {sink_mm:.2f} mm")
-        size_caption = "   |   ".join(size_parts)
-
-    # 只绘制芯粒：TIM（T*）块的轮廓与标签不再显示。硅桥先算出来，名称/功耗
-    # 标签再避开它们摆放（优先芯粒左上角，其次右上角，最后才回落到中心）。
-    bridge_rects = _plot_bridge_rects(chiplets, json_basename,
-                                     layout_json, placement_dir)
-    for name, w, h, x, y in chiplets:
-        rect = patches.Rectangle((x, y), w, h, linewidth=1.5, edgecolor="black",
-                                 facecolor="none", zorder=6)
-        ax.add_patch(rect)
-    _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects)
-
-    # 叠加 EMIB 硅桥（只画 EMIBType 为 interfaceA / interfaceB 的，跳过 interfaceC）
-    emib_color = (251 / 255.0, 229 / 255.0, 214 / 255.0)
-    for rect_x, rect_y, rect_w, rect_h in bridge_rects:
-        ax.add_patch(patches.Rectangle(
-            (rect_x, rect_y),
-            rect_w,
-            rect_h,
-            linewidth=1.0,
-            edgecolor="black",
-            facecolor=emib_color,
-            alpha=0.95,
-            zorder=5,
-        ))
-
-    out_dir = os.path.dirname(output_image)
-    if out_dir:
-        os.makedirs(out_dir, exist_ok=True)
-    plt.tight_layout()
-    if size_caption:
-        # 图注紧贴 X 轴标签下方，而不是钉在画布底边。正方形画布里钉底边会
-        # 在坐标轴和图注之间留下一条很大的空白。
-        fig.canvas.draw()
-        xlabel_bbox = ax.xaxis.label.get_window_extent(fig.canvas.get_renderer())
-        caption_y = fig.transFigure.inverted().transform(
-            (0, xlabel_bbox.y0))[1] - 0.012
-        fig.text(0.5, caption_y, size_caption, ha="center", va="top",
-                 fontsize=9)
-    save_square(fig, output_image)
-    plt.close()
-    print(f"【成功】Layer {layer_num} 网格热图已保存至：{output_image}")
+    plot_heatmap(flp_file, grid_steady_file, output_image, layer_num, json_path)
 
 
 def plot_thermal_map(names, temps, coords, output_image="thermal_map.png"):

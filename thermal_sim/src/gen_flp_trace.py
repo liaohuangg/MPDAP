@@ -691,20 +691,21 @@ def _can_merge_v(a, b):
 #   experiment_result/result_process（预览输入目录）
 #   parameter_result/output_gurobi_EMIB_chiplet_5_6_01_24、..._25（整个目录）
 # 数值与 thermal_sim/thermal_pkg.txt 的 [Combined maximum and thermal config] 一致。
-# 仅作记录：热仿真已改为按每个布局自己的最长边取正方形，不再用它统一封装尺寸。
+# 热仿真用它作为该 case 所有布局统一的封装边长（布局居中放进去）。
 CASE_MAX_INTERPOSER_MM = {
-    "acend910": 55.15,
-    "cpu-dram": 43.00,
+    "acend910": 59.27,
+    "cpu-dram": 44.50,
     "hp11_m": 63.84,
-    "hp6_m": 53.04,
-    "hp8_m": 53.20,
+    "hp6_m": 53.20,
+    "hp8_m": 52.08,
     "multigpu": 48.40,
-    "syn1": 40.00,
+    "syn1": 47.00,
     "syn5": 34.00,
 }
-# 规则（HotSpot 默认约定）：interposer（TIM / Substrate / C4-underfill）取布局外接
-# 正方形，边长 = 布局最长边，布局居中；heat spreader 边长 = 2 × interposer，
-# heat sink 边长 = 2 × spreader。环境温度 45 °C、网格 64 × 64 见 example.config。
+# 规则（HotSpot 默认约定）：interposer（TIM / Substrate / C4-underfill）取该 case
+# 所有布局中最长边最大的外接正方形，所有布局居中放进去；heat spreader 边长 =
+# 2 × interposer，heat sink 边长 = 2 × spreader。环境温度 45 °C、网格 64 × 64
+# 见 example.config。
 # 不加余量：spreader / sink 都远大于 floorplan，实测边长严格等于最长边也不会
 # 出现 -nan；会让 HotSpot 输出全 -nan 的是 sink/spreader 恰好等于 floorplan。
 HEAT_SPREADER_SCALE = 2.0
@@ -750,8 +751,8 @@ def resolve_case_key(name, source_path=None):
 def package_square_side_mm(layout_side_mm):
     """TIM / Substrate / C4-underfill 层的正方形边长（mm）。
 
-    边长 = 该布局自己的最长边（外接正方形），布局居中；不再按 case 取
-    统一的 interposer 尺寸。
+    正常情况下由 CASE_MAX_INTERPOSER_MM 给出该 case 统一的最大边长；查不到
+    case 时回退为该布局自己的最长边（外接正方形）。
     """
     return round_to_grid_mm(layout_side_mm)
 
@@ -906,10 +907,12 @@ def main(json_path, output_flp_path=None, output_ptrace_path=None,
     
     chiplet_envelope_list_mm, square_side_mm = build_layout(chiplets)
 
-    # 封装层（TIM / Substrate / C4-underfill）取该布局外接正方形：边长 =
-    # 布局最长边，芯片布局居中。HotSpot 要求各层
+    # 封装层（TIM / Substrate / C4-underfill）取该 case 最大的外接正方形：
+    # 边长 = 该 case 所有布局最长边的最大值，布局居中。HotSpot 要求各层
     # floorplan 的宽高一致，因此 chip 层的外框同样取该尺寸。
-    package_side_mm = package_square_side_mm(square_side_mm)
+    case_side_mm = CASE_MAX_INTERPOSER_MM.get(case_key)
+    package_side_mm = (round_to_grid_mm(case_side_mm) if case_side_mm is not None
+                       else package_square_side_mm(square_side_mm))
     center_offset_mm = round_to_grid_mm((package_side_mm - square_side_mm) / 2.0)
     if center_offset_mm > 0:
         for b in chiplet_envelope_list_mm:

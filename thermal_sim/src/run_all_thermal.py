@@ -9,12 +9,12 @@ layout this script
     3. draws the layer-2 heatmap with generate_grid_heatmaps_with_bridge.py
        (EMIB silicon bridges overlaid from the placement JSON).
 
-The package geometry follows HotSpot's default conventions per layout: the
-TIM / substrate / C4-underfill layers are a square whose side is the layout's
-longest edge, the layout is
-centred in it, the heat spreader is 2x that edge and the heat sink 2x the
-spreader.  Ambient (45 C) and the 64x64 grid come from template_config.
-The convective resistance follows the TAP-2.5D rule, recomputed per layout:
+The package geometry follows thermal_pkg.txt: the TIM / substrate /
+C4-underfill layers are a square whose side is the case's largest layout
+bounding-box edge, every layout of the case is centred in it, the heat
+spreader is 2x that edge and the heat sink 2x the spreader.  Ambient (45 C)
+and the 64x64 grid come from template_config.
+The convective resistance follows the TAP-2.5D rule, per case:
 r_convec = 0.1 * 0.06^2 / s_sink^2 (i.e. 1/(h*A_sink) with h fixed).
 Jobs run in parallel because HotSpot is single-threaded.
 

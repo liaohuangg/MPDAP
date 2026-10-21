@@ -12,7 +12,7 @@
     {
       "name": "C",
       "x-position": 22.25,
-      "y-position": 19.53,
+      "y-position": 0.0,
       "width": 7.75,
       "height": 11.87,
       "rotation": 0,
@@ -20,8 +20,8 @@
     },
     {
       "name": "D",
-      "x-position": 0.0,
-      "y-position": 7.660000000000002,
+      "x-position": 22.25,
+      "y-position": 11.87,
       "width": 7.75,
       "height": 11.87,
       "rotation": 0,
@@ -29,8 +29,8 @@
     },
     {
       "name": "E",
-      "x-position": 22.25,
-      "y-position": 7.660000000000002,
+      "x-position": 0.0,
+      "y-position": 0.0,
       "width": 7.75,
       "height": 11.87,
       "rotation": 0,
@@ -39,7 +39,7 @@
     {
       "name": "F",
       "x-position": 0.0,
-      "y-position": 19.53,
+      "y-position": 11.87,
       "width": 7.75,
       "height": 11.87,
       "rotation": 0,
@@ -65,7 +65,7 @@
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
       "EMIB-x-position": 21.25,
-      "EMIB-y-position": 25.03835,
+      "EMIB-y-position": 5.50835,
       "EMIB-rotation": 1
     },
     {
@@ -76,8 +76,8 @@
       "EMIB_max_width": 5,
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 6.75,
-      "EMIB-y-position": 13.168350000000002,
+      "EMIB-x-position": 21.25,
+      "EMIB-y-position": 17.37835,
       "EMIB-rotation": 1
     },
     {
@@ -88,8 +88,8 @@
       "EMIB_max_width": 5,
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
-      "EMIB-x-position": 21.25,
-      "EMIB-y-position": 13.168350000000002,
+      "EMIB-x-position": 6.75,
+      "EMIB-y-position": 5.50835,
       "EMIB-rotation": 1
     },
     {
@@ -101,7 +101,7 @@
       "EMIB_width": 2.0,
       "EMIB_bump_width": 1.0,
       "EMIB-x-position": 6.75,
-      "EMIB-y-position": 25.03835,
+      "EMIB-y-position": 17.37835,
       "EMIB-rotation": 1
     }
   ],
@@ -110,6 +110,6 @@
   "aspect_ratio": 0.716,
   "interposer_size": 41.9,
   "SAR": 0.3967,
-  "max_temperature": 124.9,
-  "avg_temperature": 87.34
+  "max_temperature": 75.62,
+  "avg_temperature": 63.8
 }
