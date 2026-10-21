@@ -7,6 +7,7 @@ import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.patheffects import withStroke
+from matplotlib.transforms import Bbox
 import numpy as np
 
 
@@ -230,6 +231,22 @@ def resolve_label_overlaps(fig, ax, labels):
             return
 
 
+def save_square(fig, output_image, dpi=300):
+    """把 figure 存成严格 1:1 的 PNG。
+
+    先量出实内容（坐标轴 + colorbar + 标题）的 tight 边界，再把短的一边对称
+    补白到与长边等长：既不裁内容，输出像素宽高也完全相等。
+    """
+    fig.canvas.draw()
+    tight = fig.get_tightbbox(fig.canvas.get_renderer())
+    side = max(tight.width, tight.height)
+    cx = (tight.x0 + tight.x1) / 2.0
+    cy = (tight.y0 + tight.y1) / 2.0
+    square = Bbox.from_extents(cx - side / 2.0, cy - side / 2.0,
+                               cx + side / 2.0, cy + side / 2.0)
+    fig.savefig(output_image, dpi=dpi, bbox_inches=square, facecolor="white")
+
+
 def plot_heatmap(flp_file, grid_steady_file, output_image, layer_num):
     temps_k = read_grid_steady_layer(grid_steady_file, layer_num)
     temps_c = np.flipud(temps_k) - 273.15
@@ -239,7 +256,9 @@ def plot_heatmap(flp_file, grid_steady_file, output_image, layer_num):
     total_width = max((x + w for _, w, _, x, _ in all_blocks), default=1.0)
     total_height = max((y + h for _, _, h, _, y in all_blocks), default=1.0)
 
-    fig, ax = plt.subplots(1, figsize=(11.5, 9.2))
+    # 正方形出图：画布 1:1，坐标框再锁成正方形；aspect="auto" 让温度矩阵
+    # 铺满正方框，不因物理宽高比留白。
+    fig, ax = plt.subplots(1, figsize=(10.5, 10.5))
     im = ax.imshow(
         temps_c,
         cmap=hotspot_grid_cmap(),
@@ -247,6 +266,7 @@ def plot_heatmap(flp_file, grid_steady_file, output_image, layer_num):
         origin="lower",
         aspect="auto",
     )
+    ax.set_box_aspect(1)
     im.set_clim(float(np.min(temps_c)), float(np.max(temps_c)))
 
     cbar = fig.colorbar(im, ax=ax)
@@ -296,7 +316,7 @@ def plot_heatmap(flp_file, grid_steady_file, output_image, layer_num):
 
     os.makedirs(os.path.dirname(output_image), exist_ok=True)
     plt.tight_layout()
-    plt.savefig(output_image, dpi=300, bbox_inches="tight", facecolor="white")
+    save_square(fig, output_image)
     plt.close(fig)
 
 

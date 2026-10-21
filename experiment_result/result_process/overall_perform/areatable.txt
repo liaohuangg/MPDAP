@@ -1,0 +1,57 @@
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\begin{table*}[t]
+\centering
+\caption{bounding box area comparison of different placement methods}
+\label{batable}
+\setlength{\tabcolsep}{3pt} % 列间距
+\renewcommand{\arraystretch}{1.25}
+
+% --- 修改开始 ---
+% 这里的宽度需要根据你的实际页面宽度微调
+% 假设第一列 1.7cm，剩下6列平分剩余空间，或者按需分配
+% 例如：1.7 + 2.5*6 = 16.7cm (适合双栏)
+\begin{tabularx}{\textwidth}{
+    >{\centering\arraybackslash}p{2.0cm}|
+    >{\centering\arraybackslash}p{2.5cm}| % BT
+    >{\centering\arraybackslash}p{2.5cm}| % RLP
+    >{\centering\arraybackslash}p{2.0cm}| % OM
+    >{\centering\arraybackslash}p{2.5cm}| % PM
+    >{\centering\arraybackslash}p{2.7cm}| % PmdM
+    >{\centering\arraybackslash}p{2.5cm}  % PcaM
+}
+% --- 修改结束 ---
+
+\toprule
+\multirow{2}{*}{\textbf{Test Case}}
+& \multicolumn{6}{c}{\textbf{Bounding Box Area ($\mathrm{mm}^2$)}} \\
+\cmidrule(lr){2-7}
+& \textbf{BT} & \textbf{RLP} & \textbf{OM} & \textbf{PM} & \textbf{PmdM} & \textbf{PcaM} \\
+\midrule
+
+$ascend910$ & \textcolor{ForestGreen}{1257.00 (+8.58\%)} & \textcolor{ForestGreen}{1666.42 (+43.94\%)} & 1157.72 (ref.) & 1282.16 (+10.75\%) & 1157.72 (0.00\%) & 1282.16 (+10.75\%) \\
+\addlinespace[2pt]
+
+$cpu\text{-}dram$ & \textcolor{ForestGreen}{1119.62 (+82.94\%)} & \textcolor{ForestGreen}{1005.01 (+64.22\%)} & 612.00 (ref.) & 707.72 (+15.64\%) & 707.72 (+15.64\%) & 612.00 (0.00\%) \\
+\addlinespace[2pt]
+
+$hp11\_m$ & - & - & 1075.33 (ref.) & 1462.04 (+35.96\%) & 1418.65 (+31.93\%) & 1627.86 (+51.38\%) \\
+\addlinespace[2pt]
+
+$hp6\_m$ & \textcolor{ForestGreen}{596.70 (+26.47\%)} & \textcolor{ForestGreen}{644.74 (+36.65\%)} & 471.81 (ref.) & 471.81 (0.00\%) & 471.81 (0.00\%) & 471.81 (0.00\%) \\
+\addlinespace[2pt]
+
+$hp8\_m$ & \textcolor{ForestGreen}{2673.83 (+270.94\%)} & - & 720.83 (ref.) & 712.50 (-1.16\%) & 712.50 (-1.16\%) & 820.46 (+13.82\%) \\
+\addlinespace[2pt]
+
+$multigpu$ & \textcolor{ForestGreen}{1255.98 (-9.08\%)} & \textcolor{ForestGreen}{1653.31 (+19.69\%)} & 1381.38 (ref.) & 1364.80 (-1.20\%) & 19881.00 (+1339.21\%) & 1255.98 (-9.08\%) \\
+\addlinespace[2pt]
+
+$syn1$ & \textcolor{ForestGreen}{1457.60 (+56.73\%)} & - & 930.00 (ref.) & 957.00 (+2.90\%) & 989.93 (+6.44\%) & 960.00 (+3.23\%) \\
+\addlinespace[2pt]
+
+$syn5$ & - & - & 756.00 (ref.) & 769.50 (+1.79\%) & 696.00 (-7.94\%) & 756.00 (0.00\%) \\
+\addlinespace[2pt]
+
+\bottomrule
+\end{tabularx}
+\end{table*}

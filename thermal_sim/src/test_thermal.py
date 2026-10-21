@@ -8,6 +8,7 @@ import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 from matplotlib.patheffects import withStroke
 from matplotlib.colors import ListedColormap
+from matplotlib.transforms import Bbox
 import numpy as np
 
 # 复用 FLP 生成时的布局逻辑，保证芯粒和硅桥的平移方式一致
@@ -401,7 +402,8 @@ def _rect_overlap_area(a, b):
 
 
 def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
-                       fontsize=14, pad=0.12):
+                       fontsize=14, pad=0.12, power_fmt="{:.2f}W", stroke=2,
+                       bridge_clear=0.0):
     """Place each chip's name inside its rectangle, power centred below it.
 
     The name and the power are two separate texts so the name can stay inside
@@ -415,7 +417,17 @@ def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
     prefers staying inside its own chip, while neither text may really
     overlap another label or a bridge.  Font size stays fixed and the power
     line never moves away from the name's centre axis.
+
+    bridge_clear inflates every EMIB bridge rect by that many mm while
+    scoring, so the labels keep a visible gap to the bridge instead of merely
+    not touching it (strokes and antialiasing bleed past the text bbox).
+
+    bridge_rects holds EMIB bridges as (x, y, w, h) in mm, the same form
+    _plot_bridge_rects returns; inside everything is converted to
+    (x0, y0, x1, y1) so it can be compared with the text boxes.
     """
+    # 调用方给的是 (x, y, w, h)，重叠判断一律用角点 (x0, y0, x1, y1)。
+    bridge_rects = [(bx, by, bx + bw, by + bh) for bx, by, bw, bh in bridge_rects]
     label_items = []
     for name, w, h, x, y in chiplets:
         power = power_dict.get(name, 0.0)
@@ -429,21 +441,21 @@ def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
             fontweight="bold",
             color="white",
             zorder=20,
-            path_effects=[withStroke(linewidth=2, foreground="black")],
+            path_effects=[withStroke(linewidth=stroke, foreground="black")],
         )
         power_txt = None
         if power > 0:
             power_txt = ax.text(
                 x + w / 2.0,
                 y + h / 2.0,
-                f"{power:.2f}W",
+                power_fmt.format(power),
                 ha="center",
                 va="top",
                 fontsize=fontsize,
                 fontweight="bold",
                 color="white",
                 zorder=20,
-                path_effects=[withStroke(linewidth=2, foreground="black")],
+                path_effects=[withStroke(linewidth=stroke, foreground="black")],
             )
         label_items.append((name_txt, power_txt, (x, y, w, h)))
 
@@ -462,20 +474,24 @@ def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
                       measure(power_txt) if power_txt is not None else None))
 
     POWER_GAP = 0.06
-    # 描边（path_effects linewidth=2）不在文本 bbox 内：2pt 约合 0.15mm，
-    # 每侧半个描边约 0.08mm，按这个余量外扩保证可见轮廓也在芯粒上。
-    NAME_STROKE = 0.08
+    # 功耗行默认挂在名称正下方。下方被硅桥/别的标签堵死时允许翻到名称
+    # 正上方；只有翻面能省下 ≥0.2mm² 的桥重叠才值得（2e5 对 1e6/mm²）。
+    POWER_FLIP = 2e5
+    # 描边（path_effects linewidth=stroke）不在文本 bbox 内：每侧半个描边
+    # 约合 0.04mm/pt，按这个余量外扩保证可见轮廓也在芯粒上。
+    NAME_STROKE = 0.04 * stroke
 
     def candidates(x, y, w, h, tw, th, tpw, tph):
-        """(name anchor, ha, va, name bbox, power bbox) candidates.
+        """(name anchor, ha, va, name bbox, power bbox, power pos, power va).
 
         The name may slide anywhere over the chip: a 9x5 grid of anchors
         (left..right x top..bottom) crossed with the nine alignments, top-left
-        first.  The power text is always centred under the name with a small
-        gap, so it moves together with it.
+        first.  The power text is centred on the name's vertical axis with a
+        small gap, below it by preference and above it as a fallback, so it
+        moves together with the name.
         """
 
-        def make(ax, ay, ha, va):
+        def make(ax, ay, ha, va, side):
             if ha == "left":
                 x0, x1 = ax, ax + tw
             elif ha == "right":
@@ -490,11 +506,18 @@ def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
                 y0, y1 = ay - th / 2.0, ay + th / 2.0
             name_bb = (x0, y0, x1, y1)
             power_bb = None
+            ppos = pva = None
             if tpw is not None:
                 cx = (x0 + x1) / 2.0
-                py1 = y0 - POWER_GAP
-                power_bb = (cx - tpw / 2.0, py1 - tph, cx + tpw / 2.0, py1)
-            return ((ax, ay), ha, va, name_bb, power_bb)
+                if side == "above":
+                    py = y1 + POWER_GAP
+                    power_bb = (cx - tpw / 2.0, py, cx + tpw / 2.0, py + tph)
+                    ppos, pva = (cx, py), "bottom"
+                else:
+                    py = y0 - POWER_GAP
+                    power_bb = (cx - tpw / 2.0, py - tph, cx + tpw / 2.0, py)
+                    ppos, pva = (cx, py), "top"
+            return ((ax, ay), ha, va, name_bb, power_bb, ppos, pva)
 
         aligns = [("left", "top"), ("right", "top"), ("center", "top"),
                   ("left", "center"), ("right", "center"), ("center", "center"),
@@ -505,14 +528,18 @@ def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
         xs = [x + inset + (w - 2.0 * inset) * i / 16.0 for i in range(17)]
         ys = [y + h - inset - (h - 2.0 * inset) * j / 6.0 for j in range(7)]
         out = []
-        for ha, va in aligns:
-            for ay in ys:
-                for ax in xs:
-                    out.append(make(ax, ay, ha, va))
+        for side in ("below", "above"):
+            for ha, va in aligns:
+                for ay in ys:
+                    for ax in xs:
+                        out.append(make(ax, ay, ha, va, side))
         return out
 
     placed = []          # (owner index, bbox) for every placed name/power box
     chosen = {}          # owner index -> (pos, ha, va, nbb, pbb)
+    # 硅桥按 bridge_clear 外扩后再判重叠：文字的实际墨迹（描边）比 bbox
+    # 大一圈，贴着桥边放看上去就是压上了。
+    bridge_boxes = [_inflate(r, bridge_clear) for r in bridge_rects]
     (ax_x0, ax_x1), (ax_y0, ax_y1) = ax.get_xlim(), ax.get_ylim()
     ax_rect = (ax_x0, ax_y0, ax_x1, ax_y1)
     # 先摆最受约束的芯粒（名号几乎顶满芯粒高度的薄芯粒），把它们的
@@ -539,7 +566,7 @@ def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
                 tpw = tph = None
             occupied = [b for owner, b in placed if owner != i]
             best = None
-            for index, (pos, ha, va, nbb, pbb) in enumerate(
+            for index, (pos, ha, va, nbb, pbb, ppos, pva) in enumerate(
                     candidates(x, y, w, h, ntw, nth, tpw, tph)):
                 boxes = [nbb] + ([pbb] if pbb is not None else [])
                 # 真实重叠是硬约束：宁可把标签挤出去，也不能压到别的标签或
@@ -547,11 +574,11 @@ def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
                 real_label = sum(_rect_overlap_area(b, p)
                                  for b in boxes for p in occupied)
                 real_bridge = sum(_rect_overlap_area(b, r)
-                                  for b in boxes for r in bridge_rects)
+                                  for b in boxes for r in bridge_boxes)
                 label_gap = sum(_rect_overlap_area(_inflate(b, LABEL_GAP), p)
                                 for b in boxes for p in occupied)
                 bridge_gap = sum(_rect_overlap_area(_inflate(b, LABEL_GAP), r)
-                                 for b in boxes for r in bridge_rects)
+                                 for b in boxes for r in bridge_boxes)
                 # 芯粒名必须落在芯粒上：按描边后的可见范围（文字框外扩
                 # STROKE）判断，权重高于一切，名字宁可不避让也要留在芯粒内。
                 # 功耗行跟随名称，允许垂到芯粒外。
@@ -563,23 +590,25 @@ def _place_chip_labels(ax, fig, chiplets, power_dict, bridge_rects,
                                    for b in boxes for c in other_chips)
                 outside_canvas = sum(_area(b) - _rect_overlap_area(b, ax_rect)
                                      for b in boxes)
+                # 功耗行优先放在名称下方，翻到上方要额外付一笔。
+                power_flip = POWER_FLIP if pva == "bottom" else 0.0
                 penalty = (1e8 * name_out + 1e7 * real_label + 1e6 * real_bridge
                            + 2000.0 * label_gap + 1000.0 * bridge_gap
+                           + power_flip
                            + 10.0 * power_out + 100.0 * chip_overlap
                            + 50.0 * outside_canvas + 1e-6 * index)
                 if best is None or penalty < best[0]:
-                    best = (penalty, pos, ha, va, nbb, pbb)
+                    best = (penalty, pos, ha, va, nbb, pbb, ppos, pva)
                 if penalty < 1e-9:
                     break
-            _, pos, ha, va, nbb, pbb = best
+            _, pos, ha, va, nbb, pbb, ppos, pva = best
             name_txt.set_position(pos)
             name_txt.set_ha(ha)
             name_txt.set_va(va)
             if power_txt is not None and pbb is not None:
-                cx = (nbb[0] + nbb[2]) / 2.0
-                power_txt.set_position((cx, nbb[1] - POWER_GAP))
+                power_txt.set_position(ppos)
                 power_txt.set_ha("center")
-                power_txt.set_va("top")
+                power_txt.set_va(pva)
             chosen[i] = (nbb, pbb)
             placed = [(owner, b) for owner, b in placed if owner != i]
             placed.append((i, nbb))
@@ -637,6 +666,23 @@ def _area(bb):
 
 def _inflate(bb, margin):
     return (bb[0] - margin, bb[1] - margin, bb[2] + margin, bb[3] + margin)
+
+
+def save_square(fig, output_image, dpi=300):
+    """把当前 figure 存成严格 1:1 的 PNG。
+
+    先量出实内容（坐标轴 + colorbar + 标题 + 注释）的 tight 边界，再把短的
+    一边对称补白到与长边等长，这样既不会裁掉 colorbar / 注释，最终像素宽高
+    也完全相等。
+    """
+    fig.canvas.draw()
+    tight = fig.get_tightbbox(fig.canvas.get_renderer())
+    side = max(tight.width, tight.height)
+    cx = (tight.x0 + tight.x1) / 2.0
+    cy = (tight.y0 + tight.y1) / 2.0
+    square = Bbox.from_extents(cx - side / 2.0, cy - side / 2.0,
+                               cx + side / 2.0, cy + side / 2.0)
+    fig.savefig(output_image, dpi=dpi, bbox_inches=square, facecolor="white")
 
 
 def plot_grid_layer2_thermal_map(
@@ -733,7 +779,10 @@ def plot_grid_layer2_thermal_map(
     palette_norm = [(r / 255.0, g / 255.0, b / 255.0) for r, g, b in palette_rgb]
     cmap = ListedColormap(palette_norm, name="hotspot_grid_palette")
 
-    fig, ax = plt.subplots(1, figsize=(10, 8))
+    # 正方形出图：画布取 1:1，坐标框再锁定为正方形（set_box_aspect(1)）。
+    # extent 仍是真实物理尺寸，aspect="auto" 让温度矩阵铺满正方框，
+    # 不因为中介层不是 1:1 而在面板里留出空白。
+    fig, ax = plt.subplots(1, figsize=(10, 10))
     im = ax.imshow(
         temps_c,
         cmap=cmap,
@@ -741,6 +790,7 @@ def plot_grid_layer2_thermal_map(
         origin="lower",
         aspect="auto",
     )
+    ax.set_box_aspect(1)
     max_c = float(np.max(temps_c))
     avg_c = float(np.mean(temps_c))
     im.set_clim(np.min(temps_c), max_c)
@@ -809,9 +859,15 @@ def plot_grid_layer2_thermal_map(
         os.makedirs(out_dir, exist_ok=True)
     plt.tight_layout()
     if size_caption:
-        fig.text(0.5, 0.006, size_caption, ha="center", va="bottom", fontsize=9)
-        fig.subplots_adjust(bottom=0.17)
-    plt.savefig(output_image, dpi=300, bbox_inches="tight", facecolor="white")
+        # 图注紧贴 X 轴标签下方，而不是钉在画布底边。正方形画布里钉底边会
+        # 在坐标轴和图注之间留下一条很大的空白。
+        fig.canvas.draw()
+        xlabel_bbox = ax.xaxis.label.get_window_extent(fig.canvas.get_renderer())
+        caption_y = fig.transFigure.inverted().transform(
+            (0, xlabel_bbox.y0))[1] - 0.012
+        fig.text(0.5, caption_y, size_caption, ha="center", va="top",
+                 fontsize=9)
+    save_square(fig, output_image)
     plt.close()
     print(f"【成功】Layer {layer_num} 网格热图已保存至：{output_image}")
 

@@ -29,7 +29,6 @@
     \textcolor{blue}{$syn4$} & \textcolor{blue}{13} & \textcolor{blue}{15} & \textcolor{blue}{15} & \textcolor{blue}{1} & \textcolor{blue}{3} & \textcolor{blue}{516.0} & \textcolor{blue}{0.8075} \\
     \textcolor{blue}{$syn5$} & \textcolor{blue}{14} & \textcolor{blue}{13} & \textcolor{blue}{12} & \textcolor{blue}{2} & \textcolor{blue}{4} & \textcolor{blue}{495.0} & \textcolor{blue}{0.7783} \\
     \textcolor{blue}{$syn6$} & \textcolor{blue}{15} & \textcolor{blue}{23} & \textcolor{blue}{23} & \textcolor{blue}{1} & \textcolor{blue}{4} & \textcolor{blue}{532.0} & \textcolor{blue}{0.7557} \\
-    \textcolor{blue}{$sys\_micro150$} & \textcolor{blue}{8} & \textcolor{blue}{8} & \textcolor{blue}{8} & \textcolor{blue}{1} & \textcolor{blue}{4} & \textcolor{blue}{680.0} & \textcolor{blue}{1.1272} \\
     \textcolor{blue}{$xerox6\_m$} & \textcolor{blue}{6} & \textcolor{blue}{8} & \textcolor{blue}{8} & \textcolor{blue}{1} & \textcolor{blue}{1} & \textcolor{blue}{327.0} & \textcolor{blue}{0.4364} \\
     \textcolor{blue}{$xerox7\_m$} & \textcolor{blue}{7} & \textcolor{blue}{10} & \textcolor{blue}{10} & \textcolor{blue}{1} & \textcolor{blue}{2} & \textcolor{blue}{400.0} & \textcolor{blue}{0.3910} \\
     \textcolor{blue}{$xerox8\_m$} & \textcolor{blue}{8} & \textcolor{blue}{13} & \textcolor{blue}{13} & \textcolor{blue}{1} & \textcolor{blue}{2} & \textcolor{blue}{442.0} & \textcolor{blue}{0.3469} \\
@@ -63,7 +62,6 @@
     \textcolor{blue}{$syn4$} & \textcolor{blue}{2172} & \textcolor{blue}{991} & \textcolor{blue}{3825.54} & \textcolor{blue}{time out} & \textcolor{blue}{stage3} \\
     \textcolor{blue}{$syn5$} & \textcolor{blue}{2098} & \textcolor{blue}{962} & \textcolor{blue}{2359.50} & \textcolor{blue}{26.20\%} & \textcolor{blue}{stage2} \\
     \textcolor{blue}{$syn6$} & \textcolor{blue}{3320} & \textcolor{blue}{1499} & \textcolor{blue}{1857.33} & \textcolor{blue}{infeasible} & \textcolor{blue}{stage3} \\
-    \textcolor{blue}{$sys\_micro150$} & \textcolor{blue}{912} & \textcolor{blue}{427} & \textcolor{blue}{631.73} & \textcolor{blue}{0.00\%} & \textcolor{blue}{stage1} \\
     \textcolor{blue}{$xerox6\_m$} & \textcolor{blue}{820} & \textcolor{blue}{381} & \textcolor{blue}{269.49} & \textcolor{blue}{infeasible} & \textcolor{blue}{stage1} \\
     \textcolor{blue}{$xerox7\_m$} & \textcolor{blue}{1091} & \textcolor{blue}{502} & \textcolor{blue}{346.22} & \textcolor{blue}{infeasible} & \textcolor{blue}{stage1} \\
     \textcolor{blue}{$xerox8\_m$} & \textcolor{blue}{1424} & \textcolor{blue}{650} & \textcolor{blue}{453.16} & \textcolor{blue}{infeasible} & \textcolor{blue}{stage1} \\
@@ -79,7 +77,6 @@ acend910	10	503	243	357.00	9.04
 xerox6_m	14	820	381	269.49	4.15
 hp8_m	15	897	420	452.98	14.28
 cpu-dram	16	912	427	615.98	36.43
-sys_micro150	16	912	427	631.73	36.27
 syn1	17	1122	524	2350.32	301.96
 xerox7_m	17	1091	502	346.22	7.81
 xerox8_m	21	1424	650	453.16	23.38

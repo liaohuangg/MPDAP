@@ -1,13 +1,14 @@
 import os
 import json
 import math
+from decimal import Decimal, ROUND_HALF_UP
 from glob import glob
 
 # ==============================
 # Config: root dir (single placement dir under project)
 # ==============================
 # Placement dir to process
-ROOT_DIR = "/root/placement/MPDAP/output_gurobi_EMIB_chiplet_5_6_01_0_md0_ca0"
+ROOT_DIR = "/root/placement/MPDAP/experiment_result/output_gurobi_EMIB_chiplet_5_6_01_0_md0_ca0"
 
 # Output to same dir
 OUTPUT_DIR = ROOT_DIR
@@ -28,6 +29,34 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 # Config: grid size
 # ==============================
 GRID_SIZE = 16
+
+# ==============================
+# Precision helpers
+# ==============================
+# AR and SAR are both stored with 3 decimals.  Rounding goes through Decimal
+# with ROUND_HALF_UP so a trailing 5 does not fall to the even digit the way
+# Python's round() would.
+AR_DIGITS = 3
+SAR_DIGITS = 3
+
+
+def round_half_up(value, digits):
+    if value is None:
+        return None
+    quantum = Decimal(1).scaleb(-digits)
+    return float(Decimal(str(value)).quantize(quantum, rounding=ROUND_HALF_UP))
+
+
+def compute_sar(aspect_ratio, digits=SAR_DIGITS):
+    """SAR = max(AR, 1/AR) - 1, evaluated on the 3-decimal AR.
+
+    dSAR/dAR = 1 + 1/AR^2, so rounding the ratio first keeps the stored SAR
+    consistent with the AR that is written next to it.
+    """
+    ar = round_half_up(aspect_ratio, AR_DIGITS)
+    if not ar:
+        return 0.0
+    return round_half_up(max(ar, 1.0 / ar) - 1.0, digits)
 
 # ==============================
 # Generate grid points
@@ -52,12 +81,13 @@ def get_grid_points(chip):
 # ==============================
 # Compute total wirelength
 # ==============================
-def calculate_total_wirelength(data):
+def calculate_total_wirelength(data, test_file_name=None):
     chip_dict = {chip["name"]: chip for chip in data["chiplets"]}
     total_wirelength = 0.0
 
     # Try to load matching test_input file
-    test_file_name = os.path.basename(data.get("file_name", ""))
+    if test_file_name is None:
+        test_file_name = os.path.basename(data.get("file_name", ""))
     test_json_path = os.path.join(TEST_INPUT_DIR, test_file_name)
     test_connections_dict = {}
     test_connections = []
@@ -158,39 +188,58 @@ def process_all_placements(root_dir, json_file):
     Process placement dir under root_dir:
         root_dir/
             placement/*.json
-    Results written to json_file.
-    """
-    results = []
+    Each layout gets its 3-decimal aspect ratio and the SAR derived from it
+    written back; json_file is then updated with the same two fields.
 
+    Records already present in json_file are updated in place instead of being
+    rebuilt, so fields this script does not compute (interposer_size,
+    max_temperature, avg_temperature, ...) survive a rerun.
+    """
     placement_dir = os.path.join(root_dir, "placement")
     if not os.path.exists(placement_dir):
         print(f"[Warning] placement dir not found: {placement_dir}")
-    else:
-        json_files = glob(os.path.join(placement_dir, "*.json"))
+        return
 
-        for jf in json_files:
-            with open(jf, "r") as f_json:
-                data = json.load(f_json)
-                data["file_name"] = os.path.basename(jf)  # For test_input lookup
+    existing = {}
+    if os.path.exists(json_file):
+        with open(json_file, "r") as f_old:
+            for record in json.load(f_old):
+                existing[record.get("file")] = record
 
-            wirelength = calculate_total_wirelength(data)
-            area, aspect_ratio = calculate_area_and_aspect_ratio(data)
+    results = []
+    for jf in sorted(glob(os.path.join(placement_dir, "*.json"))):
+        name = os.path.basename(jf)
+        with open(jf, "r") as f_json:
+            data = json.load(f_json)
 
-            record = {
-                "folder": os.path.basename(root_dir),
-                "file": os.path.basename(jf),
-                "wirelength": round(wirelength, 2),
-                "area": round(area, 2),
-                "aspect_ratio": round(aspect_ratio, 3),
-            }
-            results.append(record)
+        wirelength = calculate_total_wirelength(data, name)
+        area, aspect_ratio = calculate_area_and_aspect_ratio(data)
+        ar = round_half_up(aspect_ratio, AR_DIGITS)
+        sar = compute_sar(aspect_ratio)
 
-            print(
-                f"Processed {jf}: "
-                f"wirelength={record['wirelength']}, "
-                f"area={record['area']}, "
-                f"aspect_ratio={record['aspect_ratio']}"
-            )
+        # Write the two metrics back into the layout itself.
+        data["aspect_ratio"] = ar
+        data["SAR"] = sar
+        with open(jf, "w") as f_json:
+            json.dump(data, f_json, indent=2, ensure_ascii=False)
+
+        record = existing.get(name) or {
+            "folder": os.path.basename(root_dir),
+            "file": name,
+        }
+        record.setdefault("wirelength", round(wirelength, 2))
+        record.setdefault("area", round(area, 2))
+        record["aspect_ratio"] = ar
+        record["SAR"] = sar
+        results.append(record)
+
+        print(
+            f"Processed {jf}: "
+            f"wirelength={record['wirelength']}, "
+            f"area={record['area']}, "
+            f"aspect_ratio={ar}, "
+            f"SAR={sar}"
+        )
 
     with open(json_file, "w") as f_out:
         json.dump(results, f_out, indent=4)

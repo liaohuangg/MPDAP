@@ -1,0 +1,62 @@
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\begin{table*}[t]
+\centering
+\caption{Wirelength Comparison of Different Placement Methods}
+\label{tab:comp_wl_six_methods}
+\setlength{\tabcolsep}{3pt} % 列间距
+\renewcommand{\arraystretch}{1.25}
+
+% --- 修改开始 ---
+% 这里的宽度需要根据你的实际页面宽度微调
+% 假设第一列 1.7cm，剩下6列平分剩余空间，或者按需分配
+% 例如：1.7 + 2.5*6 = 16.7cm (适合双栏)
+\begin{tabularx}{\textwidth}{
+    >{\centering\arraybackslash}p{1.9cm}|
+    >{\centering\arraybackslash}p{2.5cm}| % BT
+    >{\centering\arraybackslash}p{2.5cm}| % RLP
+    >{\centering\arraybackslash}p{2.0cm}| % OM
+    >{\centering\arraybackslash}p{2.5cm}| % PM
+    >{\centering\arraybackslash}p{2.7cm}| % PmdM
+    >{\centering\arraybackslash}p{2.5cm}  % PcaM
+}
+% --- 修改结束 ---
+
+\toprule
+\multirow{2}{*}{\textbf{Test Case}}
+& \multicolumn{6}{c}{\textbf{Wirelength ($\mathrm{mm}$)}} \\
+\cmidrule(lr){2-7}
+& \textbf{BT} & \textbf{RLP} & \textbf{OM} & \textbf{PM} & \textbf{PmdM} & \textbf{PcaM} \\
+\midrule
+
+$acend910$ & \textcolor{ForestGreen}{24239.47 (+4.13\%)} & \textcolor{ForestGreen}{27216.78 (+16.92\%)} & 23277.60 (ref.) & 24964.25 (+7.25\%) & 23277.60 (0.00\%) & 24964.25 (+7.25\%) \\
+\addlinespace[2pt]
+
+$cpu\text{-}dram$ & \textcolor{ForestGreen}{54212.49 (+3.82\%)} & \textcolor{ForestGreen}{55848.63 (+6.96\%)} & 52215.63 (ref.) & 54712.48 (+4.78\%) & 54712.58 (+4.78\%) & 52215.53 (0.00\%) \\
+\addlinespace[2pt]
+
+$hp11\_m$ & - & - & 91437.23 (ref.) & 99416.90 (+8.73\%) & 98276.52 (+7.48\%) & 97170.41 (+6.27\%) \\
+\addlinespace[2pt]
+
+$hp6\_m$ & \textcolor{ForestGreen}{10632.56 (+2.98\%)} & \textcolor{ForestGreen}{14916.86 (+44.47\%)} & 10325.19 (ref.) & 9850.71 (-4.60\%) & 10325.19 (0.00\%) & 9850.71 (-4.60\%) \\
+\addlinespace[2pt]
+
+$hp8\_m$ & \textcolor{ForestGreen}{59358.83 (+37.01\%)} & - & 43325.89 (ref.) & 44477.37 (+2.66\%) & 44088.95 (+1.76\%) & 43647.63 (+0.74\%) \\
+\addlinespace[2pt]
+
+$multigpu$ & \textcolor{ForestGreen}{54874.77 (+1.50\%)} & \textcolor{ForestGreen}{59321.26 (+9.72\%)} & 54064.65 (ref.) & 55238.75 (+2.17\%) & 108413.62 (+100.53\%) & 53270.88 (-1.47\%) \\
+\addlinespace[2pt]
+
+$syn1$ & \textcolor{ForestGreen}{54684.99 (+17.24\%)} & - & 46641.86 (ref.) & 48502.02 (+3.99\%) & 48812.69 (+4.65\%) & 51260.74 (+9.90\%) \\
+\addlinespace[2pt]
+
+$syn5$ & - & - & 66232.59 (ref.) & 69496.09 (+4.93\%) & 69760.47 (+5.33\%) & 70443.13 (+6.36\%) \\
+\addlinespace[2pt]
+
+
+\bottomrule
+\end{tabularx}
+\vspace{1mm}
+% \begin{flushleft}
+% \footnotesizeNote: Numbers in parentheses (or second row) indicate percentage change relative to the OM method.
+% \end{flushleft}
+\end{table*}

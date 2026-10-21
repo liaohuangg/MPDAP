@@ -8,7 +8,6 @@ matplotlib.use("Agg")
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.patheffects import withStroke
 
 from generate_grid_heatmaps_no_bridge import (
     DEFAULT_INPUT_DIR,
@@ -16,9 +15,16 @@ from generate_grid_heatmaps_no_bridge import (
     read_flp_layout,
     read_grid_steady_layer,
     read_power,
-    resolve_label_overlaps,
 )
-from gen_flp_trace import build_layout, load_json_layout
+from gen_flp_trace import (
+    build_layout,
+    load_json_layout,
+    package_layer_side_mm,
+    resolve_case_key,
+    round_to_grid_mm,
+)
+# 芯粒名称/功耗标签的避让算法与 test_thermal 共用一套，避免两边各写一份。
+from test_thermal import _place_chip_labels
 
 
 DEFAULT_SUFFIX = "_layer2_grid_thermal_with_bridge"
@@ -32,7 +38,13 @@ def candidate_placement_dirs(input_dir: str, explicit_placement_dir: Optional[st
 
     input_dir = os.path.abspath(input_dir)
     input_name = os.path.basename(input_dir.rstrip(os.sep))
-    output_name = input_name[len("config_"):] if input_name.startswith("config_") else input_name
+    # config_exp_output_xxx / config_output_xxx -> 结果目录名 output_xxx
+    if input_name.startswith("config_exp_"):
+        output_name = input_name[len("config_exp_"):]
+    elif input_name.startswith("config_"):
+        output_name = input_name[len("config_"):]
+    else:
+        output_name = input_name
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
     candidates = [
@@ -65,7 +77,7 @@ def compute_json_to_flp_shift(json_path: str):
     JSON and returned shift are in millimeters.
     """
     orig_chiplets = load_json_layout(json_path)
-    shifted_chiplets, _ = build_layout(orig_chiplets)
+    shifted_chiplets, layout_side = build_layout(orig_chiplets)
     orig_by_name = {c["name"]: c for c in orig_chiplets}
     shifted_by_name = {c["name"]: c for c in shifted_chiplets}
 
@@ -80,6 +92,16 @@ def compute_json_to_flp_shift(json_path: str):
 
     shift_x = sum(dx_list) / len(dx_list) if dx_list else 0.0
     shift_y = sum(dy_list) / len(dy_list) if dy_list else 0.0
+
+    # build_layout 只是把布局居中到它自己的外接方框；gen_flp_trace 还会把
+    # 整个布局再平移到该 case 最大 interposer 方块的中心。硅桥必须叠加
+    # 同一段偏移，否则会整体偏到芯片左下方。
+    case_name = os.path.splitext(os.path.basename(json_path))[0]
+    case_key = resolve_case_key(case_name, json_path)
+    package_side = max(package_layer_side_mm(case_key, layout_side), layout_side)
+    center_offset = round_to_grid_mm((package_side - layout_side) / 2.0)
+    shift_x += center_offset
+    shift_y += center_offset
     return shift_x, shift_y
 
 
@@ -103,9 +125,10 @@ def iter_emib_bridges(json_path: str):
         yield x, y, w, h, emib_type
 
 
-def draw_emib_bridges(ax, placement_json: Optional[str]) -> int:
+def draw_emib_bridges(ax, placement_json: Optional[str]):
+    """画 EMIB 硅桥，返回它们的 (x, y, w, h) 列表（数据坐标，供标签避让用）。"""
     if not placement_json:
-        return 0
+        return []
 
     try:
         shift_x, shift_y = compute_json_to_flp_shift(placement_json)
@@ -113,7 +136,7 @@ def draw_emib_bridges(ax, placement_json: Optional[str]) -> int:
         print(f"[WARNING] Failed to compute chiplet translation for {placement_json}: {e}")
         shift_x = shift_y = 0.0
 
-    count = 0
+    rects = []
     try:
         for x, y, w, h, _ in iter_emib_bridges(placement_json):
             rect = patches.Rectangle(
@@ -127,11 +150,11 @@ def draw_emib_bridges(ax, placement_json: Optional[str]) -> int:
                 zorder=5,
             )
             ax.add_patch(rect)
-            count += 1
+            rects.append((x + shift_x, y + shift_y, w, h))
     except Exception as e:
         print(f"[WARNING] Failed to parse/draw EMIB bridges from {placement_json}: {e}")
-        return 0
-    return count
+        return []
+    return rects
 
 
 def plot_heatmap(flp_file, grid_steady_file, output_image, layer_num, placement_json=None):
@@ -168,13 +191,12 @@ def plot_heatmap(flp_file, grid_steady_file, output_image, layer_num, placement_
     ax.set_ylabel("Y (mm)", fontsize=24)
     ax.tick_params(axis="both", labelsize=22)
 
-    bridge_count = draw_emib_bridges(ax, placement_json)
-    if placement_json and bridge_count == 0:
+    bridge_rects = draw_emib_bridges(ax, placement_json)
+    if placement_json and not bridge_rects:
         print(f"[WARNING] No EMIB bridges drawn for {placement_json}")
 
-    labels = []
     for chiplet in chiplets:
-        name, w, h, x, y = chiplet
+        _, w, h, x, y = chiplet
         rect = patches.Rectangle(
             (x, y),
             w,
@@ -185,38 +207,39 @@ def plot_heatmap(flp_file, grid_steady_file, output_image, layer_num, placement_
             zorder=6,
         )
         ax.add_patch(rect)
-        p = power.get(name, 0.0)
-        label = f"{name}\n{p:.2f}W" if p > 0 else name
-        text = ax.text(
-            x + w / 2,
-            y + h / 2,
-            label,
-            ha="center",
-            va="center",
-            fontsize=18,
-            fontweight="bold",
-            color="white",
-            linespacing=1.15,
-            zorder=7,
-            path_effects=[withStroke(linewidth=3, foreground="black")],
-        )
-        labels.append({"text": text, "chiplet": chiplet})
 
-    resolve_label_overlaps(fig, ax, labels)
+    # 先把版面定下来（tight_layout 会改变坐标轴像素尺寸），再按最终尺寸
+    # 摆放名称/功耗标签：两者是分开的 text，名称始终留在芯粒内，功耗行
+    # 挂在名称正下方，并按 17x7 锚点 x 9 种对齐做多轮坐标下降，尽量不与
+    # 其他标签、EMIB 硅桥重叠。标签 zorder=20，压在芯粒与硅桥之上。
+    plt.tight_layout()
+    _place_chip_labels(
+        ax,
+        fig,
+        chiplets,
+        power,
+        bridge_rects,
+        fontsize=18,
+        power_fmt="{:.0f}W",
+        stroke=3,
+        # 名称/功耗离硅桥至少留 0.15mm，避免描边和抗锯齿在视觉上压到桥上
+        bridge_clear=0.15,
+    )
 
     os.makedirs(os.path.dirname(output_image), exist_ok=True)
-    plt.tight_layout()
     plt.savefig(output_image, dpi=300, bbox_inches="tight", facecolor="white")
     plt.close(fig)
 
 
-def discover_jobs(input_dir, suffix, placement_dir=None):
+def discover_jobs(input_dir, suffix, placement_dir=None, cases=None):
     jobs = []
     for name in sorted(os.listdir(input_dir)):
         config_dir = os.path.join(input_dir, name)
         if not name.endswith("_config") or not os.path.isdir(config_dir):
             continue
         case_name = name[:-7]
+        if cases and case_name not in cases:
+            continue
         flp_file = os.path.join(config_dir, f"{case_name}.flp")
         output_dir = os.path.join(config_dir, "output")
         grid_steady_file = os.path.join(output_dir, f"{case_name}.grid.steady")
@@ -239,10 +262,16 @@ def main():
     parser.add_argument("--placement_dir", default=None)
     parser.add_argument("--layer", type=int, default=2)
     parser.add_argument("--suffix", default=DEFAULT_SUFFIX)
+    parser.add_argument("--case", action="append", default=None,
+                        help="只画指定 case（可重复或逗号分隔），默认画全部")
     args = parser.parse_args()
 
+    cases = None
+    if args.case:
+        cases = {c.strip() for item in args.case for c in item.split(",") if c.strip()}
+
     input_dir = os.path.abspath(args.input_dir)
-    jobs = discover_jobs(input_dir, args.suffix, args.placement_dir)
+    jobs = discover_jobs(input_dir, args.suffix, args.placement_dir, cases)
     if not jobs:
         raise SystemExit(f"No *_config/output/*.grid.steady jobs found under {args.input_dir}")
 

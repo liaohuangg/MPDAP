@@ -9,14 +9,18 @@ For every layout that has a HotSpot run under config_sum, this script
      calculator, MPDAP/src/calculate_area_and_aspect_ratio.py,
   3. derives interposer_size = max(bbox width, bbox height) and
      SAR = max(AR, 1/AR) - 1 (both as written by bt_tree),
-  4. writes those seven fields back into the placement JSON in place.
+  4. writes those seven fields back into the placement JSON in place,
+  5. refreshes the per-group <group>/placement_results.json summary with one
+     record per case (same seven fields).
 
 Layouts without a thermal run (the sweeps excluded by thermal_pkg.txt) are
-reported and left untouched.
+reported and left untouched; their summary records simply omit the two
+temperature fields.
 
 Usage:
     python3 src/writeback_metrics.py --dry-run
     python3 src/writeback_metrics.py
+    python3 src/writeback_metrics.py --summaries-only
 """
 
 import argparse
@@ -99,11 +103,119 @@ def unheated_layouts(covered):
     return sorted(out)
 
 
+METRIC_KEYS = ("wirelength", "area", "aspect_ratio", "interposer_size", "SAR",
+               "max_temperature", "avg_temperature")
+
+
+def layout_groups():
+    """(group dir, [(folder, filename, path)]) for both result trees.
+
+    The gurobi sweeps keep their layouts in <group>/placement/*.json; bt_tree
+    and RL keep one directory per case holding solution_*.json.
+    """
+    out = []
+    for tree in ("experiment_result", "parameter_result"):
+        root = os.path.join(MPDAP_DIR, tree)
+        if not os.path.isdir(root):
+            continue
+        for group in sorted(os.listdir(root)):
+            gdir = os.path.join(root, group)
+            if not os.path.isdir(gdir):
+                continue
+            placement = os.path.join(gdir, "placement")
+            if os.path.isdir(placement):
+                layouts = [(group, f, os.path.join(placement, f))
+                           for f in sorted(os.listdir(placement))
+                           if f.endswith(".json")]
+            else:
+                layouts = []
+                for case in sorted(os.listdir(gdir)):
+                    cdir = os.path.join(gdir, case)
+                    if not os.path.isdir(cdir):
+                        continue
+                    for f in sorted(os.listdir(cdir)):
+                        if f.startswith("solution_") and f.endswith(".json"):
+                            layouts.append((f"{group}/{case}", f,
+                                            os.path.join(cdir, f)))
+            if layouts:
+                out.append((gdir, layouts))
+    return out
+
+
+def write_group_summaries(dry_run):
+    """One record per case in <group>/placement_results.json."""
+    written = []
+    for gdir, layouts in layout_groups():
+        records = []
+        for folder, fname, path in layouts:
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            record = {"folder": folder, "file": fname}
+            for key in METRIC_KEYS:
+                if key in data:
+                    record[key] = data[key]
+            records.append(record)
+        out_path = os.path.join(gdir, "placement_results.json")
+        if not dry_run:
+            with open(out_path, "w", encoding="utf-8") as f:
+                json.dump(records, f, indent=2, ensure_ascii=False)
+                f.write("\n")
+        written.append((out_path, records))
+    return written
+
+
+def compute_metrics(layout_json):
+    """Recompute the five non-thermal fields in place in the loaded dict.
+
+    Returns (data, old values), or None when the layout cannot be tied to a
+    benchmark case (the wireCount lookup needs one).
+    """
+    case = case_name(layout_json)
+    if case is None:
+        return None
+    with open(layout_json, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    old = {k: data.get(k) for k in METRIC_KEYS[:5]}
+    data["file_name"] = f"{case}.json"     # wireCount lookup only, not saved
+    wirelength = CALC.calculate_total_wirelength(data)
+    area, aspect_ratio = CALC.calculate_area_and_aspect_ratio(data)
+    width, height = bbox_size(data)
+    data.pop("file_name", None)
+
+    data["wirelength"] = round(wirelength, 2)
+    data["area"] = round(area, 2)
+    data["aspect_ratio"] = round(aspect_ratio, 3)
+    data["interposer_size"] = round(max(width, height), 2)
+    data["SAR"] = round(max(aspect_ratio, 1.0 / aspect_ratio) - 1.0
+                        if aspect_ratio else 0.0, 4)
+    return data, old
+
+
+def report_drift(layout_json, data, old):
+    """[(path, [(key, stored, recomputed, relative diff)])] for the summary."""
+    drifts = []
+    for key, stored in old.items():
+        if stored is None:
+            continue
+        rel = abs(float(stored) - float(data[key])) / max(1e-9, abs(float(data[key])))
+        drifts.append((key, stored, data[key], rel))
+    return [(layout_json, drifts)] if drifts else []
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--dry-run", action="store_true",
                     help="compute and print, do not touch the JSON files")
+    ap.add_argument("--summaries-only", action="store_true",
+                    help="only refresh <group>/placement_results.json")
     args = ap.parse_args()
+
+    if args.summaries_only:
+        written = write_group_summaries(args.dry_run)
+        print(f"summaries: {len(written)} placement_results.json"
+              f"{' (dry-run)' if args.dry_run else ''}")
+        return 0
 
     jobs = collect_jobs()
     print(f"{len(jobs)} layouts with a thermal run")
@@ -116,43 +228,17 @@ def main():
         if not os.path.exists(grid):
             missing_grid.append((layout_json, grid))
             continue
-        case = case_name(layout_json)
-        if case is None:
+
+        result = compute_metrics(layout_json)
+        if result is None:
             missing_case.append(layout_json)
             continue
+        data, old = result
 
         temps = [t - 273.15 for t in read_layer_temps(grid, 2)]
-        max_t = max(temps)
-        avg_t = sum(temps) / len(temps)
-
-        with open(layout_json, "r", encoding="utf-8") as f:
-            data = json.load(f)
-
-        data["file_name"] = f"{case}.json"     # wireCount lookup only, not saved
-        old = {k: data.get(k) for k in ("wirelength", "area", "aspect_ratio",
-                                        "interposer_size", "SAR")}
-        wirelength = CALC.calculate_total_wirelength(data)
-        area, aspect_ratio = CALC.calculate_area_and_aspect_ratio(data)
-        width, height = bbox_size(data)
-        interposer_size = max(width, height)
-        sar = max(aspect_ratio, 1.0 / aspect_ratio) - 1.0 if aspect_ratio else 0.0
-        data.pop("file_name", None)
-
-        data["wirelength"] = round(wirelength, 2)
-        data["area"] = round(area, 2)
-        data["aspect_ratio"] = round(aspect_ratio, 3)
-        data["interposer_size"] = round(interposer_size, 2)
-        data["SAR"] = round(sar, 4)
-        data["max_temperature"] = round(max_t, 2)
-        data["avg_temperature"] = round(avg_t, 2)
-        drifts = []
-        for k in old:
-            if old[k] is None:
-                continue
-            rel = abs(float(old[k]) - float(data[k])) / max(1e-9, abs(float(data[k])))
-            drifts.append((k, old[k], data[k], rel))
-        if drifts:
-            changed.append((layout_json, drifts))
+        data["max_temperature"] = round(max(temps), 2)
+        data["avg_temperature"] = round(sum(temps) / len(temps), 2)
+        changed.extend(report_drift(layout_json, data, old))
 
         if not args.dry_run:
             with open(layout_json, "w", encoding="utf-8") as f:
@@ -195,9 +281,31 @@ def main():
     covered = {os.path.realpath(j[1]) for j in jobs}
     spare = unheated_layouts(covered)
     if spare:
-        print(f"\nlayout JSONs with no thermal run, left untouched ({len(spare)}):")
+        # No thermal run for these sweeps, but their layout metrics should
+        # still follow the same calculator as everything else.
+        print(f"\nlayout JSONs with no thermal run ({len(spare)}, "
+              f"metrics refreshed, no temperature fields):")
         for path in spare:
-            print(f"  {os.path.relpath(path, MPDAP_DIR)}")
+            result = compute_metrics(path)
+            rel = os.path.relpath(path, MPDAP_DIR)
+            if result is None:
+                print(f"  {rel}: skipped, unknown benchmark case")
+                continue
+            data, old = result
+            changed.extend(report_drift(path, data, old))
+            if not args.dry_run:
+                with open(path, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=2, ensure_ascii=False)
+                    f.write("\n")
+            print(f"  {rel}")
+
+    summaries = write_group_summaries(args.dry_run)
+    n_no_temp = sum(1 for _, recs in summaries for r in recs
+                    if "max_temperature" not in r)
+    print(f"\nsummaries: {len(summaries)} placement_results.json"
+          f"{' (dry-run)' if args.dry_run else ''}, "
+          f"{sum(len(r) for _, r in summaries)} records, "
+          f"{n_no_temp} without temperature (no thermal run)")
     return 1 if (missing_grid or missing_case) else 0
 
 

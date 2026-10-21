@@ -1,0 +1,57 @@
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\begin{table*}[t]
+\centering
+\caption{symmetric aspect ratio deviation comparison of different placement methods}
+\label{tab:comp_sar_six_methods}
+\setlength{\tabcolsep}{3pt} % 列间距
+\renewcommand{\arraystretch}{1.25}
+
+% --- 修改开始 ---
+% 这里的宽度需要根据你的实际页面宽度微调
+% 假设第一列 1.7cm，剩下6列平分剩余空间，或者按需分配
+% 例如：1.7 + 2.5*6 = 16.7cm (适合双栏)
+\begin{tabularx}{\textwidth}{
+    >{\centering\arraybackslash}p{2.0cm}|
+    >{\centering\arraybackslash}p{2.5cm}| % BT
+    >{\centering\arraybackslash}p{2.5cm}| % RLP
+    >{\centering\arraybackslash}p{2.0cm}| % OM
+    >{\centering\arraybackslash}p{2.5cm}| % PM
+    >{\centering\arraybackslash}p{2.5cm}| % PmdM
+    >{\centering\arraybackslash}p{2.7cm}  % PcaM
+}
+% --- 修改结束 ---
+
+\toprule
+\multirow{2}{*}{\textbf{Test Case}}
+& \multicolumn{6}{c}{\textbf{Symmetric Aspect Ratio Deviation}} \\
+\cmidrule(lr){2-7}
+& \textbf{BT} & \textbf{RLP} & \textbf{OM} & \textbf{PM} & \textbf{PmdM} & \textbf{PcaM} \\
+\midrule
+
+$ascend910$ & \textcolor{ForestGreen}{0.397 (+128.16\%)} & \textcolor{ForestGreen}{0.253 (+45.63\%)} & 0.174 (ref.) & 0.195 (+12.07\%) & 0.174 (0.00\%) & 0.195 (+12.07\%) \\
+\addlinespace[2pt]
+
+$cpu\text{-}dram$ & \textcolor{ForestGreen}{0.594 (-33.29\%)} & \textcolor{ForestGreen}{0.303 (-65.95\%)} & 0.890 (ref.) & 0 (-100.00\%) & 0 (-100.00\%) & 0.889 (-0.15\%) \\
+\addlinespace[2pt]
+
+$hp11\_m$ & - & - & 0.176 (ref.) & 0.223 (+26.37\%) & 0.495 (+180.37\%) & 0.211 (+19.37\%) \\
+\addlinespace[2pt]
+
+$hp6\_m$ & \textcolor{ForestGreen}{0.828 (-36.99\%)} & \textcolor{ForestGreen}{2.058 (+56.59\%)} & 1.314 (ref.) & 1.314 (0.00\%) & 1.314 (0.00\%) & 1.314 (0.00\%) \\
+\addlinespace[2pt]
+
+$hp8\_m$ & \textcolor{ForestGreen}{0.058 (-95.95\%)} & - & 1.433 (ref.) & 1.219 (-14.94\%) & 1.217 (-15.06\%) & 1.137 (-20.68\%) \\
+\addlinespace[2pt]
+
+$multigpu$ & \textcolor{ForestGreen}{0.866 (+1913.95\%)} & \textcolor{ForestGreen}{0.131 (+204.19\%)} & 0.043 (ref.) & 0.232 (+438.44\%) & 0 (-100.00\%) & 0.865 (+1911.63\%) \\
+\addlinespace[2pt]
+
+$syn1$ & \textcolor{ForestGreen}{0.076 (+130.30\%)} & - & 0.033 (ref.) & 0.138 (+317.14\%) & 0.100 (+203.03\%) & 0.067 (+103.03\%) \\
+\addlinespace[2pt]
+
+$syn5$ & - & - & 0.037 (ref.) & 0.056 (+49.87\%) & 0.208 (+456.25\%) & 0.037 (0.00\%) \\
+\addlinespace[2pt]
+
+\bottomrule
+\end{tabularx}
+\end{table*}
