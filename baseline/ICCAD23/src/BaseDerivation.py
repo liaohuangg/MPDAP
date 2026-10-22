@@ -17,17 +17,18 @@ from bridge_legality import make_bridge_checker
 # and a low SA temperature can turn dozens of legal layouts into dozens of
 # distinct roots; beyond this count the extra trees mostly repeat topologies
 # the group-construction step already covers, at a full tree-build cost each.
-MAX_ROOT_NODES = 10
+# `ICCAD23_MAX_ROOTS` overrides it for parameter sweeps (30/50-base runs).
+MAX_ROOT_NODES = int(os.environ.get("ICCAD23_MAX_ROOTS", "30"))
 
 # Paper §III-B4 repeats MST-based partitioning "until a sufficient number of
 # bases are obtained"; the number of attempts is not the stopping rule. Since
-# one attempt often yields no base, `num_runs` is treated as a per-base budget:
+# one attempt often yields no base, the attempt budget is set per base wanted:
 # the loop keeps generating initial topologies for up to
-# `num_runs * BASE_DERIVATION_ATTEMPT_FACTOR` attempts, stopping earlier once
-# MAX_ROOT_NODES bases exist. The absolute cap keeps a case whose topologies
-# almost never legalize from running forever.
+# `max(num_runs, MAX_ROOT_NODES) * BASE_DERIVATION_ATTEMPT_FACTOR` attempts,
+# stopping earlier once MAX_ROOT_NODES bases exist. The absolute cap keeps a
+# case whose topologies almost never legalize from running forever.
 BASE_DERIVATION_ATTEMPT_FACTOR = 4
-BASE_DERIVATION_ATTEMPT_CAP = 150
+BASE_DERIVATION_ATTEMPT_CAP = 300
 
 
 def run_base_derivation(problem: LayoutProblem,
@@ -80,7 +81,10 @@ def run_base_derivation(problem: LayoutProblem,
 
     # Paper §III-B4: keep partitioning until enough bases exist. `num_runs` is
     # the per-base budget, and the absolute cap bounds a pathological case.
-    max_attempts = min(num_runs * BASE_DERIVATION_ATTEMPT_FACTOR,
+    # The attempt budget follows the root target: 4 attempts per base wanted.
+    # With MAX_ROOT_NODES=30 this is the 120 attempts used before; with 50 it
+    # becomes 200, so raising the cap does not silently stop at the old budget.
+    max_attempts = min(max(num_runs, MAX_ROOT_NODES) * BASE_DERIVATION_ATTEMPT_FACTOR,
                        BASE_DERIVATION_ATTEMPT_CAP)
 
     if verbose:

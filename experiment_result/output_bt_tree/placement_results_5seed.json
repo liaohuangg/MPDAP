@@ -1,56 +1,56 @@
 [
   {
-    "folder": "output_bt_tree/acend910",
+    "folder": "output_bt_tree/ascend910",
     "file": "solution_1_seed00_cost_78.011238.json",
     "wirelength": 24239.47,
     "area": 1257.0,
     "aspect_ratio": 0.716,
     "interposer_size": 41.9,
-    "SAR": 0.3967,
-    "max_temperature": 75.62,
-    "avg_temperature": 63.8
+    "SAR": 0.397,
+    "max_temperature": 75.61,
+    "avg_temperature": 59.21
   },
   {
-    "folder": "output_bt_tree/acend910",
+    "folder": "output_bt_tree/ascend910",
     "file": "solution_2_seed01_cost_81.785246.json",
     "wirelength": 25414.3,
     "area": 1417.09,
     "aspect_ratio": 0.757,
     "interposer_size": 43.27,
-    "SAR": 0.3212,
-    "max_temperature": 75.0,
-    "avg_temperature": 63.15
+    "SAR": 0.321,
+    "max_temperature": 75.03,
+    "avg_temperature": 59.13
   },
   {
-    "folder": "output_bt_tree/acend910",
+    "folder": "output_bt_tree/ascend910",
     "file": "solution_3_seed02_cost_81.785246.json",
     "wirelength": 25414.3,
     "area": 1417.09,
     "aspect_ratio": 0.757,
     "interposer_size": 43.27,
-    "SAR": 0.3212,
-    "max_temperature": 75.0,
-    "avg_temperature": 63.15
+    "SAR": 0.321,
+    "max_temperature": 75.03,
+    "avg_temperature": 59.13
   },
   {
-    "folder": "output_bt_tree/acend910",
+    "folder": "output_bt_tree/ascend910",
     "file": "solution_4_seed03_cost_81.785246.json",
     "wirelength": 25414.3,
     "area": 1417.09,
     "aspect_ratio": 0.757,
     "interposer_size": 43.27,
-    "SAR": 0.3212,
-    "max_temperature": 75.0,
-    "avg_temperature": 63.15
+    "SAR": 0.321,
+    "max_temperature": 75.03,
+    "avg_temperature": 59.13
   },
   {
-    "folder": "output_bt_tree/acend910",
+    "folder": "output_bt_tree/ascend910",
     "file": "solution_5_seed04_cost_91.990761.json",
     "wirelength": 28646.49,
     "area": 1378.03,
     "aspect_ratio": 0.392,
     "interposer_size": 59.27,
-    "SAR": 1.5492,
+    "SAR": 1.551,
     "max_temperature": 74.18,
     "avg_temperature": 58.97
   },
@@ -61,9 +61,9 @@
     "area": 1499.88,
     "aspect_ratio": 1.19,
     "interposer_size": 42.25,
-    "SAR": 0.1901,
-    "max_temperature": 121.91,
-    "avg_temperature": 83.21
+    "SAR": 0.19,
+    "max_temperature": 121.86,
+    "avg_temperature": 81.55
   },
   {
     "folder": "output_bt_tree/cpu-dram",
@@ -72,7 +72,7 @@
     "area": 1145.88,
     "aspect_ratio": 0.579,
     "interposer_size": 44.5,
-    "SAR": 0.7282,
+    "SAR": 0.727,
     "max_temperature": 117.92,
     "avg_temperature": 81.38
   },
@@ -83,7 +83,7 @@
     "area": 1145.88,
     "aspect_ratio": 0.579,
     "interposer_size": 44.5,
-    "SAR": 0.7282,
+    "SAR": 0.727,
     "max_temperature": 118.62,
     "avg_temperature": 81.4
   },
@@ -94,9 +94,9 @@
     "area": 1155.68,
     "aspect_ratio": 1.545,
     "interposer_size": 42.25,
-    "SAR": 0.5446,
-    "max_temperature": 121.02,
-    "avg_temperature": 82.82
+    "SAR": 0.545,
+    "max_temperature": 120.97,
+    "avg_temperature": 81.21
   },
   {
     "folder": "output_bt_tree/cpu-dram",
@@ -105,7 +105,7 @@
     "area": 1513.0,
     "aspect_ratio": 0.764,
     "interposer_size": 44.5,
-    "SAR": 0.3088,
+    "SAR": 0.309,
     "max_temperature": 121.22,
     "avg_temperature": 81.42
   },
@@ -116,9 +116,9 @@
     "area": 471.81,
     "aspect_ratio": 0.432,
     "interposer_size": 33.04,
-    "SAR": 1.3137,
-    "max_temperature": 95.95,
-    "avg_temperature": 64.92
+    "SAR": 1.315,
+    "max_temperature": 95.19,
+    "avg_temperature": 58.4
   },
   {
     "folder": "output_bt_tree/hp6_m",
@@ -127,9 +127,9 @@
     "area": 471.81,
     "aspect_ratio": 0.432,
     "interposer_size": 33.04,
-    "SAR": 1.3137,
-    "max_temperature": 95.95,
-    "avg_temperature": 64.92
+    "SAR": 1.315,
+    "max_temperature": 95.19,
+    "avg_temperature": 58.4
   },
   {
     "folder": "output_bt_tree/hp6_m",
@@ -138,9 +138,9 @@
     "area": 471.81,
     "aspect_ratio": 0.432,
     "interposer_size": 33.04,
-    "SAR": 1.3137,
-    "max_temperature": 95.95,
-    "avg_temperature": 64.92
+    "SAR": 1.315,
+    "max_temperature": 95.19,
+    "avg_temperature": 58.4
   },
   {
     "folder": "output_bt_tree/hp6_m",
@@ -149,7 +149,7 @@
     "area": 491.57,
     "aspect_ratio": 0.174,
     "interposer_size": 53.2,
-    "SAR": 4.7576,
+    "SAR": 4.747,
     "max_temperature": 86.61,
     "avg_temperature": 57.19
   },
@@ -160,9 +160,9 @@
     "area": 402.43,
     "aspect_ratio": 0.369,
     "interposer_size": 33.04,
-    "SAR": 1.7126,
-    "max_temperature": 92.36,
-    "avg_temperature": 65.62
+    "SAR": 1.71,
+    "max_temperature": 91.82,
+    "avg_temperature": 58.62
   },
   {
     "folder": "output_bt_tree/hp8_m",
@@ -171,9 +171,9 @@
     "area": 2093.85,
     "aspect_ratio": 0.941,
     "interposer_size": 47.18,
-    "SAR": 0.0631,
+    "SAR": 0.063,
     "max_temperature": 99.27,
-    "avg_temperature": 61.11
+    "avg_temperature": 60.27
   },
   {
     "folder": "output_bt_tree/hp8_m",
@@ -182,9 +182,9 @@
     "area": 2093.85,
     "aspect_ratio": 0.941,
     "interposer_size": 47.18,
-    "SAR": 0.0631,
+    "SAR": 0.063,
     "max_temperature": 99.27,
-    "avg_temperature": 61.11
+    "avg_temperature": 60.27
   },
   {
     "folder": "output_bt_tree/hp8_m",
@@ -193,9 +193,9 @@
     "area": 1424.68,
     "aspect_ratio": 1.305,
     "interposer_size": 43.12,
-    "SAR": 0.3051,
-    "max_temperature": 95.45,
-    "avg_temperature": 63.8
+    "SAR": 0.305,
+    "max_temperature": 95.48,
+    "avg_temperature": 61.59
   },
   {
     "folder": "output_bt_tree/hp8_m",
@@ -204,9 +204,9 @@
     "area": 2093.85,
     "aspect_ratio": 0.941,
     "interposer_size": 47.18,
-    "SAR": 0.0631,
+    "SAR": 0.063,
     "max_temperature": 99.27,
-    "avg_temperature": 61.11
+    "avg_temperature": 60.27
   },
   {
     "folder": "output_bt_tree/hp8_m",
@@ -215,7 +215,7 @@
     "area": 1720.72,
     "aspect_ratio": 0.634,
     "interposer_size": 52.08,
-    "SAR": 0.5763,
+    "SAR": 0.577,
     "max_temperature": 93.34,
     "avg_temperature": 61.13
   },
@@ -226,7 +226,7 @@
     "area": 1255.98,
     "aspect_ratio": 0.536,
     "interposer_size": 48.4,
-    "SAR": 0.8651,
+    "SAR": 0.866,
     "max_temperature": 97.6,
     "avg_temperature": 79.4
   },
@@ -237,7 +237,7 @@
     "area": 1255.98,
     "aspect_ratio": 0.536,
     "interposer_size": 48.4,
-    "SAR": 0.8651,
+    "SAR": 0.866,
     "max_temperature": 97.6,
     "avg_temperature": 79.4
   },
@@ -248,7 +248,7 @@
     "area": 1255.98,
     "aspect_ratio": 0.536,
     "interposer_size": 48.4,
-    "SAR": 0.8651,
+    "SAR": 0.866,
     "max_temperature": 97.6,
     "avg_temperature": 79.4
   },
@@ -259,7 +259,7 @@
     "area": 1255.98,
     "aspect_ratio": 0.536,
     "interposer_size": 48.4,
-    "SAR": 0.8651,
+    "SAR": 0.866,
     "max_temperature": 97.6,
     "avg_temperature": 79.4
   },
@@ -270,7 +270,7 @@
     "area": 1255.98,
     "aspect_ratio": 0.536,
     "interposer_size": 48.4,
-    "SAR": 0.8651,
+    "SAR": 0.866,
     "max_temperature": 97.6,
     "avg_temperature": 79.4
   },
@@ -281,7 +281,7 @@
     "area": 1410.0,
     "aspect_ratio": 0.638,
     "interposer_size": 47.0,
-    "SAR": 0.5667,
+    "SAR": 0.567,
     "max_temperature": 97.44,
     "avg_temperature": 72.93
   },
@@ -292,9 +292,9 @@
     "area": 1537.44,
     "aspect_ratio": 0.843,
     "interposer_size": 42.71,
-    "SAR": 0.1863,
-    "max_temperature": 99.7,
-    "avg_temperature": 75.18
+    "SAR": 0.186,
+    "max_temperature": 99.58,
+    "avg_temperature": 73.11
   },
   {
     "folder": "output_bt_tree/syn1",
@@ -303,9 +303,9 @@
     "area": 1073.0,
     "aspect_ratio": 0.784,
     "interposer_size": 37.0,
-    "SAR": 0.2759,
-    "max_temperature": 99.93,
-    "avg_temperature": 79.75
+    "SAR": 0.276,
+    "max_temperature": 99.42,
+    "avg_temperature": 73.83
   },
   {
     "folder": "output_bt_tree/syn1",
@@ -314,9 +314,9 @@
     "area": 1218.0,
     "aspect_ratio": 0.69,
     "interposer_size": 42.0,
-    "SAR": 0.4483,
-    "max_temperature": 97.23,
-    "avg_temperature": 76.14
+    "SAR": 0.449,
+    "max_temperature": 97.08,
+    "avg_temperature": 73.57
   },
   {
     "folder": "output_bt_tree/syn1",
@@ -325,8 +325,8 @@
     "area": 1147.0,
     "aspect_ratio": 0.838,
     "interposer_size": 37.0,
-    "SAR": 0.1935,
-    "max_temperature": 100.45,
-    "avg_temperature": 79.8
+    "SAR": 0.193,
+    "max_temperature": 99.96,
+    "avg_temperature": 73.86
   }
 ]

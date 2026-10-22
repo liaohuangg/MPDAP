@@ -1468,7 +1468,7 @@ def main():
         "syn1", "syn2", "syn3", "syn4", "syn5", "syn6",
         "hp6_m", "hp8_m", "hp11_m",
         "xerox6_m", "xerox7_m", "xerox8_m",
-        "cpu-dram", "acend910", "multigpu", "sys_micro150",
+        "cpu-dram", "ascend910", "multigpu", "sys_micro150",
     ]
 
     # Support command-line cases: python OverallSA.py syn1 hp6_m

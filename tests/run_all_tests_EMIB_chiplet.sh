@@ -32,11 +32,11 @@ mkdir -p "$log_dir"
 
 if [ $# -gt 0 ]; then
     case "$1" in
-        "acend910")
-            if [ -f "$log_dir/acend910.log" ]; then rm -f "$log_dir/acend910.log"; fi
-            touch "$log_dir/acend910.log"
-            python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5 "${solver_flag_args[@]}" "${solver_schedule_args[@]}" --files acend910.json > "$log_dir/acend910.log" 2>&1
-            echo "acend910.log solve done"
+        "ascend910")
+            if [ -f "$log_dir/ascend910.log" ]; then rm -f "$log_dir/ascend910.log"; fi
+            touch "$log_dir/ascend910.log"
+            python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5 "${solver_flag_args[@]}" "${solver_schedule_args[@]}" --files ascend910.json > "$log_dir/ascend910.log" 2>&1
+            echo "ascend910.log solve done"
             ;;
         "cpu-dram")
             if [ -f "$log_dir/cpu-dram.log" ]; then rm -f "$log_dir/cpu-dram.log"; fi
@@ -132,7 +132,7 @@ if [ $# -gt 0 ]; then
             echo "Error: unknown test name: $1"
             echo ""
             echo "Available tests:"
-            echo "  acend910, cpu-dram, hp11_m, hp6_m, hp8_m, multigpu,"
+            echo "  ascend910, cpu-dram, hp11_m, hp6_m, hp8_m, multigpu,"
             echo "  xerox6_m, xerox7_m, xerox8_m,"
             echo "  syn1, syn2, syn3, syn4, syn5, syn6"
             exit 1
@@ -140,10 +140,10 @@ if [ $# -gt 0 ]; then
     esac
 else
     # No arg: run all tests
-    # if [ -f "$log_dir/acend910.log" ]; then rm -f "$log_dir/acend910.log"; fi
-    # touch "$log_dir/acend910.log"
-    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5 "${solver_flag_args[@]}" "${solver_schedule_args[@]}" --files acend910.json > "$log_dir/acend910.log" 2>&1
-    # echo "acend910.log solve done"
+    # if [ -f "$log_dir/ascend910.log" ]; then rm -f "$log_dir/ascend910.log"; fi
+    # touch "$log_dir/ascend910.log"
+    # python3 batch_test_solutions_EMIB_chiplet.py --min-shared-length 1.5 "${solver_flag_args[@]}" "${solver_schedule_args[@]}" --files ascend910.json > "$log_dir/ascend910.log" 2>&1
+    # echo "ascend910.log solve done"
     
     if [ -f "$log_dir/cpu-dram.log" ]; then rm -f "$log_dir/cpu-dram.log"; fi
     touch "$log_dir/cpu-dram.log"

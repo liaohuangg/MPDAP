@@ -23,7 +23,7 @@ from BaseDerivation import run_base_derivation
 #
 # It is a cap on *attempts*, not on root nodes. One attempt returns every
 # distinct legal layout its SA visited and all of them are kept, so the forest
-# comes out wider than this number (acend910 seed 1, measured at base 10:
+# comes out wider than this number (ascend910 seed 1, measured at base 10:
 # 10 attempts -> 51 roots, so at base 30 it is at least that wide).
 #
 # It is NOT a clean search-budget knob, though. `run_base_derivation` seeds the

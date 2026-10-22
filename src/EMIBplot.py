@@ -77,6 +77,9 @@ def draw_one_json(current_json_path: Path, output_path: Path):
         data = json.load(f)
 
     test_input_path = Path(TEST_INPUT_DIR) / current_json_path.name
+    if not test_input_path.exists():
+        # solution_*.json live in <case>/, so fall back to the case name
+        test_input_path = Path(TEST_INPUT_DIR) / f"{current_json_path.parent.name}.json"
     test_input_data = {}
     if test_input_path.exists():
         with open(test_input_path, "r", encoding="utf-8") as f:
@@ -291,6 +294,10 @@ if not json_files:
     raise ValueError(f"目录下没有找到 json 文件: {json_root}")
 
 for jf in json_files:
+    with open(jf, "r", encoding="utf-8") as f:
+        if "chiplets" not in json.load(f):
+            print(f"Skip (not a placement file): {jf}")
+            continue
     draw_one_json(jf, output_path)
 
 print("图片批量生成完成")

@@ -616,8 +616,8 @@ def run_hotspot_simulation(config_dir, json_basename):
     - example.config, example.lcf, example.materials
     - {json名称}.ptrace, {json名称}.flp, {json名称}_sub.flp
     在 config_dir 下创建 output 子目录，将 .steady 和 .grid.steady 输出到该目录。
-    :param config_dir: 配置目录路径（如 config/acend910_config）
-    :param json_basename: JSON 基准名（如 acend910）
+    :param config_dir: 配置目录路径（如 config/ascend910_config）
+    :param json_basename: JSON 基准名（如 ascend910）
     :return: (steady_file, grid_steady_file) 或 (None, None)
     """
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -675,7 +675,7 @@ if __name__ == "__main__":
         '--config_dir',
         type=str,
         required=True,
-        help='配置目录路径，如 config/acend910_config',
+        help='配置目录路径，如 config/ascend910_config',
     )
     parser.add_argument(
         '--placement_dir',
@@ -713,10 +713,10 @@ if __name__ == "__main__":
         else None
     )
 
-    # 从目录名推导 json 基准名：acend910_config -> acend910
+    # 从目录名推导 json 基准名：ascend910_config -> ascend910
     dir_basename = os.path.basename(config_dir)
     if not dir_basename.endswith("_config"):
-        print("【错误】config_dir 应以 _config 结尾，如 acend910_config")
+        print("【错误】config_dir 应以 _config 结尾，如 ascend910_config")
         exit(1)
     json_basename = dir_basename[:-7]  # 去掉 "_config"
 

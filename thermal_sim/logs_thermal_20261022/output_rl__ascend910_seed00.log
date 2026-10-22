@@ -1,0 +1,23 @@
+[gen_flp_trace] Load JSON: /root/placement/MPDAP/experiment_result/output_rl/ascend910/solution_1_seed00_reward_224.5300.json
+✅ No overlaps in block list
+area_diff <= OVERLAP_TOLERANCE_MM2 * 100
+✅ No overlaps in block list
+[gen_flp_trace] Chiplet power from /root/placement/MPDAP/benchmark/test_input/ascend910.json
+✅ Generated .ptrace file: /root/placement/MPDAP/thermal_sim/config_sum/config_output_rl/ascend910_seed00_config/ascend910_seed00.ptrace
+📦 File contains power data for 16 modules
+✅ No grid overlap between chiplets or TIM blocks
+Warning: Layer Configuration File example.lcf specified. Overriding floorplan file ascend910_seed00.flp
+Computing steady-state temperatures...
+Parsing input files...
+Creating thermal circuit...
+Simulation complete.
+/root/placement/MPDAP/thermal_sim/src/../HotSpot/hotspot -c example.config -f ascend910_seed00.flp -p ascend910_seed00.ptrace -steady_file output/ascend910_seed00.steady -grid_steady_file output/ascend910_seed00.grid.steady -model_type grid -detailed_3D off -grid_layer_file example.lcf -materials_file example.materials
+
+===== 开始HotSpot热仿真 =====
+配置目录：/root/placement/MPDAP/thermal_sim/config_sum/config_output_rl/ascend910_seed00_config
+输出目录：/root/placement/MPDAP/thermal_sim/config_sum/config_output_rl/ascend910_seed00_config/output
+===== 热仿真执行完成，耗时：1.87 秒 =====
+
+已指定 --no-plot，跳过热图绘制
+[gen_flp_trace] Load JSON: /root/placement/MPDAP/experiment_result/output_rl/ascend910/solution_1_seed00_reward_224.5300.json
+[OK] /root/placement/MPDAP/thermal_sim/config_sum/config_output_rl/ascend910_seed00_config/output/ascend910_seed00_layer2_grid_thermal_with_bridge.png

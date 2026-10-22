@@ -1,6 +1,6 @@
 # Structured data: case_name -> method -> {maxT, BA, WL, AR, Time} (incl. temperature and power-aware MP)
 data = {
-    "acend910": {
+    "ascend910": {
         "btree": {
             "maxT": 67.05,
             "BA": 1257.00,
@@ -313,7 +313,7 @@ def compute_averages(exclude_cases_temp=None, data_source=None, methods=None, ti
     return result
 
 # Averages over specified cases
-specified_cases = ['acend910', 'cpu-dram', 'hp6_m', 'hp8_m', 'multigpu', 'syn1', 'sys_micro150']
+specified_cases = ['ascend910', 'cpu-dram', 'hp6_m', 'hp8_m', 'multigpu', 'syn1', 'sys_micro150']
 filtered_data = {k: v for k, v in data.items() if k in set(specified_cases)}
 avg_specified = compute_averages(exclude_cases_temp=[], data_source=filtered_data)
 print("\n--- Specified cases averages ---")
@@ -331,7 +331,7 @@ for method, stats in avg_specified.items():
 #     print("  BA:", stats["BA"], "| WL:", stats["WL"], "| |AR-1|:", stats["|AR-1|"], "| Time:", stats["Time"], "| maxT:", stats["maxT"])
 
 # power_aware_mp vs origin_mp averages over all 9 cases
-all_9_cases = ["acend910", "cpu-dram", "hp11_m", "hp6_m", "hp8_m", "multigpu", "syn1", "syn5", "sys_micro150"]
+all_9_cases = ["ascend910", "cpu-dram", "hp11_m", "hp6_m", "hp8_m", "multigpu", "syn1", "syn5", "sys_micro150"]
 filtered_all9 = {k: v for k, v in data.items() if k in set(all_9_cases)}
 avg_all9 = compute_averages(exclude_cases_temp=[], data_source=filtered_all9)
 print("\n--- 9 cases: power_aware_mp vs origin_mp averages ---")
@@ -379,7 +379,7 @@ for case_name in focus_cases:
         print(f"  {disp:8} {str(vs_bt):>8}%   {str(vs_om):>8}%")
 
 # Average % change of power_aware_mp vs origin_mp over 9 cases (negative=power_aware_mp better)
-all_cases = ["acend910", "cpu-dram", "hp11_m", "hp6_m", "hp8_m", "multigpu", "syn1", "syn5", "sys_micro150"]
+all_cases = ["ascend910", "cpu-dram", "hp11_m", "hp6_m", "hp8_m", "multigpu", "syn1", "syn5", "sys_micro150"]
 pct_list = {m: [] for m in ["BA", "WL", "|AR-1|", "Time", "maxT"]}
 metric_keys = [("BA", "BA"), ("WL", "WL"), ("|AR-1|", "AR"), ("Time", "Time"), ("maxT", "maxT")]
 for case_name in all_cases:

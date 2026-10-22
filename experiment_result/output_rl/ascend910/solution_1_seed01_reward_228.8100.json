@@ -1,0 +1,115 @@
+{
+  "chiplets": [
+    {
+      "name": "A",
+      "x-position": 42.75,
+      "y-position": 34.3,
+      "width": 14.5,
+      "height": 31.4,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "B",
+      "x-position": 57.25,
+      "y-position": 41.25,
+      "width": 16.0,
+      "height": 10.5,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "C",
+      "x-position": 31.75,
+      "y-position": 26.549999999999997,
+      "width": 11.87,
+      "height": 7.75,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "D",
+      "x-position": 30.880000000000003,
+      "y-position": 34.3,
+      "width": 11.87,
+      "height": 7.75,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "E",
+      "x-position": 30.880000000000003,
+      "y-position": 45.0,
+      "width": 11.87,
+      "height": 7.75,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "F",
+      "x-position": 57.25,
+      "y-position": 51.75,
+      "width": 11.87,
+      "height": 7.75,
+      "rotation": 0,
+      "power": 0.0
+    }
+  ],
+  "connections": [
+    {
+      "node1": "A",
+      "node2": "C",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 42.75835,
+      "EMIB-y-position": 33.3,
+      "EMIB-rotation": 0
+    },
+    {
+      "node1": "A",
+      "node2": "D",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 41.75,
+      "EMIB-y-position": 37.74835,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "A",
+      "node2": "E",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 41.75,
+      "EMIB-y-position": 48.44835,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "A",
+      "node2": "F",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 56.25,
+      "EMIB-y-position": 55.19835,
+      "EMIB-rotation": 1
+    }
+  ],
+  "wirelength": 25431.44,
+  "area": 1658.79,
+  "aspect_ratio": 1.082,
+  "interposer_size": 42.37,
+  "SAR": 0.0822,
+  "max_temperature": 75.08,
+  "avg_temperature": 59.2
+}

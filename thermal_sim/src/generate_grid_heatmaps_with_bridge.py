@@ -17,16 +17,16 @@ from generate_grid_heatmaps_no_bridge import (
     read_power,
 )
 from gen_flp_trace import (
-    CASE_MAX_INTERPOSER_MM,
+    PACKAGE_MODE_DEFAULT,
     build_layout,
     load_json_layout,
-    package_square_side_mm,
     resolve_case_key,
+    resolve_package_side_mm,
     round_to_grid_mm,
 )
 # 芯粒名称/功耗标签的避让和硅桥朝向的判断与 test_thermal 共用一套，避免两边
 # 各写一份、逐渐走样。
-from test_thermal import _emib_rect, _place_chip_labels
+from test_thermal import _emib_rect, _place_chip_labels, read_floorplan_box_mm
 
 
 DEFAULT_SUFFIX = "_layer2_grid_thermal_with_bridge"
@@ -73,10 +73,14 @@ def find_placement_json(input_dir: str, case_name: str, explicit_placement_dir: 
     return None
 
 
-def compute_json_to_flp_shift(json_path: str):
+def compute_json_to_flp_shift(json_path: str, package_side_mm: Optional[float] = None):
     """
     Recompute the same chiplet translation used by gen_flp_trace when FLP files were created.
     JSON and returned shift are in millimeters.
+
+    package_side_mm is the package square actually used by that run (read from
+    the generated <name>_sub.flp by the caller, so both --package_mode values
+    work); when omitted it falls back to the default sizing rule.
     """
     orig_chiplets = load_json_layout(json_path)
     shifted_chiplets, layout_side = build_layout(orig_chiplets)
@@ -96,13 +100,16 @@ def compute_json_to_flp_shift(json_path: str):
     shift_y = sum(dy_list) / len(dy_list) if dy_list else 0.0
 
     # build_layout 只是把布局居中到它自己的外接方框；gen_flp_trace 还会把
-    # 整个布局再平移到封装方块的中心。封装边长取该 case 所有布局的最大外接边，
-    # 硅桥必须叠加同一段偏移，否则会整体偏到芯片左下方。
-    case_key = resolve_case_key(
-        os.path.splitext(os.path.basename(json_path))[0], json_path)
-    case_side = CASE_MAX_INTERPOSER_MM.get(case_key)
-    package_side = (round_to_grid_mm(case_side) if case_side is not None
-                    else package_square_side_mm(layout_side))
+    # 整个布局再平移到封装方块的中心。硅桥必须叠加同一段偏移，否则会整体
+    # 偏到芯片左下方。封装边长优先取本次生成的实际值（_sub.flp），这样
+    # --package_mode 选 layout 还是 case 都不会画错。
+    if package_side_mm is None:
+        case_key = resolve_case_key(
+            os.path.splitext(os.path.basename(json_path))[0], json_path)
+        package_side = resolve_package_side_mm(case_key, layout_side,
+                                               PACKAGE_MODE_DEFAULT)
+    else:
+        package_side = round_to_grid_mm(package_side_mm)
     center_offset = round_to_grid_mm((package_side - layout_side) / 2.0)
     shift_x += center_offset
     shift_y += center_offset
@@ -130,7 +137,8 @@ def iter_emib_bridges(json_path: str):
                conn.get("node1"), conn.get("node2"), conn.get("EMIB_bump_width"))
 
 
-def draw_emib_bridges(ax, placement_json: Optional[str], chip_rects=None):
+def draw_emib_bridges(ax, placement_json: Optional[str], chip_rects=None,
+                      package_side_mm: Optional[float] = None):
     """画 EMIB 硅桥，返回它们的 (x, y, w, h) 列表（数据坐标，供标签避让用）。
 
     chip_rects 是 FLP 坐标（mm）下的 {name: (x, y, w, h)}，用来按共享边决定
@@ -141,7 +149,8 @@ def draw_emib_bridges(ax, placement_json: Optional[str], chip_rects=None):
         return []
 
     try:
-        shift_x, shift_y = compute_json_to_flp_shift(placement_json)
+        shift_x, shift_y = compute_json_to_flp_shift(placement_json,
+                                                     package_side_mm)
     except Exception as e:
         print(f"[WARNING] Failed to compute chiplet translation for {placement_json}: {e}")
         shift_x = shift_y = 0.0
@@ -207,7 +216,11 @@ def plot_heatmap(flp_file, grid_steady_file, output_image, layer_num, placement_
     ax.tick_params(axis="both", labelsize=22)
 
     chip_rects = {n: (x, y, w, h) for n, w, h, x, y in chiplets}
-    bridge_rects = draw_emib_bridges(ax, placement_json, chip_rects)
+    # 封装边长以本次生成实际写下的 _sub.flp 为准（package_mode 两种口径都适用）
+    sub_box = read_floorplan_box_mm(os.path.splitext(flp_file)[0] + "_sub.flp")
+    package_side_mm = sub_box[0] if sub_box else None
+    bridge_rects = draw_emib_bridges(ax, placement_json, chip_rects,
+                                     package_side_mm)
     if placement_json and not bridge_rects:
         print(f"[WARNING] No EMIB bridges drawn for {placement_json}")
 

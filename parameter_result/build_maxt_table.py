@@ -30,7 +30,7 @@ ZERO_JSON = os.path.join(
 # (column label, directory suffix) -- label order is the output column order.
 COLUMNS = [("0", None)] + [(f"{i / 10:g}", None) for i in range(1, 24)]
 
-CASES = ["acend910", "cpu-dram", "hp11_m", "hp6_m", "hp8_m", "multigpu",
+CASES = ["ascend910", "cpu-dram", "hp11_m", "hp6_m", "hp8_m", "multigpu",
          "syn1", "syn5"]
 
 

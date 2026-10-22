@@ -61,7 +61,7 @@ def collect_stats(config_sum_dir: str, layer: int) -> dict:
 
             grid_path = os.path.join(dirpath, filename)
 
-            # Example path: .../config_sum/config_5_6_01_05/acend910_config/output/acend910.grid.steady
+            # Example path: .../config_sum/config_5_6_01_05/ascend910_config/output/ascend910.grid.steady
             chip_name = filename.replace(".grid.steady", "")
             # chip-specific config dir (contains output/)
             chip_config_dir = os.path.dirname(os.path.dirname(grid_path))

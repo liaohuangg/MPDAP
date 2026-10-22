@@ -58,7 +58,7 @@ METRICS = (("wirelength", 2), ("area", 2), ("aspect_ratio", 3),
 
 
 def split_folder(folder):
-    """'output_bt_tree/acend910' -> ('output_bt_tree', 'acend910')."""
+    """'output_bt_tree/ascend910' -> ('output_bt_tree', 'ascend910')."""
     head, _, tail = folder.partition("/")
     return head, tail or head
 

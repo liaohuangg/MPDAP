@@ -1,14 +1,14 @@
 [
   {
-    "folder": "output_rl/acend910",
-    "case": "acend910",
+    "folder": "output_rl/ascend910",
+    "case": "ascend910",
     "seeds": 5,
     "wirelength": 27216.78,
     "area": 1666.42,
     "aspect_ratio": 1.213,
     "interposer_size": 45.26,
-    "max_temperature": 74.85,
-    "avg_temperature": 62.68,
+    "max_temperature": 74.87,
+    "avg_temperature": 59.13,
     "SAR": 0.254
   },
   {
@@ -19,8 +19,8 @@
     "area": 1005.01,
     "aspect_ratio": 1.248,
     "interposer_size": 36.15,
-    "max_temperature": 117.86,
-    "avg_temperature": 89.1,
+    "max_temperature": 116.87,
+    "avg_temperature": 81.31,
     "SAR": 0.303
   },
   {
@@ -31,8 +31,8 @@
     "area": 644.74,
     "aspect_ratio": 2.261,
     "interposer_size": 43.52,
-    "max_temperature": 86.29,
-    "avg_temperature": 60.61,
+    "max_temperature": 86.0,
+    "avg_temperature": 58.03,
     "SAR": 2.059
   },
   {
@@ -43,8 +43,8 @@
     "area": 1653.31,
     "aspect_ratio": 1.131,
     "interposer_size": 43.0,
-    "max_temperature": 102.58,
-    "avg_temperature": 84.16,
+    "max_temperature": 102.43,
+    "avg_temperature": 80.64,
     "SAR": 0.131
   }
 ]

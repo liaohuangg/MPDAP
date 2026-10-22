@@ -43,7 +43,7 @@ RL_DIR = Path("/root/placement/MPDAP/baseline/RL")
 BENCH = Path("/root/placement/MPDAP/benchmark/test_input")
 GRID = 16
 
-CASES = ["acend910", "cpu-dram", "hp6_m", "hp8_m", "multigpu",
+CASES = ["ascend910", "cpu-dram", "hp6_m", "hp8_m", "multigpu",
          "hp11_m", "syn1", "syn5", "syn4"]
 
 

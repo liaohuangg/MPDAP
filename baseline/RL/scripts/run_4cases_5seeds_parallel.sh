@@ -18,7 +18,7 @@ GRID_RESOLUTION="${GRID_RESOLUTION:-auto}"
 EXACT_ACTION_SLOTS="${EXACT_ACTION_SLOTS:-50000}"
 THERMAL_INTP_SIZE="${THERMAL_INTP_SIZE:-100}"
 SEEDS="${SEEDS:-0 1 2 3 4}"
-CASE_LIST="${CASE_LIST:-acend910 cpu-dram hp6_m multigpu}"
+CASE_LIST="${CASE_LIST:-ascend910 cpu-dram hp6_m multigpu}"
 BASE_PREFIX="${BASE_PREFIX:-rl_5x4_$(date +%Y%m%d_%H%M%S)}"
 
 mkdir -p runs

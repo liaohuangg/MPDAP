@@ -9,22 +9,30 @@ layout this script
     3. draws the layer-2 heatmap with generate_grid_heatmaps_with_bridge.py
        (EMIB silicon bridges overlaid from the placement JSON).
 
-The package geometry follows thermal_pkg.txt: the TIM / substrate /
-C4-underfill layers are a square whose side is the case's largest layout
-bounding-box edge, every layout of the case is centred in it, the heat
-spreader is 2x that edge and the heat sink 2x the spreader.  Ambient (45 C)
-and the 64x64 grid come from template_config.
-The convective resistance follows the TAP-2.5D rule, per case:
+The package geometry is chosen by --package_mode:
+  layout (default): the TIM / substrate / C4-underfill layers are a square
+      whose side is this layout's own bounding-box longest edge, the layout
+      centred in it;
+  case: every layout of a case uses that case's largest bounding-box edge
+      (one package per case, the old behaviour).
+The heat spreader is 2x that edge and the heat sink 2x the spreader.
+Ambient (45 C) and the 64x64 grid come from template_config.
+The convective resistance follows the TAP-2.5D rule, per layout/case:
 r_convec = 0.1 * 0.06^2 / s_sink^2 (i.e. 1/(h*A_sink) with h fixed).
 Jobs run in parallel because HotSpot is single-threaded.
+
+Results go to config_sum for --package_mode layout (config_sum_same_pkg for
+case, where the earlier same-package runs already live).
 
 Usage:
     python3 src/run_all_thermal.py               # all groups
     python3 src/run_all_thermal.py --groups output_bt_tree output_rl
     python3 src/run_all_thermal.py --jobs 8
+    python3 src/run_all_thermal.py --package_mode case
 """
 
 import argparse
+import datetime
 import os
 import re
 import subprocess
@@ -35,6 +43,12 @@ SRC_DIR = os.path.dirname(os.path.abspath(__file__))
 THERMAL_DIR = os.path.dirname(SRC_DIR)
 MPDAP_DIR = os.path.dirname(THERMAL_DIR)
 CONFIG_SUM_DIR = os.path.join(THERMAL_DIR, "config_sum")
+# 每种封装口径写到各自的根目录，避免把两种口径的结果混在一起。
+CONFIG_ROOT_BY_MODE = {
+    "layout": CONFIG_SUM_DIR,
+    "case": os.path.join(THERMAL_DIR, "config_sum_same_pkg"),
+}
+PACKAGE_MODE_DEFAULT = "layout"
 
 GEN = os.path.join(SRC_DIR, "gen_flp_trace.py")
 RUN = os.path.join(SRC_DIR, "test_thermal.py")
@@ -116,9 +130,10 @@ def collect_jobs(selected_groups=None):
     return jobs
 
 
-def run_job(job, log_root, plot_only=False):
+def run_job(job, log_root, plot_only=False, package_mode=PACKAGE_MODE_DEFAULT):
     group, layout_json, name, placement_dir = job
-    dst = os.path.join(CONFIG_SUM_DIR, f"config_{group}", f"{name}_config")
+    config_root = CONFIG_ROOT_BY_MODE[package_mode]
+    dst = os.path.join(config_root, f"config_{group}", f"{name}_config")
     log_path = os.path.join(log_root, f"{group}__{name}.log")
 
     os.makedirs(dst, exist_ok=True)
@@ -128,7 +143,8 @@ def run_job(job, log_root, plot_only=False):
         if not plot_only:
             gen = subprocess.run(
                 [sys.executable, GEN, "--json_path", layout_json,
-                 "--config_dir", dst, "--name", name],
+                 "--config_dir", dst, "--name", name,
+                 "--package_mode", package_mode],
                 cwd=SRC_DIR, env=env, stdout=log, stderr=subprocess.STDOUT)
             if gen.returncode != 0:
                 return job, "gen failed", log_path
@@ -167,6 +183,13 @@ def main():
     ap.add_argument("--plot-only", action="store_true",
                     help="reuse existing .grid.steady files and only redraw the "
                          "with-bridge heatmaps")
+    ap.add_argument("--package_mode", choices=("layout", "case"),
+                    default=PACKAGE_MODE_DEFAULT,
+                    help="layout = 每个布局用自己的外接框最长边（默认，写到 "
+                         "config_sum）；case = 同一 case 共用最大外接边长（写到 "
+                         "config_sum_same_pkg）")
+    ap.add_argument("--log_root", default=None,
+                    help="日志目录（默认 logs_thermal_<今天>，避免覆盖旧口径的日志）")
     args = ap.parse_args()
 
     jobs = collect_jobs(args.groups)
@@ -174,13 +197,15 @@ def main():
         print("no jobs matched")
         return 1
     print(f"{len(jobs)} thermal runs, {args.jobs} in parallel")
-    log_root = os.path.join(THERMAL_DIR, "logs_thermal_20261020")
+    log_root = args.log_root or os.path.join(
+        THERMAL_DIR, "logs_thermal_" + datetime.date.today().strftime("%Y%m%d"))
     os.makedirs(log_root, exist_ok=True)
 
     failures = []
     done = 0
     with ThreadPoolExecutor(max_workers=args.jobs) as pool:
-        futures = [pool.submit(run_job, j, log_root, args.plot_only)
+        futures = [pool.submit(run_job, j, log_root, args.plot_only,
+                              args.package_mode)
                    for j in jobs]
         for fut in as_completed(futures):
             job, status, log_path = fut.result()

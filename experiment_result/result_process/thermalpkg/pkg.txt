@@ -1,0 +1,25 @@
+\begin{table}[t]
+\centering
+\caption{geometric and thermal parameters of the HotSpot package model}
+\label{tab:thermal_stack_parameters}
+\renewcommand{\arraystretch}{1.18}
+\setlength{\tabcolsep}{4pt}
+\resizebox{\linewidth}{!}{
+% \textcolor{blue}{
+\footnotesize
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Component} & \textbf{$W$ (m)} & \textbf{$L$ (m)} & \textbf{$T$ (m)} & \textbf{$k$ (W/(m$\cdot$K))} & \textbf{$C_v$ (J/(m$^{3}\cdot$K))} \\
+\midrule
+Heat sink  & \textcolor{ForestGreen}{$L_{\mathrm{cp}}$} & \textcolor{ForestGreen}{$L_{\mathrm{cp}}$} & $6.90\times10^{-3}$ & $400$ & $3.55\times10^{6}$ \\
+Heat spreader  & \textcolor{ForestGreen}{$L_{\mathrm{cp}}$} & \textcolor{ForestGreen}{$L_{\mathrm{cp}}$} & $1.00\times10^{-3}$ & $400$ & $3.55\times10^{6}$ \\
+TIM  & \textcolor{ForestGreen}{$L_{\mathrm{cp}}$} & \textcolor{ForestGreen}{$L_{\mathrm{cp}}$} & $2.00\times10^{-5}$ & $4.0$ & $4.00\times10^{6}$ \\
+Chip  & \textcolor{ForestGreen}{$L_{\mathrm{l}}$} & \textcolor{ForestGreen}{$L_{\mathrm{l}}$} & $4.50\times10^{-4}$ & $100$ & $1.75\times10^{6}$ \\
+C4/underfill  & \textcolor{ForestGreen}{$L_{\mathrm{cp}}$} & \textcolor{ForestGreen}{$L_{\mathrm{cp}}$} & $8.50\times10^{-5}$ & $1.6$ & $2.32\times10^{6}$ \\
+Substrate  & \textcolor{ForestGreen}{$L_{\mathrm{cp}}$} & \textcolor{ForestGreen}{$L_{\mathrm{cp}}$} & $1.60\times10^{-3}$ & $0.30$ & $1.06\times10^{6}$ \\
+\bottomrule
+\end{tabular}
+}
+% }
+\vspace{2pt}
+\end{table}

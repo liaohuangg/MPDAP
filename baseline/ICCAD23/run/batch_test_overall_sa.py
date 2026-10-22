@@ -110,7 +110,7 @@ EXCLUDED_CASES = {
     'EMIB': 'EMIB type config, no "chiplets" key (load_problem_from_json raises KeyError)',
     'sys_micro150': 'excluded on request',
     'cpu-dram copy': 'stale pre-upgrade archive of cpu-dram.json',
-    'acend910_old': 'stale pre-upgrade archive of acend910.json',
+    'ascend910_old': 'stale pre-upgrade archive of ascend910.json',
 }
 
 
@@ -881,6 +881,10 @@ def main():
     for arg in sys.argv[1:]:
         if arg.startswith("--seeds="):
             seeds = [int(s) for s in arg.split("=", 1)[1].split(",") if s.strip() != ""]
+        elif arg.startswith("--result-dir="):
+            # Where the per-case directories and summary.json go. Relative
+            # paths resolve against the run/ directory this script is run from.
+            result_base_dir = arg.split("=", 1)[1]
         elif arg.startswith("--total-limit="):
             value = float(arg.split("=", 1)[1])
             batch_time_limit = value if value > 0 else None

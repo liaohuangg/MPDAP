@@ -4,7 +4,7 @@ Every number below except Time is read, at import time, from the
 placement_results.json that each method's sweep wrote (see SOURCES); a record
 looks like
 
-    {"folder": ..., "file": "acend910.json", "wirelength": 24964.25,
+    {"folder": ..., "file": "ascend910.json", "wirelength": 24964.25,
      "area": 1282.16, "aspect_ratio": 1.195, "interposer_size": 39.15,
      "SAR": 0.1954, "max_temperature": 70.13, "avg_temperature": 54.37}
 
@@ -36,7 +36,7 @@ SOURCES = {
 # Wall-clock seconds per run.  placement_results.json carries no time field,
 # so this is the only column still maintained by hand.  3600 marks a timeout.
 TIME = {
-    "acend910": {"btree": 4.73, "omp": 9.04, "pmp": 2.82, "pmd": 9.0, "pca": 2.83, "RL": 3600},
+    "ascend910": {"btree": 4.73, "omp": 9.04, "pmp": 2.82, "pmd": 9.0, "pca": 2.83, "RL": 3600},
     "cpu-dram": {"btree": 14.67, "omp": 36.43, "pmp": 78.21, "pmd": 30.32, "pca": 66.65, "RL": 3600},
     "hp11_m": {"omp": 165.3, "pmp": 302.72, "pmd": 302.61, "pca": 302.63},
     "hp6_m": {"btree": 10.96, "omp": 1.47, "pmp": 1.38, "pmd": 1.47, "pca": 1.42, "RL": 3600},
@@ -46,7 +46,7 @@ TIME = {
     "syn5": {"omp": 302.56, "pmp": 302.71, "pmd": 302.64, "pca": 302.63},
 }
 
-CASE_ORDER = ["acend910", "cpu-dram", "hp11_m", "hp6_m", "hp8_m", "multigpu", "syn1", "syn5"]
+CASE_ORDER = ["ascend910", "cpu-dram", "hp11_m", "hp6_m", "hp8_m", "multigpu", "syn1", "syn5"]
 
 # Decimals shown per metric; SAR is the only column that needs three, every
 # other one keeps two.  Both the stored values and the printed cells use it.
@@ -229,6 +229,55 @@ def format_pct(pct):
     return "0.00%" if pct == 0 else f"{pct:+.2f}%"
 
 
+def seed_range_pct(values):
+    """Min and max of the seeds as percentage deviations from their mean.
+
+    Returns (min_pct, max_pct); (None, None) when there are no values or the
+    mean is zero.  Used by the bt_tree / RL seed-variation table.
+    """
+    values = [v for v in values if v is not None]
+    if not values:
+        return None, None
+    mean = sum(values) / len(values)
+    if mean == 0:
+        return None, None
+    return pct_change(min(values), mean), pct_change(max(values), mean)
+
+
+def format_seed_range(values):
+    """LaTeX cell [min deviation, max deviation], e.g. [-6.14\\%, +10.92\\%]."""
+    lo, hi = seed_range_pct(values)
+    if lo is None:
+        return "--"
+    return "[{}, {}]".format(
+        format_pct(lo).replace("%", r"\%"),
+        format_pct(hi).replace("%", r"\%"),
+    )
+
+
+def seed_span_pct(values):
+    """Seed range as a percentage of the mean: (max - min) / mean * 100.
+
+    Returns None when there are no values or the mean is zero.  The compact
+    single-number counterpart of seed_range_pct, used by the seed table.
+    """
+    values = [v for v in values if v is not None]
+    if not values:
+        return None
+    mean = sum(values) / len(values)
+    if mean == 0:
+        return None
+    return (max(values) - min(values)) / mean * 100
+
+
+def format_seed_span(values, digits=1):
+    """LaTeX cell for the relative seed span, e.g. 11.6 (unit in the header)."""
+    span = seed_span_pct(values)
+    if span is None:
+        return "-"
+    return f"{round_half_up(span, digits):.{digits}f}"
+
+
 def latex_cell(metric, value, pct=None, reference=False):
     """A LaTeX table cell: the value, then its change vs the row's reference."""
     if value is None:
@@ -329,9 +378,9 @@ def print_markdown_table(title, cases, averages, targets, baseline):
         print(format_row(row))
 
 
-btree_cases = ["acend910", "cpu-dram", "hp6_m", "hp8_m", "multigpu", "syn1"]
-rl_cases = ["acend910", "cpu-dram", "hp6_m", "multigpu"]
-all_cases = ["acend910", "cpu-dram", "hp11_m", "hp6_m", "hp8_m", "multigpu", "syn1", "syn5"]
+btree_cases = ["ascend910", "cpu-dram", "hp6_m", "hp8_m", "multigpu", "syn1"]
+rl_cases = ["ascend910", "cpu-dram", "hp6_m", "multigpu"]
+all_cases = ["ascend910", "cpu-dram", "hp11_m", "hp6_m", "hp8_m", "multigpu", "syn1", "syn5"]
 
 target_methods = ["omp", "pmp", "pmd", "pca"]
 ablation_methods = ["pmp", "pmd", "pca"]
@@ -375,7 +424,7 @@ print_markdown_table(
 
 #
 # ## OMP/PMP/PMD/PCA vs BTREE average changes
-# Cases: acend910, cpu-dram, hp6_m, hp8_m, multigpu, syn1
+# Cases: ascend910, cpu-dram, hp6_m, hp8_m, multigpu, syn1
 # | Method |  BA avg |           BA change |   WL avg |          WL change | SAR avg |      SAR change | Time avg |       Time change | maxT avg | maxT change |
 # | ------ | ------- | ------------------- | -------- | ------------------ | ------- | --------------- | -------- | ----------------- | -------- | ----------- |
 # | OMP    |  878.96 |   -514.50 (-36.92%) | 38308.47 | -4692.05 (-10.91%) |   0.648 | +0.18 (+38.97%) |    61.13 | +49.88 (+443.33%) |    90.01 |       +2.93 |
@@ -384,7 +433,7 @@ print_markdown_table(
 # | PCA    |  900.40 |   -493.05 (-35.38%) | 39201.62 |  -3798.89 (-8.83%) |   0.745 | +0.28 (+59.71%) |    65.81 | +54.56 (+484.96%) |    88.85 |       +1.78 |
 #
 # ## OMP/PMP/PMD/PCA vs RL average changes
-# Cases: acend910, cpu-dram, hp6_m, multigpu
+# Cases: ascend910, cpu-dram, hp6_m, multigpu
 # | Method |  BA avg |           BA change |   WL avg |          WL change | SAR avg |      SAR change | Time avg |        Time change | maxT avg | maxT change |
 # | ------ | ------- | ------------------- | -------- | ------------------ | ------- | --------------- | -------- | ------------------ | -------- | ----------- |
 # | OMP    |  905.73 |   -336.64 (-27.10%) | 34970.77 | -4355.11 (-11.07%) |   0.605 | +0.14 (+30.65%) |    12.63 | -3587.37 (-99.65%) |    90.66 |       +6.04 |
@@ -393,7 +442,7 @@ print_markdown_table(
 # | PCA    |  905.49 |   -336.88 (-27.12%) | 35075.34 | -4250.54 (-10.81%) |   0.816 | +0.35 (+76.09%) |    18.82 | -3581.18 (-99.48%) |    89.28 |       +4.66 |
 #
 # ## PMP/PMD/PCA vs OMP average changes
-# Cases: acend910, cpu-dram, hp11_m, hp6_m, hp8_m, multigpu, syn1, syn5
+# Cases: ascend910, cpu-dram, hp11_m, hp6_m, hp8_m, multigpu, syn1, syn5
 # | Method |  BA avg |           BA change |   WL avg |          WL change | SAR avg |      SAR change | Time avg |      Time change | maxT avg | maxT change |
 # | ------ | ------- | ------------------- | -------- | ------------------ | ------- | --------------- | -------- | ---------------- | -------- | ----------- |
 # | PMP    |  965.94 |     +77.81 (+8.76%) | 50832.32 |  +2392.24 (+4.94%) |   0.422 | -0.09 (-17.63%) |   126.97 | +22.64 (+21.70%) |    85.87 |       -5.10 |
@@ -401,7 +450,7 @@ print_markdown_table(
 # | PCA    |  973.28 |     +85.15 (+9.59%) | 50352.91 |  +1912.83 (+3.95%) |   0.589 | +0.08 (+15.00%) |   125.01 | +20.69 (+19.83%) |    89.02 |       -1.95 |
 #
 # ## PMD/PCA vs PMP average changes
-# Cases: acend910, cpu-dram, hp11_m, hp6_m, hp8_m, multigpu, syn1, syn5
+# Cases: ascend910, cpu-dram, hp11_m, hp6_m, hp8_m, multigpu, syn1, syn5
 # | Method |  BA avg |           BA change |   WL avg |          WL change | SAR avg |      SAR change | Time avg |    Time change | maxT avg | maxT change |
 # | ------ | ------- | ------------------- | -------- | ------------------ | ------- | --------------- | -------- | -------------- | -------- | ----------- |
 # | PMD    | 3254.42 | +2288.48 (+236.92%) | 57208.45 | +6376.13 (+12.54%) |   0.439 |  +0.02 (+3.88%) |   120.58 | -6.39 (-5.03%) |    86.23 |       +0.36 |

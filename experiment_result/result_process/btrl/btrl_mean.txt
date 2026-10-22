@@ -1,0 +1,37 @@
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+% Per-case standard deviations of BT and RLP over five seeds (seed00-seed04).
+% Each cell is BT / RLP; values are the sample standard deviation (n-1).
+% Rows are the four metrics and Time; columns are the test cases.
+% Source: experiment_result/output_bt_tree/placement_results_5seed.json (6 cases)
+%         experiment_result/output_rl/placement_results_5seed.json (4 cases; - = no solution)
+% Time source: baseline/ICCAD23/result/<case>/log.txt ("Total run time"), five seeds;
+%              RLP hits the 3600 s limit in every case, so its time std is 0.
+\begin{table*}[t]
+  \centering
+  \caption{\textcolor{ForestGreen}{per-case standard deviations over five seeds}}
+  \label{tab:btrl_mean}
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.1}
+  \begingroup
+  \color{ForestGreen}
+  \arrayrulecolor{ForestGreen}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}c cccccc@{}}
+    \toprule
+    \textbf{Metric} & \textcolor{ForestGreen}{$ascend910$} & \textcolor{ForestGreen}{$cpu\text{-}dram$} & \textcolor{ForestGreen}{$hp6\_m$} & \textcolor{ForestGreen}{$hp8\_m$} & \textcolor{ForestGreen}{$multigpu$} & \textcolor{ForestGreen}{$syn1$} \\
+    \midrule
+    \textbf{BA ($\mathrm{mm}^2$)} & 69.32/100.64 & 195.79/148.17 & 34.32/99.74 & 304.03/- & 0.00/293.72 & 192.04/- \\
+    \addlinespace[3pt]
+    \textbf{WL (mm)} & 1656.86/1889.81 & 1240.08/634.53 & 1667.01/254.60 & 1129.52/- & 0.00/2376.68 & 2060.39/- \\
+    \addlinespace[3pt]
+    \textbf{SAR} & 0.543/0.374 & 0.244/0.236 & 1.500/1.225 & 0.228/- & 0.000/0.082 & 0.168/- \\
+    \addlinespace[3pt]
+    \textbf{MaxT ($^\circ$C)} & 0.51/0.37 & 1.74/3.34 & 3.76/1.64 & 2.77/- & 0.00/1.21 & 1.33/- \\
+    \addlinespace[3pt]
+    \textbf{Time (s)} & 9.35/0.00 & 13.11/0.00 & 4.04/0.00 & 13.17/0.00 & 2.15/0.00 & 7.17/0.00 \\
+    \bottomrule
+  \end{tabular}}
+  \endgroup
+  \vspace{6pt}
+  \parbox{\textwidth}{\footnotesize \textcolor{ForestGreen}{Note: each cell is BT / RL; values are sample standard deviations ($n-1$) over five seeds (seed00--seed04). A dash indicates no RL solution. RLP always reaches the 3600 s limit, so its time standard deviation is 0.}}
+\end{table*}

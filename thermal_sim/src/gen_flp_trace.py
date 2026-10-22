@@ -16,6 +16,22 @@ OUTPUT_DECIMALS = 6
 BENCHMARK_TEST_INPUT_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
     "benchmark", "test_input")
+THERMAL_SIM_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# 模板目录的标准位置是 config/template_config。旧结果目录被改名保留时
+# （本项目现在把 config/ 保存为 config_same_pkg/），回退到该目录，否则
+# copy_config_templates 会静默跳过、留下缺配置的目录。
+TEMPLATE_DIR_CANDIDATES = (
+    os.path.join(THERMAL_SIM_DIR, "config", "template_config"),
+    os.path.join(THERMAL_SIM_DIR, "config_same_pkg", "template_config"),
+)
+
+
+def resolve_template_dir():
+    """第一个存在的模板目录；都不存在时返回 None。"""
+    for d in TEMPLATE_DIR_CANDIDATES:
+        if os.path.isdir(d):
+            return d
+    return None
 
 def round_to_grid_mm(value_mm):
     """Round mm value to 0.01 mm grid (round) and then to 2 decimals to avoid tiny overlaps from float drift."""
@@ -693,7 +709,7 @@ def _can_merge_v(a, b):
 # 数值与 thermal_sim/thermal_pkg.txt 的 [Combined maximum and thermal config] 一致。
 # 热仿真用它作为该 case 所有布局统一的封装边长（布局居中放进去）。
 CASE_MAX_INTERPOSER_MM = {
-    "acend910": 59.27,
+    "ascend910": 59.27,
     "cpu-dram": 44.50,
     "hp11_m": 63.84,
     "hp6_m": 53.20,
@@ -702,10 +718,16 @@ CASE_MAX_INTERPOSER_MM = {
     "syn1": 47.00,
     "syn5": 34.00,
 }
-# 规则（HotSpot 默认约定）：interposer（TIM / Substrate / C4-underfill）取该 case
-# 所有布局中最长边最大的外接正方形，所有布局居中放进去；heat spreader 边长 =
-# 2 × interposer，heat sink 边长 = 2 × spreader。环境温度 45 °C、网格 64 × 64
-# 见 example.config。
+# 封装边长口径（--package_mode）：
+#   "layout" = 每个布局用自己的外接正方形：边长 = 该布局外接框的最大边，
+#              布局居中放进去；同一 case 的不同解可以有不同的封装尺寸；
+#   "case"   = 旧口径，边长取 CASE_MAX_INTERPOSER_MM 里该 case 所有布局的
+#              最大外接边长，同一 case 的布局共用同一个封装尺寸。
+PACKAGE_MODE_DEFAULT = "layout"
+PACKAGE_MODES = ("layout", "case")
+# 规则（HotSpot 默认约定）：interposer（TIM / Substrate / C4-underfill）取外接
+# 正方形，布局居中放进去；heat spreader 边长 = 2 × interposer，heat sink 边长
+# = 2 × spreader。环境温度 45 °C、网格 64 × 64 见 example.config。
 # 不加余量：spreader / sink 都远大于 floorplan，实测边长严格等于最长边也不会
 # 出现 -nan；会让 HotSpot 输出全 -nan 的是 sink/spreader 恰好等于 floorplan。
 HEAT_SPREADER_SCALE = 2.0
@@ -749,12 +771,23 @@ def resolve_case_key(name, source_path=None):
 
 
 def package_square_side_mm(layout_side_mm):
-    """TIM / Substrate / C4-underfill 层的正方形边长（mm）。
-
-    正常情况下由 CASE_MAX_INTERPOSER_MM 给出该 case 统一的最大边长；查不到
-    case 时回退为该布局自己的最长边（外接正方形）。
-    """
+    """该布局自己的外接正方形边长（mm）＝外接框最长边。"""
     return round_to_grid_mm(layout_side_mm)
+
+
+def resolve_package_side_mm(case_key, layout_side_mm,
+                            package_mode=PACKAGE_MODE_DEFAULT):
+    """封装（TIM / Substrate / C4-underfill / chip 层外框）的正方形边长，mm。
+
+    package_mode="layout"：每个布局用自己的外接框最长边；
+    package_mode="case"  ：该 case 所有布局的最大外接边长（CASE_MAX_INTERPOSER_MM），
+                           查不到该 case 时回退到布局自己的最长边。
+    """
+    if package_mode == "case":
+        case_side = CASE_MAX_INTERPOSER_MM.get(case_key)
+        if case_side is not None:
+            return round_to_grid_mm(case_side)
+    return package_square_side_mm(layout_side_mm)
 
 
 def heat_sink_sizes_m(package_side_mm):
@@ -874,7 +907,7 @@ def generate_flp_file(chiplet_list_m, tim_list_m, output_flp_path):
     
 
 def main(json_path, output_flp_path=None, output_ptrace_path=None,
-         output_dir=None, name=None):
+         output_dir=None, name=None, package_mode=PACKAGE_MODE_DEFAULT):
     """
     Main: generate FLP according to new spec
     1. Extract and validate base data
@@ -886,7 +919,11 @@ def main(json_path, output_flp_path=None, output_ptrace_path=None,
     `output_dir` overrides the default `config/<name>_config` target and
     `name` overrides the file stem, so parallel batch runs can write unique
     directories without racing on a shared `config/<case>_config`.
+    `package_mode` picks the package side: "layout" = this layout's own
+    bounding square (default), "case" = the case-wide maximum.
     """
+    if package_mode not in PACKAGE_MODES:
+        raise ValueError(f"package_mode must be one of {PACKAGE_MODES}")
     json_basename = name or os.path.splitext(os.path.basename(json_path))[0]
     case_key = resolve_case_key(json_basename, json_path)
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -907,12 +944,12 @@ def main(json_path, output_flp_path=None, output_ptrace_path=None,
     
     chiplet_envelope_list_mm, square_side_mm = build_layout(chiplets)
 
-    # 封装层（TIM / Substrate / C4-underfill）取该 case 最大的外接正方形：
-    # 边长 = 该 case 所有布局最长边的最大值，布局居中。HotSpot 要求各层
-    # floorplan 的宽高一致，因此 chip 层的外框同样取该尺寸。
-    case_side_mm = CASE_MAX_INTERPOSER_MM.get(case_key)
-    package_side_mm = (round_to_grid_mm(case_side_mm) if case_side_mm is not None
-                       else package_square_side_mm(square_side_mm))
+    # 封装层（TIM / Substrate / C4-underfill）取外接正方形：package_mode="layout"
+    # 时用该布局自己的最长边，"case" 时用该 case 所有布局的最大外接边长；
+    # 布局居中。HotSpot 要求各层 floorplan 的宽高一致，因此 chip 层的外框
+    # 同样取该尺寸。
+    package_side_mm = resolve_package_side_mm(case_key, square_side_mm,
+                                              package_mode)
     center_offset_mm = round_to_grid_mm((package_side_mm - square_side_mm) / 2.0)
     if center_offset_mm > 0:
         for b in chiplet_envelope_list_mm:
@@ -934,13 +971,13 @@ def main(json_path, output_flp_path=None, output_ptrace_path=None,
     package_side_m = mm_to_m(package_side_mm)
 
 
-    template_dir = os.path.join(config_dir, "template_config")
-    if os.path.isdir(template_dir):
-
-        copy_config_templates(template_dir, output_config_dir, json_basename,
-                              package_side_mm, case_key=case_key)
-    else:
-        print("DEBUG")
+    template_dir = resolve_template_dir()
+    if template_dir is None:
+        raise SystemExit(
+            "找不到 example.config/lcf 模板目录，已查找：\n  "
+            + "\n  ".join(TEMPLATE_DIR_CANDIDATES))
+    copy_config_templates(template_dir, output_config_dir, json_basename,
+                          package_side_mm, case_key=case_key)
 
     generate_flp_file(chiplet_list_m, tim_list_m, output_flp_path)
     generate_ptrace_file(chiplet_list_m, tim_list_m, json_path, output_ptrace_path)
@@ -962,6 +999,11 @@ if __name__ == "__main__":
                         help='Output config directory (default config/<name>_config)')
     parser.add_argument('--name', type=str, default=None,
                         help='Output file stem (default: input JSON stem)')
+    parser.add_argument('--package_mode', choices=PACKAGE_MODES,
+                        default=PACKAGE_MODE_DEFAULT,
+                        help='封装边长口径：layout = 每个布局用自己的外接框最长边（默认）；'
+                             'case = 同一 case 共用最大外接边长')
     args = parser.parse_args()
     main(args.json_path, args.output_flp, args.output_ptrace,
-         output_dir=args.config_dir, name=args.name)
+         output_dir=args.config_dir, name=args.name,
+         package_mode=args.package_mode)

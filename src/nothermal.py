@@ -12,7 +12,7 @@ from matplotlib.patches import Rectangle
 if len(sys.argv) >= 2:
     json_path = sys.argv[1]
 else:
-    json_path = "acend910.json"
+    json_path = "ascend910.json"
 
 output_dir = sys.argv[2] if len(sys.argv) >= 3 else str(Path(json_path).parent)
 

@@ -28,28 +28,28 @@
 & \textbf{BT} & \textbf{RLP} & \textbf{OM} & \textbf{PM} & \textbf{PmdM} & \textbf{PcaM} \\
 \midrule
 
-$ascend910$ & \textcolor{ForestGreen}{0.397 (+128.16\%)} & \textcolor{ForestGreen}{0.253 (+45.63\%)} & 0.174 (ref.) & 0.195 (+12.07\%) & 0.174 (0.00\%) & 0.195 (+12.07\%) \\
+$ascend910$ & \textcolor{ForestGreen}{0.582 (+234.48\%)} & \textcolor{ForestGreen}{0.254 (+45.98\%)} & 0.174 (ref.) & 0.195 (+12.07\%) & 0.174 (0.00\%) & 0.195 (+12.07\%) \\
 \addlinespace[2pt]
 
-$cpu\text{-}dram$ & \textcolor{ForestGreen}{0.594 (-33.29\%)} & \textcolor{ForestGreen}{0.303 (-65.95\%)} & 0.890 (ref.) & 0 (-100.00\%) & 0 (-100.00\%) & 0.889 (-0.15\%) \\
+$cpu\text{-}dram$ & \textcolor{ForestGreen}{0.500 (-43.76\%)} & \textcolor{ForestGreen}{0.303 (-65.92\%)} & 0.889 (ref.) & 0 (-100.00\%) & 0 (-100.00\%) & 0.889 (0.00\%) \\
 \addlinespace[2pt]
 
-$hp11\_m$ & - & - & 0.176 (ref.) & 0.223 (+26.37\%) & 0.495 (+180.37\%) & 0.211 (+19.37\%) \\
+$hp11\_m$ & - & - & 0.176 (ref.) & 0.223 (+26.70\%) & 0.496 (+181.82\%) & 0.210 (+19.32\%) \\
 \addlinespace[2pt]
 
-$hp6\_m$ & \textcolor{ForestGreen}{0.828 (-36.99\%)} & \textcolor{ForestGreen}{2.058 (+56.59\%)} & 1.314 (ref.) & 1.314 (0.00\%) & 1.314 (0.00\%) & 1.314 (0.00\%) \\
+$hp6\_m$ & \textcolor{ForestGreen}{2.080 (+58.30\%)} & \textcolor{ForestGreen}{2.059 (+56.70\%)} & 1.314 (ref.) & 1.314 (0.00\%) & 1.314 (0.00\%) & 1.314 (0.00\%) \\
 \addlinespace[2pt]
 
-$hp8\_m$ & \textcolor{ForestGreen}{0.058 (-95.95\%)} & - & 1.433 (ref.) & 1.219 (-14.94\%) & 1.217 (-15.06\%) & 1.137 (-20.68\%) \\
+$hp8\_m$ & \textcolor{ForestGreen}{0.214 (-85.05\%)} & - & 1.431 (ref.) & 1.219 (-14.81\%) & 1.219 (-14.81\%) & 1.136 (-20.61\%) \\
 \addlinespace[2pt]
 
-$multigpu$ & \textcolor{ForestGreen}{0.866 (+1913.95\%)} & \textcolor{ForestGreen}{0.131 (+204.19\%)} & 0.043 (ref.) & 0.232 (+438.44\%) & 0 (-100.00\%) & 0.865 (+1911.63\%) \\
+$multigpu$ & \textcolor{ForestGreen}{0.866 (+1913.95\%)} & \textcolor{ForestGreen}{0.131 (+204.65\%)} & 0.043 (ref.) & 0.231 (+437.21\%) & 0 (-100.00\%) & 0.865 (+1911.63\%) \\
 \addlinespace[2pt]
 
-$syn1$ & \textcolor{ForestGreen}{0.076 (+130.30\%)} & - & 0.033 (ref.) & 0.138 (+317.14\%) & 0.100 (+203.03\%) & 0.067 (+103.03\%) \\
+$syn1$ & \textcolor{ForestGreen}{0.334 (+912.12\%)} & - & 0.033 (ref.) & 0.138 (+318.18\%) & 0.100 (+203.03\%) & 0.067 (+103.03\%) \\
 \addlinespace[2pt]
 
-$syn5$ & - & - & 0.037 (ref.) & 0.056 (+49.87\%) & 0.208 (+456.25\%) & 0.037 (0.00\%) \\
+$syn5$ & - & - & 0.037 (ref.) & 0.056 (+51.35\%) & 0.208 (+462.16\%) & 0.037 (0.00\%) \\
 \addlinespace[2pt]
 
 \bottomrule

@@ -1,7 +1,7 @@
 \newcolumntype{Y}{>{\centering\arraybackslash}X}
 \begin{table*}[t]
 \centering
-\caption{Maximum Temperature Comparison of Different Placement Methods}
+\caption{maximum temperature comparison of different placement methods}
 \label{tab:comp_maxt_six_methods}
 \setlength{\tabcolsep}{3pt} % 列间距
 \renewcommand{\arraystretch}{1.25}
@@ -28,28 +28,28 @@
 & \textbf{BT} & \textbf{RLP} & \textbf{OM} & \textbf{PM} & \textbf{PmdM} & \textbf{PcaM} \\
 \midrule
 
-$acend910$ & \textcolor{ForestGreen}{70.46 (+0.11\%)} & \textcolor{ForestGreen}{69.83 (-0.78\%)} & \textcolor{ForestGreen}{70.38 (ref.)} & \textcolor{ForestGreen}{70.13 (-0.36\%)} & \textcolor{ForestGreen}{70.38 (0.00\%)} & \textcolor{ForestGreen}{70.13 (-0.36\%)} \\
+$ascend910$ & \textcolor{ForestGreen}{74.98 (-0.87\%)} & \textcolor{ForestGreen}{74.87 (-1.02\%)} & \textcolor{ForestGreen}{75.64 (ref.)} & \textcolor{ForestGreen}{75.21 (-0.57\%)} & \textcolor{ForestGreen}{75.64 (0.00\%)} & \textcolor{ForestGreen}{75.21 (-0.57\%)} \\
 \addlinespace[2pt]
 
-$cpu\text{-}dram$ & \textcolor{ForestGreen}{102.03 (-7.85\%)} & \textcolor{ForestGreen}{101.65 (-8.19\%)} & \textcolor{ForestGreen}{110.72 (ref.)} & \textcolor{ForestGreen}{98.01 (-11.48\%)} & \textcolor{ForestGreen}{98.01 (-11.48\%)} & \textcolor{ForestGreen}{110.72 (0.00\%)} \\
+$cpu\text{-}dram$ & \textcolor{ForestGreen}{120.12 (-2.56\%)} & \textcolor{ForestGreen}{116.87 (-5.20\%)} & \textcolor{ForestGreen}{123.28 (ref.)} & \textcolor{ForestGreen}{114.16 (-7.40\%)} & \textcolor{ForestGreen}{114.16 (-7.40\%)} & \textcolor{ForestGreen}{123.28 (0.00\%)} \\
 \addlinespace[2pt]
 
-$hp11\_m$ & - & - & \textcolor{ForestGreen}{105.65 (ref.)} & \textcolor{ForestGreen}{88.41 (-16.32\%)} & \textcolor{ForestGreen}{88.14 (-16.57\%)} & \textcolor{ForestGreen}{97.26 (-7.94\%)} \\
+$hp11\_m$ & - & - & \textcolor{ForestGreen}{108.47 (ref.)} & \textcolor{ForestGreen}{94.38 (-12.99\%)} & \textcolor{ForestGreen}{94.86 (-12.55\%)} & \textcolor{ForestGreen}{100.65 (-7.21\%)} \\
 \addlinespace[2pt]
 
-$hp6\_m$ & \textcolor{ForestGreen}{90.95 (-3.65\%)} & \textcolor{ForestGreen}{81.16 (-14.03\%)} & \textcolor{ForestGreen}{94.40 (ref.)} & \textcolor{ForestGreen}{92.65 (-1.85\%)} & \textcolor{ForestGreen}{94.40 (0.00\%)} & \textcolor{ForestGreen}{92.65 (-1.85\%)} \\
+$hp6\_m$ & \textcolor{ForestGreen}{92.80 (-2.26\%)} & \textcolor{ForestGreen}{86.00 (-9.43\%)} & \textcolor{ForestGreen}{94.95 (ref.)} & \textcolor{ForestGreen}{93.75 (-1.26\%)} & \textcolor{ForestGreen}{94.95 (0.00\%)} & \textcolor{ForestGreen}{93.75 (-1.26\%)} \\
 \addlinespace[2pt]
 
-$hp8\_m$ & \textcolor{ForestGreen}{89.99 (-3.86\%)} & - & \textcolor{ForestGreen}{93.60 (ref.)} & \textcolor{ForestGreen}{87.85 (-6.14\%)} & \textcolor{ForestGreen}{87.62 (-6.39\%)} & \textcolor{ForestGreen}{92.75 (-0.91\%)} \\
+$hp8\_m$ & \textcolor{ForestGreen}{97.33 (+1.16\%)} & - & \textcolor{ForestGreen}{96.21 (ref.)} & \textcolor{ForestGreen}{94.24 (-2.05\%)} & \textcolor{ForestGreen}{94.64 (-1.63\%)} & \textcolor{ForestGreen}{94.89 (-1.37\%)} \\
 \addlinespace[2pt]
 
-$multigpu$ & \textcolor{ForestGreen}{83.57 (-4.09\%)} & \textcolor{ForestGreen}{85.81 (-1.51\%)} & \textcolor{ForestGreen}{87.13 (ref.)} & \textcolor{ForestGreen}{83.98 (-3.62\%)} & - & \textcolor{ForestGreen}{83.61 (-4.04\%)} \\
+$multigpu$ & \textcolor{ForestGreen}{97.60 (-6.17\%)} & \textcolor{ForestGreen}{102.43 (-1.53\%)} & \textcolor{ForestGreen}{104.02 (ref.)} & \textcolor{ForestGreen}{99.29 (-4.55\%)} & - & \textcolor{ForestGreen}{97.74 (-6.04\%)} \\
 \addlinespace[2pt]
 
-$syn1$ & \textcolor{ForestGreen}{85.44 (+1.96\%)} & - & \textcolor{ForestGreen}{83.80 (ref.)} & \textcolor{ForestGreen}{85.00 (+1.43\%)} & \textcolor{ForestGreen}{84.95 (+1.37\%)} & \textcolor{ForestGreen}{83.25 (-0.66\%)} \\
+$syn1$ & \textcolor{ForestGreen}{98.70 (-0.63\%)} & - & \textcolor{ForestGreen}{99.33 (ref.)} & \textcolor{ForestGreen}{100.62 (+1.30\%)} & \textcolor{ForestGreen}{100.56 (+1.24\%)} & \textcolor{ForestGreen}{98.13 (-1.21\%)} \\
 \addlinespace[2pt]
 
-$syn5$ & - & - & \textcolor{ForestGreen}{82.10 (ref.)} & \textcolor{ForestGreen}{80.96 (-1.39\%)} & \textcolor{ForestGreen}{80.13 (-2.40\%)} & \textcolor{ForestGreen}{81.80 (-0.37\%)} \\
+$syn5$ & - & - & \textcolor{ForestGreen}{96.86 (ref.)} & \textcolor{ForestGreen}{95.89 (-1.00\%)} & \textcolor{ForestGreen}{94.18 (-2.77\%)} & \textcolor{ForestGreen}{96.42 (-0.45\%)} \\
 \addlinespace[2pt]
 
 

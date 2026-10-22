@@ -6,6 +6,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Force a non-interactive matplotlib backend for batch thermal plotting.
 export MPLBACKEND=Agg
 OUTPUT_BASE_DIR="$SCRIPT_DIR/../../output_central_EMIB_chiplet"
+# config/ 可能被改名保留旧结果（例如 config_same_pkg/），这里按标准位置
+# 新建；模板目录由 gen_flp_trace.py 自己查找（config/ 或 config_same_pkg/）。
+mkdir -p "$SCRIPT_DIR/../config"
 CONFIG_DIR="$(cd "$SCRIPT_DIR/../config" && pwd)"
 CONFIG_SUM_DIR="$SCRIPT_DIR/../config_sum"
 

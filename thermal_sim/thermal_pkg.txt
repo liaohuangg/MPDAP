@@ -3,11 +3,14 @@
 # interposer_size = longest side of the layout bounding box (mm)
 
 # layer sizes used by the HotSpot simulation
-# interposer (TIM / Substrate / C4-underfill) = the case's largest
-#   bounding-box longest side across all of its layouts; every layout of
-#   the case is centred inside that square. HotSpot requires every layer in
-#   the .lcf to have the same width/height, so the chip layer's floorplan
-#   is this size too, with TIM filler blocks in the margin.
+# interposer (TIM / Substrate / C4-underfill) = a square, the layout centred
+#   inside it. HotSpot requires every layer in the .lcf to have the same
+#   width/height, so the chip layer's floorplan is this size too, with TIM
+#   filler blocks in the margin.
+# two sizing modes (gen_flp_trace.py --package_mode / run_all_thermal.py):
+#   layout (default) = this layout's own bounding-box longest side;
+#   case             = the case's largest bounding-box longest side across
+#                      all of its layouts (the tables below).
 # units: mm
 
 # heat sink & heat spreader
@@ -29,7 +32,7 @@ parameter_result : exclude directories parameter_result/output_gurobi_EMIB_chipl
 [experiment_result: output_bt_tree]
 case              n       min       max
 ----------------------------------------
-acend910         5     41.90     59.27
+ascend910         5     41.90     59.27
 cpu-dram         5     42.25     44.50
 hp11_m              0         -         -
 hp6_m            5     33.04     53.20
@@ -41,7 +44,7 @@ syn5                0         -         -
 [experiment_result: output_rl]
 case              n       min       max
 ----------------------------------------
-acend910         5     41.95     55.15
+ascend910         5     41.95     55.15
 cpu-dram         5     29.75     43.00
 hp11_m              0         -         -
 hp6_m            5     35.98     53.04
@@ -53,7 +56,7 @@ syn5                0         -         -
 [experiment_result: gurobi sweeps]
 case              n       min       max
 ----------------------------------------
-acend910         4     36.87     39.15
+ascend910         4     36.87     39.15
 cpu-dram         4     26.60     34.00
 hp11_m           4     35.56     46.06
 hp6_m            4     33.04     33.04
@@ -65,7 +68,7 @@ syn5             4     28.00     29.00
 [parameter_result]
 case              n       min       max
 ----------------------------------------
-acend910        23     39.15     40.50
+ascend910        23     39.15     40.50
 cpu-dram        23     26.60     34.00
 hp11_m          23     35.56     63.84
 hp6_m           23     33.04     33.04
@@ -77,7 +80,7 @@ syn5            23     27.00     34.00
 [File composition per case]
 case           bt_tree   rl  gurobi experiment parameter
 --------------------------------------------------------------
-acend910            5    5       4         14        23
+ascend910            5    5       4         14        23
 cpu-dram            5    5       4         14        23
 hp11_m              0    0       4          4        23
 hp6_m               5    5       4         14        23
@@ -89,7 +92,7 @@ syn5                0    0       4          4        23
 [Combined maximum and thermal config]
 case            max_inter   spreader   spreader_m       sink     sink_m    r_convec
 ---------------------------------------------------------------------------------
-acend910           59.27     118.54     0.118540     237.08   0.237080 0.006404905
+ascend910           59.27     118.54     0.118540     237.08   0.237080 0.006404905
 cpu-dram           44.50      89.00     0.089000     178.00   0.178000 0.011362202
 hp11_m             63.84     127.68     0.127680     255.36   0.255360 0.005520733
 hp6_m              53.20     106.40     0.106400     212.80   0.212800 0.007949856
@@ -99,7 +102,7 @@ syn1               47.00      94.00     0.094000     188.00   0.188000 0.0101856
 syn5               34.00      68.00     0.068000     136.00   0.136000 0.019463668
 
 [Source file of max interposer per case]
-acend910           59.27  experiment_result/output_bt_tree/acend910/solution_5_seed04_cost_91.990761.json
+ascend910           59.27  experiment_result/output_bt_tree/ascend910/solution_5_seed04_cost_91.990761.json
 cpu-dram           44.50  experiment_result/output_bt_tree/cpu-dram/solution_2_seed01_cost_227.466667.json (tie: 3 files)
 hp11_m             63.84  parameter_result/output_gurobi_EMIB_chiplet_5_6_01_13/placement/hp11_m.json
 hp6_m              53.20  experiment_result/output_bt_tree/hp6_m/solution_4_seed03_cost_83.662909.json
