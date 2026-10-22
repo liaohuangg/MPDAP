@@ -1,0 +1,165 @@
+{
+  "chiplets": [
+    {
+      "name": "A",
+      "x-position": 2.1000000000000023,
+      "y-position": 2.5199999999999996,
+      "width": 4.62,
+      "height": 10.36,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "C",
+      "x-position": 2.1000000000000028,
+      "y-position": 12.879999999999999,
+      "width": 2.1,
+      "height": 9.8,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "D",
+      "x-position": 1.3322676295501878e-15,
+      "y-position": 8.346086899610786,
+      "width": 2.1,
+      "height": 9.8,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "E",
+      "x-position": 1.3322676295501878e-15,
+      "y-position": 38.5,
+      "width": 2.1,
+      "height": 9.8,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "F",
+      "x-position": 6.72,
+      "y-position": 0.0,
+      "width": 5.46,
+      "height": 33.04,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "G",
+      "x-position": 0.0,
+      "y-position": 33.04,
+      "width": 33.04,
+      "height": 5.46,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "H",
+      "x-position": 4.199999999999999,
+      "y-position": 12.879999999999999,
+      "width": 2.52,
+      "height": 20.16,
+      "rotation": 0,
+      "power": 0.0
+    },
+    {
+      "name": "B",
+      "x-position": 0.0,
+      "y-position": 48.3,
+      "width": 7.0,
+      "height": 3.78,
+      "rotation": 0,
+      "power": 61
+    }
+  ],
+  "connections": [
+    {
+      "node1": "A",
+      "node2": "C",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 1.7067,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 2.296650000000003,
+      "EMIB-y-position": 11.879999999999999,
+      "EMIB-rotation": 0
+    },
+    {
+      "node1": "A",
+      "node2": "F",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 5.720000000000002,
+      "EMIB-y-position": 7.273349999999999,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "A",
+      "node2": "H",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 1.7067,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 4.606649999999999,
+      "EMIB-y-position": 11.879999999999999,
+      "EMIB-rotation": 0
+    },
+    {
+      "node1": "C",
+      "node2": "D",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 1.1000000000000028,
+      "EMIB-y-position": 15.086393449805392,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "E",
+      "node2": "G",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 0.6233500000000014,
+      "EMIB-y-position": 37.5,
+      "EMIB-rotation": 0
+    },
+    {
+      "node1": "F",
+      "node2": "H",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 1.7067,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 5.72,
+      "EMIB-y-position": 22.106650000000002,
+      "EMIB-rotation": 1
+    },
+    {
+      "node1": "G",
+      "node2": "H",
+      "EMIBType": "interfaceB",
+      "EMIB_length": 0.8533,
+      "EMIB_max_width": 5,
+      "EMIB_width": 2.0,
+      "EMIB_bump_width": 1.0,
+      "EMIB-x-position": 5.033349999999999,
+      "EMIB-y-position": 32.04,
+      "EMIB-rotation": 0
+    }
+  ],
+  "wirelength": 54314.56850642337,
+  "area": 1720.7232,
+  "aspect_ratio": 0.63
+}
