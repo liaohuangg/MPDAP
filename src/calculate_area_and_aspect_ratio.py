@@ -48,15 +48,17 @@ def round_half_up(value, digits):
 
 
 def compute_sar(aspect_ratio, digits=SAR_DIGITS):
-    """SAR = max(AR, 1/AR) - 1, evaluated on the 3-decimal AR.
+    """SAR = max(AR, 1/AR) - 1, evaluated on the unrounded aspect ratio.
 
-    dSAR/dAR = 1 + 1/AR^2, so rounding the ratio first keeps the stored SAR
-    consistent with the AR that is written next to it.
+    The ratio is taken straight from the bounding box (width / height), put
+    through the formula, and only the result is rounded to ``digits``.  The
+    stored ``aspect_ratio`` is a 3-decimal presentation of the same ratio, so
+    feeding it back in would shift SAR in the 3rd digit around AR ~ 0.44
+    (dSAR/dAR = 1 + 1/AR^2): raw 0.44362 -> 1.254, rounded 0.444 -> 1.252.
     """
-    ar = round_half_up(aspect_ratio, AR_DIGITS)
-    if not ar:
+    if not aspect_ratio:
         return 0.0
-    return round_half_up(max(ar, 1.0 / ar) - 1.0, digits)
+    return round_half_up(max(aspect_ratio, 1.0 / aspect_ratio) - 1.0, digits)
 
 # ==============================
 # Generate grid points

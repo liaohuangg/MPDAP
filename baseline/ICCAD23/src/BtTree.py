@@ -59,6 +59,7 @@ class BTNode:
     def __init__(self, ecg: ECG, problem: LayoutProblem,
                  build_similarity_forest: bool = True,
                  seed: Optional[int] = None,
+                 deadline: Optional[float] = None,
                  timing_sink: Optional[Dict[str, float]] = None,
                  stats_sink: Optional[Dict] = None):
         """
@@ -70,6 +71,9 @@ class BTNode:
             build_similarity_forest: Whether to build similarity forest
             seed: Seed for this node's similarity forest. None continues the
                 caller's RNG stream instead of reseeding.
+            deadline: Absolute `time.time()` by which base derivation must
+                stop if it has found no legal base; forwarded to layer 1.
+                None keeps the old bounded attempt budget in both phases.
             timing_sink: Optional dict owned by the caller. Each layer adds its
                 seconds to `<layer>_seconds` here as soon as it is done, so the
                 cost of a layer survives even if a later step fails hard.
@@ -92,6 +96,7 @@ class BTNode:
         self.phase_stats: Dict[str, Dict] = {}
         self._timing_sink = timing_sink
         self._stats_sink = stats_sink
+        self._deadline = deadline
 
         # Assign unique ID
         BTNode._node_counter += 1
@@ -99,7 +104,7 @@ class BTNode:
 
         # Build similarity forest for multi-chip ECGs
         if not self.is_single_chiplet and build_similarity_forest:
-            self._build_similarity_forest(problem, seed=seed)
+            self._build_similarity_forest(problem, seed=seed, deadline=deadline)
 
     def _record_layer(self, layer: str, seconds: float, stats: Dict):
         """Store one layer's wall clock + counters, and forward them to the sink.
@@ -121,7 +126,8 @@ class BTNode:
                     merged.setdefault(name, value)
 
     def _build_similarity_forest(self, problem: LayoutProblem,
-                                 seed: Optional[int] = None):
+                                 seed: Optional[int] = None,
+                                 deadline: Optional[float] = None):
         """
         Build similarity forest for multi-chip ECG.
 
@@ -133,6 +139,9 @@ class BTNode:
             problem: Layout problem for this ECG
             seed: Seed handed to `run_base_derivation` (None = continue the
                 caller's RNG stream)
+            deadline: Absolute `time.time()` by which layer 1 must stop if no
+                legal base has been found; passed through to
+                `run_base_derivation`. None keeps the bounded attempt budget.
         """
         try:
             print(f"  Building similarity forest for ECG {self.ecg.id}...")
@@ -149,6 +158,7 @@ class BTNode:
                     max_iterations=5000,
                     verbose=False,
                     seed=seed,
+                    deadline=deadline,
                     stats=layer1_stats
                 )
             finally:
@@ -157,7 +167,12 @@ class BTNode:
                 self._record_layer('layer1', time.time() - layer1_start, layer1_stats)
 
             if len(root_nodes) == 0:
-                error_msg = f"Base derivation failed for ECG {self.ecg.id}, cannot build forest"
+                attempts = layer1_stats.get('runs', 0)
+                why = ("run deadline reached" if layer1_stats.get('deadline_hit')
+                       else f"attempt budget {attempts} exhausted")
+                error_msg = (f"Base derivation failed for ECG {self.ecg.id} "
+                             f"after {attempts} attempt(s), {why}; "
+                             f"cannot build forest")
                 print(f"    ✗ {error_msg}")
                 print(f"    Program terminated: cannot continue")
                 raise RuntimeError(error_msg)
@@ -267,21 +282,26 @@ class BinaryTree:
         # Counters of both layers, summed the same way.
         self.phase_stats: Dict[str, Dict] = {}
     
-    def build_from_ecgs(self, ecg_manager: ECGManager, 
+    def build_from_ecgs(self, ecg_manager: ECGManager,
                        build_similarity_forests: bool = True,
-                       seed: Optional[int] = None):
+                       seed: Optional[int] = None,
+                       deadline: Optional[float] = None):
         """
         Build BT tree from ECG manager.
-        
+
         Algorithm:
         1. Randomly select root ECG
         2. Randomly distribute remaining ECGs to left/right subtrees
         3. Recursively build subtrees
-        
+
         Args:
             ecg_manager: ECG manager
             build_similarity_forests: Whether to build forests for multi-chip ECGs
             seed: Random seed
+            deadline: Absolute `time.time()` by which each ECG's layer-1 base
+                derivation must stop if it has found no legal base. Passed to
+                every node's `run_base_derivation`. None keeps the old bounded
+                behaviour.
         """
         self.build_count += 1
         self.timing = {'layer1_seconds': 0.0, 'layer2_seconds': 0.0}
@@ -312,6 +332,7 @@ class BinaryTree:
             # Both sinks live on the tree, so the seconds each layer burned are
             # recorded even when a hard failure below kills the run.
             node = BTNode(ecg, sub_problem, build_similarity_forests, seed=node_seed,
+                          deadline=deadline,
                           timing_sink=self.timing, stats_sink=self.phase_stats)
             ecg_nodes.append(node)
             self.all_nodes.append(node)

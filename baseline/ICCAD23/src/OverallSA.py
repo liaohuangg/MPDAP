@@ -1313,7 +1313,9 @@ def format_layer_timing(bt_tree: Optional[BinaryTree] = None,
           f"({layer1_stats.get('sa_runs', 0)} entered the legality SA_1, "
           f"{layer1_stats.get('already_legal_runs', 0)} already legal) -> "
           f"{layer1_stats.get('legal_solutions', 0)} legal solutions / "
-          f"{layer1_stats.get('root_nodes', 0)} root nodes")
+          f"{layer1_stats.get('root_nodes', 0)} root nodes"
+          + (" [run deadline reached with no legal base]"
+             if layer1_stats.get('deadline_hit') else ""))
     d2 = (f"{layer2_stats.get('trees', 0)} trees, "
           f"{layer2_stats.get('sa_calls', 0)} neighbour SA calls "
           f"({layer2_stats.get('sa_iterations', 0)} iterations), "

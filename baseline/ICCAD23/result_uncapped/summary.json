@@ -1,0 +1,366 @@
+{
+  "timestamp": "2026-10-23T13:55:48.206281",
+  "seed_mode": "fixed-list",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "seed_sweep_target": null,
+  "seed_sweep_time_limit": null,
+  "seed_sweep_start": null,
+  "seed_sweep_spent": null,
+  "batch_time_limit": null,
+  "time_limit_seconds": 3600,
+  "max_iterations": null,
+  "convergence_patience": 10000,
+  "total_cases": 9,
+  "success_count": 1,
+  "total_time_hours": 43.362100492186016,
+  "results": [
+    {
+      "case_name": "hp11_m",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 5,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 0,
+      "time_seconds": 18002.41644692421,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          3638
+        ],
+        [
+          1,
+          "failed",
+          3657
+        ],
+        [
+          2,
+          "failed",
+          3673
+        ],
+        [
+          3,
+          "failed",
+          3646
+        ],
+        [
+          4,
+          "failed",
+          3668
+        ]
+      ]
+    },
+    {
+      "case_name": "syn2",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 5,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 0,
+      "time_seconds": 18003.56648492813,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          3217
+        ],
+        [
+          1,
+          "failed",
+          3199
+        ],
+        [
+          2,
+          "failed",
+          3230
+        ],
+        [
+          3,
+          "failed",
+          3307
+        ],
+        [
+          4,
+          "failed",
+          3290
+        ]
+      ]
+    },
+    {
+      "case_name": "syn3",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 5,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 0,
+      "time_seconds": 18003.350589752197,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          3056
+        ],
+        [
+          1,
+          "failed",
+          3033
+        ],
+        [
+          2,
+          "failed",
+          3052
+        ],
+        [
+          3,
+          "failed",
+          3093
+        ],
+        [
+          4,
+          "failed",
+          3107
+        ]
+      ]
+    },
+    {
+      "case_name": "syn4",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 5,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 0,
+      "time_seconds": 18002.518776893616,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          2917
+        ],
+        [
+          1,
+          "failed",
+          2962
+        ],
+        [
+          2,
+          "failed",
+          2985
+        ],
+        [
+          3,
+          "failed",
+          2992
+        ],
+        [
+          4,
+          "failed",
+          3008
+        ]
+      ]
+    },
+    {
+      "case_name": "syn5",
+      "status": "success",
+      "num_solutions": 2,
+      "num_seeds_tried": 5,
+      "best_cost": 295.7158554116869,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 2,
+      "time_seconds": 12083.044705867767,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          3574
+        ],
+        [
+          1,
+          "success",
+          510
+        ],
+        [
+          2,
+          "success",
+          870
+        ],
+        [
+          3,
+          "failed",
+          3336
+        ],
+        [
+          4,
+          "failed",
+          3373
+        ]
+      ]
+    },
+    {
+      "case_name": "syn6",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 5,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 0,
+      "time_seconds": 18004.30335712433,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          2295
+        ],
+        [
+          1,
+          "failed",
+          2282
+        ],
+        [
+          2,
+          "failed",
+          2303
+        ],
+        [
+          3,
+          "failed",
+          2365
+        ],
+        [
+          4,
+          "failed",
+          2380
+        ]
+      ]
+    },
+    {
+      "case_name": "xerox6_m",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 5,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 0,
+      "time_seconds": 18001.706849336624,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          5394
+        ],
+        [
+          1,
+          "failed",
+          5380
+        ],
+        [
+          2,
+          "failed",
+          5443
+        ],
+        [
+          3,
+          "failed",
+          5573
+        ],
+        [
+          4,
+          "failed",
+          5599
+        ]
+      ]
+    },
+    {
+      "case_name": "xerox7_m",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 5,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 0,
+      "time_seconds": 18001.07040119171,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          4856
+        ],
+        [
+          1,
+          "failed",
+          4766
+        ],
+        [
+          2,
+          "failed",
+          4739
+        ],
+        [
+          3,
+          "failed",
+          4831
+        ],
+        [
+          4,
+          "failed",
+          4838
+        ]
+      ]
+    },
+    {
+      "case_name": "xerox8_m",
+      "status": "no_solution",
+      "num_solutions": 0,
+      "num_seeds_tried": 5,
+      "best_cost": null,
+      "hit_time_limit_count": 0,
+      "bridge_legal_solutions": 0,
+      "time_seconds": 18001.584159851074,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          4142
+        ],
+        [
+          1,
+          "failed",
+          4120
+        ],
+        [
+          2,
+          "failed",
+          4138
+        ],
+        [
+          3,
+          "failed",
+          4156
+        ],
+        [
+          4,
+          "failed",
+          4169
+        ]
+      ]
+    }
+  ]
+}

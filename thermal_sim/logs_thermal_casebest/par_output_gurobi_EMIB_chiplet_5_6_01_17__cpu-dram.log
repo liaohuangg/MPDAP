@@ -1,0 +1,23 @@
+[gen_flp_trace] Load JSON: /root/placement/MPDAP/parameter_result/output_gurobi_EMIB_chiplet_5_6_01_17/placement/cpu-dram.json
+✅ No overlaps in block list
+area_diff <= OVERLAP_TOLERANCE_MM2 * 100
+✅ No overlaps in block list
+[gen_flp_trace] Chiplet power from /root/placement/MPDAP/benchmark/test_input/cpu-dram.json
+✅ Generated .ptrace file: /root/placement/MPDAP/thermal_sim/config_sum_same_pkg/config_par_output_gurobi_EMIB_chiplet_5_6_01_17/cpu-dram_config/cpu-dram.ptrace
+📦 File contains power data for 26 modules
+✅ No grid overlap between chiplets or TIM blocks
+Warning: Layer Configuration File example.lcf specified. Overriding floorplan file cpu-dram.flp
+Computing steady-state temperatures...
+Parsing input files...
+Creating thermal circuit...
+Simulation complete.
+/root/placement/MPDAP/thermal_sim/src/../HotSpot/hotspot -c example.config -f cpu-dram.flp -p cpu-dram.ptrace -steady_file output/cpu-dram.steady -grid_steady_file output/cpu-dram.grid.steady -model_type grid -detailed_3D off -grid_layer_file example.lcf -materials_file example.materials
+
+===== 开始HotSpot热仿真 =====
+配置目录：/root/placement/MPDAP/thermal_sim/config_sum_same_pkg/config_par_output_gurobi_EMIB_chiplet_5_6_01_17/cpu-dram_config
+输出目录：/root/placement/MPDAP/thermal_sim/config_sum_same_pkg/config_par_output_gurobi_EMIB_chiplet_5_6_01_17/cpu-dram_config/output
+===== 热仿真执行完成，耗时：3.12 秒 =====
+
+已指定 --no-plot，跳过热图绘制
+[gen_flp_trace] Load JSON: /root/placement/MPDAP/parameter_result/output_gurobi_EMIB_chiplet_5_6_01_17/placement/cpu-dram.json
+[OK] /root/placement/MPDAP/thermal_sim/config_sum_same_pkg/config_par_output_gurobi_EMIB_chiplet_5_6_01_17/cpu-dram_config/output/cpu-dram_layer2_grid_thermal_with_bridge.png

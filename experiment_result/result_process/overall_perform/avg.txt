@@ -1,5 +1,5 @@
 % Mean values of the four metrics in the four metric tables.
-% BT-solvable set (6 cases): ascend910, cpu-dram, hp6_m, hp8_m, multigpu, syn1.
+% BT-solvable set (7 cases): ascend910, cpu-dram, hp6_m, hp8_m, multigpu, syn1, syn5.
 % RLP-solvable set (4 cases): ascend910, cpu-dram, hp6_m, multigpu.
 % Each method mean uses the cases it solves within the given set; RLP therefore
 % uses 4 cases in the BT-solvable rows. Avg. BT/RLP and Avg. OM/PM are the
@@ -14,21 +14,21 @@
 \toprule
 \textbf{Metric} & \textbf{Case set} & \textbf{BT} & \textbf{RLP} & \textbf{OM} & \textbf{PM} & \textbf{Avg. BT/RLP} & \textbf{Avg. OM/PM} \\
 \midrule
-\multirow{2}{*}{BA ($\mathrm{mm}^2$)} & BT-solvable ($n=6$) & 1258.28 & 1242.37 & 878.96 & 916.00 & 1250.32 & 897.48 \\
- & RLP-solvable ($n=4$) & 1096.80 & 1242.37 & 905.73 & 956.62 & 1169.58 & 931.18 \\
+\multirow{2}{*}{BA ($\mathrm{mm}^2$)} & BT-solvable ($n=7$) & 1163.12 & 1214.52 & 861.39 & 895.07 & 1188.82 & 878.23 \\
+ & RLP-solvable ($n=4$) & 1121.17 & 1214.52 & 905.73 & 956.62 & 1167.84 & 931.18 \\
 \addlinespace[2pt]
-\multirow{2}{*}{WL (mm)} & BT-solvable ($n=6$) & 41818.85 & 39325.88 & 38308.47 & 39624.26 & 40572.36 & 38966.37 \\
- & RLP-solvable ($n=4$) & 36799.17 & 39325.88 & 34970.77 & 36191.55 & 38062.53 & 35581.16 \\
+\multirow{2}{*}{WL (mm)} & BT-solvable ($n=7$) & 45467.39 & 39550.51 & 42297.63 & 43891.67 & 42508.95 & 43094.65 \\
+ & RLP-solvable ($n=4$) & 35909.18 & 39550.51 & 34970.77 & 36191.55 & 37729.85 & 35581.16 \\
 \addlinespace[2pt]
-\multirow{2}{*}{SAR} & BT-solvable ($n=6$) & 0.763 & 0.687 & 0.647 & 0.516 & 0.725 & 0.582 \\
- & RLP-solvable ($n=4$) & 1.007 & 0.687 & 0.605 & 0.435 & 0.847 & 0.520 \\
+\multirow{2}{*}{SAR} & BT-solvable ($n=7$) & 0.681 & 0.413 & 0.560 & 0.450 & 0.547 & 0.505 \\
+ & RLP-solvable ($n=4$) & 0.692 & 0.413 & 0.605 & 0.435 & 0.552 & 0.520 \\
 \addlinespace[2pt]
-\multirow{2}{*}{MaxT ($^\circ$C)} & BT-solvable ($n=6$) & 96.92 & 95.04 & 98.91 & 96.21 & 95.98 & 97.56 \\
- & RLP-solvable ($n=4$) & 96.38 & 95.04 & 99.47 & 95.60 & 95.71 & 97.54 \\
+\multirow{2}{*}{MaxT ($^\circ$C)} & BT-solvable ($n=7$) & 97.22 & 95.72 & 98.75 & 96.21 & 96.47 & 97.48 \\
+ & RLP-solvable ($n=4$) & 97.70 & 95.72 & 99.61 & 95.76 & 96.71 & 97.69 \\
 \bottomrule
 \end{tabular}
 \vspace{2pt}
-\parbox{\textwidth}{\footnotesize Note: for the BT-solvable set, BT, OM and PM are averaged over all 6 cases, whereas RLP is averaged over the 4 cases it also solves ($hp8\_m$ and $syn1$ are unsolved); for the RLP-solvable set, all four methods are averaged over the same 4 cases. Avg. BT/RLP and Avg. OM/PM are the arithmetic means of the corresponding two method means.}
+\parbox{\textwidth}{\footnotesize Note: for the BT-solvable set, BT, OM and PM are averaged over all 7 cases, whereas RLP is averaged over the 4 cases it also solves ($hp8\_m$, $syn1$ and $syn5$ are unsolved); for the RLP-solvable set, all four methods are averaged over the same 4 cases. Avg. BT/RLP and Avg. OM/PM are the arithmetic means of the corresponding two method means.}
 \end{table*}
 
 
@@ -37,9 +37,9 @@
 Averages of the four metrics.
 
 Case sets
-  BT-solvable  (n=6): ascend910, cpu-dram, hp6_m, hp8_m, multigpu, syn1
+  BT-solvable  (n=7): ascend910, cpu-dram, hp6_m, hp8_m, multigpu, syn1, syn5
   RLP-solvable (n=4): ascend910, cpu-dram, hp6_m, multigpu
-  RLP does not solve hp8_m or syn1, so in the BT-solvable rows its
+  RLP does not solve hp8_m, syn1 or syn5, so in the BT-solvable rows its
   mean covers only the 4 cases it solves.
 
 avg(BT,RLP) is the mean of the BT and RLP means; avg(OM,PM) is the
@@ -47,20 +47,20 @@ mean of the OM and PM means (computed from the unrounded values).
 
 BA (mm^2)
   set                          BT        RLP         OM         PM  avg(BT,RLP)  avg(OM,PM)
-  BT-solvable (n=6)       1258.28    1242.37     878.96     916.00      1250.32      897.48
-  RLP-solvable (n=4)      1096.80    1242.37     905.73     956.62      1169.58      931.18
+  BT-solvable (n=7)       1163.12    1214.52     861.39     895.07      1188.82      878.23
+  RLP-solvable (n=4)      1121.17    1214.52     905.73     956.62      1167.84      931.18
 
 WL (mm)
   set                          BT        RLP         OM         PM  avg(BT,RLP)  avg(OM,PM)
-  BT-solvable (n=6)      41818.85   39325.88   38308.47   39624.26     40572.36    38966.37
-  RLP-solvable (n=4)     36799.17   39325.88   34970.77   36191.55     38062.53    35581.16
+  BT-solvable (n=7)      45467.39   39550.51   42297.63   43891.67     42508.95    43094.65
+  RLP-solvable (n=4)     35909.18   39550.51   34970.77   36191.55     37729.85    35581.16
 
 SAR
   set                          BT        RLP         OM         PM  avg(BT,RLP)  avg(OM,PM)
-  BT-solvable (n=6)         0.763      0.687      0.647      0.516        0.725       0.582
-  RLP-solvable (n=4)        1.007      0.687      0.605      0.435        0.847       0.520
+  BT-solvable (n=7)         0.681      0.413      0.560      0.450        0.547       0.505
+  RLP-solvable (n=4)        0.692      0.413      0.605      0.435        0.552       0.520
 
 MaxT (deg C)
   set                          BT        RLP         OM         PM  avg(BT,RLP)  avg(OM,PM)
-  BT-solvable (n=6)         96.92      95.04      98.91      96.21        95.98       97.56
-  RLP-solvable (n=4)        96.38      95.04      99.47      95.60        95.71       97.54
+  BT-solvable (n=7)         97.22      95.72      98.75      96.21        96.47       97.48
+  RLP-solvable (n=4)        97.70      95.72      99.61      95.76        96.71       97.69

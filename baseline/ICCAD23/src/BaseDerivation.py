@@ -41,6 +41,7 @@ def run_base_derivation(problem: LayoutProblem,
                         beta_l: float = 0.3,
                         verbose: bool = True,
                         seed: Optional[int] = None,
+                        deadline: Optional[float] = None,
                         stats: Optional[Dict] = None) -> List[SimilarityTreeNode]:
     """
     Base Derivation: Run SA multiple times and select diverse legal solutions as forest root nodes.
@@ -65,9 +66,20 @@ def run_base_derivation(problem: LayoutProblem,
             derivation is reproducible. When None, the caller's current RNG
             stream is used as-is (no reseeding), which is what makes an outer
             seed the single source of randomness.
-        num_runs: Per-base attempt budget, not the stopping rule. The loop runs
-            up to `num_runs * BASE_DERIVATION_ATTEMPT_FACTOR` attempts and stops
-            as soon as MAX_ROOT_NODES bases are obtained (paper §III-B4).
+        deadline: Absolute `time.time()` value by which this derivation must
+            stop *if it has not found a legal base yet*. With no legal base the
+            attempt budget does not apply: the search keeps partitioning until
+            the deadline, so a case that never legalizes is probed for the
+            whole run instead of being declared failed after a fixed number of
+            tries. Once at least one legal base exists, the original attempt
+            budget governs again and the deadline is no longer consulted, so a
+            case that does solve is never cut mid-derivation and its result is
+            unchanged. `None` (direct/test use) keeps the old bounded
+            behaviour: the attempt budget applies in both phases.
+        num_runs: Per-base attempt budget, not the stopping rule. Once a legal
+            base exists, the loop runs up to
+            `num_runs * BASE_DERIVATION_ATTEMPT_FACTOR` attempts and stops as
+            soon as MAX_ROOT_NODES bases are obtained (paper §III-B4).
         stats: Optional dict filled in with what this layer did (runs, how
             many of them were already legal, how many SA_1 calls ran and how
             long they took). This is layer 1 of the pipeline -- it only ever
@@ -79,11 +91,12 @@ def run_base_derivation(problem: LayoutProblem,
         n_emib = problem.connection_graph.number_of_edges()
         initial_temp = 0.5 * beta_l / max(1, n_emib)
 
-    # Paper §III-B4: keep partitioning until enough bases exist. `num_runs` is
-    # the per-base budget, and the absolute cap bounds a pathological case.
-    # The attempt budget follows the root target: 4 attempts per base wanted.
-    # With MAX_ROOT_NODES=30 this is the 120 attempts used before; with 50 it
-    # becomes 200, so raising the cap does not silently stop at the old budget.
+    # Paper §III-B4: keep partitioning until enough bases exist. Once at least
+    # one legal base exists this is the attempt budget used before (4 attempts
+    # per base wanted, capped at 300). While *no* legal base has been found at
+    # all it does not apply: the derivation keeps going until `deadline`, since
+    # stopping at a fixed budget and failing the whole run cannot distinguish
+    # "hard case" from "needs more attempts".
     max_attempts = min(max(num_runs, MAX_ROOT_NODES) * BASE_DERIVATION_ATTEMPT_FACTOR,
                        BASE_DERIVATION_ATTEMPT_CAP)
 
@@ -92,7 +105,13 @@ def run_base_derivation(problem: LayoutProblem,
         print("Base Derivation - build similarity forest")
         print("="*80)
         print(f"Problem size: {len(problem.chiplets)} chiplets, {problem.connection_graph.number_of_edges()} connections")
-        print(f"Runs: up to {max_attempts} attempts, stopping at {MAX_ROOT_NODES} bases")
+        if deadline is not None:
+            print(f"Runs: up to {max_attempts} attempts once a legal base exists; "
+                  f"no attempt cap until the run deadline "
+                  f"({max(0.0, deadline - time.time()):.0f}s away) while none does; "
+                  f"stopping at {MAX_ROOT_NODES} bases")
+        else:
+            print(f"Runs: up to {max_attempts} attempts, stopping at {MAX_ROOT_NODES} bases")
         print(f"Similarity threshold: {min_similarity} (save as new root only if below this value)")
         print(f"SA params: max_iter={max_iterations}, T0={initial_temp}, cooling={cooling_rate}")
         print("="*80 + "\n")
@@ -114,32 +133,55 @@ def run_base_derivation(problem: LayoutProblem,
 
     # Counters of this layer, handed back through `stats` at the end.
     layer_stats: Dict = {
-        'runs': max_attempts,          # safety bound on attempts (paper: stop at enough bases)
+        'runs': 0,                     # attempts actually made (set in _publish)
+        'attempt_budget': max_attempts,  # budget that applies once a base exists
         'already_legal_runs': 0,       # Case 1: no SA needed at all
         'sa_runs': 0,                  # Case 2/3: SA_1 was actually run
         'legal_solutions': 0,          # legal TCGs SA_1 produced (before dedup)
         'bridge_rejected': 0,          # candidates dropped for overlapping bridges
         'sa_seconds': 0.0,             # wall clock inside SA_1
         'pc_restarts': 0,              # SA_1 walks abandoned by the Pc >= lc rule
+        'deadline_hit': 0,             # stopped by `deadline` with no legal base
         'root_nodes': 0,               # survived the similarity filter
     }
 
     def _publish():
+        layer_stats['runs'] = run_idx
         layer_stats['root_nodes'] = len(root_nodes)
         layer_stats['legal_solutions'] = total_legal_solutions
         if stats is not None:
             stats.update(layer_stats)
 
-    for run_idx in range(max_attempts):
-        if len(root_nodes) >= MAX_ROOT_NODES:
-            if verbose:
-                print(f"\nRoot node cap ({MAX_ROOT_NODES}) reached after "
-                      f"{run_idx} attempt(s), stopping")
+    run_idx = 0
+    while len(root_nodes) < MAX_ROOT_NODES:
+        # Stopping rules differ by phase. With no legal base yet, only the
+        # run's clock can stop the search: an attempt cap here is exactly what
+        # used to fail an unsolvable case after a fixed number of tries and
+        # move on. As soon as one base exists the original attempt budget
+        # governs and the clock is not consulted, so a derivation that is
+        # producing bases is never cut off mid-way -- solving cases follow the
+        # exact same attempt sequence and RNG stream as before.
+        if not root_nodes:
+            if deadline is not None:
+                if time.time() >= deadline:
+                    layer_stats['deadline_hit'] = 1
+                    if verbose:
+                        print(f"\nDeadline reached after {run_idx} attempt(s) "
+                              f"with no legal base, stopping")
+                    break
+            elif run_idx >= max_attempts:
+                # Called without a deadline (direct/test use): keep the old
+                # bounded behaviour rather than looping forever.
+                break
+        elif run_idx >= max_attempts:
             break
 
+        run_idx += 1
         if verbose:
+            total = (max_attempts if root_nodes
+                     else "unbounded (no legal base yet)")
             print(f"\n{'─'*80}")
-            print(f"Run {run_idx + 1}/{max_attempts}")
+            print(f"Run {run_idx}/{total}")
             print(f"{'─'*80}")
 
         # Generate initial TCG (no reseed here: keeps drawing from the stream above)
@@ -302,7 +344,10 @@ def run_base_derivation(problem: LayoutProblem,
         print("\n" + "="*80)
         print("Base Derivation completed")
         print("="*80)
-        print(f"Total attempts allowed: {max_attempts}")
+        print(f"Total attempts made: {run_idx} "
+              f"(budget once a base exists: {max_attempts})")
+        if layer_stats['deadline_hit']:
+            print("Stopped by the run deadline with no legal base")
         print(f"Total legal solutions found: {total_legal_solutions}")
         print(f"Forest root node count: {len(root_nodes)}")
         print(f"Similarity threshold: {min_similarity}")

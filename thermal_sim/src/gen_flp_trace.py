@@ -709,14 +709,14 @@ def _can_merge_v(a, b):
 # 数值与 thermal_sim/thermal_pkg.txt 的 [Combined maximum and thermal config] 一致。
 # 热仿真用它作为该 case 所有布局统一的封装边长（布局居中放进去）。
 CASE_MAX_INTERPOSER_MM = {
-    "ascend910": 59.27,
-    "cpu-dram": 44.50,
+    "ascend910": 41.95,
+    "cpu-dram": 42.25,
     "hp11_m": 63.84,
-    "hp6_m": 53.20,
-    "hp8_m": 52.08,
+    "hp6_m": 35.98,
+    "hp8_m": 43.12,
     "multigpu": 48.40,
-    "syn1": 47.00,
-    "syn5": 34.00,
+    "syn1": 37.00,
+    "syn5": 53.00,
 }
 # 封装边长口径（--package_mode）：
 #   "layout" = 每个布局用自己的外接正方形：边长 = 该布局外接框的最大边，

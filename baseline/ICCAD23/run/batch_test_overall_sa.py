@@ -308,6 +308,31 @@ def run_case_all_seeds(json_path, case_name, output_dir,
     # the logged per-invocation times keep their meaning.
     sweep_clock_start = case_start_time - sweep_spent
 
+    # Resuming a sweep continues the case's log rather than replacing it: the
+    # earlier invocation's run records and saved solutions are merged into
+    # every flush, so log.json / log.txt always describe all seeds the case
+    # has run (0..N), not just this invocation's slice.
+    prev_log_info = None
+    if sweep and seed_sweep_start > 0:
+        prev_log_path = os.path.join(output_dir, 'log.json')
+        if os.path.exists(prev_log_path):
+            try:
+                with open(prev_log_path, encoding='utf-8') as fh:
+                    prev_log_info = json.load(fh)
+                print(f"Appending to existing log: "
+                      f"{len(prev_log_info.get('run_details') or [])} earlier run(s), "
+                      f"{len(prev_log_info.get('solutions') or [])} solution(s), "
+                      f"seeds {prev_log_info.get('seeds')}")
+            except Exception as exc:          # noqa: BLE001 - never block a run
+                print(f"⚠ Could not read {prev_log_path} to append to it "
+                      f"({type(exc).__name__}: {exc}); writing this run only")
+                prev_log_info = None
+
+    # Earlier invocation's records, prepended to this one's at flush time.
+    prev_details = list(prev_log_info.get('run_details') or []) if prev_log_info else []
+    prev_entries = list(prev_log_info.get('solutions') or []) if prev_log_info else []
+    prev_seeds = list(prev_log_info.get('seeds') or []) if prev_log_info else []
+
     def avg_layer(runs, key):
         """Average one per-layer timing field over the given runs (0.0 if none)."""
         values = [r['timing'][key] for r in runs
@@ -315,9 +340,27 @@ def run_case_all_seeds(json_path, case_name, output_dir,
         return sum(values) / len(values) if values else 0.0
 
     def flush_logs(status):
-        """Write log.json + log.txt from the runs recorded so far."""
+        """Write log.json + log.txt from the runs recorded so far.
+
+        A resumed sweep writes the union of the earlier invocation's records
+        and this one's, so nothing recorded for seeds 0..4 is lost.
+        """
+        # Earlier runs first, then this invocation's, renumbered 1..N so the
+        # record reads as one continuous seed sequence.
+        merged_details = [dict(r) for r in prev_details] + run_details
+        for i, detail in enumerate(merged_details, 1):
+            detail['run_id'] = i
+        # Same numbering for the saved-solution entries, in run order; their
+        # file names keep the seed they came from, so they stay unambiguous.
+        all_entries = []
+        for i, entry in enumerate(prev_entries + log_entries, 1):
+            entry = dict(entry)
+            entry['solution_idx'] = i
+            all_entries.append(entry)
+        all_seeds = prev_seeds + list(seeds_run)
+
         # Compute summary statistics
-        success_runs = [r for r in run_details if r['status'] == 'success']
+        success_runs = [r for r in merged_details if r['status'] == 'success']
 
         if success_runs:
             costs = [r['cost'] for r in success_runs]
@@ -325,7 +368,7 @@ def run_case_all_seeds(json_path, case_name, output_dir,
 
             stats = {
                 'success_count': len(success_runs),
-                'failed_count': len(run_details) - len(success_runs),
+                'failed_count': len(merged_details) - len(success_runs),
                 'hit_time_limit_count': sum(1 for r in success_runs if r['hit_time_limit']),
                 'cost': {
                     'best': min(costs),
@@ -347,15 +390,15 @@ def run_case_all_seeds(json_path, case_name, output_dir,
         else:
             stats = {
                 'success_count': 0,
-                'failed_count': len(run_details)
+                'failed_count': len(merged_details)
             }
 
         log_info = {
             'case_name': case_name,
             'timestamp': datetime.now().isoformat(),
             'status': status,  # 'in_progress' while running, 'completed' at the end
-            'seeds': list(seeds_run),
-            'total_runs': len(log_entries),
+            'seeds': all_seeds,
+            'total_runs': len(all_entries),
             'num_chiplets': len(problem.chiplets),
             'num_connections': problem.connection_graph.number_of_edges(),
             'max_iterations': max_iterations,
@@ -370,13 +413,13 @@ def run_case_all_seeds(json_path, case_name, output_dir,
                                       if sweep else None),
             'sweep_time_limit_seconds': seed_sweep_time_limit if sweep else None,
             'statistics': stats,  # Summary statistics
-            'run_details': run_details,  # Per-run details
+            'run_details': merged_details,  # Per-run details (all seeds so far)
             # How many saved solutions pass the physical bridge check
             # (bridge rectangles fit their shared edges and do not overlap).
-            'bridge_legal_solutions': sum(1 for e in log_entries
+            'bridge_legal_solutions': sum(1 for e in all_entries
                                           if e.get('bridge_legal')),
             # Sorted by cost for readability; file names keep run order
-            'solutions': sorted(log_entries, key=lambda e: e['cost'])
+            'solutions': sorted(all_entries, key=lambda e: e['cost'])
         }
 
         with open(os.path.join(output_dir, "log.json"), 'w', encoding='utf-8') as f:
@@ -388,12 +431,16 @@ def run_case_all_seeds(json_path, case_name, output_dir,
             f.write(f"Test case: {case_name}\n")
             f.write(f"Status: {status}\n")
             f.write(f"Time: {log_info['timestamp']}\n")
+            if prev_details:
+                f.write(f"Resumed: {len(prev_details)} run(s) from an earlier "
+                        f"invocation (seeds {prev_seeds[0]}..{prev_seeds[-1]}) "
+                        f"are merged into this log\n")
             f.write(f"{'='*80}\n\n")
             f.write(f"Problem size:\n")
             f.write(f"  Chiplets: {log_info['num_chiplets']}\n")
             f.write(f"  Connections: {log_info['num_connections']}\n\n")
             f.write(f"Run configuration:\n")
-            f.write(f"  Seeds: {list(seeds_run)}\n")
+            f.write(f"  Seeds: {all_seeds}\n")
             f.write(f"  Iteration cap: "
                     f"{max_iterations if max_iterations is not None else 'none (unbounded)'}\n")
             f.write(f"  Stopping condition 1 (convergence): no best-cost "
@@ -422,10 +469,10 @@ def run_case_all_seeds(json_path, case_name, output_dir,
             f.write(f"Per-run details:\n")
             f.write(f"{'='*80}\n\n")
 
-            failed_runs = [r for r in run_details if r['status'] == 'failed']
+            failed_runs = [r for r in merged_details if r['status'] == 'failed']
 
-            f.write(f"Successful runs: {len(success_runs)}/{len(run_details)}\n")
-            f.write(f"Failed runs: {len(failed_runs)}/{len(run_details)}\n")
+            f.write(f"Successful runs: {len(success_runs)}/{len(merged_details)}\n")
+            f.write(f"Failed runs: {len(failed_runs)}/{len(merged_details)}\n")
             f.write(f"Runs that hit the time limit: "
                     f"{sum(1 for r in success_runs if r['hit_time_limit'])}\n\n")
 
@@ -462,7 +509,7 @@ def run_case_all_seeds(json_path, case_name, output_dir,
             f.write(f"Detailed run records:\n")
             f.write(f"{'-'*80}\n\n")
 
-            for detail in run_details:
+            for detail in merged_details:
                 f.write(f"Run #{detail['run_id']}:\n")
                 f.write(f"  Random seed: {detail['seed']}\n")
                 f.write(f"  Status: {detail['status']}\n")
@@ -503,7 +550,7 @@ def run_case_all_seeds(json_path, case_name, output_dir,
                 f.write(f"\n")
 
             f.write(f"{'='*80}\n")
-            f.write(f"All {len(log_entries)} solutions (sorted by cost):\n")
+            f.write(f"All {len(all_entries)} solutions (sorted by cost):\n")
             f.write(f"{'='*80}\n\n")
 
             for rank, entry in enumerate(log_info['solutions'], 1):
@@ -587,6 +634,13 @@ def run_case_all_seeds(json_path, case_name, output_dir,
         # Run start offset from case start
         run_start_offset = time.time() - case_start_time
         run_start_time = time.time()
+
+        # Each run gets `time_limit` seconds on the clock, the same per-run
+        # budget layer 3 is given, and layer 1 checks it only while it has no
+        # legal base at all (see `run_base_derivation`). This is per run, not
+        # per case: seeds 0..4 in a fixed-seed run are five independent hours
+        # for a case that never legalizes.
+        run_deadline = (run_start_time + time_limit) if time_limit else None
         tree_build_time = None   # kept outside the try so failures can log it too
         tree_build_count = 0
         bt_tree = None           # same reason: a failed build still has timings
@@ -606,7 +660,8 @@ def run_case_all_seeds(json_path, case_name, output_dir,
             try:
                 bt_tree.build_from_ecgs(ecg_manager,
                                        build_similarity_forests=True,
-                                       seed=seed)
+                                       seed=seed,
+                                       deadline=run_deadline)
             finally:
                 tree_build_time = time.time() - tree_build_start
                 tree_build_count = bt_tree.build_count

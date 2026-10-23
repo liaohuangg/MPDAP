@@ -1,0 +1,107 @@
+================================================================================
+Test case: syn4
+Status: completed
+Time: 2026-10-23T07:45:55.614851
+================================================================================
+
+Problem size:
+  Chiplets: 13
+  Connections: 15
+
+Run configuration:
+  Seeds: [0, 1, 2, 3, 4]
+  Iteration cap: none (unbounded)
+  Stopping condition 1 (convergence): no best-cost improvement for 10000 iterations
+  Stopping condition 2 (wall clock): 3600 s (60.0 min)
+
+Run statistics:
+  Total solutions: 0
+  Bridge-legal solutions: 0/0
+  Actual time: 300.04 min
+
+================================================================================
+Per-run details:
+================================================================================
+
+Successful runs: 0/5
+Failed runs: 5/5
+Runs that hit the time limit: 0
+
+--------------------------------------------------------------------------------
+Detailed run records:
+--------------------------------------------------------------------------------
+
+Run #1:
+  Random seed: 0
+  Status: failed
+  Error: Base derivation failed for ECG 0 after 2917 attempt(s), run deadline reached; cannot build forest
+  Run time: 3600.72 s
+  Tree build: 1 time(s), 3600.72 s (failed during build)
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :  3600.72 s (100.0%)  2917 base-derivation runs (2917 entered the legality SA_1, 0 already legal) -> 0 legal solutions / 0 root nodes [run deadline reached with no legal base]
+    layer 2  shape+similarity Px/Py/Ps  :     0.00 s (  0.0%)  0 trees, 0 neighbour SA calls (0 iterations), 0 candidates, forest of 0 nodes
+    layer 3  real quality     A/WL/R    :     0.00 s (  0.0%)  0 iterations, 0 accepted / 0 rejected
+    --------------------------------------------------------------
+    build total (layers 1+2)            :  3600.72 s (100.0%)
+    full run (layers 1+2+3)             :  3600.72 s (100.0%)
+
+Run #2:
+  Random seed: 1
+  Status: failed
+  Error: Base derivation failed for ECG 0 after 2962 attempt(s), run deadline reached; cannot build forest
+  Run time: 3600.41 s
+  Tree build: 1 time(s), 3600.41 s (failed during build)
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :  3600.41 s (100.0%)  2962 base-derivation runs (2962 entered the legality SA_1, 0 already legal) -> 0 legal solutions / 0 root nodes [run deadline reached with no legal base]
+    layer 2  shape+similarity Px/Py/Ps  :     0.00 s (  0.0%)  0 trees, 0 neighbour SA calls (0 iterations), 0 candidates, forest of 0 nodes
+    layer 3  real quality     A/WL/R    :     0.00 s (  0.0%)  0 iterations, 0 accepted / 0 rejected
+    --------------------------------------------------------------
+    build total (layers 1+2)            :  3600.41 s (100.0%)
+    full run (layers 1+2+3)             :  3600.41 s (100.0%)
+
+Run #3:
+  Random seed: 2
+  Status: failed
+  Error: Base derivation failed for ECG 0 after 2985 attempt(s), run deadline reached; cannot build forest
+  Run time: 3600.02 s
+  Tree build: 1 time(s), 3600.02 s (failed during build)
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :  3600.02 s (100.0%)  2985 base-derivation runs (2985 entered the legality SA_1, 0 already legal) -> 0 legal solutions / 0 root nodes [run deadline reached with no legal base]
+    layer 2  shape+similarity Px/Py/Ps  :     0.00 s (  0.0%)  0 trees, 0 neighbour SA calls (0 iterations), 0 candidates, forest of 0 nodes
+    layer 3  real quality     A/WL/R    :     0.00 s (  0.0%)  0 iterations, 0 accepted / 0 rejected
+    --------------------------------------------------------------
+    build total (layers 1+2)            :  3600.02 s (100.0%)
+    full run (layers 1+2+3)             :  3600.02 s (100.0%)
+
+Run #4:
+  Random seed: 3
+  Status: failed
+  Error: Base derivation failed for ECG 0 after 2992 attempt(s), run deadline reached; cannot build forest
+  Run time: 3600.50 s
+  Tree build: 1 time(s), 3600.50 s (failed during build)
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :  3600.50 s (100.0%)  2992 base-derivation runs (2992 entered the legality SA_1, 0 already legal) -> 0 legal solutions / 0 root nodes [run deadline reached with no legal base]
+    layer 2  shape+similarity Px/Py/Ps  :     0.00 s (  0.0%)  0 trees, 0 neighbour SA calls (0 iterations), 0 candidates, forest of 0 nodes
+    layer 3  real quality     A/WL/R    :     0.00 s (  0.0%)  0 iterations, 0 accepted / 0 rejected
+    --------------------------------------------------------------
+    build total (layers 1+2)            :  3600.50 s (100.0%)
+    full run (layers 1+2+3)             :  3600.50 s (100.0%)
+
+Run #5:
+  Random seed: 4
+  Status: failed
+  Error: Base derivation failed for ECG 0 after 3008 attempt(s), run deadline reached; cannot build forest
+  Run time: 3600.87 s
+  Tree build: 1 time(s), 3600.87 s (failed during build)
+  Per-layer time (three stacked SAs, one wall clock, different objectives):
+    layer 1  legality         Pc/Pl     :  3600.87 s (100.0%)  3008 base-derivation runs (3008 entered the legality SA_1, 0 already legal) -> 0 legal solutions / 0 root nodes [run deadline reached with no legal base]
+    layer 2  shape+similarity Px/Py/Ps  :     0.00 s (  0.0%)  0 trees, 0 neighbour SA calls (0 iterations), 0 candidates, forest of 0 nodes
+    layer 3  real quality     A/WL/R    :     0.00 s (  0.0%)  0 iterations, 0 accepted / 0 rejected
+    --------------------------------------------------------------
+    build total (layers 1+2)            :  3600.87 s (100.0%)
+    full run (layers 1+2+3)             :  3600.87 s (100.0%)
+
+================================================================================
+All 0 solutions (sorted by cost):
+================================================================================
+

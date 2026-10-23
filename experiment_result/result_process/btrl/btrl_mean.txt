@@ -1,37 +1,27 @@
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
-% Per-case standard deviations of BT and RLP over five seeds (seed00-seed04).
-% Each cell is BT / RLP; values are the sample standard deviation (n-1).
-% Rows are the four metrics and Time; columns are the test cases.
-% Source: experiment_result/output_bt_tree/placement_results_5seed.json (6 cases)
-%         experiment_result/output_rl/placement_results_5seed.json (4 cases; - = no solution)
-% Time source: baseline/ICCAD23/result/<case>/log.txt ("Total run time"), five seeds;
-%              RLP hits the 3600 s limit in every case, so its time std is 0.
-\begin{table*}[t]
+% All columns are population standard deviations (n) over the five seeds,
+% cell = BT/RLP.  Runtime seeds: BT from baseline/ICCAD23/result/<case>/log.txt
+% ('Total run time'); RLP runs all hit the 3600 s limit, so its std is 0.
+% -- = no solution.
+\begin{table}[t]
   \centering
-  \caption{\textcolor{ForestGreen}{per-case standard deviations over five seeds}}
-  \label{tab:btrl_mean}
-  \setlength{\tabcolsep}{4pt}
-  \renewcommand{\arraystretch}{1.1}
-  \begingroup
-  \color{ForestGreen}
-  \arrayrulecolor{ForestGreen}
-  \resizebox{\textwidth}{!}{%
-  \begin{tabular}{@{}c cccccc@{}}
+  \caption{\textcolor{ForestGreen}{standard deviation over five seeds (BT/RLP)}}
+  \label{tab:btrl_std}
+  \setlength{\tabcolsep}{3pt}
+  \renewcommand{\arraystretch}{1.15}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{@{}l cccc c@{}}
     \toprule
-    \textbf{Metric} & \textcolor{ForestGreen}{$ascend910$} & \textcolor{ForestGreen}{$cpu\text{-}dram$} & \textcolor{ForestGreen}{$hp6\_m$} & \textcolor{ForestGreen}{$hp8\_m$} & \textcolor{ForestGreen}{$multigpu$} & \textcolor{ForestGreen}{$syn1$} \\
+    \textbf{\textcolor{ForestGreen}{Case}} & \textbf{\textcolor{ForestGreen}{BA}} & \textbf{\textcolor{ForestGreen}{WL}} & \textbf{\textcolor{ForestGreen}{SAR}} & \textbf{\textcolor{ForestGreen}{MaxT}} & \textbf{\textcolor{ForestGreen}{Runtime}} \\
     \midrule
-    \textbf{BA ($\mathrm{mm}^2$)} & 69.32/100.64 & 195.79/148.17 & 34.32/99.74 & 304.03/- & 0.00/293.72 & 192.04/- \\
-    \addlinespace[3pt]
-    \textbf{WL (mm)} & 1656.86/1889.81 & 1240.08/634.53 & 1667.01/254.60 & 1129.52/- & 0.00/2376.68 & 2060.39/- \\
-    \addlinespace[3pt]
-    \textbf{SAR} & 0.543/0.374 & 0.244/0.236 & 1.500/1.225 & 0.228/- & 0.000/0.082 & 0.168/- \\
-    \addlinespace[3pt]
-    \textbf{MaxT ($^\circ$C)} & 0.51/0.37 & 1.74/3.34 & 3.76/1.64 & 2.77/- & 0.00/1.21 & 1.33/- \\
-    \addlinespace[3pt]
-    \textbf{Time (s)} & 9.35/0.00 & 13.11/0.00 & 4.04/0.00 & 13.17/0.00 & 2.15/0.00 & 7.17/0.00 \\
+    \textcolor{ForestGreen}{$ascend910$} & \textcolor{ForestGreen}{62.00/90.01} & \textcolor{ForestGreen}{1481.94/1690.29} & \textcolor{ForestGreen}{0.485/0.335} & \textcolor{ForestGreen}{0.46/0.33} & \textcolor{ForestGreen}{8.36/0.00} \\
+    \textcolor{ForestGreen}{$cpu-dram$} & \textcolor{ForestGreen}{175.12/132.53} & \textcolor{ForestGreen}{1109.16/567.54} & \textcolor{ForestGreen}{0.218/0.212} & \textcolor{ForestGreen}{1.55/2.98} & \textcolor{ForestGreen}{11.72/0.00} \\
+    \textcolor{ForestGreen}{$hp6_m$} & \textcolor{ForestGreen}{30.70/89.21} & \textcolor{ForestGreen}{1491.02/227.72} & \textcolor{ForestGreen}{1.342/1.096} & \textcolor{ForestGreen}{3.36/1.47} & \textcolor{ForestGreen}{3.62/0.00} \\
+    \textcolor{ForestGreen}{$hp8_m$} & \textcolor{ForestGreen}{271.93/--} & \textcolor{ForestGreen}{1010.27/--} & \textcolor{ForestGreen}{0.204/--} & \textcolor{ForestGreen}{2.48/--} & \textcolor{ForestGreen}{11.78/0.00} \\
+    \textcolor{ForestGreen}{$multigpu$} & \textcolor{ForestGreen}{0.00/262.71} & \textcolor{ForestGreen}{0.00/2125.76} & \textcolor{ForestGreen}{0.000/0.074} & \textcolor{ForestGreen}{0.00/1.08} & \textcolor{ForestGreen}{1.92/0.00} \\
+    \textcolor{ForestGreen}{$syn1$} & \textcolor{ForestGreen}{171.76/--} & \textcolor{ForestGreen}{1842.87/--} & \textcolor{ForestGreen}{0.150/--} & \textcolor{ForestGreen}{1.19/--} & \textcolor{ForestGreen}{6.41/0.00} \\
     \bottomrule
   \end{tabular}}
-  \endgroup
-  \vspace{6pt}
-  \parbox{\textwidth}{\footnotesize \textcolor{ForestGreen}{Note: each cell is BT / RL; values are sample standard deviations ($n-1$) over five seeds (seed00--seed04). A dash indicates no RL solution. RLP always reaches the 3600 s limit, so its time standard deviation is 0.}}
-\end{table*}
+  \vspace{2pt}
+  \parbox{\linewidth}{\footnotesize \textcolor{ForestGreen}{BA: $\mathrm{mm}^2$, WL: $\mathrm{mm}$, MaxT: $^{\circ}\mathrm{C}$, Runtime: $\mathrm{s}$. Runtime is the standard deviation of the per-seed total runtime; RLP hits the 3600 s limit in every run, so its std is 0.}}
+\end{table}

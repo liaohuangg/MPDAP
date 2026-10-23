@@ -1,0 +1,249 @@
+{
+  "case_name": "syn2",
+  "timestamp": "2026-10-23T07:45:56.642970",
+  "status": "completed",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "total_runs": 0,
+  "num_chiplets": 11,
+  "num_connections": 16,
+  "max_iterations": null,
+  "time_limit_seconds": 3600,
+  "total_time_seconds": 18003.56648492813,
+  "sweep_spent_before_seconds": null,
+  "sweep_elapsed_seconds": null,
+  "sweep_time_limit_seconds": null,
+  "statistics": {
+    "success_count": 0,
+    "failed_count": 5
+  },
+  "run_details": [
+    {
+      "run_id": 1,
+      "seed": 0,
+      "status": "failed",
+      "error": "Base derivation failed for ECG 0 after 3217 attempt(s), run deadline reached; cannot build forest",
+      "total_time": 3600.7263617515564,
+      "tree_build_time": 3600.726058244705,
+      "tree_build_count": 1,
+      "timing": {
+        "layer1_legality_s": 3600.7256615161896,
+        "layer2_similarity_s": 0.0,
+        "layer3_quality_s": 0.0,
+        "layer1_plus_layer2_s": 3600.7256615161896,
+        "tree_build_s": 3600.726058244705,
+        "total_s": 3600.7263617515564,
+        "layer3_iterations": null,
+        "layer3_converged": null,
+        "layer3_stop_reason": null,
+        "layer3_seconds_to_best": null,
+        "layer1_stats": {
+          "runs": 3217,
+          "attempt_budget": 120,
+          "already_legal_runs": 0,
+          "sa_runs": 3217,
+          "legal_solutions": 0,
+          "bridge_rejected": 0,
+          "sa_seconds": 3598.842339515686,
+          "pc_restarts": 5,
+          "deadline_hit": 1,
+          "root_nodes": 0
+        },
+        "layer2_stats": {},
+        "layer3_stats": {}
+      },
+      "timing_lines": [
+        "Per-layer time (three stacked SAs, one wall clock, different objectives):",
+        "  layer 1  legality         Pc/Pl     :  3600.73 s (100.0%)  3217 base-derivation runs (3217 entered the legality SA_1, 0 already legal) -> 0 legal solutions / 0 root nodes [run deadline reached with no legal base]",
+        "  layer 2  shape+similarity Px/Py/Ps  :     0.00 s (  0.0%)  0 trees, 0 neighbour SA calls (0 iterations), 0 candidates, forest of 0 nodes",
+        "  layer 3  real quality     A/WL/R    :     0.00 s (  0.0%)  0 iterations, 0 accepted / 0 rejected",
+        "  --------------------------------------------------------------",
+        "  build total (layers 1+2)            :  3600.73 s (100.0%)",
+        "  full run (layers 1+2+3)             :  3600.73 s (100.0%)"
+      ]
+    },
+    {
+      "run_id": 2,
+      "seed": 1,
+      "status": "failed",
+      "error": "Base derivation failed for ECG 0 after 3199 attempt(s), run deadline reached; cannot build forest",
+      "total_time": 3600.248032808304,
+      "tree_build_time": 3600.2479569911957,
+      "tree_build_count": 1,
+      "timing": {
+        "layer1_legality_s": 3600.24777507782,
+        "layer2_similarity_s": 0.0,
+        "layer3_quality_s": 0.0,
+        "layer1_plus_layer2_s": 3600.24777507782,
+        "tree_build_s": 3600.2479569911957,
+        "total_s": 3600.248032808304,
+        "layer3_iterations": null,
+        "layer3_converged": null,
+        "layer3_stop_reason": null,
+        "layer3_seconds_to_best": null,
+        "layer1_stats": {
+          "runs": 3199,
+          "attempt_budget": 120,
+          "already_legal_runs": 0,
+          "sa_runs": 3199,
+          "legal_solutions": 0,
+          "bridge_rejected": 0,
+          "sa_seconds": 3598.39803814888,
+          "pc_restarts": 6,
+          "deadline_hit": 1,
+          "root_nodes": 0
+        },
+        "layer2_stats": {},
+        "layer3_stats": {}
+      },
+      "timing_lines": [
+        "Per-layer time (three stacked SAs, one wall clock, different objectives):",
+        "  layer 1  legality         Pc/Pl     :  3600.25 s (100.0%)  3199 base-derivation runs (3199 entered the legality SA_1, 0 already legal) -> 0 legal solutions / 0 root nodes [run deadline reached with no legal base]",
+        "  layer 2  shape+similarity Px/Py/Ps  :     0.00 s (  0.0%)  0 trees, 0 neighbour SA calls (0 iterations), 0 candidates, forest of 0 nodes",
+        "  layer 3  real quality     A/WL/R    :     0.00 s (  0.0%)  0 iterations, 0 accepted / 0 rejected",
+        "  --------------------------------------------------------------",
+        "  build total (layers 1+2)            :  3600.25 s (100.0%)",
+        "  full run (layers 1+2+3)             :  3600.25 s (100.0%)"
+      ]
+    },
+    {
+      "run_id": 3,
+      "seed": 2,
+      "status": "failed",
+      "error": "Base derivation failed for ECG 0 after 3230 attempt(s), run deadline reached; cannot build forest",
+      "total_time": 3600.711754798889,
+      "tree_build_time": 3600.7116651535034,
+      "tree_build_count": 1,
+      "timing": {
+        "layer1_legality_s": 3600.7114355564117,
+        "layer2_similarity_s": 0.0,
+        "layer3_quality_s": 0.0,
+        "layer1_plus_layer2_s": 3600.7114355564117,
+        "tree_build_s": 3600.7116651535034,
+        "total_s": 3600.711754798889,
+        "layer3_iterations": null,
+        "layer3_converged": null,
+        "layer3_stop_reason": null,
+        "layer3_seconds_to_best": null,
+        "layer1_stats": {
+          "runs": 3230,
+          "attempt_budget": 120,
+          "already_legal_runs": 0,
+          "sa_runs": 3230,
+          "legal_solutions": 0,
+          "bridge_rejected": 0,
+          "sa_seconds": 3598.8641464710236,
+          "pc_restarts": 9,
+          "deadline_hit": 1,
+          "root_nodes": 0
+        },
+        "layer2_stats": {},
+        "layer3_stats": {}
+      },
+      "timing_lines": [
+        "Per-layer time (three stacked SAs, one wall clock, different objectives):",
+        "  layer 1  legality         Pc/Pl     :  3600.71 s (100.0%)  3230 base-derivation runs (3230 entered the legality SA_1, 0 already legal) -> 0 legal solutions / 0 root nodes [run deadline reached with no legal base]",
+        "  layer 2  shape+similarity Px/Py/Ps  :     0.00 s (  0.0%)  0 trees, 0 neighbour SA calls (0 iterations), 0 candidates, forest of 0 nodes",
+        "  layer 3  real quality     A/WL/R    :     0.00 s (  0.0%)  0 iterations, 0 accepted / 0 rejected",
+        "  --------------------------------------------------------------",
+        "  build total (layers 1+2)            :  3600.71 s (100.0%)",
+        "  full run (layers 1+2+3)             :  3600.71 s (100.0%)"
+      ]
+    },
+    {
+      "run_id": 4,
+      "seed": 3,
+      "status": "failed",
+      "error": "Base derivation failed for ECG 0 after 3307 attempt(s), run deadline reached; cannot build forest",
+      "total_time": 3600.9780168533325,
+      "tree_build_time": 3600.9778888225555,
+      "tree_build_count": 1,
+      "timing": {
+        "layer1_legality_s": 3600.9776496887207,
+        "layer2_similarity_s": 0.0,
+        "layer3_quality_s": 0.0,
+        "layer1_plus_layer2_s": 3600.9776496887207,
+        "tree_build_s": 3600.9778888225555,
+        "total_s": 3600.9780168533325,
+        "layer3_iterations": null,
+        "layer3_converged": null,
+        "layer3_stop_reason": null,
+        "layer3_seconds_to_best": null,
+        "layer1_stats": {
+          "runs": 3307,
+          "attempt_budget": 120,
+          "already_legal_runs": 0,
+          "sa_runs": 3307,
+          "legal_solutions": 0,
+          "bridge_rejected": 0,
+          "sa_seconds": 3599.116937160492,
+          "pc_restarts": 9,
+          "deadline_hit": 1,
+          "root_nodes": 0
+        },
+        "layer2_stats": {},
+        "layer3_stats": {}
+      },
+      "timing_lines": [
+        "Per-layer time (three stacked SAs, one wall clock, different objectives):",
+        "  layer 1  legality         Pc/Pl     :  3600.98 s (100.0%)  3307 base-derivation runs (3307 entered the legality SA_1, 0 already legal) -> 0 legal solutions / 0 root nodes [run deadline reached with no legal base]",
+        "  layer 2  shape+similarity Px/Py/Ps  :     0.00 s (  0.0%)  0 trees, 0 neighbour SA calls (0 iterations), 0 candidates, forest of 0 nodes",
+        "  layer 3  real quality     A/WL/R    :     0.00 s (  0.0%)  0 iterations, 0 accepted / 0 rejected",
+        "  --------------------------------------------------------------",
+        "  build total (layers 1+2)            :  3600.98 s (100.0%)",
+        "  full run (layers 1+2+3)             :  3600.98 s (100.0%)"
+      ]
+    },
+    {
+      "run_id": 5,
+      "seed": 4,
+      "status": "failed",
+      "error": "Base derivation failed for ECG 0 after 3290 attempt(s), run deadline reached; cannot build forest",
+      "total_time": 3600.8996267318726,
+      "tree_build_time": 3600.8995547294617,
+      "tree_build_count": 1,
+      "timing": {
+        "layer1_legality_s": 3600.8993549346924,
+        "layer2_similarity_s": 0.0,
+        "layer3_quality_s": 0.0,
+        "layer1_plus_layer2_s": 3600.8993549346924,
+        "tree_build_s": 3600.8995547294617,
+        "total_s": 3600.8996267318726,
+        "layer3_iterations": null,
+        "layer3_converged": null,
+        "layer3_stop_reason": null,
+        "layer3_seconds_to_best": null,
+        "layer1_stats": {
+          "runs": 3290,
+          "attempt_budget": 120,
+          "already_legal_runs": 0,
+          "sa_runs": 3290,
+          "legal_solutions": 0,
+          "bridge_rejected": 0,
+          "sa_seconds": 3599.056919813156,
+          "pc_restarts": 4,
+          "deadline_hit": 1,
+          "root_nodes": 0
+        },
+        "layer2_stats": {},
+        "layer3_stats": {}
+      },
+      "timing_lines": [
+        "Per-layer time (three stacked SAs, one wall clock, different objectives):",
+        "  layer 1  legality         Pc/Pl     :  3600.90 s (100.0%)  3290 base-derivation runs (3290 entered the legality SA_1, 0 already legal) -> 0 legal solutions / 0 root nodes [run deadline reached with no legal base]",
+        "  layer 2  shape+similarity Px/Py/Ps  :     0.00 s (  0.0%)  0 trees, 0 neighbour SA calls (0 iterations), 0 candidates, forest of 0 nodes",
+        "  layer 3  real quality     A/WL/R    :     0.00 s (  0.0%)  0 iterations, 0 accepted / 0 rejected",
+        "  --------------------------------------------------------------",
+        "  build total (layers 1+2)            :  3600.90 s (100.0%)",
+        "  full run (layers 1+2+3)             :  3600.90 s (100.0%)"
+      ]
+    }
+  ],
+  "bridge_legal_solutions": 0,
+  "solutions": []
+}
