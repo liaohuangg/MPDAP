@@ -34,6 +34,11 @@ FORCE_THERMAL_TABLES="${FORCE_THERMAL_TABLES:-0}"
 # 跳过状态已是 ok/timeout 的 case；重跑 case 的旧行会被新结果替换，
 # 这样续跑不会破坏批次里已经跑好的结果。
 RESUME="${RESUME:-0}"
+# CASE_DIR 默认 examples；可给绝对路径或相对 RL_DIR 的路径（如 benchmark/test_input）。
+CASE_DIR="${CASE_DIR:-examples}"
+if [[ "${CASE_DIR}" != /* ]]; then
+    CASE_DIR="${RL_DIR}/${CASE_DIR}"
+fi
 MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/matplotlib-${USER:-user}}"
 export MPLCONFIGDIR
 
@@ -68,6 +73,7 @@ fi
     echo "force_thermal_tables=${FORCE_THERMAL_TABLES}"
     echo "seed=${SEED:-none}"
     echo "case_names=${CASE_NAMES:-ALL}"
+    echo "case_dir=${CASE_DIR:-examples}"
     echo "mplconfigdir=${MPLCONFIGDIR}"
     echo "batch_dir=${BATCH_DIR}"
     echo "best_dir=${BEST_DIR}"
@@ -84,14 +90,14 @@ if [[ -n "${CASE_NAMES:-}" ]]; then
     CASE_FILES=()
     for case_name in ${CASE_NAMES//,/ }; do
         case_name="${case_name%.json}"
-        CASE_FILES+=("examples/${case_name}.json")
+        CASE_FILES+=("${CASE_DIR}/${case_name}.json")
     done
 else
-    mapfile -t CASE_FILES < <(find examples -maxdepth 1 -type f -name "*.json" | sort)
+    mapfile -t CASE_FILES < <(find "${CASE_DIR}" -maxdepth 1 -type f -name "*.json" | sort)
 fi
 
 if [[ "${#CASE_FILES[@]}" -eq 0 ]]; then
-    echo "No cases found under ${RL_DIR}/examples" | tee -a "${BATCH_LOG}"
+    echo "No cases found under ${CASE_DIR}" | tee -a "${BATCH_LOG}"
     exit 1
 fi
 

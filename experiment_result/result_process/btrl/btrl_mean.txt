@@ -1,27 +1,61 @@
-\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
-% All columns are population standard deviations (n) over the five seeds,
-% cell = BT/RLP.  Runtime seeds: BT from baseline/ICCAD23/result/<case>/log.txt
-% ('Total run time'); RLP runs all hit the 3600 s limit, so its std is 0.
-% -- = no solution.
-\begin{table}[t]
+% Statistics of the two baselines over the five seeds that were run.
+% Columns: the method (BT or RLP), the test case, the solve rate (solved
+% seeds / 5), then BA / WL / SAR / MaxT / Time.  The heads carry no unit;
+% the units are stated once in the note under the table.  Every column is
+% separated by a vertical rule, as in the metric tables of the paper.
+% Each value is the mean and the population standard deviation over the
+% seeds that produced a layout -- for BT on $syn5$ only 2 of the 5 seeds
+% solve the case, so that cell rests on $n=2$ and the caption avoids
+% calling every cell a five-seed average.  RL was stopped at the 3600 s
+% budget in every run, so its time is the cap with zero spread.
+% A case no seed solves is left out of the table.  The means are averages
+% over the solved seeds, so they differ from the single selected layout that
+% the per-case metric tables report.
+\begin{table*}[t]
   \centering
-  \caption{\textcolor{ForestGreen}{standard deviation over five seeds (BT/RLP)}}
+  \caption{solve rate and mean $\pm$ standard deviation of BT and RLP over
+  their solved seeds}
   \label{tab:btrl_std}
   \setlength{\tabcolsep}{3pt}
-  \renewcommand{\arraystretch}{1.15}
-  \resizebox{\linewidth}{!}{%
-  \begin{tabular}{@{}l cccc c@{}}
+  \renewcommand{\arraystretch}{1.2}
+  \footnotesize
+  \begin{tabular}{
+      c| % Method
+      >{\centering\arraybackslash}p{2.0cm}| % Test Case
+      >{\centering\arraybackslash}p{1.2cm}| % SR
+      >{\centering\arraybackslash}p{2.5cm}| % BA
+      >{\centering\arraybackslash}p{2.8cm}| % WL
+      >{\centering\arraybackslash}p{2.3cm}| % SAR
+      >{\centering\arraybackslash}p{2.0cm}| % MaxT
+      >{\centering\arraybackslash}p{2.2cm}  % Time
+  }
     \toprule
-    \textbf{\textcolor{ForestGreen}{Case}} & \textbf{\textcolor{ForestGreen}{BA}} & \textbf{\textcolor{ForestGreen}{WL}} & \textbf{\textcolor{ForestGreen}{SAR}} & \textbf{\textcolor{ForestGreen}{MaxT}} & \textbf{\textcolor{ForestGreen}{Runtime}} \\
+    \textbf{Method} & \textbf{Test Case} & \textbf{SR} & \textbf{BA} & \textbf{WL} & \textbf{SAR} & \textbf{MaxT} & \textbf{Time} \\
     \midrule
-    \textcolor{ForestGreen}{$ascend910$} & \textcolor{ForestGreen}{62.00/90.01} & \textcolor{ForestGreen}{1481.94/1690.29} & \textcolor{ForestGreen}{0.485/0.335} & \textcolor{ForestGreen}{0.46/0.33} & \textcolor{ForestGreen}{8.36/0.00} \\
-    \textcolor{ForestGreen}{$cpu-dram$} & \textcolor{ForestGreen}{175.12/132.53} & \textcolor{ForestGreen}{1109.16/567.54} & \textcolor{ForestGreen}{0.218/0.212} & \textcolor{ForestGreen}{1.55/2.98} & \textcolor{ForestGreen}{11.72/0.00} \\
-    \textcolor{ForestGreen}{$hp6_m$} & \textcolor{ForestGreen}{30.70/89.21} & \textcolor{ForestGreen}{1491.02/227.72} & \textcolor{ForestGreen}{1.342/1.096} & \textcolor{ForestGreen}{3.36/1.47} & \textcolor{ForestGreen}{3.62/0.00} \\
-    \textcolor{ForestGreen}{$hp8_m$} & \textcolor{ForestGreen}{271.93/--} & \textcolor{ForestGreen}{1010.27/--} & \textcolor{ForestGreen}{0.204/--} & \textcolor{ForestGreen}{2.48/--} & \textcolor{ForestGreen}{11.78/0.00} \\
-    \textcolor{ForestGreen}{$multigpu$} & \textcolor{ForestGreen}{0.00/262.71} & \textcolor{ForestGreen}{0.00/2125.76} & \textcolor{ForestGreen}{0.000/0.074} & \textcolor{ForestGreen}{0.00/1.08} & \textcolor{ForestGreen}{1.92/0.00} \\
-    \textcolor{ForestGreen}{$syn1$} & \textcolor{ForestGreen}{171.76/--} & \textcolor{ForestGreen}{1842.87/--} & \textcolor{ForestGreen}{0.150/--} & \textcolor{ForestGreen}{1.19/--} & \textcolor{ForestGreen}{6.41/0.00} \\
+    \multirow{7}{*}{\textbf{BT}} & $ascend910$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1377.26$\pm$62.00} & \textcolor{ForestGreen}{25825.77$\pm$1481.94} & \textcolor{ForestGreen}{0.582$\pm$0.484} & \textcolor{ForestGreen}{74.98$\pm$0.46} & \textcolor{ForestGreen}{25.70$\pm$8.36} \\
+    \addlinespace[2pt]
+     & $cpu\text{-}dram$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1292.06$\pm$175.12} & \textcolor{ForestGreen}{54777.09$\pm$1109.16} & \textcolor{ForestGreen}{0.500$\pm$0.218} & \textcolor{ForestGreen}{120.13$\pm$1.56} & \textcolor{ForestGreen}{80.74$\pm$11.72} \\
+    \addlinespace[2pt]
+     & $hp6\_m$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{461.89$\pm$30.70} & \textcolor{ForestGreen}{11702.04$\pm$1491.02} & \textcolor{ForestGreen}{2.083$\pm$1.347} & \textcolor{ForestGreen}{92.89$\pm$3.43} & \textcolor{ForestGreen}{15.81$\pm$3.62} \\
+    \addlinespace[2pt]
+     & $hp8\_m$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1885.39$\pm$271.93} & \textcolor{ForestGreen}{52126.04$\pm$1010.27} & \textcolor{ForestGreen}{0.214$\pm$0.204} & \textcolor{ForestGreen}{97.32$\pm$2.48} & \textcolor{ForestGreen}{56.95$\pm$11.78} \\
+    \addlinespace[2pt]
+     & $multigpu$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1255.98$\pm$0.00} & \textcolor{ForestGreen}{54891.79$\pm$0.00} & \textcolor{ForestGreen}{0.865$\pm$0.000} & \textcolor{ForestGreen}{97.60$\pm$0.00} & \textcolor{ForestGreen}{17.80$\pm$1.92} \\
+    \addlinespace[2pt]
+     & $syn1$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1277.09$\pm$171.76} & \textcolor{ForestGreen}{51590.35$\pm$1842.87} & \textcolor{ForestGreen}{0.334$\pm$0.150} & \textcolor{ForestGreen}{98.80$\pm$1.27} & \textcolor{ForestGreen}{49.75$\pm$6.41} \\
+    \addlinespace[2pt]
+     & $syn5$ & \textcolor{ForestGreen}{2/5} & \textcolor{ForestGreen}{1240.88$\pm$81.40} & \textcolor{ForestGreen}{77681.39$\pm$3063.20} & \textcolor{ForestGreen}{1.398$\pm$0.026} & \textcolor{ForestGreen}{93.14$\pm$1.27} & \textcolor{ForestGreen}{640.25$\pm$194.02} \\
+    \addlinespace[2pt]
+    \midrule
+    \multirow{4}{*}{\textbf{RLP}} & $ascend910$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1666.42$\pm$90.01} & \textcolor{ForestGreen}{27216.78$\pm$1690.29} & \textcolor{ForestGreen}{0.254$\pm$0.334} & \textcolor{ForestGreen}{74.87$\pm$0.33} & \textcolor{ForestGreen}{3600.00$\pm$0.00} \\
+    \addlinespace[2pt]
+     & $cpu\text{-}dram$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1005.01$\pm$132.53} & \textcolor{ForestGreen}{55848.63$\pm$567.54} & \textcolor{ForestGreen}{0.303$\pm$0.212} & \textcolor{ForestGreen}{116.89$\pm$2.99} & \textcolor{ForestGreen}{3600.00$\pm$0.00} \\
+    \addlinespace[2pt]
+     & $hp6\_m$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{644.74$\pm$89.21} & \textcolor{ForestGreen}{14916.86$\pm$227.72} & \textcolor{ForestGreen}{2.059$\pm$1.096} & \textcolor{ForestGreen}{86.14$\pm$1.62} & \textcolor{ForestGreen}{3600.00$\pm$0.00} \\
+    \addlinespace[2pt]
+     & $multigpu$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1653.31$\pm$262.71} & \textcolor{ForestGreen}{59321.26$\pm$2125.76} & \textcolor{ForestGreen}{0.131$\pm$0.074} & \textcolor{ForestGreen}{102.43$\pm$1.08} & \textcolor{ForestGreen}{3600.00$\pm$0.00} \\
     \bottomrule
-  \end{tabular}}
+  \end{tabular}
   \vspace{2pt}
-  \parbox{\linewidth}{\footnotesize \textcolor{ForestGreen}{BA: $\mathrm{mm}^2$, WL: $\mathrm{mm}$, MaxT: $^{\circ}\mathrm{C}$, Runtime: $\mathrm{s}$. Runtime is the standard deviation of the per-seed total runtime; RLP hits the 3600 s limit in every run, so its std is 0.}}
-\end{table}
+  \parbox{\textwidth}{\footnotesize\raggedright \textcolor{ForestGreen}{Units: BA in $\mathrm{mm}^2$, WL in mm, MaxT in $^{\circ}$C, Time in s.  SR = seeds solved out of the five seeds run.  Each value is the mean $\pm$ population standard deviation over the seeds that produced a layout (BT on $syn5$: 2 of 5, so $n=2$).  RLP reaches the 3600\,s budget in every run, hence its zero spread.  Cases that no seed solves are left out.}}
+\end{table*}

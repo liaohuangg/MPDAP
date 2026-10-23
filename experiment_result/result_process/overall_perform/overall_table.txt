@@ -1,0 +1,116 @@
+% Overall comparison: the four per-metric tables (bounding-box area,
+% wirelength, symmetric aspect ratio deviation, max temperature) stacked
+% into one table in that order.  The six method columns are identical in
+% every block, so their names appear once in the header; each block opens
+% with a centred section label underlined by a rule.  Cell format: value,
+% and in parentheses the change relative to OM (OM itself is the reference).
+% BT / RLP are set in ForestGreen.
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\begin{table*}[t]
+\centering
+\caption{comparison of different placement methods}
+\label{tab:comp_overall_six_methods}
+\setlength{\tabcolsep}{3pt} % 列间距
+\renewcommand{\arraystretch}{1.25}
+
+\begin{tabularx}{\textwidth}{
+    >{\centering\arraybackslash}p{2.0cm}|
+    >{\centering\arraybackslash}p{2.5cm}| % BT
+    >{\centering\arraybackslash}p{2.5cm}| % RLP
+    >{\centering\arraybackslash}p{2.0cm}| % OM
+    >{\centering\arraybackslash}p{2.5cm}| % PM
+    >{\centering\arraybackslash}p{2.7cm}| % PmdM
+    >{\centering\arraybackslash}p{2.5cm}  % PcaM
+}
+
+\toprule
+\multirow{2}{*}{\textbf{Test Case}}
+& \multicolumn{6}{c}{\textbf{Placement Methods}} \\
+\cmidrule(lr){2-7}
+& \textbf{BT} & \textbf{RLP} & \textbf{OM} & \textbf{PM} & \textbf{PmdM} & \textbf{PcaM} \\
+\midrule
+
+\multicolumn{7}{c}{\textbf{Bounding Box Area ($\mathrm{mm}^2$)}} \\
+\cmidrule{1-7}
+$ascend910$ & \textcolor{ForestGreen}{1257.00 (+8.58\%)} & \textcolor{ForestGreen}{1588.65 (+37.22\%)} & 1157.72 (ref.) & 1282.16 (+10.75\%) & 1157.72 (0.00\%) & 1282.16 (+10.75\%) \\
+\addlinespace[2pt]
+$cpu\text{-}dram$ & \textcolor{ForestGreen}{1499.88 (+145.08\%)} & \textcolor{ForestGreen}{1051.19 (+71.76\%)} & 612.00 (ref.) & 707.72 (+15.64\%) & 707.72 (+15.64\%) & 612.00 (0.00\%) \\
+\addlinespace[2pt]
+$hp11\_m$ & - & - & 1075.33 (ref.) & 1462.04 (+35.96\%) & 1418.65 (+31.93\%) & 1627.86 (+51.38\%) \\
+\addlinespace[2pt]
+$hp6\_m$ & \textcolor{ForestGreen}{471.81 (0.00\%)} & \textcolor{ForestGreen}{574.24 (+21.71\%)} & 471.81 (ref.) & 471.81 (0.00\%) & 471.81 (0.00\%) & 471.81 (0.00\%) \\
+\addlinespace[2pt]
+$hp8\_m$ & \textcolor{ForestGreen}{1424.68 (+97.64\%)} & - & 720.83 (ref.) & 712.50 (-1.16\%) & 712.50 (-1.16\%) & 820.46 (+13.82\%) \\
+\addlinespace[2pt]
+$multigpu$ & \textcolor{ForestGreen}{1255.98 (-9.08\%)} & \textcolor{ForestGreen}{1643.99 (+19.01\%)} & 1381.38 (ref.) & 1364.80 (-1.20\%) & 19881.00 (+1339.21\%) & 1255.98 (-9.08\%) \\
+\addlinespace[2pt]
+$syn1$ & \textcolor{ForestGreen}{1073.00 (+15.38\%)} & - & 930.00 (ref.) & 957.00 (+2.90\%) & 989.93 (+6.44\%) & 960.00 (+3.23\%) \\
+\addlinespace[2pt]
+$syn5$ & \textcolor{ForestGreen}{1159.48 (+53.37\%)} & - & 756.00 (ref.) & 769.50 (+1.79\%) & 696.00 (-7.94\%) & 756.00 (0.00\%) \\
+
+\midrule
+\multicolumn{7}{c}{\textbf{Wirelength ($\mathrm{mm}$)}} \\
+\cmidrule{1-7}
+$ascend910$ & \textcolor{ForestGreen}{24239.47 (+4.13\%)} & \textcolor{ForestGreen}{25833.45 (+10.98\%)} & 23277.60 (ref.) & 24964.25 (+7.25\%) & 23277.60 (0.00\%) & 24964.25 (+7.25\%) \\
+\addlinespace[2pt]
+$cpu\text{-}dram$ & \textcolor{ForestGreen}{53669.10 (+2.78\%)} & \textcolor{ForestGreen}{56509.04 (+8.22\%)} & 52215.63 (ref.) & 54712.48 (+4.78\%) & 54712.58 (+4.78\%) & 52215.53 (0.00\%) \\
+\addlinespace[2pt]
+$hp11\_m$ & - & - & 91437.23 (ref.) & 99416.90 (+8.73\%) & 98276.52 (+7.48\%) & 97170.41 (+6.27\%) \\
+\addlinespace[2pt]
+$hp6\_m$ & \textcolor{ForestGreen}{10836.36 (+4.95\%)} & \textcolor{ForestGreen}{15084.94 (+46.10\%)} & 10325.19 (ref.) & 9850.71 (-4.60\%) & 10325.19 (0.00\%) & 9850.71 (-4.60\%) \\
+\addlinespace[2pt]
+$hp8\_m$ & \textcolor{ForestGreen}{51614.66 (+19.13\%)} & - & 43325.89 (ref.) & 44477.37 (+2.66\%) & 44088.95 (+1.76\%) & 43647.63 (+0.74\%) \\
+\addlinespace[2pt]
+$multigpu$ & \textcolor{ForestGreen}{54891.79 (+1.53\%)} & \textcolor{ForestGreen}{60774.62 (+12.41\%)} & 54064.65 (ref.) & 55238.75 (+2.17\%) & 108413.62 (+100.53\%) & 53270.88 (-1.47\%) \\
+\addlinespace[2pt]
+$syn1$ & \textcolor{ForestGreen}{48402.17 (+3.77\%)} & - & 46641.86 (ref.) & 48502.02 (+3.99\%) & 48812.69 (+4.65\%) & 51260.74 (+9.90\%) \\
+\addlinespace[2pt]
+$syn5$ & \textcolor{ForestGreen}{74618.19 (+12.66\%)} & - & 66232.59 (ref.) & 69496.09 (+4.93\%) & 69760.47 (+5.33\%) & 70443.13 (+6.36\%) \\
+
+\midrule
+\multicolumn{7}{c}{\textbf{Symmetric Aspect Ratio Deviation}} \\
+\cmidrule{1-7}
+$ascend910$ & \textcolor{ForestGreen}{0.397 (+128.16\%)} & \textcolor{ForestGreen}{0.108 (-37.93\%)} & 0.174 (ref.) & 0.195 (+12.07\%) & 0.174 (0.00\%) & 0.195 (+12.07\%) \\
+\addlinespace[2pt]
+$cpu\text{-}dram$ & \textcolor{ForestGreen}{0.500 (-43.76\%)} & \textcolor{ForestGreen}{0.149 (-83.24\%)} & 0.889 (ref.) & 0 (-100.00\%) & 0 (-100.00\%) & 0.889 (0.00\%) \\
+\addlinespace[2pt]
+$hp11\_m$ & - & - & 0.176 (ref.) & 0.223 (+26.70\%) & 0.496 (+181.82\%) & 0.210 (+19.32\%) \\
+\addlinespace[2pt]
+$hp6\_m$ & \textcolor{ForestGreen}{1.314 (0.00\%)} & \textcolor{ForestGreen}{1.254 (-4.57\%)} & 1.314 (ref.) & 1.314 (0.00\%) & 1.314 (0.00\%) & 1.314 (0.00\%) \\
+\addlinespace[2pt]
+$hp8\_m$ & \textcolor{ForestGreen}{0.305 (-78.69\%)} & - & 1.431 (ref.) & 1.219 (-14.81\%) & 1.219 (-14.81\%) & 1.136 (-20.61\%) \\
+\addlinespace[2pt]
+$multigpu$ & \textcolor{ForestGreen}{0.865 (+1911.63\%)} & \textcolor{ForestGreen}{0.142 (+230.23\%)} & 0.043 (ref.) & 0.231 (+437.21\%) & 0 (-100.00\%) & 0.865 (+1911.63\%) \\
+\addlinespace[2pt]
+$syn1$ & \textcolor{ForestGreen}{0.276 (+736.36\%)} & - & 0.033 (ref.) & 0.138 (+318.18\%) & 0.100 (+203.03\%) & 0.067 (+103.03\%) \\
+\addlinespace[2pt]
+$syn5$ & \textcolor{ForestGreen}{1.423 (+3745.95\%)} & - & 0.037 (ref.) & 0.056 (+51.35\%) & 0.208 (+462.16\%) & 0.037 (0.00\%) \\
+
+\midrule
+\multicolumn{7}{c}{\textbf{Max Temperature ($^{\circ}\mathrm{C}$)}} \\
+\cmidrule{1-7}
+$ascend910$ & \textcolor{ForestGreen}{75.62 (-0.03\%)} & \textcolor{ForestGreen}{75.38 (-0.34\%)} & \textcolor{ForestGreen}{75.64 (ref.)} & \textcolor{ForestGreen}{75.19 (-0.59\%)} & \textcolor{ForestGreen}{75.64 (0.00\%)} & \textcolor{ForestGreen}{75.19 (-0.59\%)} \\
+\addlinespace[2pt]
+$cpu\text{-}dram$ & \textcolor{ForestGreen}{121.91 (-1.15\%)} & \textcolor{ForestGreen}{117.53 (-4.70\%)} & \textcolor{ForestGreen}{123.33 (ref.)} & \textcolor{ForestGreen}{114.28 (-7.34\%)} & \textcolor{ForestGreen}{114.28 (-7.34\%)} & \textcolor{ForestGreen}{123.33 (0.00\%)} \\
+\addlinespace[2pt]
+$hp11\_m$ & - & - & \textcolor{ForestGreen}{108.47 (ref.)} & \textcolor{ForestGreen}{94.38 (-12.99\%)} & \textcolor{ForestGreen}{94.86 (-12.55\%)} & \textcolor{ForestGreen}{100.65 (-7.21\%)} \\
+\addlinespace[2pt]
+$hp6\_m$ & \textcolor{ForestGreen}{95.66 (+0.23\%)} & \textcolor{ForestGreen}{88.13 (-7.66\%)} & \textcolor{ForestGreen}{95.44 (ref.)} & \textcolor{ForestGreen}{94.29 (-1.20\%)} & \textcolor{ForestGreen}{95.44 (0.00\%)} & \textcolor{ForestGreen}{94.29 (-1.20\%)} \\
+\addlinespace[2pt]
+$hp8\_m$ & \textcolor{ForestGreen}{95.45 (-1.43\%)} & - & \textcolor{ForestGreen}{96.83 (ref.)} & \textcolor{ForestGreen}{94.18 (-2.74\%)} & \textcolor{ForestGreen}{94.57 (-2.33\%)} & \textcolor{ForestGreen}{95.45 (-1.43\%)} \\
+\addlinespace[2pt]
+$multigpu$ & \textcolor{ForestGreen}{97.60 (-6.17\%)} & \textcolor{ForestGreen}{101.84 (-2.10\%)} & \textcolor{ForestGreen}{104.02 (ref.)} & \textcolor{ForestGreen}{99.29 (-4.55\%)} & - & \textcolor{ForestGreen}{97.74 (-6.04\%)} \\
+\addlinespace[2pt]
+$syn1$ & \textcolor{ForestGreen}{99.93 (+0.07\%)} & - & \textcolor{ForestGreen}{99.86 (ref.)} & \textcolor{ForestGreen}{101.11 (+1.25\%)} & \textcolor{ForestGreen}{101.04 (+1.18\%)} & \textcolor{ForestGreen}{98.71 (-1.15\%)} \\
+\addlinespace[2pt]
+$syn5$ & \textcolor{ForestGreen}{94.40 (-1.83\%)} & - & \textcolor{ForestGreen}{96.16 (ref.)} & \textcolor{ForestGreen}{95.14 (-1.06\%)} & \textcolor{ForestGreen}{93.41 (-2.86\%)} & \textcolor{ForestGreen}{95.67 (-0.51\%)} \\
+
+\bottomrule
+\end{tabularx}
+\vspace{1mm}
+% \begin{flushleft}
+% \footnotesize Note: BA in $\mathrm{mm}^2$, WL in mm, MaxT in $^{\circ}\mathrm{C}$.
+% Numbers in parentheses are percentage changes relative to the OM method.
+% \end{flushleft}
+\end{table*}

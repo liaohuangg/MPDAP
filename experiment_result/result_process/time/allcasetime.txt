@@ -18,25 +18,25 @@
 & \textbf{BT} & \textbf{RLP} & \textbf{OM} & \textbf{PM} & \textbf{PmdM} & \textbf{PcaM} \\
 \midrule
 
-$ascend910$ & \textcolor{ForestGreen}{25.70} & 3600.00 & 9.04 & 2.82 & 9.00 & 2.83 \\
+$ascend910$ & \textcolor{ForestGreen}{14.99} & 3600.00 & 9.04 & 2.82 & 9.00 & 2.83 \\
 \addlinespace[2pt]
 
-$cpu\text{-}dram$ & \textcolor{ForestGreen}{80.73} & 3600.00 & 36.43 & 78.21 & 30.32 & 66.65 \\
+$cpu\text{-}dram$ & \textcolor{ForestGreen}{69.95} & 3600.00 & 36.43 & 78.21 & 30.32 & 66.65 \\
 \addlinespace[2pt]
 
 $hp11\_m$ & 3600.00 & 3600.00 & 165.30 & 302.72 & 302.61 & 302.63 \\
 \addlinespace[2pt]
 
-$hp6\_m$ & \textcolor{ForestGreen}{15.81} & 3600.00 & 1.47 & 1.38 & 1.47 & 1.42 \\
+$hp6\_m$ & \textcolor{ForestGreen}{13.18} & 3600.00 & 1.47 & 1.38 & 1.47 & 1.42 \\
 \addlinespace[2pt]
 
-$hp8\_m$ & \textcolor{ForestGreen}{56.95} & 3600.00 & 14.28 & 21.05 & 19.33 & 17.43 \\
+$hp8\_m$ & \textcolor{ForestGreen}{74.53} & 3600.00 & 14.28 & 21.05 & 19.33 & 17.43 \\
 \addlinespace[2pt]
 
-$multigpu$ & \textcolor{ForestGreen}{17.80} & 3600.00 & 3.57 & 4.90 & 1.61 & 4.38 \\
+$multigpu$ & \textcolor{ForestGreen}{20.46} & 3600.00 & 3.57 & 4.90 & 1.61 & 4.38 \\
 \addlinespace[2pt]
 
-$syn1$ & \textcolor{ForestGreen}{49.75} & 3600.00 & 301.96 & 301.95 & 297.66 & 302.14 \\
+$syn1$ & \textcolor{ForestGreen}{48.40} & 3600.00 & 301.96 & 301.95 & 297.66 & 302.14 \\
 \addlinespace[2pt]
 
 $syn2$ & 3600.00 & 3600.00 & 37.19 & 3600.00 & 627.96 & 3600.00 \\
@@ -48,7 +48,7 @@ $syn3$ & 3600.00 & 3600.00 & 168.44 & 3600.00 & 422.47 & 3600.00 \\
 $syn4$ & 3600.00 & 3600.00 & 3600.00 & 3600.00 & 3600.00 & 3600.00 \\
 \addlinespace[2pt]
 
-$syn5$ & 3600.00 & 3600.00 & 302.56 & 302.71 & 302.64 & 302.63 \\
+$syn5$ & \textcolor{ForestGreen}{834.26} & 3600.00 & 302.56 & 302.71 & 302.64 & 302.63 \\
 \addlinespace[2pt]
 
 $syn6$ & 3600.00 & 3600.00 & 1441.48 & 3600.00 & 3600.00 & 3600.00 \\
@@ -66,5 +66,5 @@ $xerox8\_m$ & 3600.00 & 3600.00 & 23.38 & 295.92 & 40.58 & 274.95 \\
 \bottomrule
 \end{tabularx}
 \vspace{1mm}
-\parbox{\columnwidth}{\footnotesize Note: for solved cases, BT is the mean over five seeds; 3600 s indicates a timeout; RLP reaches the 3600 s time limit in all cases.}
+\parbox{\columnwidth}{\footnotesize Note: BT is the runtime of the selected solution, i.e. the seed with the lowest cost among the five runs; 3600 s indicates a timeout; RLP reaches the 3600 s time limit in all cases.}
 \end{table}
