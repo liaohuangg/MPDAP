@@ -9,9 +9,9 @@ Inputs are the per-seed records of the two baselines:
 The table spans the full text width.  The first column names the method (BT or
 RLP), the second the test case, the third the solve rate as solved seeds over
 the five seeds run (e.g. 2/5), and the remaining five columns carry BA, WL,
-SAR, MaxT and Time.  The column heads carry no unit -- the units are stated
-once in the note under the table -- and every column is separated by a vertical
-rule, the way the metric tables of the paper are set.
+SAR, MaxT and Time.  The column heads carry no unit (BA in mm^2, WL in mm,
+MaxT in degC, Time in s) and every column is separated by a vertical rule, the
+way the metric tables of the paper are set.
 
 A value is the mean and the population standard deviation (ddof = 0) over the
 seeds that produced a layout; syn5 is solved by BT on 2 of the 5 seeds, so its
@@ -28,6 +28,7 @@ Usage:
 import argparse
 import json
 import os
+import sys
 from decimal import Decimal, ROUND_HALF_UP, getcontext
 
 # Exact decimal arithmetic: with n = 2 the syn5 statistics land on exact ties
@@ -148,10 +149,9 @@ def build_table(bt, rl):
         r"% A case no seed solves is left out of the table.  The means are averages",
         r"% over the solved seeds, so they differ from the single selected layout that",
         r"% the per-case metric tables report.",
-        r"\begin{table*}[t]",
+        r"\begin{table*}[!t]",
         r"  \centering",
-        r"  \caption{solve rate and mean $\pm$ standard deviation of BT and RLP over",
-        r"  their solved seeds}",
+        r"  \caption{solve rate and mean $\pm \sigma$ of BT and RLP over solved seeds}",
         r"  \label{tab:btrl_std}",
         r"  \setlength{\tabcolsep}{3pt}",
         r"  \renewcommand{\arraystretch}{1.2}",
@@ -166,7 +166,7 @@ def build_table(bt, rl):
         r"      >{\centering\arraybackslash}p{2.8cm}| % WL",
         r"      >{\centering\arraybackslash}p{2.3cm}| % SAR",
         r"      >{\centering\arraybackslash}p{2.0cm}| % MaxT",
-        r"      >{\centering\arraybackslash}p{2.2cm}  % Time",
+        r"      >{\centering\arraybackslash}p{2.2cm}  % Runtime",
         r"  }",
         r"    \toprule",
         header,
@@ -178,15 +178,7 @@ def build_table(bt, rl):
     lines[-1] = r"    \bottomrule"
     lines += [
         r"  \end{tabular}",
-        r"  \vspace{2pt}",
-        r"  \parbox{\textwidth}{\footnotesize\raggedright " + green(
-            r"Units: BA in $\mathrm{mm}^2$, WL in mm, MaxT in "
-            r"$^{\circ}$C, Time in s.  SR = seeds solved out of the five seeds "
-            r"run.  Each value is the mean $\pm$ population standard deviation "
-            r"over the seeds that produced a layout (BT on $syn5$: 2 of 5, so "
-            r"$n=2$).  RLP reaches the 3600\,s budget in every run, hence its "
-            r"zero spread.  Cases that no seed solves are left out.") + r"}",
-        r"\end{table*}",
+        r" \end{table*}",
         "",
     ]
     return "\n".join(lines)
@@ -204,10 +196,11 @@ def main():
     for case in CASE_ORDER:
         solved = len(bt.get(case, []))
         if solved != SEEDS:
-            print(f"note: BT {case} solved {solved}/{SEEDS} seeds")
+            # diagnostics go to stderr so --dry-run stdout is the table itself
+            print(f"note: BT {case} solved {solved}/{SEEDS} seeds", file=sys.stderr)
 
     if args.dry_run:
-        print(table)
+        sys.stdout.write(table)
         return
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         f.write(table)

@@ -26,7 +26,7 @@
       >{\centering\arraybackslash}p{2.8cm}| % WL
       >{\centering\arraybackslash}p{2.3cm}| % SAR
       >{\centering\arraybackslash}p{2.0cm}| % MaxT
-      >{\centering\arraybackslash}p{2.2cm}  % Time
+      >{\centering\arraybackslash}p{2.2cm}  % Runtime
   }
     \toprule
     \textbf{Method} & \textbf{Test Case} & \textbf{SR} & \textbf{BA} & \textbf{WL} & \textbf{SAR} & \textbf{MaxT} & \textbf{Time} \\

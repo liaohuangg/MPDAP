@@ -83,6 +83,22 @@ def get_grid_points(chip):
 # ==============================
 # Compute total wirelength
 # ==============================
+def resolve_test_file(name, root_dir):
+    """Pick the test_input file that supplies the wire counts.
+
+    A gurobi layout is named after its case (ascend910.json), so the layout
+    file name is already the test-input file.  bt_tree / RL layouts are named
+    solution_*.json, so fall back to the case directory name.
+    """
+    candidate = os.path.basename(name) if name else ""
+    if candidate and os.path.exists(os.path.join(TEST_INPUT_DIR, candidate)):
+        return candidate
+    case_file = os.path.basename(os.path.normpath(root_dir)) + ".json"
+    if os.path.exists(os.path.join(TEST_INPUT_DIR, case_file)):
+        return case_file
+    return candidate
+
+
 def calculate_total_wirelength(data, test_file_name=None):
     chip_dict = {chip["name"]: chip for chip in data["chiplets"]}
     total_wirelength = 0.0
@@ -107,11 +123,13 @@ def calculate_total_wirelength(data, test_file_name=None):
         EMIBType = conn.get("EMIBType", "interfaceB")
         key = tuple(sorted([conn["node1"], conn["node2"]]))
 
-        wire_count = conn.get("wireCount")
-        if wire_count is None and key in test_connections_dict:
+        # The wire count always comes from benchmark/test_input/<case>.json:
+        # the layout only carries geometry.  A connection the test input does
+        # not list falls back to the layout's own count, then to 1.
+        if key in test_connections_dict:
             wire_count = test_connections_dict[key].get("wireCount", 1)
-        if wire_count is None:
-            wire_count = 1
+        else:
+            wire_count = conn.get("wireCount", 1)
 
         if EMIBType == "interfaceC":
             x1_center = chip1["x-position"] + chip1["width"] / 2
@@ -214,7 +232,7 @@ def process_all_placements(root_dir, json_file):
         with open(jf, "r") as f_json:
             data = json.load(f_json)
 
-        wirelength = calculate_total_wirelength(data, name)
+        wirelength = calculate_total_wirelength(data, resolve_test_file(name, root_dir))
         area, aspect_ratio = calculate_area_and_aspect_ratio(data)
         ar = round_half_up(aspect_ratio, AR_DIGITS)
         sar = compute_sar(aspect_ratio)
