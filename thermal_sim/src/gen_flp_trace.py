@@ -21,6 +21,7 @@ THERMAL_SIM_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # （本项目现在把 config/ 保存为 config_same_pkg/），回退到该目录，否则
 # copy_config_templates 会静默跳过、留下缺配置的目录。
 TEMPLATE_DIR_CANDIDATES = (
+    os.path.join(THERMAL_SIM_DIR, "template_config"),
     os.path.join(THERMAL_SIM_DIR, "config", "template_config"),
     os.path.join(THERMAL_SIM_DIR, "config_same_pkg", "template_config"),
 )
@@ -706,17 +707,18 @@ def _can_merge_v(a, b):
 #   experiment_result/output_gurobi_EMIB_chiplet_5_6_01_17_md1_ca0/placement/multigpu.json
 #   experiment_result/result_process（预览输入目录）
 #   parameter_result/output_gurobi_EMIB_chiplet_5_6_01_24、..._25（整个目录）
+# bt_tree / RL 计入该 case 的全部解（所有 seed），不再只取最终选中的最好解。
 # 数值与 thermal_sim/thermal_pkg.txt 的 [Combined maximum and thermal config] 一致。
 # 热仿真用它作为该 case 所有布局统一的封装边长（布局居中放进去）。
 CASE_MAX_INTERPOSER_MM = {
-    "ascend910": 41.95,
-    "cpu-dram": 42.25,
+    "ascend910": 59.27,
+    "cpu-dram": 44.50,
     "hp11_m": 63.84,
-    "hp6_m": 35.98,
-    "hp8_m": 43.12,
+    "hp6_m": 53.20,
+    "hp8_m": 52.08,
     "multigpu": 48.40,
-    "syn1": 37.00,
-    "syn5": 53.00,
+    "syn1": 47.00,
+    "syn5": 56.00,
 }
 # 封装边长口径（--package_mode）：
 #   "layout" = 每个布局用自己的外接正方形：边长 = 该布局外接框的最大边，

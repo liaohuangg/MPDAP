@@ -31,7 +31,7 @@ Y          # Lateral heat flow enabled (heat spreads within the chip)
 Y          # Power dissipation enabled (the only heat-generating layer; CPU/GPU cores are here)
 1.75E+06   # Specific heat capacity: typical value for silicon
 0.01       # Thermal resistivity: silicon thermal resistivity (good thermal conductivity)
-0.00015    # Thickness: 150 um (chip core layer thickness)
+0.00045    # Thickness: 450 um (chip core layer thickness)
 multigpu_seed03.flp
 
 # Layer 3: TIM

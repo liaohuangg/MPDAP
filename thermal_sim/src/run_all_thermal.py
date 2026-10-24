@@ -99,7 +99,13 @@ def collect_jobs(selected_groups=None):
     # bt_tree / RL: layouts live directly under <group>/<case>/*.json.  The
     # config keeps the old `<case>_seed<NN>` stem so the plotting code and the
     # existing directory layout stay readable.
-    for group in ("output_bt_tree", "output_rl"):
+    #
+    # thermal_pkg.txt sizing rule: bt_tree contributes only the lowest-cost
+    # solution of a case and RL only the highest-reward one; their other seeds
+    # are not evaluated and must not size the package.
+    for group, pattern, picker in (
+            ("output_bt_tree", r"_cost_([0-9.]+)\.json$", min),
+            ("output_rl", r"_reward_([0-9.]+)\.json$", max)):
         root = os.path.join(MPDAP_DIR, "experiment_result", group)
         if not os.path.isdir(root):
             continue
@@ -107,12 +113,19 @@ def collect_jobs(selected_groups=None):
             case_dir = os.path.join(root, case)
             if not os.path.isdir(case_dir):
                 continue
+            candidates = []
             for fname in sorted(os.listdir(case_dir)):
                 if not (fname.startswith("solution_") and fname.endswith(".json")):
                     continue
-                m = re.search(r"_seed(\d+)_", fname)
-                stem = f"{case}_seed{m.group(1)}" if m else f"{case}_{os.path.splitext(fname)[0]}"
-                jobs.append((group, os.path.join(case_dir, fname), stem, case_dir))
+                m = re.search(pattern, fname)
+                if m:
+                    candidates.append((float(m.group(1)), fname))
+            if not candidates:
+                continue
+            fname = picker(candidates)[1]
+            m = re.search(r"_seed(\d+)_", fname)
+            stem = f"{case}_seed{m.group(1)}" if m else f"{case}_{os.path.splitext(fname)[0]}"
+            jobs.append((group, os.path.join(case_dir, fname), stem, case_dir))
 
     for group, placement in _experiment_placement_dirs() + _parameter_placement_dirs():
         for fname in sorted(os.listdir(placement)):
