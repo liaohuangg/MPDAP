@@ -27,28 +27,28 @@
 & \textbf{BT} & \textbf{RLP} & \textbf{OM} & \textbf{PM} & \textbf{PmdM} & \textbf{PcaM} \\
 \midrule
 
-$ascend910$ & \textcolor{ForestGreen}{75.62 (-0.03\%)} & \textcolor{ForestGreen}{75.38 (-0.34\%)} & \textcolor{ForestGreen}{75.64 (ref.)} & \textcolor{ForestGreen}{75.19 (-0.59\%)} & \textcolor{ForestGreen}{75.64 (0.00\%)} & \textcolor{ForestGreen}{75.19 (-0.59\%)} \\
+$ascend910$ & \textcolor{ForestGreen}{77.04 (-0.04\%)} & \textcolor{ForestGreen}{76.82 (-0.32\%)} & \textcolor{ForestGreen}{77.07 (ref.)} & \textcolor{ForestGreen}{76.64 (-0.56\%)} & \textcolor{ForestGreen}{77.07 (0.00\%)} & \textcolor{ForestGreen}{76.64 (-0.56\%)} \\
 \addlinespace[2pt]
 
-$cpu\text{-}dram$ & \textcolor{ForestGreen}{121.91 (-1.15\%)} & \textcolor{ForestGreen}{117.53 (-4.70\%)} & \textcolor{ForestGreen}{123.33 (ref.)} & \textcolor{ForestGreen}{114.28 (-7.34\%)} & \textcolor{ForestGreen}{114.28 (-7.34\%)} & \textcolor{ForestGreen}{123.33 (0.00\%)} \\
+$cpu\text{-}dram$ & \textcolor{ForestGreen}{127.15 (-1.10\%)} & \textcolor{ForestGreen}{122.09 (-5.04\%)} & \textcolor{ForestGreen}{128.57 (ref.)} & \textcolor{ForestGreen}{118.92 (-7.51\%)} & \textcolor{ForestGreen}{118.92 (-7.51\%)} & \textcolor{ForestGreen}{128.57 (0.00\%)} \\
 \addlinespace[2pt]
 
-$hp11\_m$ & - & - & \textcolor{ForestGreen}{108.47 (ref.)} & \textcolor{ForestGreen}{94.38 (-12.99\%)} & \textcolor{ForestGreen}{94.86 (-12.55\%)} & \textcolor{ForestGreen}{100.65 (-7.21\%)} \\
+$hp11\_m$ & - & - & \textcolor{ForestGreen}{113.64 (ref.)} & \textcolor{ForestGreen}{97.76 (-13.97\%)} & \textcolor{ForestGreen}{97.74 (-13.99\%)} & \textcolor{ForestGreen}{104.31 (-8.21\%)} \\
 \addlinespace[2pt]
 
-$hp6\_m$ & \textcolor{ForestGreen}{95.66 (+0.23\%)} & \textcolor{ForestGreen}{88.13 (-7.66\%)} & \textcolor{ForestGreen}{95.44 (ref.)} & \textcolor{ForestGreen}{94.29 (-1.20\%)} & \textcolor{ForestGreen}{95.44 (0.00\%)} & \textcolor{ForestGreen}{94.29 (-1.20\%)} \\
+$hp6\_m$ & \textcolor{ForestGreen}{100.58 (+0.22\%)} & \textcolor{ForestGreen}{91.91 (-8.42\%)} & \textcolor{ForestGreen}{100.36 (ref.)} & \textcolor{ForestGreen}{99.17 (-1.19\%)} & \textcolor{ForestGreen}{100.36 (0.00\%)} & \textcolor{ForestGreen}{99.17 (-1.19\%)} \\
 \addlinespace[2pt]
 
-$hp8\_m$ & \textcolor{ForestGreen}{95.45 (-1.43\%)} & - & \textcolor{ForestGreen}{96.83 (ref.)} & \textcolor{ForestGreen}{94.18 (-2.74\%)} & \textcolor{ForestGreen}{94.57 (-2.33\%)} & \textcolor{ForestGreen}{95.45 (-1.43\%)} \\
+$hp8\_m$ & \textcolor{ForestGreen}{100.91 (-0.77\%)} & - & \textcolor{ForestGreen}{101.69 (ref.)} & \textcolor{ForestGreen}{98.64 (-3.00\%)} & \textcolor{ForestGreen}{99.02 (-2.63\%)} & \textcolor{ForestGreen}{100.38 (-1.29\%)} \\
 \addlinespace[2pt]
 
-$multigpu$ & \textcolor{ForestGreen}{97.60 (-6.17\%)} & \textcolor{ForestGreen}{101.84 (-2.10\%)} & \textcolor{ForestGreen}{104.02 (ref.)} & \textcolor{ForestGreen}{99.29 (-4.55\%)} & - & \textcolor{ForestGreen}{97.74 (-6.04\%)} \\
+$multigpu$ & \textcolor{ForestGreen}{99.87 (-6.04\%)} & \textcolor{ForestGreen}{104.03 (-2.13\%)} & \textcolor{ForestGreen}{106.29 (ref.)} & \textcolor{ForestGreen}{101.51 (-4.50\%)} & - & \textcolor{ForestGreen}{100.00 (-5.92\%)} \\
 \addlinespace[2pt]
 
-$syn1$ & \textcolor{ForestGreen}{99.93 (+0.07\%)} & - & \textcolor{ForestGreen}{99.86 (ref.)} & \textcolor{ForestGreen}{101.11 (+1.25\%)} & \textcolor{ForestGreen}{101.04 (+1.18\%)} & \textcolor{ForestGreen}{98.71 (-1.15\%)} \\
+$syn1$ & \textcolor{ForestGreen}{103.11 (+0.17\%)} & - & \textcolor{ForestGreen}{102.94 (ref.)} & \textcolor{ForestGreen}{104.33 (+1.35\%)} & \textcolor{ForestGreen}{104.27 (+1.29\%)} & \textcolor{ForestGreen}{101.83 (-1.08\%)} \\
 \addlinespace[2pt]
 
-$syn5$ & \textcolor{ForestGreen}{94.40 (-1.83\%)} & - & \textcolor{ForestGreen}{96.16 (ref.)} & \textcolor{ForestGreen}{95.14 (-1.06\%)} & \textcolor{ForestGreen}{93.41 (-2.86\%)} & \textcolor{ForestGreen}{95.67 (-0.51\%)} \\
+$syn5$ & \textcolor{ForestGreen}{97.72 (-1.59\%)} & - & \textcolor{ForestGreen}{99.30 (ref.)} & \textcolor{ForestGreen}{98.43 (-0.88\%)} & \textcolor{ForestGreen}{96.64 (-2.68\%)} & \textcolor{ForestGreen}{98.88 (-0.42\%)} \\
 \addlinespace[2pt]
 
 

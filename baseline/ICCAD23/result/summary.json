@@ -1,183 +1,366 @@
 {
-  "timestamp": "2026-10-23T02:32:42.600843",
-  "seed_mode": "sweep",
-  "seeds": null,
-  "seed_sweep_target": 100000,
-  "seed_sweep_time_limit": 3600.0,
-  "seed_sweep_start": 5,
+  "timestamp": "2026-10-23T13:55:48.206281",
+  "seed_mode": "fixed-list",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "seed_sweep_target": null,
+  "seed_sweep_time_limit": null,
+  "seed_sweep_start": null,
   "seed_sweep_spent": null,
   "batch_time_limit": null,
   "time_limit_seconds": 3600,
   "max_iterations": null,
   "convergence_patience": 10000,
-  "total_cases": 15,
-  "success_count": 6,
-  "total_time_hours": 15.099513269729085,
+  "total_cases": 9,
+  "success_count": 1,
+  "total_time_hours": 43.362100492186016,
   "results": [
-    {
-      "case_name": "ascend910",
-      "status": "success",
-      "num_solutions": 187,
-      "num_seeds_tried": 187,
-      "best_cost": 78.01123766054316,
-      "hit_time_limit_count": 0,
-      "bridge_legal_solutions": 187,
-      "time_seconds": 3601.743579387665,
-      "sweep_elapsed_seconds": 3601.743579387665
-    },
-    {
-      "case_name": "cpu-dram",
-      "status": "success",
-      "num_solutions": 56,
-      "num_seeds_tried": 56,
-      "best_cost": 219.23319602954697,
-      "hit_time_limit_count": 0,
-      "bridge_legal_solutions": 56,
-      "time_seconds": 3674.3696196079254,
-      "sweep_elapsed_seconds": 3674.3696196079254
-    },
     {
       "case_name": "hp11_m",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 31,
+      "num_seeds_tried": 5,
       "best_cost": null,
       "hit_time_limit_count": 0,
       "bridge_legal_solutions": 0,
-      "time_seconds": 3582.953209400177,
-      "sweep_elapsed_seconds": 3582.953209400177
-    },
-    {
-      "case_name": "hp6_m",
-      "status": "success",
-      "num_solutions": 262,
-      "num_seeds_tried": 262,
-      "best_cost": 62.13977386487692,
-      "hit_time_limit_count": 0,
-      "bridge_legal_solutions": 262,
-      "time_seconds": 3613.0112907886505,
-      "sweep_elapsed_seconds": 3613.0112907886505
-    },
-    {
-      "case_name": "hp8_m",
-      "status": "success",
-      "num_solutions": 65,
-      "num_seeds_tried": 65,
-      "best_cost": 208.48555398736454,
-      "hit_time_limit_count": 0,
-      "bridge_legal_solutions": 65,
-      "time_seconds": 3645.69473695755,
-      "sweep_elapsed_seconds": 3645.69473695755
-    },
-    {
-      "case_name": "multigpu",
-      "status": "success",
-      "num_solutions": 248,
-      "num_seeds_tried": 248,
-      "best_cost": 167.79045257214548,
-      "hit_time_limit_count": 0,
-      "bridge_legal_solutions": 248,
-      "time_seconds": 3600.1939074993134,
-      "sweep_elapsed_seconds": 3600.1939074993134
-    },
-    {
-      "case_name": "syn1",
-      "status": "success",
-      "num_solutions": 85,
-      "num_seeds_tried": 85,
-      "best_cost": 167.45028667368265,
-      "hit_time_limit_count": 0,
-      "bridge_legal_solutions": 85,
-      "time_seconds": 3604.415838241577,
-      "sweep_elapsed_seconds": 3604.415838241577
+      "time_seconds": 18002.41644692421,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          3638
+        ],
+        [
+          1,
+          "failed",
+          3657
+        ],
+        [
+          2,
+          "failed",
+          3673
+        ],
+        [
+          3,
+          "failed",
+          3646
+        ],
+        [
+          4,
+          "failed",
+          3668
+        ]
+      ]
     },
     {
       "case_name": "syn2",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 28,
+      "num_seeds_tried": 5,
       "best_cost": null,
       "hit_time_limit_count": 0,
       "bridge_legal_solutions": 0,
-      "time_seconds": 3653.3036761283875,
-      "sweep_elapsed_seconds": 3653.3036761283875
+      "time_seconds": 18003.56648492813,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          3217
+        ],
+        [
+          1,
+          "failed",
+          3199
+        ],
+        [
+          2,
+          "failed",
+          3230
+        ],
+        [
+          3,
+          "failed",
+          3307
+        ],
+        [
+          4,
+          "failed",
+          3290
+        ]
+      ]
     },
     {
       "case_name": "syn3",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 27,
+      "num_seeds_tried": 5,
       "best_cost": null,
       "hit_time_limit_count": 0,
       "bridge_legal_solutions": 0,
-      "time_seconds": 3712.735291004181,
-      "sweep_elapsed_seconds": 3712.735291004181
+      "time_seconds": 18003.350589752197,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          3056
+        ],
+        [
+          1,
+          "failed",
+          3033
+        ],
+        [
+          2,
+          "failed",
+          3052
+        ],
+        [
+          3,
+          "failed",
+          3093
+        ],
+        [
+          4,
+          "failed",
+          3107
+        ]
+      ]
     },
     {
       "case_name": "syn4",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 25,
+      "num_seeds_tried": 5,
       "best_cost": null,
       "hit_time_limit_count": 0,
       "bridge_legal_solutions": 0,
-      "time_seconds": 3580.5404102802277,
-      "sweep_elapsed_seconds": 3580.5404102802277
+      "time_seconds": 18002.518776893616,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          2917
+        ],
+        [
+          1,
+          "failed",
+          2962
+        ],
+        [
+          2,
+          "failed",
+          2985
+        ],
+        [
+          3,
+          "failed",
+          2992
+        ],
+        [
+          4,
+          "failed",
+          3008
+        ]
+      ]
     },
     {
       "case_name": "syn5",
-      "status": "no_solution",
-      "num_solutions": 0,
-      "num_seeds_tried": 30,
-      "best_cost": null,
+      "status": "success",
+      "num_solutions": 2,
+      "num_seeds_tried": 5,
+      "best_cost": 295.7158554116869,
       "hit_time_limit_count": 0,
-      "bridge_legal_solutions": 0,
-      "time_seconds": 3587.047949552536,
-      "sweep_elapsed_seconds": 3587.047949552536
+      "bridge_legal_solutions": 2,
+      "time_seconds": 12083.044705867767,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          3574
+        ],
+        [
+          1,
+          "success",
+          510
+        ],
+        [
+          2,
+          "success",
+          870
+        ],
+        [
+          3,
+          "failed",
+          3336
+        ],
+        [
+          4,
+          "failed",
+          3373
+        ]
+      ]
     },
     {
       "case_name": "syn6",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 19,
+      "num_seeds_tried": 5,
       "best_cost": null,
       "hit_time_limit_count": 0,
       "bridge_legal_solutions": 0,
-      "time_seconds": 3623.421224117279,
-      "sweep_elapsed_seconds": 3623.421224117279
+      "time_seconds": 18004.30335712433,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          2295
+        ],
+        [
+          1,
+          "failed",
+          2282
+        ],
+        [
+          2,
+          "failed",
+          2303
+        ],
+        [
+          3,
+          "failed",
+          2365
+        ],
+        [
+          4,
+          "failed",
+          2380
+        ]
+      ]
     },
     {
       "case_name": "xerox6_m",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 47,
+      "num_seeds_tried": 5,
       "best_cost": null,
       "hit_time_limit_count": 0,
       "bridge_legal_solutions": 0,
-      "time_seconds": 3650.73100733757,
-      "sweep_elapsed_seconds": 3650.73100733757
+      "time_seconds": 18001.706849336624,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          5394
+        ],
+        [
+          1,
+          "failed",
+          5380
+        ],
+        [
+          2,
+          "failed",
+          5443
+        ],
+        [
+          3,
+          "failed",
+          5573
+        ],
+        [
+          4,
+          "failed",
+          5599
+        ]
+      ]
     },
     {
       "case_name": "xerox7_m",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 41,
+      "num_seeds_tried": 5,
       "best_cost": null,
       "hit_time_limit_count": 0,
       "bridge_legal_solutions": 0,
-      "time_seconds": 3620.749804019928,
-      "sweep_elapsed_seconds": 3620.749804019928
+      "time_seconds": 18001.07040119171,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          4856
+        ],
+        [
+          1,
+          "failed",
+          4766
+        ],
+        [
+          2,
+          "failed",
+          4739
+        ],
+        [
+          3,
+          "failed",
+          4831
+        ],
+        [
+          4,
+          "failed",
+          4838
+        ]
+      ]
     },
     {
       "case_name": "xerox8_m",
       "status": "no_solution",
       "num_solutions": 0,
-      "num_seeds_tried": 35,
+      "num_seeds_tried": 5,
       "best_cost": null,
       "hit_time_limit_count": 0,
       "bridge_legal_solutions": 0,
-      "time_seconds": 3607.3362267017365,
-      "sweep_elapsed_seconds": 3607.3362267017365
+      "time_seconds": 18001.584159851074,
+      "sweep_elapsed_seconds": null,
+      "seed_attempts": [
+        [
+          0,
+          "failed",
+          4142
+        ],
+        [
+          1,
+          "failed",
+          4120
+        ],
+        [
+          2,
+          "failed",
+          4138
+        ],
+        [
+          3,
+          "failed",
+          4156
+        ],
+        [
+          4,
+          "failed",
+          4169
+        ]
+      ]
     }
   ]
 }

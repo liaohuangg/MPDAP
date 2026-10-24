@@ -23,8 +23,8 @@
 \multirow{2}{*}{SAR} & BT-solvable ($n=7$) & 0.681 & 0.413 & 0.560 & 0.450 & 0.547 & 0.505 \\
  & RLP-solvable ($n=4$) & 0.692 & 0.413 & 0.605 & 0.435 & 0.552 & 0.520 \\
 \addlinespace[2pt]
-\multirow{2}{*}{MaxT ($^\circ$C)} & BT-solvable ($n=7$) & 97.22 & 95.72 & 98.75 & 96.21 & 96.47 & 97.48 \\
- & RLP-solvable ($n=4$) & 97.70 & 95.72 & 99.61 & 95.76 & 96.71 & 97.69 \\
+\multirow{2}{*}{MaxT ($^\circ$C)} & BT-solvable ($n=7$) & 100.91 & 98.71 & 102.32 & 99.66 & 99.81 & 100.99 \\
+ & RLP-solvable ($n=4$) & 101.16 & 98.71 & 103.07 & 99.06 & 99.94 & 101.07 \\
 \bottomrule
 \end{tabular}
 \vspace{2pt}
@@ -62,5 +62,5 @@ SAR
 
 MaxT (deg C)
   set                          BT        RLP         OM         PM  avg(BT,RLP)  avg(OM,PM)
-  BT-solvable (n=7)         97.22      95.72      98.75      96.21        96.47       97.48
-  RLP-solvable (n=4)        97.70      95.72      99.61      95.76        96.71       97.69
+  BT-solvable (n=7)        100.91      98.71     102.32      99.66        99.81      100.99
+  RLP-solvable (n=4)       101.16      98.71     103.07      99.06        99.94      101.07

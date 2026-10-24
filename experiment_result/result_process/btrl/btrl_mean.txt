@@ -11,10 +11,9 @@
 % A case no seed solves is left out of the table.  The means are averages
 % over the solved seeds, so they differ from the single selected layout that
 % the per-case metric tables report.
-\begin{table*}[t]
+\begin{table*}[!t]
   \centering
-  \caption{solve rate and mean $\pm$ standard deviation of BT and RLP over
-  their solved seeds}
+  \caption{solve rate and mean $\pm \sigma$ of BT and RLP over solved seeds}
   \label{tab:btrl_std}
   \setlength{\tabcolsep}{3pt}
   \renewcommand{\arraystretch}{1.2}
@@ -32,30 +31,28 @@
     \toprule
     \textbf{Method} & \textbf{Test Case} & \textbf{SR} & \textbf{BA} & \textbf{WL} & \textbf{SAR} & \textbf{MaxT} & \textbf{Time} \\
     \midrule
-    \multirow{7}{*}{\textbf{BT}} & $ascend910$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1377.26$\pm$62.00} & \textcolor{ForestGreen}{25825.77$\pm$1481.94} & \textcolor{ForestGreen}{0.582$\pm$0.484} & \textcolor{ForestGreen}{74.98$\pm$0.46} & \textcolor{ForestGreen}{25.70$\pm$8.36} \\
+    \multirow{7}{*}{\textbf{BT}} & $ascend910$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1377.26$\pm$62.00} & \textcolor{ForestGreen}{25825.77$\pm$1481.94} & \textcolor{ForestGreen}{0.582$\pm$0.484} & \textcolor{ForestGreen}{76.41$\pm$0.45} & \textcolor{ForestGreen}{25.70$\pm$8.36} \\
     \addlinespace[2pt]
-     & $cpu\text{-}dram$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1292.06$\pm$175.12} & \textcolor{ForestGreen}{54777.09$\pm$1109.16} & \textcolor{ForestGreen}{0.500$\pm$0.218} & \textcolor{ForestGreen}{120.13$\pm$1.56} & \textcolor{ForestGreen}{80.74$\pm$11.72} \\
+     & $cpu\text{-}dram$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1292.06$\pm$175.12} & \textcolor{ForestGreen}{54777.09$\pm$1109.16} & \textcolor{ForestGreen}{0.500$\pm$0.218} & \textcolor{ForestGreen}{125.20$\pm$1.80} & \textcolor{ForestGreen}{80.74$\pm$11.72} \\
     \addlinespace[2pt]
-     & $hp6\_m$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{461.89$\pm$30.70} & \textcolor{ForestGreen}{11702.04$\pm$1491.02} & \textcolor{ForestGreen}{2.083$\pm$1.347} & \textcolor{ForestGreen}{92.89$\pm$3.43} & \textcolor{ForestGreen}{15.81$\pm$3.62} \\
+     & $hp6\_m$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{461.89$\pm$30.70} & \textcolor{ForestGreen}{11702.04$\pm$1491.02} & \textcolor{ForestGreen}{2.083$\pm$1.347} & \textcolor{ForestGreen}{97.78$\pm$3.68} & \textcolor{ForestGreen}{15.81$\pm$3.62} \\
     \addlinespace[2pt]
-     & $hp8\_m$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1885.39$\pm$271.93} & \textcolor{ForestGreen}{52126.04$\pm$1010.27} & \textcolor{ForestGreen}{0.214$\pm$0.204} & \textcolor{ForestGreen}{97.32$\pm$2.48} & \textcolor{ForestGreen}{56.95$\pm$11.78} \\
+     & $hp8\_m$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1885.39$\pm$271.93} & \textcolor{ForestGreen}{52126.04$\pm$1010.27} & \textcolor{ForestGreen}{0.214$\pm$0.204} & \textcolor{ForestGreen}{102.68$\pm$2.60} & \textcolor{ForestGreen}{56.95$\pm$11.78} \\
     \addlinespace[2pt]
-     & $multigpu$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1255.98$\pm$0.00} & \textcolor{ForestGreen}{54891.79$\pm$0.00} & \textcolor{ForestGreen}{0.865$\pm$0.000} & \textcolor{ForestGreen}{97.60$\pm$0.00} & \textcolor{ForestGreen}{17.80$\pm$1.92} \\
+     & $multigpu$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1255.98$\pm$0.00} & \textcolor{ForestGreen}{54891.79$\pm$0.00} & \textcolor{ForestGreen}{0.865$\pm$0.000} & \textcolor{ForestGreen}{99.87$\pm$0.00} & \textcolor{ForestGreen}{17.80$\pm$1.92} \\
     \addlinespace[2pt]
-     & $syn1$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1277.09$\pm$171.76} & \textcolor{ForestGreen}{51590.35$\pm$1842.87} & \textcolor{ForestGreen}{0.334$\pm$0.150} & \textcolor{ForestGreen}{98.80$\pm$1.27} & \textcolor{ForestGreen}{49.75$\pm$6.41} \\
+     & $syn1$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1277.09$\pm$171.76} & \textcolor{ForestGreen}{51590.35$\pm$1842.87} & \textcolor{ForestGreen}{0.334$\pm$0.150} & \textcolor{ForestGreen}{102.35$\pm$1.26} & \textcolor{ForestGreen}{49.75$\pm$6.41} \\
     \addlinespace[2pt]
-     & $syn5$ & \textcolor{ForestGreen}{2/5} & \textcolor{ForestGreen}{1240.88$\pm$81.40} & \textcolor{ForestGreen}{77681.39$\pm$3063.20} & \textcolor{ForestGreen}{1.398$\pm$0.026} & \textcolor{ForestGreen}{93.14$\pm$1.27} & \textcolor{ForestGreen}{640.25$\pm$194.02} \\
+     & $syn5$ & \textcolor{ForestGreen}{2/5} & \textcolor{ForestGreen}{1240.88$\pm$81.40} & \textcolor{ForestGreen}{77681.39$\pm$3063.20} & \textcolor{ForestGreen}{1.398$\pm$0.026} & \textcolor{ForestGreen}{96.42$\pm$1.30} & \textcolor{ForestGreen}{640.25$\pm$194.02} \\
     \addlinespace[2pt]
     \midrule
-    \multirow{4}{*}{\textbf{RLP}} & $ascend910$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1666.42$\pm$90.01} & \textcolor{ForestGreen}{27216.78$\pm$1690.29} & \textcolor{ForestGreen}{0.254$\pm$0.334} & \textcolor{ForestGreen}{74.87$\pm$0.33} & \textcolor{ForestGreen}{3600.00$\pm$0.00} \\
+    \multirow{4}{*}{\textbf{RLP}} & $ascend910$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1666.42$\pm$90.01} & \textcolor{ForestGreen}{27216.78$\pm$1690.29} & \textcolor{ForestGreen}{0.254$\pm$0.334} & \textcolor{ForestGreen}{76.31$\pm$0.33} & \textcolor{ForestGreen}{3600.00$\pm$0.00} \\
     \addlinespace[2pt]
-     & $cpu\text{-}dram$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1005.01$\pm$132.53} & \textcolor{ForestGreen}{55848.63$\pm$567.54} & \textcolor{ForestGreen}{0.303$\pm$0.212} & \textcolor{ForestGreen}{116.89$\pm$2.99} & \textcolor{ForestGreen}{3600.00$\pm$0.00} \\
+     & $cpu\text{-}dram$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1005.01$\pm$132.53} & \textcolor{ForestGreen}{55848.63$\pm$567.54} & \textcolor{ForestGreen}{0.303$\pm$0.212} & \textcolor{ForestGreen}{121.74$\pm$3.16} & \textcolor{ForestGreen}{3600.00$\pm$0.00} \\
     \addlinespace[2pt]
-     & $hp6\_m$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{644.74$\pm$89.21} & \textcolor{ForestGreen}{14916.86$\pm$227.72} & \textcolor{ForestGreen}{2.059$\pm$1.096} & \textcolor{ForestGreen}{86.14$\pm$1.62} & \textcolor{ForestGreen}{3600.00$\pm$0.00} \\
+     & $hp6\_m$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{644.74$\pm$89.21} & \textcolor{ForestGreen}{14916.86$\pm$227.72} & \textcolor{ForestGreen}{2.059$\pm$1.096} & \textcolor{ForestGreen}{89.82$\pm$2.02} & \textcolor{ForestGreen}{3600.00$\pm$0.00} \\
     \addlinespace[2pt]
-     & $multigpu$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1653.31$\pm$262.71} & \textcolor{ForestGreen}{59321.26$\pm$2125.76} & \textcolor{ForestGreen}{0.131$\pm$0.074} & \textcolor{ForestGreen}{102.43$\pm$1.08} & \textcolor{ForestGreen}{3600.00$\pm$0.00} \\
+     & $multigpu$ & \textcolor{ForestGreen}{5/5} & \textcolor{ForestGreen}{1653.31$\pm$262.71} & \textcolor{ForestGreen}{59321.26$\pm$2125.76} & \textcolor{ForestGreen}{0.131$\pm$0.074} & \textcolor{ForestGreen}{104.66$\pm$1.10} & \textcolor{ForestGreen}{3600.00$\pm$0.00} \\
     \bottomrule
   \end{tabular}
-  \vspace{2pt}
-  \parbox{\textwidth}{\footnotesize\raggedright \textcolor{ForestGreen}{Units: BA in $\mathrm{mm}^2$, WL in mm, MaxT in $^{\circ}$C, Time in s.  SR = seeds solved out of the five seeds run.  Each value is the mean $\pm$ population standard deviation over the seeds that produced a layout (BT on $syn5$: 2 of 5, so $n=2$).  RLP reaches the 3600\,s budget in every run, hence its zero spread.  Cases that no seed solves are left out.}}
-\end{table*}
+ \end{table*}

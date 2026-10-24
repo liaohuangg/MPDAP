@@ -29,10 +29,12 @@ Usage:
 
 import json
 import os
+import re
 from decimal import Decimal, ROUND_HALF_UP
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RESULT_DIR = os.path.dirname(os.path.dirname(HERE))
+PARAM_DIR = os.path.join(os.path.dirname(RESULT_DIR), "parameter_result")
 
 SOURCES = (
     ("BT", "output_bt_tree/placement_results.json"),
@@ -135,6 +137,36 @@ def change_from_means(data, x, y, cases, key="area"):
     if mx is None or my is None:
         return None, mx, nx, my, ny
     return (mx / my - 1) * 100, mx, nx, my, ny
+
+
+def load_sweep(filename, delimiter):
+    """beta4 columns and case -> values for one parameter_result file."""
+    path = os.path.join(PARAM_DIR, filename)
+    with open(path, "r", encoding="utf-8") as f:
+        rows = [line.rstrip("\n") for line in f if line.strip()]
+    betas = rows[0].split(delimiter)[1:]
+    sweep = {}
+    for line in rows[1:]:
+        parts = line.split(delimiter)
+        sweep[parts[0].strip()] = [float(x.replace(",", "")) for x in parts[1:]]
+    return betas, sweep
+
+
+def load_runtime():
+    """case -> [BT, RLP, OM, PM, PmdM, PcaM] from the runtime table."""
+    path = os.path.join(RESULT_DIR, "result_process", "time", "allcasetime.txt")
+    rows = {}
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            text = line.strip()
+            if not (text.startswith("$") and text.endswith(r"\\") and " & " in text):
+                continue
+            fields = text[:-2].strip().split(" & ")
+            case = (fields[0].strip("$")
+                    .replace(r"\_", "_").replace(r"\text{-}", "-"))
+            rows[case] = [float(re.search(r"[0-9]+(?:\.[0-9]+)?", cell).group())
+                          for cell in fields[1:]]
+    return rows
 
 
 def header(title):
@@ -253,6 +285,82 @@ def main():
             value = data[method].get(case, {}).get("area")
             cells.append(pct((value / base - 1) * 100) if value is not None and base else "-")
         print(f"| {case:<11s} | " + " | ".join(f"{c:>9s}" for c in cells) + " |")
+
+    # ---- beta4 sweep (parameter_result) -------------------------------------
+    header("beta4 weight sweep (parameter_result)")
+    sweeps = (
+        ("BA", "area.txt", "\t", 2),
+        ("WL", "wirelength.txt", "\t", 2),
+        ("SAR", "sar.txt", "\t", 4),
+        ("MaxT", "maxt.txt", ",", 2),
+    )
+    print("Columns are beta4 = 0, 0.1, ..., 2.3.  Every case in CASE_ORDER is")
+    print("listed; the extra sys_micro150 row in three of the files duplicates")
+    print("cpu-dram and is skipped.")
+    for label, filename, delimiter, digits in sweeps:
+        betas, sweep = load_sweep(filename, delimiter)
+        print(f"\n## {label}  (beta4 = {betas[0]} .. {betas[-1]}, {len(betas)} columns)")
+        print("| case | at 0 | at 2.3 | change | shape |")
+        print("| ---- | ---- | ------ | ------ | ----- |")
+        for case in CASE_ORDER:
+            values = sweep.get(case)
+            if not values:
+                continue
+            first, last = values[0], values[-1]
+            rising = all(b >= a - 1e-9 for a, b in zip(values, values[1:]))
+            falling = all(b <= a + 1e-9 for a, b in zip(values, values[1:]))
+            if max(values) - min(values) < 1e-12:
+                shape = "constant"
+            elif rising:
+                shape = "non-decreasing"
+            elif falling:
+                shape = "non-increasing"
+            else:
+                shape = "mixed"
+            change = last - first
+            print(f"| {case:<11s} | {fmt(first, digits):>9s} | {fmt(last, digits):>9s} | "
+                  f"{change:+.{digits}f} | {shape} |")
+
+    # ---- runtime (result_process/time/allcasetime.txt) ----------------------
+    header("Runtime (result_process/time/allcasetime.txt)")
+    print("Seconds; 3600 marks the timeout.  BT is the runtime of the selected")
+    print("solution (the cheapest of its five seeds).")
+    print("Columns: BT, RLP, OM, PM, PmdM, PcaM.")
+    runtime = load_runtime()
+
+    def mean_time(index, cases):
+        return sum(runtime[c][index] for c in cases) / len(cases)
+
+    cases = list(runtime)  # the runtime table has more cases than CASE_ORDER
+    bt_solved = [c for c in cases if runtime[c][0] < 3600]
+    bt_timeout = [c for c in cases if runtime[c][0] >= 3600]
+    print(f"\nBT solves {len(bt_solved)}: {', '.join(bt_solved)}")
+    print(f"BT times out on {len(bt_timeout)}: {', '.join(bt_timeout)}")
+    print(f"  BT mean over its solved cases: {mean_time(0, bt_solved):.2f} s")
+    without_syn5 = [c for c in bt_solved if c != "syn5"]
+    print(f"  BT mean without syn5: {mean_time(0, without_syn5):.2f} s")
+    print(f"  OM mean on the same {len(bt_solved)} cases: "
+          f"{mean_time(2, bt_solved):.2f} s "
+          f"({mean_time(2, bt_solved) / mean_time(0, bt_solved):.2f}x BT)")
+    winners = [f"{c}:{'BT' if runtime[c][0] < runtime[c][2] else 'OM'}"
+               for c in bt_solved]
+    print("  faster method per case: " + ", ".join(winners))
+
+    common = [c for c in cases
+              if all(runtime[c][i] < 3600 for i in (3, 4, 5))]
+    print(f"\nPM, PmdM and PcaM all solve {len(common)} cases: "
+          f"{', '.join(common)}")
+    for index, name in ((2, "OM"), (3, "PM"), (4, "PmdM"), (5, "PcaM")):
+        print(f"  {name:<5s} mean over those cases: {mean_time(index, common):.2f} s")
+
+    stage1 = [c for c in cases if runtime[c][2] < 300]
+    stage2 = [c for c in cases if 300 <= runtime[c][2] < 600]  # 300 s + 300 s
+    stage3 = [c for c in cases if 600 <= runtime[c][2] < 3600]
+    timed_out = [c for c in cases if runtime[c][2] >= 3600]
+    print(f"\nOM stage 1 (<300 s, {len(stage1)}): {', '.join(stage1)}")
+    print(f"OM stage 2 ({len(stage2)}): {', '.join(stage2)}")
+    print(f"OM stage 3 ({len(stage3)}): {', '.join(stage3)}")
+    print(f"OM timeout ({len(timed_out)}): {', '.join(timed_out)}")
 
     print()
     print("Notes")

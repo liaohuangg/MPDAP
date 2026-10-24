@@ -8,8 +8,8 @@
     "aspect_ratio": 0.903,
     "interposer_size": 41.95,
     "SAR": 0.108,
-    "max_temperature": 75.38,
-    "avg_temperature": 63.67
+    "max_temperature": 76.82,
+    "avg_temperature": 59.42
   },
   {
     "folder": "output_rl/cpu-dram",
@@ -20,8 +20,8 @@
     "aspect_ratio": 0.871,
     "interposer_size": 34.75,
     "SAR": 0.149,
-    "max_temperature": 117.53,
-    "avg_temperature": 82.99
+    "max_temperature": 122.09,
+    "avg_temperature": 82.28
   },
   {
     "folder": "output_rl/hp6_m",
@@ -32,8 +32,8 @@
     "aspect_ratio": 0.444,
     "interposer_size": 35.98,
     "SAR": 1.254,
-    "max_temperature": 88.13,
-    "avg_temperature": 63.63
+    "max_temperature": 91.91,
+    "avg_temperature": 58.71
   },
   {
     "folder": "output_rl/multigpu",
@@ -44,7 +44,7 @@
     "aspect_ratio": 1.142,
     "interposer_size": 43.32,
     "SAR": 0.142,
-    "max_temperature": 101.84,
-    "avg_temperature": 80.65
+    "max_temperature": 104.03,
+    "avg_temperature": 81.52
   }
 ]
