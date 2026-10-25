@@ -72,6 +72,25 @@ def pick_label_position(x, y, w, h, avoid_points):
     return best
 
 
+def bridge_footprint(x, y, w, h, rect1, rect2):
+    # Gurobi 输出的 EMIB_width/EMIB_length 已经是定好朝向的 x/y 尺寸；
+    # ICCAD23 的 unit.save_result（BT、RL）则固定 width 跨共享边、length 沿共享边，
+    # 上下相邻的一对画图时需要交换两者。看哪个矩形的中心落在共享边上就用哪个。
+    x1, y1, w1, h1 = rect1
+    x2, y2, w2, h2 = rect2
+    overlap_x = min(x1 + w1, x2 + w2) - max(x1, x2)
+    overlap_y = min(y1 + h1, y2 + h2) - max(y1, y2)
+    if overlap_x >= overlap_y:  # 上下相邻，共享边水平
+        edge = (max(y1, y2) + min(y1 + h1, y2 + h2)) / 2.0
+        gap_raw = abs((y + h / 2.0) - edge)
+        gap_swap = abs((y + w / 2.0) - edge)
+    else:  # 左右相邻，共享边竖直
+        edge = (max(x1, x2) + min(x1 + w1, x2 + w2)) / 2.0
+        gap_raw = abs((x + w / 2.0) - edge)
+        gap_swap = abs((x + h / 2.0) - edge)
+    return (h, w) if gap_swap < gap_raw - 1e-9 else (w, h)
+
+
 def draw_one_json(current_json_path: Path, output_path: Path):
     with open(current_json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -184,13 +203,16 @@ def draw_one_json(current_json_path: Path, output_path: Path):
 
         x = conn.get("EMIB-x-position", 0) + shift_x
         y = conn.get("EMIB-y-position", 0) + shift_y
-        w = conn.get("EMIB_width", 0)
-        h = conn.get("EMIB_length", 0)
+        x1, y1, w1, h1 = chiplet_dict[node1]
+        x2, y2, w2, h2 = chiplet_dict[node2]
+        w, h = bridge_footprint(
+            x, y,
+            conn.get("EMIB_width", 0), conn.get("EMIB_length", 0),
+            (x1, y1, w1, h1), (x2, y2, w2, h2),
+        )
         bridge_center_x = x + w / 2
         bridge_center_y = y + h / 2
 
-        x1, y1, w1, h1 = chiplet_dict[node1]
-        x2, y2, w2, h2 = chiplet_dict[node2]
         chip1_center_x = x1 + w1 / 2
         chip1_center_y = y1 + h1 / 2
         chip2_center_x = x2 + w2 / 2

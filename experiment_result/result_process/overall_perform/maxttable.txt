@@ -42,7 +42,7 @@ $hp6\_m$ & \textcolor{ForestGreen}{100.58 (+0.22\%)} & \textcolor{ForestGreen}{9
 $hp8\_m$ & \textcolor{ForestGreen}{100.91 (-0.77\%)} & - & \textcolor{ForestGreen}{101.69 (ref.)} & \textcolor{ForestGreen}{98.64 (-3.00\%)} & \textcolor{ForestGreen}{99.02 (-2.63\%)} & \textcolor{ForestGreen}{100.38 (-1.29\%)} \\
 \addlinespace[2pt]
 
-$multigpu$ & \textcolor{ForestGreen}{99.87 (-6.04\%)} & \textcolor{ForestGreen}{104.03 (-2.13\%)} & \textcolor{ForestGreen}{106.29 (ref.)} & \textcolor{ForestGreen}{101.51 (-4.50\%)} & - & \textcolor{ForestGreen}{100.00 (-5.92\%)} \\
+$multigpu$ & \textcolor{ForestGreen}{99.87 (-6.04\%)} & \textcolor{ForestGreen}{104.03 (-2.13\%)} & \textcolor{ForestGreen}{106.29 (ref.)} & \textcolor{ForestGreen}{101.51 (-4.50\%)} & $^{\dagger}$ & \textcolor{ForestGreen}{100.00 (-5.92\%)} \\
 \addlinespace[2pt]
 
 $syn1$ & \textcolor{ForestGreen}{103.11 (+0.17\%)} & - & \textcolor{ForestGreen}{102.94 (ref.)} & \textcolor{ForestGreen}{104.33 (+1.35\%)} & \textcolor{ForestGreen}{104.27 (+1.29\%)} & \textcolor{ForestGreen}{101.83 (-1.08\%)} \\
@@ -54,6 +54,10 @@ $syn5$ & \textcolor{ForestGreen}{97.72 (-1.59\%)} & - & \textcolor{ForestGreen}{
 
 \bottomrule
 \end{tabularx}
+\vspace{1mm}
+\begin{flushleft}
+\footnotesize $^{\dagger}$ The $multigpu$ layout of PmdM spans $19881.00\ \mathrm{mm}^2$, $14.4\times$ that of OM and impractical for packaging; it is excluded from the unified thermal package and not thermally simulated, so its temperature is not comparable.
+\end{flushleft}
 \vspace{1mm}
 % \begin{flushleft}
 % \footnotesizeNote: Values are in $^{\circ}\mathrm{C}$. Numbers in parentheses (or second row) indicate percentage change relative to the OM method.

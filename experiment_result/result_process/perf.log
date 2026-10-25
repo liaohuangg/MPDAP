@@ -1,0 +1,89 @@
+Performance summary: mean of every metric over case sets
+==============================================================================
+
+Source: experiment_result/**/placement_results.json, one selected
+layout per case (the records behind overall_table.txt).
+
+Conventions
+  * A mean is the arithmetic mean of the per-case values.
+  * A method is averaged only over the cases where it has a
+    value; n is printed per column, and a cell marked * covers
+    fewer cases than the set (footnote below the table).
+  * Decimals: BA/WL/Interposer/MaxT/AvgT 2, AR/SAR 3; the stored
+    per-case values are averaged, rounding half-up on output.
+
+  all set (n=8): every case the four sweeps cover
+  BT  set (n=7): cases bt_tree solves (hp11_m unsolved)
+  RLP set (n=4): cases RLP solves (hp11_m, hp8_m, syn1, syn5 unsolved)
+
+All cases (n=8) -- all six methods
+  cases (n=8): ascend910, cpu-dram, hp11_m, hp6_m, hp8_m, multigpu, syn1, syn5
+
+  metric                              BT             RLP              OM              PM            PmdM            PcaM
+  ----------------------------------------------------------------------------------------------------------------------
+  BA (mm^2)                    1163.12 *       1214.52 *          888.13          965.94         3254.42          973.28
+  WL (mm)                     45467.39 *      39550.51 *        48440.08        50832.32        57208.45        50352.91
+  AR                             0.768 *         0.840 *           1.040           1.324           1.067           1.324
+  SAR                            0.681 *         0.413 *           0.512           0.422           0.439           0.589
+  Interposer (mm)                42.67 *         39.00 *           34.79           35.41           48.17           37.60
+  MaxT (degC)                   100.91 *         98.71 *          103.73           99.43         99.15 *          101.22
+  AvgT (degC)                    69.15 *         70.48 *           69.40           69.04         67.38 *           68.92
+
+  * mean covers fewer cases (no value for some):
+      BA (mm^2)    BT    n=7 (missing: hp11_m)
+      BA (mm^2)    RLP   n=4 (missing: hp11_m, hp8_m, syn1, syn5)
+      WL (mm)      BT    n=7 (missing: hp11_m)
+      WL (mm)      RLP   n=4 (missing: hp11_m, hp8_m, syn1, syn5)
+      AR           BT    n=7 (missing: hp11_m)
+      AR           RLP   n=4 (missing: hp11_m, hp8_m, syn1, syn5)
+      SAR          BT    n=7 (missing: hp11_m)
+      SAR          RLP   n=4 (missing: hp11_m, hp8_m, syn1, syn5)
+      Interposer (mm) BT    n=7 (missing: hp11_m)
+      Interposer (mm) RLP   n=4 (missing: hp11_m, hp8_m, syn1, syn5)
+      MaxT (degC)  BT    n=7 (missing: hp11_m)
+      MaxT (degC)  RLP   n=4 (missing: hp11_m, hp8_m, syn1, syn5)
+      MaxT (degC)  PmdM  n=7 (missing: multigpu)
+      AvgT (degC)  BT    n=7 (missing: hp11_m)
+      AvgT (degC)  RLP   n=4 (missing: hp11_m, hp8_m, syn1, syn5)
+      AvgT (degC)  PmdM  n=7 (missing: multigpu)
+
+BT-solvable cases (n=7) -- all six methods
+  cases (n=7): ascend910, cpu-dram, hp6_m, hp8_m, multigpu, syn1, syn5
+
+  metric                              BT             RLP              OM              PM            PmdM            PcaM
+  ----------------------------------------------------------------------------------------------------------------------
+  BA (mm^2)                      1163.12       1214.52 *          861.39          895.07         3516.67          879.77
+  WL (mm)                       45467.39      39550.51 *        42297.63        43891.67        51341.59        43664.70
+  AR                               0.768         0.840 *           1.067           1.338           1.124           1.395
+  SAR                              0.681         0.413 *           0.560           0.450           0.431           0.643
+  Interposer (mm)                  42.67         39.00 *           34.67           34.43           48.47           36.64
+  MaxT (degC)                     100.91         98.71 *          102.32           99.66         99.38 *          100.78
+  AvgT (degC)                      69.15         70.48 *           69.79           69.49         67.61 *           69.39
+
+  * mean covers fewer cases (no value for some):
+      BA (mm^2)    RLP   n=4 (missing: hp8_m, syn1, syn5)
+      WL (mm)      RLP   n=4 (missing: hp8_m, syn1, syn5)
+      AR           RLP   n=4 (missing: hp8_m, syn1, syn5)
+      SAR          RLP   n=4 (missing: hp8_m, syn1, syn5)
+      Interposer (mm) RLP   n=4 (missing: hp8_m, syn1, syn5)
+      MaxT (degC)  RLP   n=4 (missing: hp8_m, syn1, syn5)
+      MaxT (degC)  PmdM  n=6 (missing: multigpu)
+      AvgT (degC)  RLP   n=4 (missing: hp8_m, syn1, syn5)
+      AvgT (degC)  PmdM  n=6 (missing: multigpu)
+
+RLP-solvable cases (n=4) -- all six methods
+  cases (n=4): ascend910, cpu-dram, hp6_m, multigpu
+
+  metric                              BT             RLP              OM              PM            PmdM            PcaM
+  ----------------------------------------------------------------------------------------------------------------------
+  BA (mm^2)                      1121.17         1214.52          905.73          956.62         5554.56          905.49
+  WL (mm)                       35909.18        39550.51        34970.77        36191.55        49182.25        35075.34
+  AR                               0.719           0.840           1.265           1.330           1.372           1.816
+  SAR                              0.692           0.413           0.605           0.435           0.372           0.816
+  Interposer (mm)                  41.40           39.00           35.47           34.94           59.38           38.65
+  MaxT (degC)                     101.16           98.71          103.07           99.06         98.78 *          101.10
+  AvgT (degC)                      70.23           70.48           70.88           70.41         66.97 *           70.31
+
+  * mean covers fewer cases (no value for some):
+      MaxT (degC)  PmdM  n=3 (missing: multigpu)
+      AvgT (degC)  PmdM  n=3 (missing: multigpu)
